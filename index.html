@@ -67,7 +67,13 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
   <div>
     <h1>C&M Propiedades</h1>
     <p>Dashboard de Performance — Meta Ads por Comuna</p>
-    <div class="dash-period" id="periodo">LIVE — cargando...</div>
+    <div class="dash-period" id="periodo"></div>
+    <script>
+      (function(){
+        var h=new Date(),m=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        document.getElementById('periodo').textContent='LIVE — 18 mayo al '+h.getDate()+' de '+m[h.getMonth()]+' '+h.getFullYear();
+      })();
+    </script>
     <div id="status">Cargando datos...</div>
   </div>
   <div style="text-align:right;">
