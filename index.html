@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard CyM Propiedades — Live</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #0A0A14; color: #fff; line-height: 1.5; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.dash-header { padding: 32px 0 24px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: flex-start; }
+.dash-header h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.8px; }
+.dash-header p { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+.dash-period { display: inline-block; padding: 4px 12px; border-radius: 6px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); font-size: 11px; font-weight: 700; color: #10B981; margin-top: 8px; }
+#status { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 24px 0; }
+.kpi { background: #141418; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px; text-align: center; position: relative; overflow: hidden; }
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #4F46E5, #7C3AED); }
+.kpi-value { font-size: 24px; font-weight: 900; margin-bottom: 4px; background: linear-gradient(135deg, #818CF8, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kpi-label { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.section { padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.section-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 4px; height: 20px; background: linear-gradient(135deg, #4F46E5, #7C3AED); border-radius: 2px; }
+
+table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); font-size: 12px; margin-bottom: 16px; }
+thead th { background: #1C1C24; color: rgba(255,255,255,0.6); padding: 10px 12px; text-align: left; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+thead th.r { text-align: right; }
+tbody td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: rgba(255,255,255,0.8); }
+tbody td.r { text-align: right; font-variant-numeric: tabular-nums; }
+tbody td.b { font-weight: 700; color: #fff; }
+tbody tr:hover { background: rgba(99,102,241,0.05); }
+tbody tr.total { background: rgba(99,102,241,0.08); }
+tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99,102,241,0.3); }
+.g { color: #10B981; } .y { color: #F59E0B; } .rd { color: #EF4444; }
+
+.rank-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.rank-card { background: #141418; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; text-align: center; }
+.rank-pos { font-size: 24px; font-weight: 900; }
+.rank-name { font-size: 13px; font-weight: 800; margin: 6px 0 2px; }
+.rank-cpa { font-size: 20px; font-weight: 900; }
+.rank-sub { font-size: 9px; color: rgba(255,255,255,0.4); }
+
+.card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.card-w { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 14px; padding: 20px; }
+.card-w h3 { color: #F59E0B; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+.card-w p { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+.footer { padding: 24px 0; text-align: center; font-size: 11px; color: rgba(255,255,255,0.2); }
+
+#loading { text-align: center; padding: 80px 0; font-size: 14px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="dash-header">
+  <div>
+    <h1>C&M Propiedades</h1>
+    <p>Dashboard de Performance — Meta Ads por Comuna</p>
+    <div class="dash-period">LIVE — se actualiza desde Google Sheets</div>
+    <div id="status">Cargando datos...</div>
+  </div>
+  <div style="text-align:right;">
+    <img src="logo-cym.png" alt="C&M Propiedades" style="height:48px;">
+    <p style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;" id="updated"></p>
+  </div>
+</div>
+
+<div id="loading">Cargando datos desde Google Sheets...</div>
+<div id="dashboard" style="display:none;">
+
+  <!-- KPIs -->
+  <div class="kpi-grid" id="kpis"></div>
+
+  <!-- Tabla principal -->
+  <div class="section">
+    <div class="section-title">Rendimiento consolidado por comuna</div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin:-8px 0 12px;">Ordenado por prioridad comercial. El foco es calidad de leads por zona, no solo volumen o CPA.</p>
+    <table><thead><tr>
+      <th>Prioridad</th><th>Comuna</th><th class="r">Impresiones</th><th class="r">Clics</th><th class="r">Leads</th>
+      <th class="r">CTR</th><th class="r">CPC</th><th class="r">CPA</th><th class="r">Inversi&oacute;n</th><th class="r">% gasto</th>
+    </tr></thead><tbody id="main-table"></tbody></table>
+  </div>
+
+  <!-- Prioridad comercial -->
+  <div class="section">
+    <div class="section-title">Comunas por prioridad comercial</div>
+    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin:-8px 0 16px;">Ordenadas por valor estrat&eacute;gico de la zona, no por CPA. El objetivo es generar leads de calidad en cada comuna independiente del costo por lead.</p>
+    <div class="rank-grid" id="ranking"></div>
+  </div>
+
+  <!-- Por qué la proyección no era realista -->
+  <div class="section">
+    <div class="section-title">Por qu&eacute; la proyecci&oacute;n inicial no era realista</div>
+    <div class="card-grid">
+      <div class="card-w">
+        <h3>1. Fase de aprendizaje de Meta</h3>
+        <p>Las campa&ntilde;as de mayo eran <strong style="color:#fff;">nuevas</strong>. Meta optimiza agresivamente los primeros d&iacute;as mostrando anuncios a las personas m&aacute;s f&aacute;ciles de convertir. Eso genera <strong style="color:#fff;">CPAs artificialmente bajos</strong> que no se mantienen. Es el "honeymoon period".</p>
+      </div>
+      <div class="card-w">
+        <h3>2. Saturaci&oacute;n de audiencia</h3>
+        <p>Con audiencias geogr&aacute;ficas peque&ntilde;as (comunas espec&iacute;ficas), el p&uacute;blico se agota r&aacute;pido. La <strong style="color:#fff;">frecuencia sube y genera fatiga</strong> — la misma persona ve el anuncio demasiadas veces y deja de hacer clic. La Reina baj&oacute; de 45 a 15 leads/sem.</p>
+      </div>
+      <div class="card-w">
+        <h3>3. CPA no es lineal</h3>
+        <p>Duplicar la inversi&oacute;n <strong style="color:#fff;">nunca duplica los leads</strong>. Cada lead incremental cuesta m&aacute;s (rendimientos decrecientes). Proyectar con CPA constante ignora esta curva. El CPA consolidado real es 2-3x mayor que el de fase inicial.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Dashboard generado por Muller & P&eacute;rez &middot; Datos en vivo desde <a href="https://docs.google.com/spreadsheets/d/11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE/edit?gid=524458128" target="_blank" style="color:#818CF8;">Google Sheets</a></p>
+</div>
+
+</div>
+
+<script>
+const SHEET_ID = '11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE';
+const GID = '524458128';
+// Usar gviz para evitar CORS + redirect issues
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`;
+
+async function fetchData() {
+  try {
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    // Parse CSV handling quoted fields with commas
+    const rows = [];
+    for (const line of text.split('\n')) {
+      const row = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') { inQuotes = !inQuotes; }
+        else if (ch === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+        else { current += ch; }
+      }
+      row.push(current.trim());
+      rows.push(row);
+    }
+
+    // Find header row (contains "Comuna")
+    let headerIdx = rows.findIndex(r => r.some(c => c === 'Comuna'));
+    if (headerIdx === -1) { document.getElementById('status').textContent = 'Error: no se encontr\u00f3 la fila de encabezado'; return; }
+
+    const headers = rows[headerIdx];
+    const dataRows = [];
+    let totalRow = null;
+
+    for (let i = headerIdx + 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!r || r.length < 3) continue;
+      const comuna = r[headers.indexOf('Comuna')] || r[1] || '';
+      if (!comuna || comuna === '') continue;
+
+      const entry = {
+        comuna: comuna,
+        impresiones: parseNum(r[headers.indexOf('Impresiones')] || r[2]),
+        clics: parseNum(r[headers.indexOf('Clics')] || r[3]),
+        conv: parseNum(r[headers.indexOf('Conv')] || r[4]),
+        ctr: r[headers.indexOf('CTR')] || r[5] || '',
+        cpc: parseNum(r[headers.indexOf('CPC')] || r[6]),
+        cpa: parseNum(r[headers.indexOf('CPA')] || r[7]),
+        inversion: parseNum(r[headers.indexOf('Inversi\u00f3n total')] || r[headers.indexOf('Inversion total')] || r[8]),
+      };
+
+      if (comuna.toLowerCase() === 'total') { totalRow = entry; }
+      else { dataRows.push(entry); }
+    }
+
+    if (!totalRow && dataRows.length > 0) {
+      totalRow = {
+        comuna: 'Total',
+        impresiones: dataRows.reduce((s, r) => s + r.impresiones, 0),
+        clics: dataRows.reduce((s, r) => s + r.clics, 0),
+        conv: dataRows.reduce((s, r) => s + r.conv, 0),
+        cpc: 0, cpa: 0, ctr: '',
+        inversion: dataRows.reduce((s, r) => s + r.inversion, 0),
+      };
+      if (totalRow.clics > 0) totalRow.cpc = Math.round(totalRow.inversion / totalRow.clics);
+      if (totalRow.conv > 0) totalRow.cpa = Math.round(totalRow.inversion / totalRow.conv);
+      totalRow.ctr = ((totalRow.clics / totalRow.impresiones) * 100).toFixed(2) + '%';
+    }
+
+    render(dataRows, totalRow);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('status').textContent = 'Datos cargados correctamente';
+    document.getElementById('updated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CL');
+
+  } catch (e) {
+    document.getElementById('status').textContent = 'Error al cargar: ' + e.message;
+  }
+}
+
+function parseNum(s) {
+  if (!s) return 0;
+  return parseInt(String(s).replace(/[$.\s]/g, '').replace(',', '.')) || 0;
+}
+
+function fmt(n) { return n.toLocaleString('es-CL'); }
+function fmtMoney(n) { return '$' + fmt(n); }
+
+// Prioridad comercial: Vitacura > La Dehesa > SCA > Las Condes > La Reina > Departamentos
+const PRIORIDAD = {
+  'Vitacura': 1, 'La Dehesa': 2, 'SCA': 3, 'San Carlos de Apoquindo': 3,
+  'Las Condes': 4, 'La Reina': 5, 'Deptos': 6, 'Departamentos': 6
+};
+const PRIORIDAD_COLOR = {
+  1: '#FFD700', 2: '#FFD700', 3: '#818CF8', 4: '#818CF8', 5: '#10B981', 6: '#10B981'
+};
+const PRIORIDAD_LABEL = {
+  1: 'Zona Premium', 2: 'Zona Premium', 3: 'Zona Alta', 4: 'Zona Alta', 5: 'Zona Volumen', 6: 'Zona Volumen'
+};
+
+function getPrioridad(comuna) {
+  for (const [key, val] of Object.entries(PRIORIDAD)) {
+    if (comuna.toLowerCase().includes(key.toLowerCase())) return val;
+  }
+  return 99;
+}
+
+function cpaColor(cpa) {
+  if (cpa <= 1500) return 'g';
+  if (cpa <= 3500) return 'y';
+  return 'rd';
+}
+
+function render(data, total) {
+  // KPIs
+  const kpiDiv = document.getElementById('kpis');
+  const kpis = [
+    { val: fmtMoney(total.inversion), label: 'Inversi\u00f3n total' },
+    { val: fmt(total.impresiones), label: 'Impresiones' },
+    { val: fmt(total.clics), label: 'Clics totales' },
+    { val: fmt(total.conv), label: 'Leads totales' },
+    { val: fmtMoney(total.cpa), label: 'CPA promedio' },
+    { val: total.ctr, label: 'CTR promedio' },
+  ];
+  kpiDiv.innerHTML = kpis.map(k => `<div class="kpi"><div class="kpi-value">${k.val}</div><div class="kpi-label">${k.label}</div></div>`).join('');
+
+  // Main table — ordenado por prioridad comercial
+  const tbody = document.getElementById('main-table');
+  const sorted = [...data].sort((a, b) => getPrioridad(a.comuna) - getPrioridad(b.comuna));
+  let html = '';
+  for (const r of sorted) {
+    const pct = total.inversion > 0 ? ((r.inversion / total.inversion) * 100).toFixed(1) + '%' : '';
+    const ctr = r.impresiones > 0 ? ((r.clics / r.impresiones) * 100).toFixed(2) + '%' : r.ctr;
+    const prio = getPrioridad(r.comuna);
+    const prioColor = PRIORIDAD_COLOR[prio] || '#818CF8';
+    const prioLabel = PRIORIDAD_LABEL[prio] || '';
+    html += `<tr>
+      <td style="color:${prioColor};font-weight:800;font-size:10px;">${prioLabel}</td>
+      <td class="b">${r.comuna}</td>
+      <td class="r">${fmt(r.impresiones)}</td>
+      <td class="r">${fmt(r.clics)}</td>
+      <td class="r b" style="color:#10B981;">${fmt(r.conv)}</td>
+      <td class="r">${ctr}</td>
+      <td class="r">${fmtMoney(r.cpc)}</td>
+      <td class="r ${cpaColor(r.cpa)}">${fmtMoney(r.cpa)}</td>
+      <td class="r">${fmtMoney(r.inversion)}</td>
+      <td class="r">${pct}</td>
+    </tr>`;
+  }
+  const totalCtr = total.impresiones > 0 ? ((total.clics / total.impresiones) * 100).toFixed(2) + '%' : total.ctr;
+  html += `<tr class="total">
+    <td></td>
+    <td>TOTAL</td>
+    <td class="r">${fmt(total.impresiones)}</td>
+    <td class="r">${fmt(total.clics)}</td>
+    <td class="r">${fmt(total.conv)}</td>
+    <td class="r">${totalCtr}</td>
+    <td class="r">${fmtMoney(total.cpc)}</td>
+    <td class="r">${fmtMoney(total.cpa)}</td>
+    <td class="r">${fmtMoney(total.inversion)}</td>
+    <td class="r">100%</td>
+  </tr>`;
+  tbody.innerHTML = html;
+
+  // Ranking por prioridad comercial
+  const rankDiv = document.getElementById('ranking');
+  const ranked = [...data].sort((a, b) => getPrioridad(a.comuna) - getPrioridad(b.comuna));
+  rankDiv.innerHTML = ranked.map((r, i) => {
+    const prio = getPrioridad(r.comuna);
+    const color = PRIORIDAD_COLOR[prio] || '#818CF8';
+    const label = PRIORIDAD_LABEL[prio] || '';
+    return `
+    <div class="rank-card" style="border-top:3px solid ${color};">
+      <div class="rank-pos" style="color:${color};">#${i + 1}</div>
+      <div class="rank-name">${r.comuna}</div>
+      <div style="font-size:9px;color:${color};font-weight:700;margin:2px 0 6px;">${label}</div>
+      <div style="font-size:16px;font-weight:900;color:#fff;">${fmt(r.conv)} leads</div>
+      <div class="rank-sub">CPA ${fmtMoney(r.cpa)}</div>
+    </div>`;
+  }).join('');
+}
+
+fetchData();
+</script>
+</body>
+</html>
