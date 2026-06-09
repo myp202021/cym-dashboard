@@ -351,7 +351,7 @@ function render(data, total) {
     { val: fmt(total.clics), label: 'Clics totales' },
     { val: fmt(total.conv), label: 'Leads totales' },
     { val: fmtMoney(total.cpa), label: 'CPA promedio' },
-    { val: total.ctr, label: 'CTR promedio' },
+    { val: total.impresiones > 0 ? ((total.clics / total.impresiones) * 100).toFixed(2) + '%' : '—', label: 'CTR promedio' },
   ];
   kpiDiv.innerHTML = kpis.map(k => `<div class="kpi"><div class="kpi-value">${k.val}</div><div class="kpi-label">${k.label}</div></div>`).join('');
 
