@@ -7,50 +7,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: #0A0A14; color: #fff; line-height: 1.5; }
+body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1a202c; line-height: 1.5; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.dash-header { padding: 32px 0 24px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: flex-start; }
-.dash-header h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.8px; }
-.dash-header p { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
-.dash-period { display: inline-block; padding: 4px 12px; border-radius: 6px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); font-size: 11px; font-weight: 700; color: #10B981; margin-top: 8px; }
-#status { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.dash-header { padding: 32px 0 24px; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: flex-start; }
+.dash-header h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.8px; color: #1a202c; }
+.dash-header p { font-size: 13px; color: #64748B; margin-top: 4px; }
+.dash-period { display: inline-block; padding: 4px 12px; border-radius: 6px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); font-size: 11px; font-weight: 700; color: #059669; margin-top: 8px; }
+#status { font-size: 11px; color: #94A3B8; margin-top: 4px; }
 
 .kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 24px 0; }
-.kpi { background: #141418; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 18px; text-align: center; position: relative; overflow: hidden; }
+.kpi { background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
 .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #4F46E5, #7C3AED); }
-.kpi-value { font-size: 24px; font-weight: 900; margin-bottom: 4px; background: linear-gradient(135deg, #818CF8, #C084FC); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.kpi-label { font-size: 10px; color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 24px; font-weight: 900; margin-bottom: 4px; color: #1a202c; }
+.kpi-label { font-size: 10px; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-.section { padding: 32px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.section-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section { padding: 32px 0; border-bottom: 1px solid #E2E8F0; }
+.section-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #1a202c; }
 .section-title::before { content: ''; width: 4px; height: 20px; background: linear-gradient(135deg, #4F46E5, #7C3AED); border-radius: 2px; }
 
-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); font-size: 12px; margin-bottom: 16px; }
-thead th { background: #1C1C24; color: rgba(255,255,255,0.6); padding: 10px 12px; text-align: left; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; font-size: 12px; margin-bottom: 16px; }
+thead th { background: #1E293B; color: #fff; padding: 10px 12px; text-align: left; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 thead th.r { text-align: right; }
-tbody td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: rgba(255,255,255,0.8); }
+tbody td { padding: 10px 12px; border-bottom: 1px solid #F1F5F9; color: #334155; background: #fff; }
 tbody td.r { text-align: right; font-variant-numeric: tabular-nums; }
-tbody td.b { font-weight: 700; color: #fff; }
-tbody tr:hover { background: rgba(99,102,241,0.05); }
-tbody tr.total { background: rgba(99,102,241,0.08); }
-tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99,102,241,0.3); }
-.g { color: #10B981; } .y { color: #F59E0B; } .rd { color: #EF4444; }
+tbody td.b { font-weight: 700; color: #1a202c; }
+tbody tr:hover td { background: #F1F5F9; }
+tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; border-top: 2px solid #4F46E5; }
+.g { color: #059669; } .y { color: #D97706; } .rd { color: #DC2626; }
 
 .rank-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
-.rank-card { background: #141418; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px; text-align: center; }
+.rank-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
 .rank-pos { font-size: 24px; font-weight: 900; }
-.rank-name { font-size: 13px; font-weight: 800; margin: 6px 0 2px; }
+.rank-name { font-size: 13px; font-weight: 800; margin: 6px 0 2px; color: #1a202c; }
 .rank-cpa { font-size: 20px; font-weight: 900; }
-.rank-sub { font-size: 9px; color: rgba(255,255,255,0.4); }
+.rank-sub { font-size: 9px; color: #94A3B8; }
 
 .card-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.card-w { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 14px; padding: 20px; }
-.card-w h3 { color: #F59E0B; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
-.card-w p { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.7; }
+.card-w { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 14px; padding: 20px; }
+.card-w h3 { color: #B45309; font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+.card-w p { font-size: 11px; color: #78350F; line-height: 1.7; }
 
-.footer { padding: 24px 0; text-align: center; font-size: 11px; color: rgba(255,255,255,0.2); }
+.footer { padding: 24px 0; text-align: center; font-size: 11px; color: #94A3B8; }
 
-#loading { text-align: center; padding: 80px 0; font-size: 14px; color: rgba(255,255,255,0.4); }
+#loading { text-align: center; padding: 80px 0; font-size: 14px; color: #94A3B8; }
 </style>
 </head>
 <body>
@@ -65,7 +64,7 @@ tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99
   </div>
   <div style="text-align:right;">
     <img src="logo-cym.png" alt="C&M Propiedades" style="height:48px;">
-    <p style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;" id="updated"></p>
+    <p style="font-size:10px;color:#94A3B8;margin-top:4px;" id="updated"></p>
   </div>
 </div>
 
@@ -78,7 +77,7 @@ tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99
   <!-- Tabla principal -->
   <div class="section">
     <div class="section-title">Rendimiento consolidado por comuna</div>
-    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin:-8px 0 12px;">Ordenado por prioridad comercial. El foco es calidad de leads por zona, no solo volumen o CPA.</p>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 12px;">Ordenado por prioridad comercial. El foco es calidad de leads por zona, no solo volumen o CPA.</p>
     <table><thead><tr>
       <th>Prioridad</th><th>Comuna</th><th class="r">Impresiones</th><th class="r">Clics</th><th class="r">Leads</th>
       <th class="r">CTR</th><th class="r">CPC</th><th class="r">CPA</th><th class="r">Inversi&oacute;n</th><th class="r">% gasto</th>
@@ -88,7 +87,7 @@ tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99
   <!-- Prioridad comercial -->
   <div class="section">
     <div class="section-title">Comunas por prioridad comercial</div>
-    <p style="font-size:11px;color:rgba(255,255,255,0.4);margin:-8px 0 16px;">Ordenadas por valor estrat&eacute;gico de la zona, no por CPA. El objetivo es generar leads de calidad en cada comuna independiente del costo por lead.</p>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Ordenadas por valor estrat&eacute;gico de la zona, no por CPA. El objetivo es generar leads de calidad en cada comuna independiente del costo por lead.</p>
     <div class="rank-grid" id="ranking"></div>
   </div>
 
@@ -98,15 +97,15 @@ tbody tr.total td { font-weight: 800; color: #fff; border-top: 2px solid rgba(99
     <div class="card-grid">
       <div class="card-w">
         <h3>1. Fase de aprendizaje de Meta</h3>
-        <p>Las campa&ntilde;as de mayo eran <strong style="color:#fff;">nuevas</strong>. Meta optimiza agresivamente los primeros d&iacute;as mostrando anuncios a las personas m&aacute;s f&aacute;ciles de convertir. Eso genera <strong style="color:#fff;">CPAs artificialmente bajos</strong> que no se mantienen. Es el "honeymoon period".</p>
+        <p>Las campa&ntilde;as de mayo eran <strong style="color:#1a202c;">nuevas</strong>. Meta optimiza agresivamente los primeros d&iacute;as mostrando anuncios a las personas m&aacute;s f&aacute;ciles de convertir. Eso genera <strong style="color:#1a202c;">CPAs artificialmente bajos</strong> que no se mantienen. Es el "honeymoon period".</p>
       </div>
       <div class="card-w">
         <h3>2. Saturaci&oacute;n de audiencia</h3>
-        <p>Con audiencias geogr&aacute;ficas peque&ntilde;as (comunas espec&iacute;ficas), el p&uacute;blico se agota r&aacute;pido. La <strong style="color:#fff;">frecuencia sube y genera fatiga</strong> — la misma persona ve el anuncio demasiadas veces y deja de hacer clic. La Reina baj&oacute; de 45 a 15 leads/sem.</p>
+        <p>Con audiencias geogr&aacute;ficas peque&ntilde;as (comunas espec&iacute;ficas), el p&uacute;blico se agota r&aacute;pido. La <strong style="color:#1a202c;">frecuencia sube y genera fatiga</strong> — la misma persona ve el anuncio demasiadas veces y deja de hacer clic. La Reina baj&oacute; de 45 a 15 leads/sem.</p>
       </div>
       <div class="card-w">
         <h3>3. CPA no es lineal</h3>
-        <p>Duplicar la inversi&oacute;n <strong style="color:#fff;">nunca duplica los leads</strong>. Cada lead incremental cuesta m&aacute;s (rendimientos decrecientes). Proyectar con CPA constante ignora esta curva. El CPA consolidado real es 2-3x mayor que el de fase inicial.</p>
+        <p>Duplicar la inversi&oacute;n <strong style="color:#1a202c;">nunca duplica los leads</strong>. Cada lead incremental cuesta m&aacute;s (rendimientos decrecientes). Proyectar con CPA constante ignora esta curva. El CPA consolidado real es 2-3x mayor que el de fase inicial.</p>
       </div>
     </div>
   </div>
@@ -296,7 +295,7 @@ function render(data, total) {
       <div class="rank-pos" style="color:${color};">#${i + 1}</div>
       <div class="rank-name">${r.comuna}</div>
       <div style="font-size:9px;color:${color};font-weight:700;margin:2px 0 6px;">${label}</div>
-      <div style="font-size:16px;font-weight:900;color:#fff;">${fmt(r.conv)} leads</div>
+      <div style="font-size:16px;font-weight:900;color:#1a202c;">${fmt(r.conv)} leads</div>
       <div class="rank-sub">CPA ${fmtMoney(r.cpa)}</div>
     </div>`;
   }).join('');
