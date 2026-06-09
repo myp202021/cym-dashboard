@@ -67,7 +67,7 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
   <div>
     <h1>C&M Propiedades</h1>
     <p>Dashboard de Performance — Meta Ads por Comuna</p>
-    <div class="dash-period">LIVE — se actualiza desde Google Sheets</div>
+    <div class="dash-period" id="periodo">LIVE — cargando...</div>
     <div id="status">Cargando datos...</div>
   </div>
   <div style="text-align:right;">
@@ -311,6 +311,10 @@ async function fetchData() {
     render(dataRows, totalRow);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
+    // Fecha periodo
+    const hoy = new Date();
+    const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    document.getElementById('periodo').textContent = 'LIVE — 18 mayo al ' + hoy.getDate() + ' ' + meses[hoy.getMonth()] + ' ' + hoy.getFullYear();
     document.getElementById('status').textContent = 'Datos en vivo — leads contados desde cada hoja de comuna';
     document.getElementById('updated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CL');
 
