@@ -184,8 +184,8 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 </div>
 
 <script>
-const SHEET_ID = '11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE';
-const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
+// Proxy API en Vercel — evita CORS
+const BASE = '/api/sheets?sheet=';
 
 // Hojas de leads (nombres exactos como aparecen en las pestañas)
 const LEAD_SHEETS = [
@@ -222,7 +222,10 @@ async function fetchSheet(sheetName) {
   const url = BASE + encodeURIComponent(sheetName);
   const res = await fetch(url);
   if (!res.ok) throw new Error(sheetName + ': HTTP ' + res.status);
-  return await res.text();
+  const text = await res.text();
+  // Si viene como JSON error, throw
+  if (text.startsWith('{') && text.includes('"error"')) throw new Error(sheetName + ': ' + text);
+  return text;
 }
 
 async function fetchData() {
