@@ -185,82 +185,127 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 
 <script>
 const SHEET_ID = '11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE';
-const GID = '524458128';
-// Usar gviz para evitar CORS + redirect issues
-const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`;
+const BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=`;
+
+// Hojas de leads (nombres exactos como aparecen en las pestañas)
+const LEAD_SHEETS = [
+  { sheet: 'LAS CONDES', display: 'Las Condes' },
+  { sheet: 'LA DEHESA', display: 'La Dehesa' },
+  { sheet: 'VITACURA', display: 'Vitacura' },
+  { sheet: 'SCA', display: 'SCA' },
+  { sheet: 'LA REINA', display: 'La Reina' },
+  { sheet: 'DEPARTAMENTOS', display: 'Deptos' },
+];
+
+// Hoja con métricas de inversión (Gasto consolidado)
+const GASTO_SHEET = 'Gasto consolidado';
+
+function parseCSV(text) {
+  const rows = [];
+  for (const line of text.split('\n')) {
+    const row = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQuotes = !inQuotes; }
+      else if (ch === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+      else { current += ch; }
+    }
+    row.push(current.trim());
+    rows.push(row);
+  }
+  return rows;
+}
+
+async function fetchSheet(sheetName) {
+  const url = BASE + encodeURIComponent(sheetName);
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(sheetName + ': HTTP ' + res.status);
+  return await res.text();
+}
 
 async function fetchData() {
   try {
-    const res = await fetch(CSV_URL);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    // Parse CSV handling quoted fields with commas
-    const rows = [];
-    for (const line of text.split('\n')) {
-      const row = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') { inQuotes = !inQuotes; }
-        else if (ch === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
-        else { current += ch; }
+    document.getElementById('status').textContent = 'Cargando hojas de leads...';
+
+    // 1. Contar leads por comuna (leyendo cada hoja de leads)
+    const leadCounts = {};
+    const leadPromises = LEAD_SHEETS.map(async (s) => {
+      try {
+        const text = await fetchSheet(s.sheet);
+        const rows = parseCSV(text);
+        // Contar filas con datos (excluir header y filas vacías)
+        const dataRows = rows.filter(r => r.length > 1 && r[0] && r[0].startsWith('l:'));
+        leadCounts[s.display] = dataRows.length;
+      } catch (e) {
+        console.warn('No se pudo leer ' + s.sheet, e);
+        leadCounts[s.display] = 0;
       }
-      row.push(current.trim());
-      rows.push(row);
-    }
+    });
+    await Promise.all(leadPromises);
 
-    // Find header row (contains "Comuna")
-    let headerIdx = rows.findIndex(r => r.some(c => c === 'Comuna'));
-    if (headerIdx === -1) { document.getElementById('status').textContent = 'Error: no se encontr\u00f3 la fila de encabezado'; return; }
+    // 2. Leer métricas de inversión del Gasto consolidado
+    document.getElementById('status').textContent = 'Cargando métricas de inversión...';
+    const gastoText = await fetchSheet(GASTO_SHEET);
+    const gastoRows = parseCSV(gastoText);
 
-    const headers = rows[headerIdx];
+    const headerIdx = gastoRows.findIndex(r => r.some(c => c === 'Comuna'));
+    if (headerIdx === -1) throw new Error('No se encontró encabezado en Gasto consolidado');
+
+    const headers = gastoRows[headerIdx];
     const dataRows = [];
-    let totalRow = null;
 
-    for (let i = headerIdx + 1; i < rows.length; i++) {
-      const r = rows[i];
+    for (let i = headerIdx + 1; i < gastoRows.length; i++) {
+      const r = gastoRows[i];
       if (!r || r.length < 3) continue;
       const comuna = r[headers.indexOf('Comuna')] || r[1] || '';
-      if (!comuna || comuna === '') continue;
+      if (!comuna || comuna === '' || comuna.toLowerCase() === 'total') continue;
 
       const entry = {
         comuna: comuna,
         impresiones: parseNum(r[headers.indexOf('Impresiones')] || r[2]),
         clics: parseNum(r[headers.indexOf('Clics')] || r[3]),
         conv: parseNum(r[headers.indexOf('Conv')] || r[4]),
-        ctr: r[headers.indexOf('CTR')] || r[5] || '',
         cpc: parseNum(r[headers.indexOf('CPC')] || r[6]),
         cpa: parseNum(r[headers.indexOf('CPA')] || r[7]),
         inversion: parseNum(r[headers.indexOf('Inversi\u00f3n total')] || r[headers.indexOf('Inversion total')] || r[8]),
       };
 
-      if (comuna.toLowerCase() === 'total') { totalRow = entry; }
-      else { dataRows.push(entry); }
+      // Sobreescribir leads con conteo real de la hoja de leads
+      const matchKey = Object.keys(leadCounts).find(k =>
+        comuna.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(comuna.toLowerCase())
+      );
+      if (matchKey && leadCounts[matchKey] > 0) {
+        entry.conv = leadCounts[matchKey];
+        // Recalcular CPA con leads reales
+        if (entry.conv > 0) entry.cpa = Math.round(entry.inversion / entry.conv);
+      }
+
+      dataRows.push(entry);
     }
 
-    if (!totalRow && dataRows.length > 0) {
-      totalRow = {
-        comuna: 'Total',
-        impresiones: dataRows.reduce((s, r) => s + r.impresiones, 0),
-        clics: dataRows.reduce((s, r) => s + r.clics, 0),
-        conv: dataRows.reduce((s, r) => s + r.conv, 0),
-        cpc: 0, cpa: 0, ctr: '',
-        inversion: dataRows.reduce((s, r) => s + r.inversion, 0),
-      };
-      if (totalRow.clics > 0) totalRow.cpc = Math.round(totalRow.inversion / totalRow.clics);
-      if (totalRow.conv > 0) totalRow.cpa = Math.round(totalRow.inversion / totalRow.conv);
-      totalRow.ctr = ((totalRow.clics / totalRow.impresiones) * 100).toFixed(2) + '%';
-    }
+    // Calcular total
+    const totalRow = {
+      comuna: 'Total',
+      impresiones: dataRows.reduce((s, r) => s + r.impresiones, 0),
+      clics: dataRows.reduce((s, r) => s + r.clics, 0),
+      conv: dataRows.reduce((s, r) => s + r.conv, 0),
+      cpc: 0, cpa: 0, ctr: '',
+      inversion: dataRows.reduce((s, r) => s + r.inversion, 0),
+    };
+    if (totalRow.clics > 0) totalRow.cpc = Math.round(totalRow.inversion / totalRow.clics);
+    if (totalRow.conv > 0) totalRow.cpa = Math.round(totalRow.inversion / totalRow.conv);
 
     render(dataRows, totalRow);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('status').textContent = 'Datos cargados correctamente';
+    document.getElementById('status').textContent = 'Datos en vivo — leads contados desde cada hoja de comuna';
     document.getElementById('updated').textContent = 'Actualizado: ' + new Date().toLocaleString('es-CL');
 
   } catch (e) {
     document.getElementById('status').textContent = 'Error al cargar: ' + e.message;
+    console.error(e);
   }
 }
 
@@ -387,7 +432,9 @@ function render(data, total) {
   }).join('');
 }
 
+// Cargar al abrir + auto-refresh cada 5 minutos
 fetchData();
+setInterval(fetchData, 5 * 60 * 1000);
 </script>
 </body>
 </html>
