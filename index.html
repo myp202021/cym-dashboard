@@ -63,7 +63,7 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <div id="status">Cargando datos...</div>
   </div>
   <div style="text-align:right;">
-    <img src="logo-cym.png" alt="C&M Propiedades" style="height:48px;">
+    <div style="background:#1E293B;border-radius:10px;padding:8px 14px;display:inline-block;"><img src="logo-cym.png" alt="C&M Propiedades" style="height:40px;"></div>
     <p style="font-size:10px;color:#94A3B8;margin-top:4px;" id="updated"></p>
   </div>
 </div>
@@ -80,8 +80,36 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <p style="font-size:11px;color:#64748B;margin:-8px 0 12px;">Ordenado por prioridad comercial. El foco es calidad de leads por zona, no solo volumen o CPA.</p>
     <table><thead><tr>
       <th>Prioridad</th><th>Comuna</th><th class="r">Impresiones</th><th class="r">Clics</th><th class="r">Leads</th>
-      <th class="r">CTR</th><th class="r">CPC</th><th class="r">CPA</th><th class="r">Inversi&oacute;n</th><th class="r">% gasto</th>
+      <th class="r">CTR</th><th class="r">% Conv.</th><th class="r">CPC</th><th class="r">CPA</th><th class="r">Inversi&oacute;n</th><th class="r">% gasto</th>
     </tr></thead><tbody id="main-table"></tbody></table>
+
+    <!-- Benchmark mercado -->
+    <div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-top:8px;">
+      <p style="font-size:11px;font-weight:800;color:#1a202c;margin-bottom:8px;">Referencia de mercado — Meta Ads Real Estate Premium Chile</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+        <div style="text-align:center;padding:10px;background:#F8FAFC;border-radius:8px;">
+          <div style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">CTR benchmark</div>
+          <div style="font-size:18px;font-weight:900;color:#64748B;">1,0 — 2,5%</div>
+          <div id="ctr-vs" style="font-size:10px;font-weight:700;margin-top:2px;"></div>
+        </div>
+        <div style="text-align:center;padding:10px;background:#F8FAFC;border-radius:8px;">
+          <div style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">% Conv. benchmark</div>
+          <div style="font-size:18px;font-weight:900;color:#64748B;">2,0 — 5,0%</div>
+          <div id="conv-vs" style="font-size:10px;font-weight:700;margin-top:2px;"></div>
+        </div>
+        <div style="text-align:center;padding:10px;background:#F8FAFC;border-radius:8px;">
+          <div style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">CPC benchmark</div>
+          <div style="font-size:18px;font-weight:900;color:#64748B;">$80 — $250</div>
+          <div id="cpc-vs" style="font-size:10px;font-weight:700;margin-top:2px;"></div>
+        </div>
+        <div style="text-align:center;padding:10px;background:#F8FAFC;border-radius:8px;">
+          <div style="font-size:9px;color:#94A3B8;font-weight:700;text-transform:uppercase;">CPA benchmark</div>
+          <div style="font-size:18px;font-weight:900;color:#64748B;">$2.000 — $8.000</div>
+          <div id="cpa-vs" style="font-size:10px;font-weight:700;margin-top:2px;"></div>
+        </div>
+      </div>
+      <p style="font-size:9px;color:#94A3B8;margin-top:8px;">Fuente: benchmarks Meta Ads sector inmobiliario zona oriente Santiago, campañas Lead Gen Forms, segmentación geográfica por comuna. Los rangos varían por estacionalidad y competencia.</p>
+    </div>
   </div>
 
   <!-- Prioridad comercial -->
@@ -91,21 +119,58 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <div class="rank-grid" id="ranking"></div>
   </div>
 
-  <!-- Por qué la proyección no era realista -->
+  <!-- Funnel de calidad -->
   <div class="section">
-    <div class="section-title">Por qu&eacute; la proyecci&oacute;n inicial no era realista</div>
-    <div class="card-grid">
-      <div class="card-w">
-        <h3>1. Fase de aprendizaje de Meta</h3>
-        <p>Las campa&ntilde;as de mayo eran <strong style="color:#1a202c;">nuevas</strong>. Meta optimiza agresivamente los primeros d&iacute;as mostrando anuncios a las personas m&aacute;s f&aacute;ciles de convertir. Eso genera <strong style="color:#1a202c;">CPAs artificialmente bajos</strong> que no se mantienen. Es el "honeymoon period".</p>
+    <div class="section-title">Funnel de calidad — Pr&oacute;ximos pasos a medir</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">El CPA mide costo por formulario. Pero un lead no es una venta. Estos son los pasos que necesitamos trackear para saber el costo real de un cliente.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:20px;">
+      <div style="background:#4F46E5;color:#fff;padding:16px;border-radius:12px 0 0 12px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;" id="funnel-leads">—</div>
+        <div style="font-size:10px;font-weight:700;opacity:0.8;">LEADS</div>
+        <div style="font-size:8px;opacity:0.6;margin-top:4px;">Formulario enviado</div>
       </div>
-      <div class="card-w">
-        <h3>2. Saturaci&oacute;n de audiencia</h3>
-        <p>Con audiencias geogr&aacute;ficas peque&ntilde;as (comunas espec&iacute;ficas), el p&uacute;blico se agota r&aacute;pido. La <strong style="color:#1a202c;">frecuencia sube y genera fatiga</strong> — la misma persona ve el anuncio demasiadas veces y deja de hacer clic. La Reina baj&oacute; de 45 a 15 leads/sem.</p>
+      <div style="background:#6366F1;color:#fff;padding:16px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;">?</div>
+        <div style="font-size:10px;font-weight:700;opacity:0.8;">CONTACTADOS</div>
+        <div style="font-size:8px;opacity:0.6;margin-top:4px;">Contestaron tel&eacute;fono/WA</div>
       </div>
-      <div class="card-w">
-        <h3>3. CPA no es lineal</h3>
-        <p>Duplicar la inversi&oacute;n <strong style="color:#1a202c;">nunca duplica los leads</strong>. Cada lead incremental cuesta m&aacute;s (rendimientos decrecientes). Proyectar con CPA constante ignora esta curva. El CPA consolidado real es 2-3x mayor que el de fase inicial.</p>
+      <div style="background:#7C3AED;color:#fff;padding:16px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;">?</div>
+        <div style="font-size:10px;font-weight:700;opacity:0.8;">CALIFICADOS</div>
+        <div style="font-size:8px;opacity:0.6;margin-top:4px;">Intenci&oacute;n real de compra</div>
+      </div>
+      <div style="background:#9333EA;color:#fff;padding:16px;text-align:center;">
+        <div style="font-size:24px;font-weight:900;">?</div>
+        <div style="font-size:10px;font-weight:700;opacity:0.8;">VISITAS</div>
+        <div style="font-size:8px;opacity:0.6;margin-top:4px;">Visitaron propiedad</div>
+      </div>
+      <div style="background:#059669;color:#fff;padding:16px;border-radius:0 12px 12px 0;text-align:center;">
+        <div style="font-size:24px;font-weight:900;">?</div>
+        <div style="font-size:10px;font-weight:700;opacity:0.8;">CIERRES</div>
+        <div style="font-size:8px;opacity:0.6;margin-top:4px;">Venta concretada</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;padding:16px;">
+        <h3 style="font-size:13px;font-weight:800;color:#4338CA;margin-bottom:8px;">Lo que necesitamos de CyM</h3>
+        <ul style="font-size:11px;color:#3730A3;line-height:1.8;list-style:none;">
+          <li><strong>1.</strong> De los leads de cada comuna — &iquest;cu&aacute;ntos contestaron el tel&eacute;fono o WhatsApp?</li>
+          <li><strong>2.</strong> De los que contestaron — &iquest;cu&aacute;ntos tienen intenci&oacute;n real y presupuesto?</li>
+          <li><strong>3.</strong> De los calificados — &iquest;cu&aacute;ntos visitaron una propiedad?</li>
+          <li><strong>4.</strong> De los que visitaron — &iquest;cu&aacute;ntos est&aacute;n en proceso o cerraron?</li>
+        </ul>
+      </div>
+      <div style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:12px;padding:16px;">
+        <h3 style="font-size:13px;font-weight:800;color:#065F46;margin-bottom:8px;">Lo que vamos a calcular</h3>
+        <ul style="font-size:11px;color:#065F46;line-height:1.8;list-style:none;">
+          <li><strong>Tasa de contacto:</strong> % de leads que responden</li>
+          <li><strong>Tasa de calificaci&oacute;n:</strong> % de contactados con intenci&oacute;n real</li>
+          <li><strong>Costo por visita:</strong> inversi&oacute;n / visitas reales (la m&eacute;trica que importa)</li>
+          <li><strong>Costo por cierre:</strong> inversi&oacute;n / ventas (el ROI real del canal)</li>
+          <li><strong>Todo por comuna</strong> — para saber d&oacute;nde invertir m&aacute;s y d&oacute;nde ajustar</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -255,13 +320,16 @@ function render(data, total) {
     const prio = getPrioridad(r.comuna);
     const prioColor = PRIORIDAD_COLOR[prio] || '#818CF8';
     const prioLabel = PRIORIDAD_LABEL[prio] || '';
+    const convRate = r.clics > 0 ? ((r.conv / r.clics) * 100).toFixed(2) + '%' : '—';
+    const convClass = r.clics > 0 && (r.conv / r.clics) >= 0.04 ? 'g' : (r.clics > 0 && (r.conv / r.clics) >= 0.02 ? 'y' : 'rd');
     html += `<tr>
       <td style="color:${prioColor};font-weight:800;font-size:10px;">${prioLabel}</td>
       <td class="b">${r.comuna}</td>
       <td class="r">${fmt(r.impresiones)}</td>
       <td class="r">${fmt(r.clics)}</td>
-      <td class="r b" style="color:#10B981;">${fmt(r.conv)}</td>
+      <td class="r b" style="color:#059669;">${fmt(r.conv)}</td>
       <td class="r">${ctr}</td>
+      <td class="r ${convClass}">${convRate}</td>
       <td class="r">${fmtMoney(r.cpc)}</td>
       <td class="r ${cpaColor(r.cpa)}">${fmtMoney(r.cpa)}</td>
       <td class="r">${fmtMoney(r.inversion)}</td>
@@ -269,6 +337,7 @@ function render(data, total) {
     </tr>`;
   }
   const totalCtr = total.impresiones > 0 ? ((total.clics / total.impresiones) * 100).toFixed(2) + '%' : total.ctr;
+  const totalConvRate = total.clics > 0 ? ((total.conv / total.clics) * 100).toFixed(2) + '%' : '—';
   html += `<tr class="total">
     <td></td>
     <td>TOTAL</td>
@@ -276,12 +345,29 @@ function render(data, total) {
     <td class="r">${fmt(total.clics)}</td>
     <td class="r">${fmt(total.conv)}</td>
     <td class="r">${totalCtr}</td>
+    <td class="r">${totalConvRate}</td>
     <td class="r">${fmtMoney(total.cpc)}</td>
     <td class="r">${fmtMoney(total.cpa)}</td>
     <td class="r">${fmtMoney(total.inversion)}</td>
     <td class="r">100%</td>
   </tr>`;
   tbody.innerHTML = html;
+
+  // Benchmark comparisons
+  const ctrVal = total.impresiones > 0 ? (total.clics / total.impresiones) * 100 : 0;
+  const convVal = total.clics > 0 ? (total.conv / total.clics) * 100 : 0;
+  const ctrVs = document.getElementById('ctr-vs');
+  const convVs = document.getElementById('conv-vs');
+  const cpcVs = document.getElementById('cpc-vs');
+  const cpaVs = document.getElementById('cpa-vs');
+  if (ctrVs) ctrVs.innerHTML = ctrVal > 2.5 ? '<span style="color:#059669;">CyM: ' + ctrVal.toFixed(1) + '% — POR ENCIMA</span>' : '<span style="color:#D97706;">CyM: ' + ctrVal.toFixed(1) + '%</span>';
+  if (convVs) convVs.innerHTML = convVal >= 4 ? '<span style="color:#059669;">CyM: ' + convVal.toFixed(1) + '% — BIEN</span>' : (convVal >= 2 ? '<span style="color:#D97706;">CyM: ' + convVal.toFixed(1) + '% — EN RANGO</span>' : '<span style="color:#DC2626;">CyM: ' + convVal.toFixed(1) + '% — BAJO</span>');
+  if (cpcVs) cpcVs.innerHTML = total.cpc <= 250 ? '<span style="color:#059669;">CyM: $' + fmt(total.cpc) + ' — EN RANGO</span>' : '<span style="color:#D97706;">CyM: $' + fmt(total.cpc) + ' — ALTO</span>';
+  if (cpaVs) cpaVs.innerHTML = total.cpa <= 3000 ? '<span style="color:#059669;">CyM: $' + fmt(total.cpa) + ' — BIEN</span>' : (total.cpa <= 6000 ? '<span style="color:#D97706;">CyM: $' + fmt(total.cpa) + ' — MEDIO</span>' : '<span style="color:#DC2626;">CyM: $' + fmt(total.cpa) + ' — ALTO</span>');
+
+  // Funnel leads count
+  const funnelLeads = document.getElementById('funnel-leads');
+  if (funnelLeads) funnelLeads.textContent = fmt(total.conv);
 
   // Ranking por prioridad comercial
   const rankDiv = document.getElementById('ranking');
