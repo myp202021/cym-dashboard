@@ -264,22 +264,25 @@ async function fetchData() {
         const dateCol = header.indexOf('created_time');
         const dataRows = rows.filter(r => r.length > 1 && r[0] && r[0].startsWith('l:'));
         leadCounts[s.display] = dataRows.length;
-        // Agrupar por semana
+        // Agrupar por semana (lun-dom), solo desde 18 mayo
+        const CAMPAIGN_START = new Date('2026-05-18');
         for (const r of dataRows) {
           const dateStr = dateCol >= 0 ? r[dateCol] : '';
           if (!dateStr) continue;
-          const d = new Date(dateStr);
-          if (isNaN(d)) continue;
+          // Usar solo la parte de fecha (YYYY-MM-DD) para evitar problemas de timezone
+          const datePart = dateStr.substring(0, 10);
+          const d = new Date(datePart + 'T12:00:00');
+          if (isNaN(d) || d < CAMPAIGN_START) continue;
           // Lunes de esa semana
           const day = d.getDay();
           const mon = new Date(d);
           mon.setDate(d.getDate() - ((day + 6) % 7));
+          const sortKey = mon.toISOString().substring(0, 10);
           const sun = new Date(mon);
           sun.setDate(mon.getDate() + 6);
           const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-          const weekKey = mon.getDate() + '-' + sun.getDate() + ' ' + meses[mon.getMonth()];
-          const sortKey = mon.toISOString().substring(0, 10);
-          if (!leadsByWeek[sortKey]) leadsByWeek[sortKey] = { label: weekKey, comunas: {} };
+          const label = mon.getDate() + '-' + sun.getDate() + ' ' + meses[sun.getMonth()];
+          if (!leadsByWeek[sortKey]) leadsByWeek[sortKey] = { label: label, comunas: {}, monDate: mon, sunDate: sun };
           leadsByWeek[sortKey].comunas[s.display] = (leadsByWeek[sortKey].comunas[s.display] || 0) + 1;
         }
       } catch (e) {
@@ -486,52 +489,100 @@ function render(data, total, leadsByWeek) {
     const weeklyDiv = document.getElementById('weekly-leads');
     const weeks = Object.keys(leadsByWeek).sort();
     const comunas = ['Las Condes', 'La Dehesa', 'Vitacura', 'SCA', 'La Reina', 'Deptos'];
+    const comColors = ['#4F46E5', '#7C3AED', '#EC4899', '#F59E0B', '#10B981', '#64748B'];
+    const hoy = new Date();
+    hoy.setHours(12, 0, 0, 0);
 
-    let html = '<div class="table-wrap"><table><thead><tr><th>Semana</th>';
+    // Detectar semana en curso
+    const hoyDay = hoy.getDay();
+    const hoyMon = new Date(hoy);
+    hoyMon.setDate(hoy.getDate() - ((hoyDay + 6) % 7));
+    const currentWeekKey = hoyMon.toISOString().substring(0, 10);
+
+    // Solo semanas completas para tendencia (excluir semana en curso)
+    const completedWeeks = weeks.filter(w => w < currentWeekKey);
+
+    // Tabla
+    let html = '<div class="table-wrap"><table><thead><tr><th>SEMANA</th>';
     for (const c of comunas) html += '<th class="r">' + c + '</th>';
     html += '<th class="r" style="font-weight:900;">TOTAL</th></tr></thead><tbody>';
 
     let grandTotals = {};
     comunas.forEach(c => grandTotals[c] = 0);
     let grandTotal = 0;
+    const weekTotals = []; // para el gráfico
 
     for (const wk of weeks) {
       const w = leadsByWeek[wk];
+      const isCurrent = wk === currentWeekKey;
       let rowTotal = 0;
-      html += '<tr><td class="b">' + w.label + '</td>';
+      const rowStyle = isCurrent ? ' style="background:rgba(79,70,229,0.04);"' : '';
+      const label = isCurrent ? w.label + ' <span style="font-size:9px;color:#4F46E5;font-weight:700;">(en curso)</span>' : w.label;
+      html += '<tr' + rowStyle + '><td class="b">' + label + '</td>';
       for (const c of comunas) {
         const val = w.comunas[c] || 0;
         rowTotal += val;
         grandTotals[c] += val;
-        const bg = val === 0 ? 'color:rgba(0,0,0,0.2)' : (val >= 10 ? 'color:#059669;font-weight:700' : '');
-        html += '<td class="r" style="' + bg + '">' + (val || '—') + '</td>';
+        const style = val === 0 ? 'color:#CBD5E1' : (val >= 10 ? 'color:#059669;font-weight:700' : '');
+        html += '<td class="r" style="' + style + '">' + (val || '—') + '</td>';
       }
       grandTotal += rowTotal;
-      html += '<td class="r" style="font-weight:800;">' + rowTotal + '</td></tr>';
+      weekTotals.push({ label: w.label, total: rowTotal, comunas: {...w.comunas}, isCurrent: isCurrent });
+      html += '<td class="r" style="font-weight:800;' + (isCurrent ? 'color:#4F46E5;' : '') + '">' + rowTotal + '</td></tr>';
     }
 
-    // Fila total
-    html += '<tr style="background:#EEF2FF;border-top:2px solid #4F46E5;"><td class="b" style="font-weight:900;">TOTAL</td>';
-    for (const c of comunas) {
-      html += '<td class="r" style="font-weight:800;">' + grandTotals[c] + '</td>';
-    }
-    html += '<td class="r" style="font-weight:900;color:#4F46E5;">' + grandTotal + '</td></tr>';
-
+    html += '<tr class="total"><td>TOTAL</td>';
+    for (const c of comunas) html += '<td class="r">' + grandTotals[c] + '</td>';
+    html += '<td class="r">' + grandTotal + '</td></tr>';
     html += '</tbody></table></div>';
 
-    // Tendencia: comparar última semana vs anterior
-    if (weeks.length >= 2) {
-      const last = leadsByWeek[weeks[weeks.length - 1]];
-      const prev = leadsByWeek[weeks[weeks.length - 2]];
-      let lastTotal = 0, prevTotal = 0;
-      comunas.forEach(c => { lastTotal += last.comunas[c] || 0; prevTotal += prev.comunas[c] || 0; });
-      if (prevTotal > 0) {
-        const change = Math.round((lastTotal / prevTotal - 1) * 100);
-        const color = change >= 0 ? '#059669' : '#DC2626';
-        const arrow = change >= 0 ? '↑' : '↓';
-        html += '<p style="font-size:11px;margin-top:8px;color:' + color + ';font-weight:700;">' + arrow + ' ' + Math.abs(change) + '% vs semana anterior (' + lastTotal + ' vs ' + prevTotal + ' leads)</p>';
+    // Tendencia semanas completas
+    if (completedWeeks.length >= 2) {
+      const lastKey = completedWeeks[completedWeeks.length - 1];
+      const prevKey = completedWeeks[completedWeeks.length - 2];
+      let lastT = 0, prevT = 0;
+      comunas.forEach(c => { lastT += (leadsByWeek[lastKey].comunas[c] || 0); prevT += (leadsByWeek[prevKey].comunas[c] || 0); });
+      if (prevT > 0) {
+        const ch = Math.round((lastT / prevT - 1) * 100);
+        const col = ch >= 0 ? '#059669' : '#DC2626';
+        const arr = ch >= 0 ? '↑' : '↓';
+        html += '<p style="font-size:11px;margin-top:8px;color:' + col + ';font-weight:700;">' + arr + ' ' + Math.abs(ch) + '% última semana completa vs anterior (' + lastT + ' vs ' + prevT + ' leads)</p>';
       }
     }
+
+    // Gráfico de barras apiladas por semana
+    const maxWeekTotal = Math.max(...weekTotals.map(w => w.total));
+    html += '<div style="margin-top:20px"><p style="font-size:13px;font-weight:800;color:#1a202c;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:16px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:2px;display:inline-block;"></span>Leads por semana</p>';
+    html += '<div style="display:flex;flex-direction:column;gap:6px;">';
+    for (const w of weekTotals) {
+      const pctWidth = maxWeekTotal > 0 ? Math.max(Math.round(w.total / maxWeekTotal * 100), 3) : 0;
+      html += '<div style="display:flex;align-items:center;gap:8px;">';
+      html += '<div style="min-width:80px;font-size:10px;color:#64748B;font-weight:600;text-align:right;">' + w.label + (w.isCurrent ? '*' : '') + '</div>';
+      // Barra apilada
+      html += '<div style="flex:1;display:flex;height:28px;border-radius:6px;overflow:hidden;background:#F1F5F9;">';
+      if (w.total > 0) {
+        for (let ci = 0; ci < comunas.length; ci++) {
+          const val = w.comunas[comunas[ci]] || 0;
+          if (val === 0) continue;
+          const segPct = (val / w.total * pctWidth).toFixed(1);
+          html += '<div style="width:' + segPct + '%;background:' + comColors[ci] + ';display:flex;align-items:center;justify-content:center;" title="' + comunas[ci] + ': ' + val + '">';
+          if (val >= 5) html += '<span style="font-size:8px;color:#fff;font-weight:700;">' + val + '</span>';
+          html += '</div>';
+        }
+      }
+      html += '</div>';
+      html += '<div style="min-width:30px;font-size:12px;font-weight:800;color:' + (w.isCurrent ? '#4F46E5' : '#1a202c') + ';">' + w.total + '</div>';
+      html += '</div>';
+    }
+    html += '</div>';
+    // Leyenda
+    html += '<div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">';
+    for (let ci = 0; ci < comunas.length; ci++) {
+      html += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#64748B;"><div style="width:10px;height:10px;border-radius:2px;background:' + comColors[ci] + ';"></div>' + comunas[ci] + '</div>';
+    }
+    html += '</div>';
+    html += '<p style="font-size:9px;color:#94A3B8;margin-top:6px;">* Semana en curso — datos parciales</p>';
+    html += '</div>';
 
     weeklyDiv.innerHTML = html;
   }
