@@ -133,6 +133,13 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <div class="rank-grid" id="ranking"></div>
   </div>
 
+  <!-- Leads por semana por comuna -->
+  <div class="section">
+    <div class="section-title">Leads por semana por comuna</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Evoluci&oacute;n semanal de leads por zona. Permite ver tendencias y detectar ca&iacute;das tempranas.</p>
+    <div id="weekly-leads"></div>
+  </div>
+
   <!-- Funnel de calidad -->
   <div class="section">
     <div class="section-title">Funnel de calidad — Pr&oacute;ximos pasos a medir</div>
@@ -246,15 +253,35 @@ async function fetchData() {
   try {
     document.getElementById('status').textContent = 'Cargando hojas de leads...';
 
-    // 1. Contar leads por comuna (leyendo cada hoja de leads)
+    // 1. Contar leads por comuna + guardar fechas para vista semanal
     const leadCounts = {};
+    const leadsByWeek = {}; // { 'Sem 1 (19-25 may)': { 'Las Condes': 5, ... }, ... }
     const leadPromises = LEAD_SHEETS.map(async (s) => {
       try {
         const text = await fetchSheet(s.sheet);
         const rows = parseCSV(text);
-        // Contar filas con datos (excluir header y filas vacías)
+        const header = rows[0] || [];
+        const dateCol = header.indexOf('created_time');
         const dataRows = rows.filter(r => r.length > 1 && r[0] && r[0].startsWith('l:'));
         leadCounts[s.display] = dataRows.length;
+        // Agrupar por semana
+        for (const r of dataRows) {
+          const dateStr = dateCol >= 0 ? r[dateCol] : '';
+          if (!dateStr) continue;
+          const d = new Date(dateStr);
+          if (isNaN(d)) continue;
+          // Lunes de esa semana
+          const day = d.getDay();
+          const mon = new Date(d);
+          mon.setDate(d.getDate() - ((day + 6) % 7));
+          const sun = new Date(mon);
+          sun.setDate(mon.getDate() + 6);
+          const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+          const weekKey = mon.getDate() + '-' + sun.getDate() + ' ' + meses[mon.getMonth()];
+          const sortKey = mon.toISOString().substring(0, 10);
+          if (!leadsByWeek[sortKey]) leadsByWeek[sortKey] = { label: weekKey, comunas: {} };
+          leadsByWeek[sortKey].comunas[s.display] = (leadsByWeek[sortKey].comunas[s.display] || 0) + 1;
+        }
       } catch (e) {
         console.warn('No se pudo leer ' + s.sheet, e);
         leadCounts[s.display] = 0;
@@ -314,7 +341,7 @@ async function fetchData() {
     if (totalRow.clics > 0) totalRow.cpc = Math.round(totalRow.inversion / totalRow.clics);
     if (totalRow.conv > 0) totalRow.cpa = Math.round(totalRow.inversion / totalRow.conv);
 
-    render(dataRows, totalRow);
+    render(dataRows, totalRow, leadsByWeek);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     // Fecha periodo
@@ -363,7 +390,7 @@ function cpaColor(cpa) {
   return 'rd';
 }
 
-function render(data, total) {
+function render(data, total, leadsByWeek) {
   // KPIs
   const kpiDiv = document.getElementById('kpis');
   const kpis = [
@@ -451,6 +478,63 @@ function render(data, total) {
       <div class="rank-sub">CPA ${fmtMoney(r.cpa)}</div>
     </div>`;
   }).join('');
+
+  // ============================================================
+  // LEADS POR SEMANA POR COMUNA
+  // ============================================================
+  if (leadsByWeek && Object.keys(leadsByWeek).length > 0) {
+    const weeklyDiv = document.getElementById('weekly-leads');
+    const weeks = Object.keys(leadsByWeek).sort();
+    const comunas = ['Las Condes', 'La Dehesa', 'Vitacura', 'SCA', 'La Reina', 'Deptos'];
+
+    let html = '<div class="table-wrap"><table><thead><tr><th>Semana</th>';
+    for (const c of comunas) html += '<th class="r">' + c + '</th>';
+    html += '<th class="r" style="font-weight:900;">TOTAL</th></tr></thead><tbody>';
+
+    let grandTotals = {};
+    comunas.forEach(c => grandTotals[c] = 0);
+    let grandTotal = 0;
+
+    for (const wk of weeks) {
+      const w = leadsByWeek[wk];
+      let rowTotal = 0;
+      html += '<tr><td class="b">' + w.label + '</td>';
+      for (const c of comunas) {
+        const val = w.comunas[c] || 0;
+        rowTotal += val;
+        grandTotals[c] += val;
+        const bg = val === 0 ? 'color:rgba(0,0,0,0.2)' : (val >= 10 ? 'color:#059669;font-weight:700' : '');
+        html += '<td class="r" style="' + bg + '">' + (val || '—') + '</td>';
+      }
+      grandTotal += rowTotal;
+      html += '<td class="r" style="font-weight:800;">' + rowTotal + '</td></tr>';
+    }
+
+    // Fila total
+    html += '<tr style="background:#EEF2FF;border-top:2px solid #4F46E5;"><td class="b" style="font-weight:900;">TOTAL</td>';
+    for (const c of comunas) {
+      html += '<td class="r" style="font-weight:800;">' + grandTotals[c] + '</td>';
+    }
+    html += '<td class="r" style="font-weight:900;color:#4F46E5;">' + grandTotal + '</td></tr>';
+
+    html += '</tbody></table></div>';
+
+    // Tendencia: comparar última semana vs anterior
+    if (weeks.length >= 2) {
+      const last = leadsByWeek[weeks[weeks.length - 1]];
+      const prev = leadsByWeek[weeks[weeks.length - 2]];
+      let lastTotal = 0, prevTotal = 0;
+      comunas.forEach(c => { lastTotal += last.comunas[c] || 0; prevTotal += prev.comunas[c] || 0; });
+      if (prevTotal > 0) {
+        const change = Math.round((lastTotal / prevTotal - 1) * 100);
+        const color = change >= 0 ? '#059669' : '#DC2626';
+        const arrow = change >= 0 ? '↑' : '↓';
+        html += '<p style="font-size:11px;margin-top:8px;color:' + color + ';font-weight:700;">' + arrow + ' ' + Math.abs(change) + '% vs semana anterior (' + lastTotal + ' vs ' + prevTotal + ' leads)</p>';
+      }
+    }
+
+    weeklyDiv.innerHTML = html;
+  }
 }
 
 // Cargar al abrir + auto-refresh cada 5 minutos
