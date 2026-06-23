@@ -165,6 +165,33 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <div id="weekly-leads"></div>
   </div>
 
+  <!-- Leads por propiedad -->
+  <div class="section">
+    <div class="section-title">Leads por c&oacute;digo de propiedad</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Desde el 18-19 de junio cada adset corresponde a una propiedad espec&iacute;fica. El c&oacute;digo viene del ad_name/adset_name en Meta.</p>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>C&oacute;digo</th><th>Comuna</th><th class="r">Leads</th><th class="r">% del total</th><th>Barra</th>
+      </tr></thead>
+      <tbody id="property-table"></tbody>
+    </table></div>
+  </div>
+
+  <!-- Comparativa Mayo vs Junio -->
+  <div class="section">
+    <div class="section-title">Comparativa Mayo vs Junio por comuna</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Datos de las hojas Gasto Mayo y Gasto Junio. Permite ver evoluci&oacute;n de eficiencia mes a mes.</p>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Comuna</th>
+        <th class="r">Inv. Mayo</th><th class="r">Leads Mayo</th><th class="r">CPA Mayo</th>
+        <th class="r">Inv. Junio</th><th class="r">Leads Junio</th><th class="r">CPA Junio</th>
+        <th class="r">Δ CPA</th>
+      </tr></thead>
+      <tbody id="monthly-table"></tbody>
+    </table></div>
+  </div>
+
   <!-- Funnel de calidad -->
   <div class="section">
     <div class="section-title">Funnel de calidad — Pr&oacute;ximos pasos a medir</div>
@@ -278,27 +305,28 @@ async function fetchData() {
   try {
     document.getElementById('status').textContent = 'Cargando hojas de leads...';
 
-    // 1. Contar leads por comuna + guardar fechas para vista semanal
+    // 1. Contar leads por comuna + guardar fechas para vista semanal + códigos de propiedad
     const leadCounts = {};
-    const leadsByWeek = {}; // { 'Sem 1 (19-25 may)': { 'Las Condes': 5, ... }, ... }
+    const leadsByWeek = {};
+    const propertyLeads = {}; // { 'codigo': { comuna: 'X', count: N } }
     const leadPromises = LEAD_SHEETS.map(async (s) => {
       try {
         const text = await fetchSheet(s.sheet);
         const rows = parseCSV(text);
         const header = rows[0] || [];
         const dateCol = header.indexOf('created_time');
+        const adNameCol = header.indexOf('ad_name');
+        const adsetNameCol = header.indexOf('adset_name');
         const dataRows = rows.filter(r => r.length > 1 && r[0] && r[0].startsWith('l:'));
         leadCounts[s.display] = dataRows.length;
-        // Agrupar por semana (lun-dom), solo desde 18 mayo
         const CAMPAIGN_START = new Date('2026-05-18');
         for (const r of dataRows) {
           const dateStr = dateCol >= 0 ? r[dateCol] : '';
           if (!dateStr) continue;
-          // Usar solo la parte de fecha (YYYY-MM-DD) para evitar problemas de timezone
           const datePart = dateStr.substring(0, 10);
           const d = new Date(datePart + 'T12:00:00');
           if (isNaN(d) || d < CAMPAIGN_START) continue;
-          // Lunes de esa semana
+          // Semana
           const day = d.getDay();
           const mon = new Date(d);
           mon.setDate(d.getDate() - ((day + 6) % 7));
@@ -309,6 +337,13 @@ async function fetchData() {
           const label = mon.getDate() + '-' + sun.getDate() + ' ' + meses[sun.getMonth()];
           if (!leadsByWeek[sortKey]) leadsByWeek[sortKey] = { label: label, comunas: {}, monDate: mon, sunDate: sun };
           leadsByWeek[sortKey].comunas[s.display] = (leadsByWeek[sortKey].comunas[s.display] || 0) + 1;
+          // Código de propiedad (ad_name cuando es numérico = código de casa)
+          const adName = adNameCol >= 0 ? r[adNameCol] : '';
+          if (adName && /^\d{4,5}$/.test(adName.trim())) {
+            const code = adName.trim();
+            if (!propertyLeads[code]) propertyLeads[code] = { comuna: s.display, count: 0 };
+            propertyLeads[code].count++;
+          }
         }
       } catch (e) {
         console.warn('No se pudo leer ' + s.sheet, e);
@@ -369,7 +404,40 @@ async function fetchData() {
     if (totalRow.clics > 0) totalRow.cpc = Math.round(totalRow.inversion / totalRow.clics);
     if (totalRow.conv > 0) totalRow.cpa = Math.round(totalRow.inversion / totalRow.conv);
 
-    render(dataRows, totalRow, leadsByWeek);
+    // 3. Cargar Gasto Mayo y Gasto Junio para comparativa
+    let gastoMayo = [], gastoJunio = [];
+    try {
+      const mayoText = await fetchSheet('Gasto Mayo');
+      const mayoRows = parseCSV(mayoText);
+      const mHdrIdx = mayoRows.findIndex(r => r.some(c => c === 'Nombre Campaña' || c === 'Nombre Campa\u00f1a'));
+      if (mHdrIdx >= 0) {
+        for (let i = mHdrIdx + 1; i < mayoRows.length; i++) {
+          const r = mayoRows[i];
+          const nombre = r[3] || '';
+          if (!nombre || nombre === '' || nombre.toLowerCase() === 'total') continue;
+          if (!nombre.startsWith('Clientes potenciales')) continue;
+          const comuna = nombre.replace('Clientes potenciales - ', '').replace('Clientes potenciales -', '').trim();
+          gastoMayo.push({ comuna, conv: parseNum(r[8] || r[9]), inversion: parseNum(r[13] || r[14]) });
+        }
+      }
+    } catch(e) { console.warn('Gasto Mayo no disponible', e); }
+    try {
+      const junioText = await fetchSheet('Gasto Junio');
+      const junioRows = parseCSV(junioText);
+      const jHdrIdx = junioRows.findIndex(r => r.some(c => c === 'Nombre Campaña' || c === 'Nombre Campa\u00f1a'));
+      if (jHdrIdx >= 0) {
+        for (let i = jHdrIdx + 1; i < junioRows.length; i++) {
+          const r = junioRows[i];
+          const nombre = r[3] || '';
+          if (!nombre || nombre === '' || nombre.toLowerCase() === 'total') continue;
+          if (!nombre.startsWith('Clientes potenciales')) continue;
+          const comuna = nombre.replace('Clientes potenciales - ', '').replace('Clientes potenciales -', '').trim();
+          gastoJunio.push({ comuna, conv: parseNum(r[9] || r[10]), inversion: parseNum(r[14] || r[15]) });
+        }
+      }
+    } catch(e) { console.warn('Gasto Junio no disponible', e); }
+
+    render(dataRows, totalRow, leadsByWeek, propertyLeads, gastoMayo, gastoJunio);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     // Fecha periodo
@@ -418,7 +486,7 @@ function cpaColor(cpa) {
   return 'rd';
 }
 
-function render(data, total, leadsByWeek) {
+function render(data, total, leadsByWeek, propertyLeads, gastoMayo, gastoJunio) {
   // KPIs
   const kpiDiv = document.getElementById('kpis');
   const kpis = [
@@ -610,6 +678,71 @@ function render(data, total, leadsByWeek) {
     html += '</div>';
 
     weeklyDiv.innerHTML = html;
+  }
+
+  // ============================================================
+  // LEADS POR CÓDIGO DE PROPIEDAD
+  // ============================================================
+  if (propertyLeads && Object.keys(propertyLeads).length > 0) {
+    const propTbody = document.getElementById('property-table');
+    const entries = Object.entries(propertyLeads).sort((a, b) => b[1].count - a[1].count);
+    const totalPropLeads = entries.reduce((s, [, v]) => s + v.count, 0);
+    let propHtml = '';
+    for (const [code, info] of entries) {
+      const pct = totalPropLeads > 0 ? (info.count / totalPropLeads * 100) : 0;
+      propHtml += '<tr>';
+      propHtml += '<td class="b" style="font-size:16px;color:#4F46E5;">' + code + '</td>';
+      propHtml += '<td>' + info.comuna + '</td>';
+      propHtml += '<td class="r b" style="color:#059669;">' + info.count + '</td>';
+      propHtml += '<td class="r">' + pct.toFixed(1) + '%</td>';
+      propHtml += '<td style="width:200px;"><div style="width:100%;background:#F1F5F9;border-radius:4px;height:16px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#4F46E5,#7C3AED);border-radius:4px;width:' + Math.max(pct, 2) + '%;"></div></div></td>';
+      propHtml += '</tr>';
+    }
+    propHtml += '<tr class="total"><td>TOTAL</td><td></td><td class="r">' + totalPropLeads + '</td><td class="r">100%</td><td></td></tr>';
+    propTbody.innerHTML = propHtml;
+  } else {
+    const propSection = document.getElementById('property-table');
+    if (propSection) propSection.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94A3B8;padding:20px;">No se detectaron c&oacute;digos de propiedad en los leads recientes</td></tr>';
+  }
+
+  // ============================================================
+  // COMPARATIVA MAYO vs JUNIO
+  // ============================================================
+  if ((gastoMayo && gastoMayo.length > 0) || (gastoJunio && gastoJunio.length > 0)) {
+    const monthTbody = document.getElementById('monthly-table');
+    const comunas = [...new Set([...gastoMayo.map(r => r.comuna), ...gastoJunio.map(r => r.comuna)])];
+    let monthHtml = '';
+    let totalMayoInv = 0, totalMayoLeads = 0, totalJunioInv = 0, totalJunioLeads = 0;
+    for (const c of comunas) {
+      const mayo = gastoMayo.find(r => r.comuna === c) || { conv: 0, inversion: 0 };
+      const junio = gastoJunio.find(r => r.comuna === c) || { conv: 0, inversion: 0 };
+      const cpaMayo = mayo.conv > 0 ? Math.round(mayo.inversion / mayo.conv) : 0;
+      const cpaJunio = junio.conv > 0 ? Math.round(junio.inversion / junio.conv) : 0;
+      const delta = cpaMayo > 0 && cpaJunio > 0 ? Math.round((cpaJunio / cpaMayo - 1) * 100) : 0;
+      const deltaClass = delta <= 0 ? 'g' : (delta <= 30 ? 'y' : 'rd');
+      const deltaText = delta === 0 ? '—' : (delta > 0 ? '+' + delta + '%' : delta + '%');
+      totalMayoInv += mayo.inversion; totalMayoLeads += mayo.conv;
+      totalJunioInv += junio.inversion; totalJunioLeads += junio.conv;
+      monthHtml += '<tr>';
+      monthHtml += '<td class="b">' + c + '</td>';
+      monthHtml += '<td class="r">' + fmtMoney(mayo.inversion) + '</td>';
+      monthHtml += '<td class="r">' + fmt(mayo.conv) + '</td>';
+      monthHtml += '<td class="r">' + (cpaMayo > 0 ? fmtMoney(cpaMayo) : '—') + '</td>';
+      monthHtml += '<td class="r">' + fmtMoney(junio.inversion) + '</td>';
+      monthHtml += '<td class="r">' + fmt(junio.conv) + '</td>';
+      monthHtml += '<td class="r">' + (cpaJunio > 0 ? fmtMoney(cpaJunio) : '—') + '</td>';
+      monthHtml += '<td class="r ' + deltaClass + '">' + deltaText + '</td>';
+      monthHtml += '</tr>';
+    }
+    const totalCpaMayo = totalMayoLeads > 0 ? Math.round(totalMayoInv / totalMayoLeads) : 0;
+    const totalCpaJunio = totalJunioLeads > 0 ? Math.round(totalJunioInv / totalJunioLeads) : 0;
+    const totalDelta = totalCpaMayo > 0 && totalCpaJunio > 0 ? Math.round((totalCpaJunio / totalCpaMayo - 1) * 100) : 0;
+    monthHtml += '<tr class="total"><td>TOTAL</td>';
+    monthHtml += '<td class="r">' + fmtMoney(totalMayoInv) + '</td><td class="r">' + fmt(totalMayoLeads) + '</td><td class="r">' + fmtMoney(totalCpaMayo) + '</td>';
+    monthHtml += '<td class="r">' + fmtMoney(totalJunioInv) + '</td><td class="r">' + fmt(totalJunioLeads) + '</td><td class="r">' + fmtMoney(totalCpaJunio) + '</td>';
+    monthHtml += '<td class="r ' + (totalDelta <= 0 ? 'g' : 'rd') + '">' + (totalDelta > 0 ? '+' : '') + totalDelta + '%</td>';
+    monthHtml += '</tr>';
+    monthTbody.innerHTML = monthHtml;
   }
 }
 
