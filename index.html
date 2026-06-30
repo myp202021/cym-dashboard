@@ -333,19 +333,19 @@ async function fetchData() {
           if (!leadsByWeek[sortKey]) leadsByWeek[sortKey] = { label: label, comunas: {}, monDate: mon, sunDate: sun };
           leadsByWeek[sortKey].comunas[s.display] = (leadsByWeek[sortKey].comunas[s.display] || 0) + 1;
           // Código de propiedad (ad_name cuando es numérico = código de casa)
+          // Solo desde 13 de junio (inicio segmentación por propiedad)
+          const PROP_START = new Date('2026-06-13');
           const adName = adNameCol >= 0 ? r[adNameCol] : '';
-          if (adName && /^\d{4,5}$/.test(adName.trim())) {
+          if (adName && /^\d{4,5}$/.test(adName.trim()) && d >= PROP_START) {
             const code = adName.trim();
             if (!propertyLeads[code]) propertyLeads[code] = { comuna: s.display, count: 0, byWeek: {} };
             propertyLeads[code].count++;
             // Agrupar por semana (lunes)
-            if (d >= new Date('2026-06-13')) {
-              const pDay = d.getDay();
-              const pMon = new Date(d);
-              pMon.setDate(d.getDate() - ((pDay + 6) % 7));
-              const pKey = pMon.toISOString().substring(0, 10);
-              propertyLeads[code].byWeek[pKey] = (propertyLeads[code].byWeek[pKey] || 0) + 1;
-            }
+            const pDay = d.getDay();
+            const pMon = new Date(d);
+            pMon.setDate(d.getDate() - ((pDay + 6) % 7));
+            const pKey = pMon.toISOString().substring(0, 10);
+            propertyLeads[code].byWeek[pKey] = (propertyLeads[code].byWeek[pKey] || 0) + 1;
           }
         }
       } catch (e) {
