@@ -165,16 +165,11 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     <div id="weekly-leads"></div>
   </div>
 
-  <!-- Leads por propiedad -->
+  <!-- Leads por propiedad por semana -->
   <div class="section">
-    <div class="section-title">Leads por c&oacute;digo de propiedad</div>
-    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Desde el 18-19 de junio cada adset corresponde a una propiedad espec&iacute;fica. El c&oacute;digo viene del ad_name/adset_name en Meta.</p>
-    <div class="table-wrap"><table>
-      <thead><tr>
-        <th>C&oacute;digo</th><th>Comuna</th><th class="r">Leads</th><th class="r">% del total</th><th>Barra</th>
-      </tr></thead>
-      <tbody id="property-table"></tbody>
-    </table></div>
+    <div class="section-title">Leads por propiedad — evoluci&oacute;n semanal</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Desde el 13 de junio cada adset corresponde a una propiedad espec&iacute;fica. Muestra el efecto de campa&ntilde;as semana a semana por c&oacute;digo de propiedad.</p>
+    <div class="table-wrap" id="property-weekly-wrap"></div>
   </div>
 
   <!-- Comparativa Mayo vs Junio -->
@@ -341,8 +336,16 @@ async function fetchData() {
           const adName = adNameCol >= 0 ? r[adNameCol] : '';
           if (adName && /^\d{4,5}$/.test(adName.trim())) {
             const code = adName.trim();
-            if (!propertyLeads[code]) propertyLeads[code] = { comuna: s.display, count: 0 };
+            if (!propertyLeads[code]) propertyLeads[code] = { comuna: s.display, count: 0, byWeek: {} };
             propertyLeads[code].count++;
+            // Agrupar por semana (lunes)
+            if (d >= new Date('2026-06-13')) {
+              const pDay = d.getDay();
+              const pMon = new Date(d);
+              pMon.setDate(d.getDate() - ((pDay + 6) % 7));
+              const pKey = pMon.toISOString().substring(0, 10);
+              propertyLeads[code].byWeek[pKey] = (propertyLeads[code].byWeek[pKey] || 0) + 1;
+            }
           }
         }
       } catch (e) {
@@ -681,28 +684,105 @@ function render(data, total, leadsByWeek, propertyLeads, gastoMayo, gastoJunio) 
   }
 
   // ============================================================
-  // LEADS POR CÓDIGO DE PROPIEDAD
+  // LEADS POR CÓDIGO DE PROPIEDAD — EVOLUCIÓN SEMANAL
   // ============================================================
+  const propWrap = document.getElementById('property-weekly-wrap');
   if (propertyLeads && Object.keys(propertyLeads).length > 0) {
-    const propTbody = document.getElementById('property-table');
     const entries = Object.entries(propertyLeads).sort((a, b) => b[1].count - a[1].count);
     const totalPropLeads = entries.reduce((s, [, v]) => s + v.count, 0);
-    let propHtml = '';
-    for (const [code, info] of entries) {
-      const pct = totalPropLeads > 0 ? (info.count / totalPropLeads * 100) : 0;
-      propHtml += '<tr>';
-      propHtml += '<td class="b" style="font-size:16px;color:#4F46E5;">' + code + '</td>';
-      propHtml += '<td>' + info.comuna + '</td>';
-      propHtml += '<td class="r b" style="color:#059669;">' + info.count + '</td>';
-      propHtml += '<td class="r">' + pct.toFixed(1) + '%</td>';
-      propHtml += '<td style="width:200px;"><div style="width:100%;background:#F1F5F9;border-radius:4px;height:16px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#4F46E5,#7C3AED);border-radius:4px;width:' + Math.max(pct, 2) + '%;"></div></div></td>';
-      propHtml += '</tr>';
+
+    // Obtener todas las semanas desde 13 junio
+    const allWeeks = new Set();
+    for (const [, info] of entries) {
+      Object.keys(info.byWeek || {}).forEach(w => allWeeks.add(w));
     }
-    propHtml += '<tr class="total"><td>TOTAL</td><td></td><td class="r">' + totalPropLeads + '</td><td class="r">100%</td><td></td></tr>';
-    propTbody.innerHTML = propHtml;
+    const weeks = [...allWeeks].sort();
+    const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+    // Detectar semana en curso
+    const hoyProp = new Date(); hoyProp.setHours(12,0,0,0);
+    const hoyDayProp = hoyProp.getDay();
+    const hoyMonProp = new Date(hoyProp);
+    hoyMonProp.setDate(hoyProp.getDate() - ((hoyDayProp + 6) % 7));
+    const currentWeekKeyProp = hoyMonProp.toISOString().substring(0,10);
+
+    // Generar labels de semana
+    const weekLabels = weeks.map(wk => {
+      const mon = new Date(wk + 'T12:00:00');
+      const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+      const label = mon.getDate() + '-' + sun.getDate() + ' ' + meses[sun.getMonth()];
+      return { key: wk, label: label, isCurrent: wk === currentWeekKeyProp };
+    });
+
+    let ph = '<table><thead><tr>';
+    ph += '<th>C&oacute;digo</th><th>Comuna</th>';
+    for (const wl of weekLabels) {
+      ph += '<th class="r" style="font-size:9px;' + (wl.isCurrent ? 'color:#818CF8;' : '') + '">' + wl.label + (wl.isCurrent ? '*' : '') + '</th>';
+    }
+    ph += '<th class="r">TOTAL</th><th class="r">%</th><th style="min-width:120px;">Tendencia</th>';
+    ph += '</tr></thead><tbody>';
+
+    // Totales por semana
+    const weekTotals = {};
+    weeks.forEach(w => weekTotals[w] = 0);
+
+    for (const [code, info] of entries) {
+      const weekVals = weeks.map(w => info.byWeek[w] || 0);
+      weekVals.forEach((v, i) => weekTotals[weeks[i]] += v);
+      const totalSinceJun = weekVals.reduce((a, b) => a + b, 0);
+      const pct = totalPropLeads > 0 ? (info.count / totalPropLeads * 100) : 0;
+
+      // Tendencia: comparar últimas 2 semanas completas
+      const completedWeekVals = weekVals.filter((_, i) => !weekLabels[i].isCurrent);
+      let trend = '';
+      if (completedWeekVals.length >= 2) {
+        const last = completedWeekVals[completedWeekVals.length - 1];
+        const prev = completedWeekVals[completedWeekVals.length - 2];
+        if (prev > 0) {
+          const ch = Math.round((last / prev - 1) * 100);
+          trend = ch > 0 ? '<span class="g">&uarr; +' + ch + '%</span>' : (ch < 0 ? '<span class="rd">&darr; ' + ch + '%</span>' : '<span style="color:#94A3B8;">=</span>');
+        } else if (last > 0) {
+          trend = '<span class="g">&uarr; nueva</span>';
+        }
+      }
+
+      // Sparkline mini barras
+      const maxVal = Math.max(...weekVals, 1);
+      let spark = '<div style="display:flex;align-items:end;gap:2px;height:24px;">';
+      for (let wi = 0; wi < weekVals.length; wi++) {
+        const v = weekVals[wi];
+        const h = Math.max(Math.round(v / maxVal * 22), 2);
+        const bg = weekLabels[wi].isCurrent ? '#818CF8' : (v > 0 ? '#4F46E5' : '#E2E8F0');
+        spark += '<div style="width:12px;height:' + h + 'px;background:' + bg + ';border-radius:2px;" title="' + weekLabels[wi].label + ': ' + v + '"></div>';
+      }
+      spark += '</div>';
+
+      ph += '<tr>';
+      ph += '<td class="b" style="font-size:14px;color:#4F46E5;">' + code + '</td>';
+      ph += '<td style="font-size:11px;">' + info.comuna + '</td>';
+      for (let wi = 0; wi < weekVals.length; wi++) {
+        const v = weekVals[wi];
+        const style = v === 0 ? 'color:#CBD5E1;' : (v >= 5 ? 'color:#059669;font-weight:700;' : '');
+        ph += '<td class="r" style="' + style + '">' + (v || '—') + '</td>';
+      }
+      ph += '<td class="r b" style="color:#059669;">' + info.count + '</td>';
+      ph += '<td class="r" style="font-size:11px;">' + pct.toFixed(1) + '%</td>';
+      ph += '<td>' + spark + '</td>';
+      ph += '</tr>';
+    }
+
+    // Fila total
+    ph += '<tr class="total"><td colspan="2">TOTAL</td>';
+    for (const wk of weeks) {
+      ph += '<td class="r">' + weekTotals[wk] + '</td>';
+    }
+    ph += '<td class="r">' + totalPropLeads + '</td><td class="r">100%</td><td></td></tr>';
+    ph += '</tbody></table>';
+
+    ph += '<p style="font-size:9px;color:#94A3B8;margin-top:6px;">* Semana en curso — datos parciales. Solo se muestran leads desde el 13 de junio (inicio de segmentaci&oacute;n por propiedad).</p>';
+    propWrap.innerHTML = ph;
   } else {
-    const propSection = document.getElementById('property-table');
-    if (propSection) propSection.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#94A3B8;padding:20px;">No se detectaron c&oacute;digos de propiedad en los leads recientes</td></tr>';
+    propWrap.innerHTML = '<p style="text-align:center;color:#94A3B8;padding:20px;">No se detectaron c&oacute;digos de propiedad en los leads recientes</p>';
   }
 
   // ============================================================
