@@ -268,6 +268,46 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 
 </div>
 
+  <!-- Fiscalización WhatsApp -->
+  <div class="section">
+    <div class="section-title">Fiscalizaci&oacute;n de leads — &iquest;Los contactaron?</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Sistema autom&aacute;tico: a las 24h de recibir un lead, se le env&iacute;a WhatsApp preguntando si fue contactado. Las respuestas se tabulan en tiempo real.</p>
+
+    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px;" id="fisc-kpis"></div>
+
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Zona</th>
+        <th>Corredor</th>
+        <th class="r">Leads enviados</th>
+        <th class="r">Respondieron</th>
+        <th class="r">Contactados</th>
+        <th class="r">NO contactados</th>
+        <th class="r">No contestaron</th>
+        <th class="r">% Contacto</th>
+      </tr></thead>
+      <tbody id="fisc-zona-table"></tbody>
+    </table></div>
+
+    <div style="margin-top:16px;">
+      <p style="font-size:13px;font-weight:800;color:#1a202c;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:16px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:2px;display:inline-block;"></span>Detalle de respuestas</p>
+      <div class="table-wrap"><table>
+        <thead><tr>
+          <th>Nombre</th>
+          <th>Zona</th>
+          <th>Corredor</th>
+          <th>Fecha lead</th>
+          <th>WA enviado</th>
+          <th>Respuesta</th>
+          <th>Fecha resp.</th>
+        </tr></thead>
+        <tbody id="fisc-detail-table"></tbody>
+      </table></div>
+    </div>
+
+    <div id="fisc-alert" style="margin-top:12px;"></div>
+  </div>
+
 <div class="footer">
   <p>Dashboard generado por Muller & P&eacute;rez &middot; Datos en vivo desde <a href="https://docs.google.com/spreadsheets/d/11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE/edit?gid=524458128" target="_blank" style="color:#818CF8;">Google Sheets</a></p>
 </div>
@@ -972,9 +1012,126 @@ async function fetchDataWithCampaignAnalysis() {
   } catch(e) { console.error('Campaign analysis error:', e); }
 }
 
-// Replace the original call
-fetchDataWithCampaignAnalysis();
-setInterval(fetchDataWithCampaignAnalysis, 5 * 60 * 1000);
+// ============================================================
+// FISCALIZACIÓN DE LEADS — Lee pestaña FISCALIZACION
+// ============================================================
+async function renderFiscalizacion() {
+  try {
+    const text = await fetchSheet('FISCALIZACION');
+    if (!text) {
+      document.getElementById('fisc-kpis').innerHTML = '<div class="kpi" style="grid-column:span 5"><div class="kpi-label">La pestaña FISCALIZACION aún no existe. Se creará automáticamente cuando se envíe el primer WhatsApp de fiscalización.</div></div>';
+      return;
+    }
+    const rows = parseCSV(text);
+    if (rows.length < 2) {
+      document.getElementById('fisc-kpis').innerHTML = '<div class="kpi" style="grid-column:span 5"><div class="kpi-label">Sin datos de fiscalización todavía. El sistema enviará el primer WhatsApp mañana a las 11 AM.</div></div>';
+      return;
+    }
+
+    const headers = rows[0];
+    const zonaCol = headers.indexOf('zona');
+    const corredorCol = headers.indexOf('corredor');
+    const estadoCol = headers.indexOf('wa_estado');
+    const respCol = headers.indexOf('wa_respuesta');
+    const nombreCol = headers.indexOf('nombre');
+    const fechaLeadCol = headers.indexOf('fecha_lead');
+    const fechaEnvioCol = headers.indexOf('wa_fecha_envio');
+    const fechaRespCol = headers.indexOf('wa_fecha_respuesta');
+
+    // Parse all rows
+    let total = 0, respondidos = 0, contactados = 0, noContactados = 0, noContestaron = 0;
+    const byZona = {};
+    const details = [];
+
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!r[zonaCol]) continue;
+      total++;
+
+      const zona = r[zonaCol];
+      const resp = r[respCol] || '';
+      if (!byZona[zona]) byZona[zona] = { corredor: r[corredorCol] || '', enviados: 0, respondidos: 0, si: 0, no: 0, nc: 0 };
+      byZona[zona].enviados++;
+
+      if (resp) {
+        respondidos++;
+        byZona[zona].respondidos++;
+        if (resp === 'SI_CONTACTADO') { contactados++; byZona[zona].si++; }
+        else if (resp === 'NO_CONTACTADO') { noContactados++; byZona[zona].no++; }
+        else if (resp === 'NO_CONTESTO') { noContestaron++; byZona[zona].nc++; }
+      }
+
+      details.push({
+        nombre: r[nombreCol] || '?',
+        zona: zona,
+        corredor: r[corredorCol] || '',
+        fechaLead: r[fechaLeadCol] || '',
+        fechaEnvio: r[fechaEnvioCol] ? r[fechaEnvioCol].substring(0, 10) : '',
+        respuesta: resp,
+        fechaResp: r[fechaRespCol] ? r[fechaRespCol].substring(0, 10) : ''
+      });
+    }
+
+    const tasaContacto = respondidos > 0 ? Math.round(contactados / respondidos * 100) : 0;
+
+    // KPIs
+    const kpiEl = document.getElementById('fisc-kpis');
+    kpiEl.innerHTML =
+      '<div class="kpi"><div class="kpi-value">' + total + '</div><div class="kpi-label">WA enviados</div></div>' +
+      '<div class="kpi"><div class="kpi-value">' + respondidos + '</div><div class="kpi-label">Respondieron</div></div>' +
+      '<div class="kpi"><div class="kpi-value" style="color:#059669">' + contactados + '</div><div class="kpi-label">Sí contactados</div></div>' +
+      '<div class="kpi"><div class="kpi-value" style="color:#EF4444">' + noContactados + '</div><div class="kpi-label">NO contactados</div></div>' +
+      '<div class="kpi"><div class="kpi-value" style="color:' + (tasaContacto >= 70 ? '#059669' : tasaContacto >= 40 ? '#F59E0B' : '#EF4444') + '">' + tasaContacto + '%</div><div class="kpi-label">Tasa de contacto</div></div>';
+
+    // Zona table
+    const zonaTbl = document.getElementById('fisc-zona-table');
+    let zhtml = '';
+    for (const [zona, z] of Object.entries(byZona)) {
+      const pct = z.respondidos > 0 ? Math.round(z.si / z.respondidos * 100) : 0;
+      const pctClass = pct >= 70 ? 'g' : (pct >= 40 ? 'y' : 'rd');
+      zhtml += '<tr><td class="b">' + zona + '</td><td>' + z.corredor + '</td>';
+      zhtml += '<td class="r">' + z.enviados + '</td><td class="r">' + z.respondidos + '</td>';
+      zhtml += '<td class="r g">' + z.si + '</td><td class="r rd">' + z.no + '</td><td class="r y">' + z.nc + '</td>';
+      zhtml += '<td class="r ' + pctClass + '">' + pct + '%</td></tr>';
+    }
+    // Total row
+    zhtml += '<tr class="total"><td>TOTAL</td><td></td>';
+    zhtml += '<td class="r">' + total + '</td><td class="r">' + respondidos + '</td>';
+    zhtml += '<td class="r">' + contactados + '</td><td class="r">' + noContactados + '</td><td class="r">' + noContestaron + '</td>';
+    zhtml += '<td class="r" style="font-weight:800;color:' + (tasaContacto >= 70 ? '#059669' : '#EF4444') + '">' + tasaContacto + '%</td></tr>';
+    zonaTbl.innerHTML = zhtml;
+
+    // Detail table
+    const detTbl = document.getElementById('fisc-detail-table');
+    let dhtml = '';
+    details.reverse().forEach(function(d) {
+      const respClass = d.respuesta === 'SI_CONTACTADO' ? 'g' : (d.respuesta === 'NO_CONTACTADO' ? 'rd' : (d.respuesta === 'NO_CONTESTO' ? 'y' : ''));
+      const respText = d.respuesta === 'SI_CONTACTADO' ? '✅ Contactado' : (d.respuesta === 'NO_CONTACTADO' ? '❌ No contactado' : (d.respuesta === 'NO_CONTESTO' ? '📞 No contestó' : (d.respuesta ? d.respuesta : '⏳ Esperando')));
+      dhtml += '<tr><td class="b">' + d.nombre + '</td><td>' + d.zona + '</td><td>' + d.corredor + '</td>';
+      dhtml += '<td>' + d.fechaLead + '</td><td>' + d.fechaEnvio + '</td>';
+      dhtml += '<td class="' + respClass + '" style="font-weight:700">' + respText + '</td>';
+      dhtml += '<td>' + d.fechaResp + '</td></tr>';
+    });
+    detTbl.innerHTML = dhtml;
+
+    // Alert if low contact rate
+    const alertEl = document.getElementById('fisc-alert');
+    if (noContactados > 0 && respondidos > 0) {
+      alertEl.innerHTML = '<div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:14px;"><h3 style="font-size:13px;font-weight:800;color:#991B1B;margin-bottom:6px;">⚠️ ' + noContactados + ' leads reportan NO haber sido contactados</h3><p style="font-size:11px;color:#991B1B;line-height:1.8;">De los ' + respondidos + ' leads que respondieron, ' + noContactados + ' dicen que nadie los contactó. Tasa de contacto real: <strong>' + tasaContacto + '%</strong>. Revisar con los corredores de las zonas afectadas.</p></div>';
+    }
+  } catch (e) {
+    console.error('Fiscalización error:', e);
+  }
+}
+
+// Hook everything together
+async function fetchAll() {
+  await fetchDataWithCampaignAnalysis();
+  await renderFiscalizacion();
+}
+
+fetchAll();
+setInterval(fetchAll, 5 * 60 * 1000);
 </script>
 </body>
 </html>

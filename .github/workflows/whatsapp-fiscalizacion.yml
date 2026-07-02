@@ -1,0 +1,25 @@
+name: Fiscalización de Leads WhatsApp
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 11:00 AM Chile (UTC-3) — 24h después de los leads del día anterior
+  workflow_dispatch:       # Manual trigger para testing
+
+jobs:
+  fiscalizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Enviar WhatsApp de fiscalización
+        run: node scripts/whatsapp-fiscalizacion.js
+        env:
+          TWILIO_SID: ${{ secrets.TWILIO_SID }}
+          TWILIO_TOKEN: ${{ secrets.TWILIO_TOKEN }}
+          TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+          APPS_SCRIPT_WEBHOOK: ${{ secrets.APPS_SCRIPT_WEBHOOK }}
