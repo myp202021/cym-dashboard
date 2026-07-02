@@ -189,8 +189,8 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 
   <!-- Análisis cambio de campañas 13 junio -->
   <div class="section">
-    <div class="section-title">Impacto del cambio de campa&ntilde;as — 18 de junio 2026</div>
-    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">El 18 de junio se modificaron las campa&ntilde;as de todas las comunas (foco en casas). Esta secci&oacute;n compara los leads antes vs despu&eacute;s del cambio para medir el impacto real.</p>
+    <div class="section-title">Impacto del cambio de campa&ntilde;as (auto-detectado)</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Se detecta autom&aacute;ticamente cu&aacute;ndo las campa&ntilde;as cambiaron a &quot;Modificado/Modificaci&oacute;n&quot; en cada comuna. Esta secci&oacute;n compara los leads antes vs despu&eacute;s del cambio para medir el impacto real.</p>
 
     <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;" id="campaign-change-kpis"></div>
 
@@ -853,7 +853,16 @@ function render(data, total, leadsByWeek, propertyLeads, gastoMayo, gastoJunio) 
 // ANÁLISIS CAMBIO DE CAMPAÑAS — 13 JUNIO 2026
 // ============================================================
 async function renderCampaignChange(allLeads) {
-  const CHANGE_DATE = '2026-06-18';
+  // Auto-detect change date: first lead with "Modific" in campaign name
+  const modLeads = allLeads.filter(l => l.campaign && l.campaign.indexOf('Modific') >= 0);
+  modLeads.sort((a, b) => a.date.localeCompare(b.date));
+  const CHANGE_DATE = modLeads.length > 0 ? modLeads[0].date : null;
+
+  if (!CHANGE_DATE) {
+    document.getElementById('campaign-change-kpis').innerHTML = '<div class="kpi" style="grid-column:span 4"><div class="kpi-label">No se detectaron cambios de campaña (campañas "Modificado" no encontradas)</div></div>';
+    return;
+  }
+
   const COMMUNES = {
     'LAS CONDES': 'Las Condes',
     'LA DEHESA': 'La Dehesa',
@@ -862,6 +871,13 @@ async function renderCampaignChange(allLeads) {
     'LA REINA': 'La Reina',
     'DEPARTAMENTOS': 'Deptos'
   };
+
+  // Per-commune: find exact transition date
+  const transitionDates = {};
+  for (const [sheet, display] of Object.entries(COMMUNES)) {
+    const sheetMods = modLeads.filter(l => l.sheet === sheet);
+    transitionDates[sheet] = sheetMods.length > 0 ? sheetMods[0].date : CHANGE_DATE;
+  }
 
   const before = allLeads.filter(l => l.date < CHANGE_DATE);
   const after = allLeads.filter(l => l.date >= CHANGE_DATE);
@@ -873,11 +889,13 @@ async function renderCampaignChange(allLeads) {
   if (kpiEl) {
     const beforeAvg = (before.length / beforeDays).toFixed(1);
     const afterAvg = (after.length / afterDays).toFixed(1);
-    const change = Math.round((afterAvg / beforeAvg - 1) * 100);
+    const change = beforeAvg > 0 ? Math.round((afterAvg / beforeAvg - 1) * 100) : 0;
+    const changeDate = new Date(CHANGE_DATE + 'T12:00:00');
+    const changeDateStr = changeDate.toLocaleDateString('es-CL', { day: 'numeric', month: 'short' });
     kpiEl.innerHTML =
-      '<div class="kpi"><div class="kpi-value">' + before.length + '</div><div class="kpi-label">Leads antes<br>('+beforeDays+' días)</div></div>' +
-      '<div class="kpi"><div class="kpi-value">' + beforeAvg + '</div><div class="kpi-label">Leads/día<br>antes</div></div>' +
-      '<div class="kpi"><div class="kpi-value">' + after.length + '</div><div class="kpi-label">Leads después<br>('+afterDays+' días)</div></div>' +
+      '<div class="kpi"><div class="kpi-value" style="font-size:16px">' + changeDateStr + '</div><div class="kpi-label">Fecha cambio<br>(auto-detectada)</div></div>' +
+      '<div class="kpi"><div class="kpi-value">' + beforeAvg + '</div><div class="kpi-label">Leads/día<br>antes (' + beforeDays + 'd)</div></div>' +
+      '<div class="kpi"><div class="kpi-value">' + afterAvg + '</div><div class="kpi-label">Leads/día<br>después (' + afterDays + 'd)</div></div>' +
       '<div class="kpi"><div class="kpi-value" style="color:' + (change >= 0 ? '#059669' : '#EF4444') + '">' + (change >= 0 ? '+' : '') + change + '%</div><div class="kpi-label">Cambio<br>leads/día</div></div>';
   }
 
@@ -902,7 +920,8 @@ async function renderCampaignChange(allLeads) {
     if (isDown) { verdict = '<span style="color:#EF4444;font-weight:700">▼ ' + pctChange + '%</span>'; losers.push(display + ' (' + pctChange + '%)'); }
 
     html += '<tr>';
-    html += '<td class="b">' + display + '</td>';
+    const transDate = new Date(transitionDates[sheet] + 'T12:00:00').toLocaleDateString('es-CL', {day:'numeric',month:'short'});
+    html += '<td class="b">' + display + ' <span style="font-size:9px;color:#94A3B8;font-weight:400">(' + transDate + ')</span></td>';
     html += '<td class="r">' + b.length + '</td>';
     html += '<td class="r">' + bDay + '</td>';
     html += '<td class="r">' + a.length + '</td>';
