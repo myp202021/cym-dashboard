@@ -122,12 +122,14 @@ let fiscSha = null;
     process.exit(1);
   }
 
-  // Window: leads between 23 and 25 hours ago (exact 24h targeting)
+  // Leads con 24+ horas de antigüedad que no han recibido WA
+  // El cron solo corre en horario de oficina (9-17 Chile, L-V)
+  // Un lead de las 3AM no se manda a las 9AM del mismo día (6h),
+  // se manda cuando tenga 24h+ Y sea horario de oficina
   const now = new Date();
-  const windowStart = new Date(now.getTime() - 25 * 60 * 60 * 1000); // 25h ago
-  const windowEnd = new Date(now.getTime() - 23 * 60 * 60 * 1000);   // 23h ago
+  const minAge = new Date(now.getTime() - 24 * 60 * 60 * 1000); // al menos 24h de antigüedad
 
-  console.log(`Window: ${windowStart.toISOString()} to ${windowEnd.toISOString()}\n`);
+  console.log(`Enviando WA a leads anteriores a ${minAge.toISOString()} (24h+ de antigüedad)\n`);
 
   // Collect leads from all sheets
   let allLeads = [];
@@ -148,13 +150,13 @@ let fiscSha = null;
       const row = rows[i];
       if (!row[dateCol]) continue;
 
-      // Parse lead datetime (Meta uses UTC-5 offset in created_time)
+      // Parse lead datetime
       const leadDateStr = row[dateCol];
       const leadDate = new Date(leadDateStr);
       if (isNaN(leadDate.getTime())) continue;
 
-      // Only leads in the 24h window (23-25 hours ago)
-      if (leadDate < windowStart || leadDate > windowEnd) continue;
+      // Solo leads con 24+ horas de antigüedad
+      if (leadDate > minAge) continue;
 
       const phone = row[phoneCol] || '';
       if (phone.replace(/[^0-9]/g, '').length < 8) continue;
