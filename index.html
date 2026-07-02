@@ -964,7 +964,8 @@ async function fetchDataWithCampaignAnalysis() {
       const dateCol = headers.indexOf('created_time');
       for (let i = 1; i < rows.length; i++) {
         if (!rows[i][dateCol]) continue;
-        allLeads.push({ date: rows[i][dateCol].substring(0, 10), sheet: s.sheet });
+        const campCol = headers.indexOf('campaign_name');
+        allLeads.push({ date: rows[i][dateCol].substring(0, 10), sheet: s.sheet, campaign: campCol >= 0 ? (rows[i][campCol] || '') : '' });
       }
     }
     await renderCampaignChange(allLeads);
