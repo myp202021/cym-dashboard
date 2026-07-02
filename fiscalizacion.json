@@ -1,1 +1,18 @@
-{"updated":"2026-07-02T21:00:00Z","leads":[]}
+{
+  "updated": "2026-07-02T21:45:00.889Z",
+  "leads": [
+    {
+      "fecha_lead": "2026-07-02",
+      "nombre": "Christopher Muller (TEST)",
+      "telefono": "+56992258137",
+      "zona": "LAS CONDES",
+      "tipo_propiedad": "casa",
+      "corredor": "Anita Hernández",
+      "wa_fecha_envio": "2026-07-02T21:45:00.888Z",
+      "wa_estado": "ENVIADO",
+      "wa_respuesta": "",
+      "wa_respuesta_raw": "",
+      "wa_fecha_respuesta": ""
+    }
+  ]
+}
