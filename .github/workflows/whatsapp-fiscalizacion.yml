@@ -2,7 +2,7 @@ name: Fiscalización de Leads WhatsApp
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # 11:00 AM Chile (UTC-3) — 24h después de los leads del día anterior
+    - cron: '0 * * * *'   # Cada hora — envía WA a leads que tengan 24h de antigüedad
   workflow_dispatch:       # Manual trigger para testing
 
 jobs:

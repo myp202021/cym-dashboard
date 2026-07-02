@@ -122,15 +122,12 @@ let fiscSha = null;
     process.exit(1);
   }
 
-  // Calculate yesterday's date range (24h ago)
+  // Window: leads between 23 and 25 hours ago (exact 24h targeting)
   const now = new Date();
-  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-  const yesterdayStr = yesterday.toISOString().substring(0, 10);
-  // Also check day before (in case of timezone offset — leads use UTC-5)
-  const dayBefore = new Date(now.getTime() - 48 * 60 * 60 * 1000);
-  const dayBeforeStr = dayBefore.toISOString().substring(0, 10);
+  const windowStart = new Date(now.getTime() - 25 * 60 * 60 * 1000); // 25h ago
+  const windowEnd = new Date(now.getTime() - 23 * 60 * 60 * 1000);   // 23h ago
 
-  console.log(`Looking for leads from ${dayBeforeStr} to ${yesterdayStr}\n`);
+  console.log(`Window: ${windowStart.toISOString()} to ${windowEnd.toISOString()}\n`);
 
   // Collect leads from all sheets
   let allLeads = [];
@@ -151,9 +148,13 @@ let fiscSha = null;
       const row = rows[i];
       if (!row[dateCol]) continue;
 
-      const leadDate = row[dateCol].substring(0, 10);
-      // Only leads from yesterday (24h window)
-      if (leadDate !== yesterdayStr && leadDate !== dayBeforeStr) continue;
+      // Parse lead datetime (Meta uses UTC-5 offset in created_time)
+      const leadDateStr = row[dateCol];
+      const leadDate = new Date(leadDateStr);
+      if (isNaN(leadDate.getTime())) continue;
+
+      // Only leads in the 24h window (23-25 hours ago)
+      if (leadDate < windowStart || leadDate > windowEnd) continue;
 
       const phone = row[phoneCol] || '';
       if (phone.replace(/[^0-9]/g, '').length < 8) continue;
@@ -174,12 +175,19 @@ let fiscSha = null;
     console.log(`  ${sheetName}: ${count} leads to contact`);
   }
 
-  console.log(`\nTotal leads to send WA: ${allLeads.length}\n`);
-
   // Load fiscalizacion data
   const loaded = await loadFiscData();
   fiscData = { leads: loaded.leads || [] };
   fiscSha = loaded.sha;
+
+  // Deduplicate: remove leads that already received WA (by phone)
+  const alreadySent = new Set(fiscData.leads.map(l => (l.telefono || '').replace(/[^0-9]/g, '').slice(-8)));
+  allLeads = allLeads.filter(l => {
+    const digits = l.phone.replace(/[^0-9]/g, '').slice(-8);
+    return !alreadySent.has(digits);
+  });
+
+  console.log(`\nTotal leads to send WA (after dedup): ${allLeads.length}\n`);
 
   if (allLeads.length === 0) {
     console.log('No leads to process. Done.');
