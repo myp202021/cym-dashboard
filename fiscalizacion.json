@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02T21:45:00.889Z",
+  "updated": "2026-07-02T21:45:49.207Z",
   "leads": [
     {
       "fecha_lead": "2026-07-02",
@@ -10,9 +10,9 @@
       "corredor": "Anita Hernández",
       "wa_fecha_envio": "2026-07-02T21:45:00.888Z",
       "wa_estado": "ENVIADO",
-      "wa_respuesta": "",
-      "wa_respuesta_raw": "",
-      "wa_fecha_respuesta": ""
+      "wa_respuesta": "NO_CONTESTO",
+      "wa_respuesta_raw": "3",
+      "wa_fecha_respuesta": "2026-07-02T21:45:49.207Z"
     }
   ]
 }
