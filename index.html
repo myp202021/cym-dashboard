@@ -63,7 +63,11 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 <body>
 <div class="container">
 
-<div class="dash-header">
+<div style="display:flex;gap:8px;padding:12px 0;">
+    <a href="/" style="padding:8px 16px;background:#4F46E5;color:#fff;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;">Dashboard</a>
+    <a href="/fiscalizacion.html" style="padding:8px 16px;background:#fff;color:#4F46E5;border:1px solid #4F46E5;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;">Fiscalización WhatsApp</a>
+  </div>
+  <div class="dash-header">
   <div>
     <h1>C&M Propiedades</h1>
     <p>Dashboard de Performance — Meta Ads por Comuna</p>
@@ -268,45 +272,6 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
 
 </div>
 
-  <!-- Fiscalización WhatsApp -->
-  <div class="section">
-    <div class="section-title">Fiscalizaci&oacute;n de leads — &iquest;Los contactaron?</div>
-    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">Sistema autom&aacute;tico: a las 24h de recibir un lead, se le env&iacute;a WhatsApp preguntando si fue contactado. Las respuestas se tabulan en tiempo real.</p>
-
-    <div class="kpi-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px;" id="fisc-kpis"></div>
-
-    <div class="table-wrap"><table>
-      <thead><tr>
-        <th>Zona</th>
-        <th>Corredor</th>
-        <th class="r">Leads enviados</th>
-        <th class="r">Respondieron</th>
-        <th class="r">Contactados</th>
-        <th class="r">NO contactados</th>
-        <th class="r">No contestaron</th>
-        <th class="r">% Contacto</th>
-      </tr></thead>
-      <tbody id="fisc-zona-table"></tbody>
-    </table></div>
-
-    <div style="margin-top:16px;">
-      <p style="font-size:13px;font-weight:800;color:#1a202c;margin-bottom:12px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:16px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:2px;display:inline-block;"></span>Detalle de respuestas</p>
-      <div class="table-wrap"><table>
-        <thead><tr>
-          <th>Nombre</th>
-          <th>Zona</th>
-          <th>Corredor</th>
-          <th>Fecha lead</th>
-          <th>WA enviado</th>
-          <th>Respuesta</th>
-          <th>Fecha resp.</th>
-        </tr></thead>
-        <tbody id="fisc-detail-table"></tbody>
-      </table></div>
-    </div>
-
-    <div id="fisc-alert" style="margin-top:12px;"></div>
-  </div>
 
 <div class="footer">
   <p>Dashboard generado por Muller & P&eacute;rez &middot; Datos en vivo desde <a href="https://docs.google.com/spreadsheets/d/11lsrC9TrlAlKNJ4qIiBzsiEY1gTe_tomENTjmW0duwE/edit?gid=524458128" target="_blank" style="color:#818CF8;">Google Sheets</a></p>
@@ -1113,14 +1078,8 @@ async function renderFiscalizacion() {
   }
 }
 
-// Hook everything together
-async function fetchAll() {
-  await fetchDataWithCampaignAnalysis();
-  await renderFiscalizacion();
-}
-
-fetchAll();
-setInterval(fetchAll, 5 * 60 * 1000);
+fetchDataWithCampaignAnalysis();
+setInterval(fetchDataWithCampaignAnalysis, 5 * 60 * 1000);
 </script>
 </body>
 </html>

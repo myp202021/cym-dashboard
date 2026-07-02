@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiscalización de Leads — CyM Propiedades</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1a202c; line-height: 1.5; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.header { padding: 24px 0; border-bottom: 1px solid #E2E8F0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.header h1 { font-size: 24px; font-weight: 900; letter-spacing: -0.8px; }
+.header a { font-size: 13px; color: #4F46E5; text-decoration: none; font-weight: 600; }
+.header a:hover { text-decoration: underline; }
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
+@media (max-width: 768px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+.kpi { background: #fff; border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #4F46E5, #7C3AED); }
+.kpi-value { font-size: 28px; font-weight: 900; margin-bottom: 4px; }
+.kpi-label { font-size: 10px; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.section { padding: 24px 0; border-bottom: 1px solid #E2E8F0; }
+.section-title { font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(135deg, #4F46E5, #7C3AED); border-radius: 2px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; font-size: 13px; }
+thead th { background: #F8FAFC; color: #64748B; padding: 10px 14px; text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #E2E8F0; }
+thead th.r { text-align: right; }
+tbody td { padding: 10px 14px; border-bottom: 1px solid #F1F5F9; }
+tbody td.r { text-align: right; }
+tbody td.b { font-weight: 700; }
+tbody tr:hover { background: #F8FAFC; }
+.g { color: #059669; }
+.rd { color: #EF4444; }
+.y { color: #F59E0B; }
+.total td { background: #F1F5F9; font-weight: 800; border-top: 2px solid #E2E8F0; }
+.alert-box { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 12px; padding: 16px; margin-top: 16px; }
+.alert-box h3 { font-size: 14px; font-weight: 800; color: #991B1B; margin-bottom: 6px; }
+.alert-box p { font-size: 12px; color: #991B1B; line-height: 1.7; }
+.empty { text-align: center; padding: 40px; color: #94A3B8; font-size: 14px; }
+.footer { padding: 16px 0; text-align: center; font-size: 11px; color: #94A3B8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div>
+      <h1>Fiscalización de Leads</h1>
+      <p style="font-size:12px;color:#64748B;margin-top:4px;">Sistema automático: 24h después de cada lead, se envía WhatsApp preguntando si fue contactado.</p>
+    </div>
+    <a href="/">← Volver al dashboard principal</a>
+  </div>
+
+  <div class="kpi-grid" id="kpis"><div class="empty">Cargando...</div></div>
+
+  <div class="section">
+    <div class="section-title">Tasa de contacto por zona</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Zona</th><th>Corredor</th><th class="r">Enviados</th><th class="r">Respondieron</th><th class="r">Contactados</th><th class="r">No contactados</th><th class="r">No contestaron</th><th class="r">% Contacto</th></tr></thead>
+      <tbody id="zona-table"><tr><td colspan="8" class="empty">Cargando...</td></tr></tbody>
+    </table></div>
+    <div id="alert-area"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detalle de respuestas</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Nombre</th><th>Zona</th><th>Corredor</th><th>Fecha lead</th><th>WA enviado</th><th>Respuesta</th><th>Fecha resp.</th></tr></thead>
+      <tbody id="detail-table"><tr><td colspan="7" class="empty">Cargando...</td></tr></tbody>
+    </table></div>
+  </div>
+
+  <div class="footer">Fiscalización de Leads · Muller & Pérez · Datos en vivo · Auto-refresh 5 min</div>
+</div>
+
+<script>
+async function loadData() {
+  try {
+    const res = await fetch('/api/twilio-webhook');
+    if (!res.ok) throw new Error('No data');
+    const data = await res.json();
+    render(data.leads || []);
+  } catch (e) {
+    document.getElementById('kpis').innerHTML = '<div class="empty">Sin datos de fiscalización todavía. El sistema enviará el primer WhatsApp cuando un lead tenga 24h de antigüedad.</div>';
+  }
+}
+
+function render(leads) {
+  if (leads.length === 0) {
+    document.getElementById('kpis').innerHTML = '<div class="empty">Sin datos de fiscalización todavía.</div>';
+    return;
+  }
+
+  var total = 0, respondidos = 0, contactados = 0, noContactados = 0, noContestaron = 0;
+  var byZona = {};
+  var details = [];
+
+  leads.forEach(function(l) {
+    if (!l.zona) return;
+    total++;
+    var zona = l.zona;
+    var resp = l.wa_respuesta || '';
+    if (!byZona[zona]) byZona[zona] = { corredor: l.corredor || '', enviados: 0, respondidos: 0, si: 0, no: 0, nc: 0 };
+    byZona[zona].enviados++;
+
+    if (resp) {
+      respondidos++;
+      byZona[zona].respondidos++;
+      if (resp === 'SI_CONTACTADO') { contactados++; byZona[zona].si++; }
+      else if (resp === 'NO_CONTACTADO') { noContactados++; byZona[zona].no++; }
+      else if (resp === 'NO_CONTESTO') { noContestaron++; byZona[zona].nc++; }
+    }
+
+    details.push({
+      nombre: l.nombre || '?', zona: zona, corredor: l.corredor || '',
+      fechaLead: l.fecha_lead || '', fechaEnvio: l.wa_fecha_envio ? l.wa_fecha_envio.substring(0, 10) : '',
+      respuesta: resp, fechaResp: l.wa_fecha_respuesta ? l.wa_fecha_respuesta.substring(0, 10) : ''
+    });
+  });
+
+  var tasa = respondidos > 0 ? Math.round(contactados / respondidos * 100) : 0;
+  var tasaColor = tasa >= 70 ? '#059669' : (tasa >= 40 ? '#F59E0B' : '#EF4444');
+
+  // KPIs
+  document.getElementById('kpis').innerHTML =
+    '<div class="kpi"><div class="kpi-value">' + total + '</div><div class="kpi-label">WA enviados</div></div>' +
+    '<div class="kpi"><div class="kpi-value">' + respondidos + '</div><div class="kpi-label">Respondieron</div></div>' +
+    '<div class="kpi"><div class="kpi-value" style="color:#059669">' + contactados + '</div><div class="kpi-label">Sí contactados</div></div>' +
+    '<div class="kpi"><div class="kpi-value" style="color:#EF4444">' + noContactados + '</div><div class="kpi-label">No contactados</div></div>' +
+    '<div class="kpi"><div class="kpi-value" style="color:' + tasaColor + '">' + tasa + '%</div><div class="kpi-label">Tasa de contacto</div></div>';
+
+  // Zona table
+  var zhtml = '';
+  Object.entries(byZona).forEach(function(e) {
+    var zona = e[0], z = e[1];
+    var pct = z.respondidos > 0 ? Math.round(z.si / z.respondidos * 100) : 0;
+    var cls = pct >= 70 ? 'g' : (pct >= 40 ? 'y' : 'rd');
+    zhtml += '<tr><td class="b">' + zona + '</td><td>' + z.corredor + '</td>';
+    zhtml += '<td class="r">' + z.enviados + '</td><td class="r">' + z.respondidos + '</td>';
+    zhtml += '<td class="r g">' + z.si + '</td><td class="r rd">' + z.no + '</td><td class="r y">' + z.nc + '</td>';
+    zhtml += '<td class="r ' + cls + '" style="font-weight:800">' + pct + '%</td></tr>';
+  });
+  zhtml += '<tr class="total"><td>TOTAL</td><td></td><td class="r">' + total + '</td><td class="r">' + respondidos + '</td>';
+  zhtml += '<td class="r">' + contactados + '</td><td class="r">' + noContactados + '</td><td class="r">' + noContestaron + '</td>';
+  zhtml += '<td class="r" style="color:' + tasaColor + '">' + tasa + '%</td></tr>';
+  document.getElementById('zona-table').innerHTML = zhtml;
+
+  // Detail table
+  var dhtml = '';
+  details.reverse().forEach(function(d) {
+    var cls = d.respuesta === 'SI_CONTACTADO' ? 'g' : (d.respuesta === 'NO_CONTACTADO' ? 'rd' : (d.respuesta === 'NO_CONTESTO' ? 'y' : ''));
+    var txt = d.respuesta === 'SI_CONTACTADO' ? '✅ Contactado' : (d.respuesta === 'NO_CONTACTADO' ? '❌ No contactado' : (d.respuesta === 'NO_CONTESTO' ? '📞 No contestó' : (d.respuesta ? d.respuesta : '⏳ Esperando')));
+    dhtml += '<tr><td class="b">' + d.nombre + '</td><td>' + d.zona + '</td><td>' + d.corredor + '</td>';
+    dhtml += '<td>' + d.fechaLead + '</td><td>' + d.fechaEnvio + '</td>';
+    dhtml += '<td class="' + cls + '" style="font-weight:700">' + txt + '</td>';
+    dhtml += '<td>' + d.fechaResp + '</td></tr>';
+  });
+  document.getElementById('detail-table').innerHTML = dhtml;
+
+  // Alert
+  if (noContactados > 0 && respondidos > 0) {
+    document.getElementById('alert-area').innerHTML = '<div class="alert-box"><h3>⚠️ ' + noContactados + ' leads reportan NO haber sido contactados</h3><p>De los ' + respondidos + ' que respondieron, ' + noContactados + ' dicen que nadie los contactó. Tasa de contacto real: ' + tasa + '%. Revisar con los corredores.</p></div>';
+  }
+}
+
+loadData();
+setInterval(loadData, 5 * 60 * 1000);
+</script>
+</body>
+</html>
