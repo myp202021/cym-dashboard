@@ -82,33 +82,36 @@ async function sendWhatsApp(to, body) {
   return { ok: !!data.sid, sid: data.sid, error: data.message };
 }
 
-async function registerEnvio(lead) {
-  if (!APPS_SCRIPT_URL) {
-    console.log('  [SKIP] No APPS_SCRIPT_WEBHOOK configured — cannot write to sheet');
-    return;
-  }
+const GH_TOKEN = process.env.GH_TOKEN;
+const REPO = 'myp202021/cym-dashboard';
+const FISC_FILE = 'fiscalizacion.json';
+
+async function loadFiscData() {
+  if (!GH_TOKEN) return { leads: [] };
   try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'registrar_envio',
-        data: {
-          fecha_lead: lead.date,
-          nombre: lead.name,
-          telefono: lead.phone,
-          zona: lead.zona,
-          tipo_propiedad: lead.prop,
-          corredor: ZONAS[lead.zona] ? ZONAS[lead.zona].corredor : '',
-          wa_fecha_envio: new Date().toISOString(),
-          wa_estado: 'ENVIADO'
-        }
-      })
+    const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FISC_FILE}`, {
+      headers: { 'Authorization': 'Bearer ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
     });
-  } catch (e) {
-    console.log('  [WARN] Error writing to sheet:', e.message);
-  }
+    if (!res.ok) return { leads: [], sha: null };
+    const file = await res.json();
+    const content = Buffer.from(file.content, 'base64').toString('utf8');
+    return { ...JSON.parse(content), sha: file.sha };
+  } catch (e) { return { leads: [], sha: null }; }
 }
+
+async function saveFiscData(data, sha) {
+  if (!GH_TOKEN) { console.log('  [SKIP] No GH_TOKEN — cannot save'); return; }
+  const content = Buffer.from(JSON.stringify({ updated: new Date().toISOString(), leads: data.leads }, null, 2)).toString('base64');
+  await fetch(`https://api.github.com/repos/${REPO}/contents/${FISC_FILE}`, {
+    method: 'PUT',
+    headers: { 'Authorization': 'Bearer ' + GH_TOKEN, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: '📱 Fiscalización: ' + data.leads.length + ' leads', content, sha })
+  });
+}
+
+// Global fiscalizacion data — loaded once, saved at end
+let fiscData = null;
+let fiscSha = null;
 
 (async function () {
   console.log('=== Fiscalización de Leads CyM ===');
@@ -173,6 +176,11 @@ async function registerEnvio(lead) {
 
   console.log(`\nTotal leads to send WA: ${allLeads.length}\n`);
 
+  // Load fiscalizacion data
+  const loaded = await loadFiscData();
+  fiscData = { leads: loaded.leads || [] };
+  fiscSha = loaded.sha;
+
   if (allLeads.length === 0) {
     console.log('No leads to process. Done.');
     process.exit(0);
@@ -187,7 +195,20 @@ async function registerEnvio(lead) {
     const result = await sendWhatsApp(lead.phone, msg);
     if (result.ok) {
       console.log(`  ✅ Sent: ${result.sid}`);
-      await registerEnvio(lead);
+      // Register in fiscalizacion.json
+      fiscData.leads.push({
+        fecha_lead: lead.date,
+        nombre: lead.name,
+        telefono: lead.phone,
+        zona: lead.zona,
+        tipo_propiedad: lead.prop,
+        corredor: ZONAS[lead.zona] ? ZONAS[lead.zona].corredor : '',
+        wa_fecha_envio: new Date().toISOString(),
+        wa_estado: 'ENVIADO',
+        wa_respuesta: '',
+        wa_respuesta_raw: '',
+        wa_fecha_respuesta: ''
+      });
       sent++;
     } else {
       console.log(`  ❌ Failed: ${result.error}`);
@@ -196,6 +217,12 @@ async function registerEnvio(lead) {
 
     // Rate limit: 1 message per second
     await new Promise(r => setTimeout(r, 1500));
+  }
+
+  // Save fiscalizacion data
+  if (sent > 0) {
+    console.log('\nSaving fiscalizacion.json...');
+    await saveFiscData(fiscData, fiscSha);
   }
 
   console.log(`\n=== Done ===`);

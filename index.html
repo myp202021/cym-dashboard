@@ -1017,40 +1017,29 @@ async function fetchDataWithCampaignAnalysis() {
 // ============================================================
 async function renderFiscalizacion() {
   try {
-    const text = await fetchSheet('FISCALIZACION');
-    if (!text) {
-      document.getElementById('fisc-kpis').innerHTML = '<div class="kpi" style="grid-column:span 5"><div class="kpi-label">La pestaña FISCALIZACION aún no existe. Se creará automáticamente cuando se envíe el primer WhatsApp de fiscalización.</div></div>';
+    // Load from fiscalizacion.json (via API or direct)
+    const res = await fetch('/api/twilio-webhook');
+    if (!res.ok) {
+      document.getElementById('fisc-kpis').innerHTML = '<div class="kpi" style="grid-column:span 5"><div class="kpi-label">Sin datos de fiscalización todavía. El sistema enviará el primer WhatsApp mañana a las 11 AM.</div></div>';
       return;
     }
-    const rows = parseCSV(text);
-    if (rows.length < 2) {
+    const data = await res.json();
+    const leads = data.leads || [];
+    if (leads.length === 0) {
       document.getElementById('fisc-kpis').innerHTML = '<div class="kpi" style="grid-column:span 5"><div class="kpi-label">Sin datos de fiscalización todavía. El sistema enviará el primer WhatsApp mañana a las 11 AM.</div></div>';
       return;
     }
 
-    const headers = rows[0];
-    const zonaCol = headers.indexOf('zona');
-    const corredorCol = headers.indexOf('corredor');
-    const estadoCol = headers.indexOf('wa_estado');
-    const respCol = headers.indexOf('wa_respuesta');
-    const nombreCol = headers.indexOf('nombre');
-    const fechaLeadCol = headers.indexOf('fecha_lead');
-    const fechaEnvioCol = headers.indexOf('wa_fecha_envio');
-    const fechaRespCol = headers.indexOf('wa_fecha_respuesta');
-
-    // Parse all rows
     let total = 0, respondidos = 0, contactados = 0, noContactados = 0, noContestaron = 0;
     const byZona = {};
     const details = [];
 
-    for (let i = 1; i < rows.length; i++) {
-      const r = rows[i];
-      if (!r[zonaCol]) continue;
+    for (const l of leads) {
+      if (!l.zona) continue;
       total++;
-
-      const zona = r[zonaCol];
-      const resp = r[respCol] || '';
-      if (!byZona[zona]) byZona[zona] = { corredor: r[corredorCol] || '', enviados: 0, respondidos: 0, si: 0, no: 0, nc: 0 };
+      const zona = l.zona;
+      const resp = l.wa_respuesta || '';
+      if (!byZona[zona]) byZona[zona] = { corredor: l.corredor || '', enviados: 0, respondidos: 0, si: 0, no: 0, nc: 0 };
       byZona[zona].enviados++;
 
       if (resp) {
@@ -1062,13 +1051,13 @@ async function renderFiscalizacion() {
       }
 
       details.push({
-        nombre: r[nombreCol] || '?',
+        nombre: l.nombre || '?',
         zona: zona,
-        corredor: r[corredorCol] || '',
-        fechaLead: r[fechaLeadCol] || '',
-        fechaEnvio: r[fechaEnvioCol] ? r[fechaEnvioCol].substring(0, 10) : '',
+        corredor: l.corredor || '',
+        fechaLead: l.fecha_lead || '',
+        fechaEnvio: l.wa_fecha_envio ? l.wa_fecha_envio.substring(0, 10) : '',
         respuesta: resp,
-        fechaResp: r[fechaRespCol] ? r[fechaRespCol].substring(0, 10) : ''
+        fechaResp: l.wa_fecha_respuesta ? l.wa_fecha_respuesta.substring(0, 10) : ''
       });
     }
 
