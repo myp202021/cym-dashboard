@@ -187,6 +187,29 @@ tbody tr.total td { background: #EEF2FF; font-weight: 800; color: #1a202c; borde
     </table></div>
   </div>
 
+  <!-- Análisis cambio de campañas 13 junio -->
+  <div class="section">
+    <div class="section-title">Impacto del cambio de campa&ntilde;as — 13 de junio 2026</div>
+    <p style="font-size:11px;color:#64748B;margin:-8px 0 16px;">El 13 de junio se modificaron las campa&ntilde;as de todas las comunas. Esta secci&oacute;n compara los leads antes vs despu&eacute;s del cambio para medir el impacto real.</p>
+
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;" id="campaign-change-kpis"></div>
+
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Comuna</th>
+        <th class="r">Leads antes</th><th class="r">Leads/d&iacute;a antes</th>
+        <th class="r">Leads despu&eacute;s</th><th class="r">Leads/d&iacute;a despu&eacute;s</th>
+        <th class="r">Cambio</th><th class="r">Veredicto</th>
+      </tr></thead>
+      <tbody id="campaign-change-table"></tbody>
+    </table></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+      <div id="campaign-change-winners" style="background:#ECFDF5;border:1px solid #A7F3D0;border-radius:12px;padding:14px;"></div>
+      <div id="campaign-change-losers" style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:14px;"></div>
+    </div>
+  </div>
+
   <!-- Funnel de calidad -->
   <div class="section">
     <div class="section-title">Funnel de calidad — Pr&oacute;ximos pasos a medir</div>
@@ -826,9 +849,112 @@ function render(data, total, leadsByWeek, propertyLeads, gastoMayo, gastoJunio) 
   }
 }
 
-// Cargar al abrir + auto-refresh cada 5 minutos
-fetchData();
-setInterval(fetchData, 5 * 60 * 1000);
+// ============================================================
+// ANÁLISIS CAMBIO DE CAMPAÑAS — 13 JUNIO 2026
+// ============================================================
+async function renderCampaignChange(allLeads) {
+  const CHANGE_DATE = '2026-06-13';
+  const COMMUNES = {
+    'LAS CONDES': 'Las Condes',
+    'LA DEHESA': 'La Dehesa',
+    'VITACURA': 'Vitacura',
+    'SCA': 'SCA',
+    'LA REINA': 'La Reina',
+    'DEPARTAMENTOS': 'Deptos'
+  };
+
+  const before = allLeads.filter(l => l.date < CHANGE_DATE);
+  const after = allLeads.filter(l => l.date >= CHANGE_DATE);
+  const beforeDays = new Set(before.map(l => l.date)).size || 1;
+  const afterDays = new Set(after.map(l => l.date)).size || 1;
+
+  // KPIs
+  const kpiEl = document.getElementById('campaign-change-kpis');
+  if (kpiEl) {
+    const beforeAvg = (before.length / beforeDays).toFixed(1);
+    const afterAvg = (after.length / afterDays).toFixed(1);
+    const change = Math.round((afterAvg / beforeAvg - 1) * 100);
+    kpiEl.innerHTML =
+      '<div class="kpi"><div class="kpi-value">' + before.length + '</div><div class="kpi-label">Leads antes<br>('+beforeDays+' días)</div></div>' +
+      '<div class="kpi"><div class="kpi-value">' + beforeAvg + '</div><div class="kpi-label">Leads/día<br>antes</div></div>' +
+      '<div class="kpi"><div class="kpi-value">' + after.length + '</div><div class="kpi-label">Leads después<br>('+afterDays+' días)</div></div>' +
+      '<div class="kpi"><div class="kpi-value" style="color:' + (change >= 0 ? '#059669' : '#EF4444') + '">' + (change >= 0 ? '+' : '') + change + '%</div><div class="kpi-label">Cambio<br>leads/día</div></div>';
+  }
+
+  // Table by commune
+  const tbl = document.getElementById('campaign-change-table');
+  if (!tbl) return;
+  let html = '';
+  const winners = [];
+  const losers = [];
+
+  for (const [sheet, display] of Object.entries(COMMUNES)) {
+    const b = before.filter(l => l.sheet === sheet);
+    const a = after.filter(l => l.sheet === sheet);
+    const bDay = (b.length / beforeDays).toFixed(1);
+    const aDay = (a.length / afterDays).toFixed(1);
+    const pctChange = bDay > 0 ? Math.round((aDay / bDay - 1) * 100) : 0;
+    const isUp = pctChange > 10;
+    const isDown = pctChange < -10;
+
+    let verdict = '<span style="color:#94A3B8">Estable</span>';
+    if (isUp) { verdict = '<span style="color:#059669;font-weight:700">▲ +' + pctChange + '%</span>'; winners.push(display + ' (+' + pctChange + '%)'); }
+    if (isDown) { verdict = '<span style="color:#EF4444;font-weight:700">▼ ' + pctChange + '%</span>'; losers.push(display + ' (' + pctChange + '%)'); }
+
+    html += '<tr>';
+    html += '<td class="b">' + display + '</td>';
+    html += '<td class="r">' + b.length + '</td>';
+    html += '<td class="r">' + bDay + '</td>';
+    html += '<td class="r">' + a.length + '</td>';
+    html += '<td class="r">' + aDay + '</td>';
+    html += '<td class="r" style="color:' + (pctChange >= 0 ? '#059669' : '#EF4444') + ';font-weight:700">' + (pctChange >= 0 ? '+' : '') + pctChange + '%</td>';
+    html += '<td class="r">' + verdict + '</td>';
+    html += '</tr>';
+  }
+
+  // Totals
+  const bDay = (before.length / beforeDays).toFixed(1);
+  const aDay = (after.length / afterDays).toFixed(1);
+  const totalPct = Math.round((aDay / bDay - 1) * 100);
+  html += '<tr class="total"><td>TOTAL</td>';
+  html += '<td class="r">' + before.length + '</td><td class="r">' + bDay + '</td>';
+  html += '<td class="r">' + after.length + '</td><td class="r">' + aDay + '</td>';
+  html += '<td class="r" style="color:' + (totalPct >= 0 ? '#059669' : '#EF4444') + ';font-weight:700">' + (totalPct >= 0 ? '+' : '') + totalPct + '%</td>';
+  html += '<td class="r">—</td></tr>';
+  tbl.innerHTML = html;
+
+  // Winners / Losers
+  const wEl = document.getElementById('campaign-change-winners');
+  const lEl = document.getElementById('campaign-change-losers');
+  if (wEl) wEl.innerHTML = '<h3 style="font-size:13px;font-weight:800;color:#065F46;margin-bottom:6px;">Comunas que mejoraron</h3><p style="font-size:12px;color:#065F46;line-height:1.8">' + (winners.length > 0 ? winners.join('<br>') : 'Ninguna con mejora >10%') + '</p>';
+  if (lEl) lEl.innerHTML = '<h3 style="font-size:13px;font-weight:800;color:#991B1B;margin-bottom:6px;">Comunas que bajaron</h3><p style="font-size:12px;color:#991B1B;line-height:1.8">' + (losers.length > 0 ? losers.join('<br>') : 'Ninguna con baja >10%') + '</p>';
+}
+
+// Hook into fetchData — call after leads are loaded
+const _origFetchData = fetchData;
+async function fetchDataWithCampaignAnalysis() {
+  await _origFetchData();
+  // Collect all leads with dates and sheets
+  try {
+    const allLeads = [];
+    for (const s of LEAD_SHEETS) {
+      const text = await fetchSheet(s.sheet);
+      if (!text) continue;
+      const rows = parseCSV(text);
+      const headers = rows[0];
+      const dateCol = headers.indexOf('created_time');
+      for (let i = 1; i < rows.length; i++) {
+        if (!rows[i][dateCol]) continue;
+        allLeads.push({ date: rows[i][dateCol].substring(0, 10), sheet: s.sheet });
+      }
+    }
+    await renderCampaignChange(allLeads);
+  } catch(e) { console.error('Campaign analysis error:', e); }
+}
+
+// Replace the original call
+fetchDataWithCampaignAnalysis();
+setInterval(fetchDataWithCampaignAnalysis, 5 * 60 * 1000);
 </script>
 </body>
 </html>
