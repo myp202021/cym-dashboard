@@ -58,6 +58,11 @@ function buildMessage(name, zona, prop) {
   return `Hola ${firstName}, te escribimos del equipo de calidad de CyM Propiedades. Hace un día completaste un formulario buscando ${propText} en ${zonaDisplay}. ¿Alguien de nuestro equipo te contactó?\n\n1️⃣ Sí, me contactaron\n2️⃣ No, nadie me contactó\n3️⃣ Me llamaron pero no pude contestar\n\nResponde con el número. Gracias 🙏`;
 }
 
+function buildReminder(name) {
+  const firstName = name.split(' ')[0];
+  return `Hola ${firstName}, ayer te enviamos un mensaje desde CyM Propiedades para saber si te contactaron. ¿Podrías responder con 1, 2 o 3?\n\n1️⃣ Sí, me contactaron\n2️⃣ No, nadie me contactó\n3️⃣ Me llamaron pero no pude contestar\n\nTu respuesta nos ayuda a mejorar el servicio. ¡Gracias! 🙏`;
+}
+
 async function fetchSheet(sheetName) {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&_=${Date.now()}`;
   const res = await fetch(url, { redirect: 'follow' });
@@ -224,13 +229,12 @@ let fiscSha = null;
   console.log(`\nTotal leads en ventana (after dedup): ${totalBeforeCap}`);
   console.log(`Enviando: ${allLeads.length} (cap: ${MAX_MESSAGES_PER_RUN})\n`);
 
-  if (allLeads.length === 0) {
-    console.log('No leads to process. Done.');
-    process.exit(0);
-  }
-
-  // Send WhatsApp messages
+  // Send WhatsApp messages (nuevos)
   let sent = 0, failed = 0, rateLimited = false;
+
+  if (allLeads.length === 0) {
+    console.log('No leads nuevos para enviar.');
+  }
   for (const lead of allLeads) {
     const msg = buildMessage(lead.name, lead.zona, lead.prop);
     console.log(`Sending to ${lead.name} (${lead.phone}) — ${lead.zona}...`);
@@ -272,12 +276,57 @@ let fiscSha = null;
     await new Promise(r => setTimeout(r, 1500));
   }
 
+  // --- INSISTENCIA: leads que recibieron WA hace 24-48h y no respondieron ---
+  console.log('\n--- Insistencia (recordatorio) ---');
+  const REMINDER_MIN_HOURS = 24;
+  const REMINDER_MAX_HOURS = 48;
+  const reminderMin = new Date(now.getTime() - REMINDER_MIN_HOURS * 60 * 60 * 1000);
+  const reminderMax = new Date(now.getTime() - REMINDER_MAX_HOURS * 60 * 60 * 1000);
+
+  let reminders = fiscData.leads.filter(l => {
+    if (l.wa_respuesta) return false;           // ya respondió
+    if (l.wa_insistencia) return false;          // ya se mandó insistencia
+    if (!l.wa_fecha_envio) return false;
+    const envio = new Date(l.wa_fecha_envio);
+    return envio < reminderMin && envio > reminderMax; // entre 24-48h desde envío
+  });
+
+  console.log(`Leads sin respuesta en ventana 24-48h: ${reminders.length}`);
+
+  let reminderSent = 0;
+  for (const lead of reminders) {
+    if (sent + reminderSent >= MAX_MESSAGES_PER_RUN) {
+      console.log('  Cap de mensajes alcanzado, deteniendo insistencias.');
+      break;
+    }
+
+    const msg = buildReminder(lead.nombre);
+    console.log(`  Recordatorio → ${lead.nombre} (${lead.telefono}) — ${lead.zona}...`);
+
+    const result = await sendWhatsApp(lead.telefono, msg);
+    if (result.ok) {
+      console.log(`    ✅ Reminder sent: ${result.sid}`);
+      lead.wa_insistencia = new Date().toISOString();
+      reminderSent++;
+    } else {
+      console.log(`    ❌ Failed: ${result.error}`);
+      if (result.error && (result.error.includes('daily') || result.error.includes('limit') || result.error.includes('exceeded'))) {
+        console.log('\n⚠️  LÍMITE DIARIO ALCANZADO — deteniendo insistencias.');
+        break;
+      }
+    }
+
+    await new Promise(r => setTimeout(r, 1500));
+  }
+
+  console.log(`Insistencias enviadas: ${reminderSent}`);
+
   // Save fiscalizacion data
-  if (sent > 0) {
+  if (sent > 0 || reminderSent > 0) {
     console.log('\nSaving fiscalizacion.json...');
     await saveFiscData(fiscData);
   }
 
   console.log(`\n=== Done ===`);
-  console.log(`Sent: ${sent} | Failed: ${failed} | Total: ${allLeads.length}`);
+  console.log(`Nuevos: ${sent} | Insistencias: ${reminderSent} | Fallos: ${failed}`);
 })();
