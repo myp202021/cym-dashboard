@@ -99,14 +99,34 @@ async function loadFiscData() {
   } catch (e) { return { leads: [], sha: null }; }
 }
 
-async function saveFiscData(data, sha) {
+async function saveFiscData(data) {
   if (!GH_TOKEN) { console.log('  [SKIP] No GH_TOKEN — cannot save'); return; }
+
+  // Re-leer SHA fresco justo antes de guardar (evita conflicto si hubo otro commit)
+  let freshSha = null;
+  try {
+    const getRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FISC_FILE}`, {
+      headers: { 'Authorization': 'Bearer ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (getRes.ok) {
+      const file = await getRes.json();
+      freshSha = file.sha;
+    }
+  } catch (e) { console.log('  [WARN] Could not get fresh SHA:', e.message); }
+
   const content = Buffer.from(JSON.stringify({ updated: new Date().toISOString(), leads: data.leads }, null, 2)).toString('base64');
-  await fetch(`https://api.github.com/repos/${REPO}/contents/${FISC_FILE}`, {
+  const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FISC_FILE}`, {
     method: 'PUT',
     headers: { 'Authorization': 'Bearer ' + GH_TOKEN, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: '📱 Fiscalización: ' + data.leads.length + ' leads', content, sha })
+    body: JSON.stringify({ message: '📱 Fiscalización: ' + data.leads.length + ' leads', content, sha: freshSha })
   });
+
+  if (!putRes.ok) {
+    const err = await putRes.text();
+    console.log('  [ERROR] Save failed:', putRes.status, err);
+  } else {
+    console.log('  ✅ fiscalizacion.json saved to GitHub');
+  }
 }
 
 // Global fiscalizacion data — loaded once, saved at end
@@ -255,7 +275,7 @@ let fiscSha = null;
   // Save fiscalizacion data
   if (sent > 0) {
     console.log('\nSaving fiscalizacion.json...');
-    await saveFiscData(fiscData, fiscSha);
+    await saveFiscData(fiscData);
   }
 
   console.log(`\n=== Done ===`);
