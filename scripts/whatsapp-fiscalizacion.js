@@ -126,10 +126,16 @@ let fiscSha = null;
   // El cron solo corre en horario de oficina (9-17 Chile, L-V)
   // Un lead de las 3AM no se manda a las 9AM del mismo día (6h),
   // se manda cuando tenga 24h+ Y sea horario de oficina
-  const now = new Date();
-  const minAge = new Date(now.getTime() - 24 * 60 * 60 * 1000); // al menos 24h de antigüedad
+  const MAX_MESSAGES_PER_RUN = 40; // Límite por ejecución (trial = 50/día)
+  const MIN_AGE_HOURS = 24;       // Mínimo 24h desde que llegó el lead
+  const MAX_AGE_HOURS = 72;       // Máximo 72h — no procesar leads históricos
 
-  console.log(`Enviando WA a leads anteriores a ${minAge.toISOString()} (24h+ de antigüedad)\n`);
+  const now = new Date();
+  const minAge = new Date(now.getTime() - MIN_AGE_HOURS * 60 * 60 * 1000);
+  const maxAge = new Date(now.getTime() - MAX_AGE_HOURS * 60 * 60 * 1000);
+
+  console.log(`Ventana: leads entre ${maxAge.toISOString()} y ${minAge.toISOString()} (${MIN_AGE_HOURS}-${MAX_AGE_HOURS}h)`);
+  console.log(`Máximo ${MAX_MESSAGES_PER_RUN} mensajes por ejecución\n`);
 
   // Collect leads from all sheets
   let allLeads = [];
@@ -155,8 +161,9 @@ let fiscSha = null;
       const leadDate = new Date(leadDateStr);
       if (isNaN(leadDate.getTime())) continue;
 
-      // Solo leads con 24+ horas de antigüedad
-      if (leadDate > minAge) continue;
+      // Solo leads en ventana 24-72h
+      if (leadDate > minAge) continue;  // muy reciente
+      if (leadDate < maxAge) continue;  // muy antiguo
 
       const phone = row[phoneCol] || '';
       if (phone.replace(/[^0-9]/g, '').length < 8) continue;
@@ -189,7 +196,13 @@ let fiscSha = null;
     return !alreadySent.has(digits);
   });
 
-  console.log(`\nTotal leads to send WA (after dedup): ${allLeads.length}\n`);
+  // Aplicar límite de batch
+  const totalBeforeCap = allLeads.length;
+  if (allLeads.length > MAX_MESSAGES_PER_RUN) {
+    allLeads = allLeads.slice(0, MAX_MESSAGES_PER_RUN);
+  }
+  console.log(`\nTotal leads en ventana (after dedup): ${totalBeforeCap}`);
+  console.log(`Enviando: ${allLeads.length} (cap: ${MAX_MESSAGES_PER_RUN})\n`);
 
   if (allLeads.length === 0) {
     console.log('No leads to process. Done.');
@@ -197,7 +210,7 @@ let fiscSha = null;
   }
 
   // Send WhatsApp messages
-  let sent = 0, failed = 0;
+  let sent = 0, failed = 0, rateLimited = false;
   for (const lead of allLeads) {
     const msg = buildMessage(lead.name, lead.zona, lead.prop);
     console.log(`Sending to ${lead.name} (${lead.phone}) — ${lead.zona}...`);
@@ -205,7 +218,6 @@ let fiscSha = null;
     const result = await sendWhatsApp(lead.phone, msg);
     if (result.ok) {
       console.log(`  ✅ Sent: ${result.sid}`);
-      // Register in fiscalizacion.json
       fiscData.leads.push({
         fecha_lead: lead.date,
         nombre: lead.name,
@@ -223,9 +235,20 @@ let fiscSha = null;
     } else {
       console.log(`  ❌ Failed: ${result.error}`);
       failed++;
+      // Early exit si es error de límite diario
+      if (result.error && (result.error.includes('daily') || result.error.includes('limit') || result.error.includes('exceeded'))) {
+        console.log('\n⚠️  LÍMITE DIARIO ALCANZADO — deteniendo envíos.');
+        rateLimited = true;
+        break;
+      }
+      // Early exit si fallan 3 seguidos (otro error sistémico)
+      if (failed >= 3 && sent === 0) {
+        console.log('\n⚠️  3 fallos consecutivos sin éxito — deteniendo.');
+        break;
+      }
     }
 
-    // Rate limit: 1 message per second
+    // Rate limit: 1.5s entre mensajes
     await new Promise(r => setTimeout(r, 1500));
   }
 
