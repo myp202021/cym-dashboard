@@ -1,0 +1,8 @@
+{
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/fiscalizacion", "destination": "/fiscalizacion.html" }
+  ]
+}
