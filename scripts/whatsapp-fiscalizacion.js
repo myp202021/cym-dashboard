@@ -70,12 +70,17 @@ async function fetchSheet(sheetName) {
   return await res.text();
 }
 
-async function sendWhatsApp(to, body) {
+// Content Template SIDs (approved by Meta for WhatsApp Business API)
+const TEMPLATE_FISCALIZACION = 'HX0d06ed0006b7f8f9f19a137615a09599';
+const TEMPLATE_REMINDER = 'HX20dfe5088d860bd2d1832ee08862ff25';
+
+async function sendWhatsApp(to, contentSid, contentVars) {
   const auth = Buffer.from(TWILIO_SID + ':' + TWILIO_TOKEN).toString('base64');
   const params = new URLSearchParams({
     To: 'whatsapp:' + to,
     From: TWILIO_FROM,
-    Body: body
+    ContentSid: contentSid,
+    ContentVariables: JSON.stringify(contentVars)
   });
 
   const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_SID}/Messages.json`, {
@@ -236,10 +241,12 @@ let fiscSha = null;
     console.log('No leads nuevos para enviar.');
   }
   for (const lead of allLeads) {
-    const msg = buildMessage(lead.name, lead.zona, lead.prop);
+    const zonaDisplay = ZONAS[lead.zona] ? ZONAS[lead.zona].display : lead.zona;
+    const propText = lead.prop === 'departamento' ? 'un departamento' : (lead.prop === 'cualquiera_de_las_dos' ? 'una propiedad' : 'una casa');
+    const firstName = lead.name.split(' ')[0];
     console.log(`Sending to ${lead.name} (${lead.phone}) — ${lead.zona}...`);
 
-    const result = await sendWhatsApp(lead.phone, msg);
+    const result = await sendWhatsApp(lead.phone, TEMPLATE_FISCALIZACION, { '1': firstName, '2': propText, '3': zonaDisplay });
     if (result.ok) {
       console.log(`  ✅ Sent: ${result.sid}`);
       fiscData.leads.push({
@@ -300,10 +307,10 @@ let fiscSha = null;
       break;
     }
 
-    const msg = buildReminder(lead.nombre);
+    const firstName = (lead.nombre || '?').split(' ')[0];
     console.log(`  Recordatorio → ${lead.nombre} (${lead.telefono}) — ${lead.zona}...`);
 
-    const result = await sendWhatsApp(lead.telefono, msg);
+    const result = await sendWhatsApp(lead.telefono, TEMPLATE_REMINDER, { '1': firstName });
     if (result.ok) {
       console.log(`    ✅ Reminder sent: ${result.sid}`);
       lead.wa_insistencia = new Date().toISOString();
