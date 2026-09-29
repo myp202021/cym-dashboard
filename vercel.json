@@ -10,10 +10,6 @@
     {
       "source": "/demo",
       "destination": "/demo-whatsapp.html"
-    },
-    {
-      "source": "/simulador",
-      "destination": "/demo-simulador.html"
     }
   ]
 }
