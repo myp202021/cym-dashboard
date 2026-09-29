@@ -307,7 +307,7 @@
     },
     "derive_zona": {
       "action": "derive",
-      "message": "¡Perfecto {nombre}! Un corredor de CyM especializado en tu búsqueda te va a contactar a la brevedad. ¡Gracias por contactar a CyM Propiedades! 🏠",
+      "message": "¡Perfecto {nombre}! El director de CyM a cargo de tu búsqueda te va a contactar a la brevedad. ¡Gracias por contactar a CyM Propiedades! 🏠",
       "derive_rules": [
         {
           "condition": {
