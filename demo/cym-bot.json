@@ -311,15 +311,6 @@
       "derive_rules": [
         {
           "condition": {
-            "tipo": "Departamento"
-          },
-          "to": {
-            "name": "Caro Paoletti (Departamentos)",
-            "phone": "PHONE_CYM_DEPARTAMENTOS"
-          }
-        },
-        {
-          "condition": {
             "comuna": "Las Condes"
           },
           "to": {
@@ -341,7 +332,7 @@
             "comuna": "La Dehesa"
           },
           "to": {
-            "name": "Eugenia Olave (La Dehesa)",
+            "name": "María Eugenia Olave (La Dehesa)",
             "phone": "PHONE_CYM_DEHESA"
           }
         },
