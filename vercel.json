@@ -3,6 +3,13 @@
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
-    { "source": "/fiscalizacion", "destination": "/fiscalizacion.html" }
+    {
+      "source": "/fiscalizacion",
+      "destination": "/fiscalizacion.html"
+    },
+    {
+      "source": "/demo",
+      "destination": "/demo-whatsapp.html"
+    }
   ]
 }

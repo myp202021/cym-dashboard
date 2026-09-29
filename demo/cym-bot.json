@@ -1,0 +1,444 @@
+{
+  "id": "cym",
+  "name": "CyM Propiedades",
+  "tree": {
+    "root": {
+      "message": "¡Hola! Soy el asistente de *CyM Propiedades* 🏠\n\n¿Qué estás buscando?\n\n1️⃣ Comprar una propiedad\n2️⃣ Arrendar una propiedad\n3️⃣ Vender o publicar mi propiedad\n4️⃣ Tengo un código de propiedad\n5️⃣ Solo quiero información",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "comprar",
+            "compra",
+            "adquirir",
+            "busco casa",
+            "busco depto"
+          ],
+          "next": "tipo_compra",
+          "data": {
+            "operacion": "Compra"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "arrendar",
+            "arriendo",
+            "alquilar",
+            "rentar"
+          ],
+          "next": "tipo_arriendo",
+          "data": {
+            "operacion": "Arriendo"
+          }
+        },
+        {
+          "keywords": [
+            "3",
+            "vender",
+            "venta",
+            "publicar",
+            "ofrecer",
+            "tasar"
+          ],
+          "next": "tipo_venta",
+          "data": {
+            "operacion": "Venta"
+          }
+        },
+        {
+          "keywords": [
+            "4",
+            "codigo",
+            "cod",
+            "propiedad"
+          ],
+          "next": "codigo_input",
+          "data": {
+            "operacion": "Código"
+          }
+        },
+        {
+          "keywords": [
+            "5",
+            "informacion",
+            "info",
+            "solo"
+          ],
+          "next": "info_nombre",
+          "data": {
+            "operacion": "Información"
+          }
+        }
+      ]
+    },
+    "tipo_compra": {
+      "message": "¡Perfecto! ¿Estás buscando una casa o un departamento?\n\n1️⃣ Casa\n2️⃣ Departamento",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "casa"
+          ],
+          "next": "comuna",
+          "data": {
+            "tipo": "Casa"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "depto",
+            "departamento"
+          ],
+          "next": "comuna",
+          "data": {
+            "tipo": "Departamento"
+          }
+        }
+      ]
+    },
+    "tipo_arriendo": {
+      "message": "¡También manejamos arriendos! ¿Buscas casa o departamento?\n\n1️⃣ Casa\n2️⃣ Departamento",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "casa"
+          ],
+          "next": "comuna",
+          "data": {
+            "tipo": "Casa"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "depto",
+            "departamento"
+          ],
+          "next": "comuna",
+          "data": {
+            "tipo": "Departamento"
+          }
+        }
+      ]
+    },
+    "tipo_venta": {
+      "message": "¡Genial! ¿Qué tipo de propiedad quieres vender?\n\n1️⃣ Casa\n2️⃣ Departamento",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "casa"
+          ],
+          "next": "comuna_venta",
+          "data": {
+            "tipo": "Casa"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "depto",
+            "departamento"
+          ],
+          "next": "comuna_venta",
+          "data": {
+            "tipo": "Departamento"
+          }
+        }
+      ]
+    },
+    "comuna": {
+      "message": "¿En qué zona del sector oriente buscas?\n\n1️⃣ Las Condes\n2️⃣ Vitacura\n3️⃣ La Dehesa\n4️⃣ La Reina\n5️⃣ San Carlos de Apoquindo\n6️⃣ No estoy seguro",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "las condes",
+            "condes"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Las Condes"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "vitacura"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Vitacura"
+          }
+        },
+        {
+          "keywords": [
+            "3",
+            "dehesa",
+            "la dehesa"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "La Dehesa"
+          }
+        },
+        {
+          "keywords": [
+            "4",
+            "la reina",
+            "reina"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "La Reina"
+          }
+        },
+        {
+          "keywords": [
+            "5",
+            "san carlos",
+            "apoquindo",
+            "sca"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "San Carlos de Apoquindo"
+          }
+        },
+        {
+          "keywords": [
+            "6",
+            "no se",
+            "no estoy seguro",
+            "otra",
+            "no sé"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Por definir"
+          }
+        }
+      ]
+    },
+    "comuna_venta": {
+      "message": "¿En qué comuna está ubicada tu propiedad?\n\n1️⃣ Las Condes\n2️⃣ Vitacura\n3️⃣ La Dehesa\n4️⃣ La Reina\n5️⃣ San Carlos de Apoquindo\n6️⃣ Otra",
+      "options": [
+        {
+          "keywords": [
+            "1",
+            "las condes",
+            "condes"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Las Condes"
+          }
+        },
+        {
+          "keywords": [
+            "2",
+            "vitacura"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Vitacura"
+          }
+        },
+        {
+          "keywords": [
+            "3",
+            "dehesa",
+            "la dehesa"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "La Dehesa"
+          }
+        },
+        {
+          "keywords": [
+            "4",
+            "la reina",
+            "reina"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "La Reina"
+          }
+        },
+        {
+          "keywords": [
+            "5",
+            "san carlos",
+            "apoquindo",
+            "sca"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "San Carlos de Apoquindo"
+          }
+        },
+        {
+          "keywords": [
+            "6",
+            "otra"
+          ],
+          "next": "nombre",
+          "data": {
+            "comuna": "Otra"
+          }
+        }
+      ]
+    },
+    "nombre": {
+      "message": "¡Buena! ¿Con quién tengo el gusto?",
+      "options": [
+        {
+          "keywords": [
+            "*"
+          ],
+          "next": "derive_zona",
+          "data_field": "nombre"
+        }
+      ]
+    },
+    "derive_zona": {
+      "action": "derive",
+      "message": "¡Perfecto {nombre}! Un corredor de CyM especializado en tu búsqueda te va a contactar a la brevedad. ¡Gracias por contactar a CyM Propiedades! 🏠",
+      "derive_rules": [
+        {
+          "condition": {
+            "tipo": "Departamento"
+          },
+          "to": {
+            "name": "Caro Paoletti (Departamentos)",
+            "phone": "PHONE_CYM_DEPARTAMENTOS"
+          }
+        },
+        {
+          "condition": {
+            "comuna": "Las Condes"
+          },
+          "to": {
+            "name": "Anita Hernández (Las Condes)",
+            "phone": "PHONE_CYM_LAS_CONDES"
+          }
+        },
+        {
+          "condition": {
+            "comuna": "Vitacura"
+          },
+          "to": {
+            "name": "Daniela Peñafiel (Vitacura)",
+            "phone": "PHONE_CYM_VITACURA"
+          }
+        },
+        {
+          "condition": {
+            "comuna": "La Dehesa"
+          },
+          "to": {
+            "name": "Eugenia Olave (La Dehesa)",
+            "phone": "PHONE_CYM_DEHESA"
+          }
+        },
+        {
+          "condition": {
+            "comuna": "La Reina"
+          },
+          "to": {
+            "name": "James Robeson (La Reina)",
+            "phone": "PHONE_CYM_LA_REINA"
+          }
+        },
+        {
+          "condition": {
+            "comuna": "San Carlos de Apoquindo"
+          },
+          "to": {
+            "name": "Benjamín Ceballos (SCA)",
+            "phone": "PHONE_CYM_SCA"
+          }
+        },
+        {
+          "condition": {
+            "default": true
+          },
+          "to": {
+            "name": "CyM Central",
+            "phone": "PHONE_CYM_CENTRAL"
+          }
+        }
+      ]
+    },
+    "codigo_input": {
+      "message": "¿Cuál es el código de la propiedad? (ej: 5721)",
+      "options": [
+        {
+          "keywords": [
+            "*"
+          ],
+          "next": "codigo_nombre",
+          "data_field": "codigo"
+        }
+      ]
+    },
+    "codigo_nombre": {
+      "message": "¡Buena elección! ¿Con quién tengo el gusto?",
+      "options": [
+        {
+          "keywords": [
+            "*"
+          ],
+          "next": "derive_codigo",
+          "data_field": "nombre"
+        }
+      ]
+    },
+    "derive_codigo": {
+      "action": "derive",
+      "message": "¡Perfecto {nombre}! Nuestro equipo te va a contactar con toda la info de la propiedad {codigo}. ¡Gracias! 🏠",
+      "derive_rules": [
+        {
+          "condition": {
+            "default": true
+          },
+          "to": {
+            "name": "CyM Central",
+            "phone": "PHONE_CYM_CENTRAL"
+          }
+        }
+      ]
+    },
+    "info_nombre": {
+      "message": "¡Sin problema! ¿Con quién tengo el gusto?",
+      "options": [
+        {
+          "keywords": [
+            "*"
+          ],
+          "next": "derive_info",
+          "data_field": "nombre"
+        }
+      ]
+    },
+    "derive_info": {
+      "action": "derive",
+      "message": "Gracias {nombre}. Nuestro equipo te va a contactar para orientarte. También puedes buscar propiedades en www.cympropiedades.cl 🏠",
+      "derive_rules": [
+        {
+          "condition": {
+            "default": true
+          },
+          "to": {
+            "name": "CyM Central",
+            "phone": "PHONE_CYM_CENTRAL"
+          }
+        }
+      ]
+    }
+  }
+}

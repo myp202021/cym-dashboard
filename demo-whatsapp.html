@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyM Propiedades — Demo asistente WhatsApp</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/logo-cym.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cym: #eb3d60; --ink: #111; --bg: #f1f5f9; --muted: #64748b;
+  --wa-bar: #075e54; --wa-bg: #efeae2; --wa-out: #d9fdd3; --wa-in: #fff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+header { max-width: 1100px; margin: 0 auto; padding: 24px 16px 8px; display: flex; align-items: center; gap: 14px; }
+header .logo { background: var(--ink); border-radius: 10px; padding: 8px 12px; display: grid; place-items: center; }
+header .logo img { height: 36px; display: block; }
+header h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.4px; }
+header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+main { max-width: 1100px; margin: 0 auto; padding: 16px; display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 860px) { main { grid-template-columns: 1fr; } }
+
+/* Teléfono */
+.phone { background: #111; border-radius: 36px; padding: 12px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+.screen { border-radius: 26px; overflow: hidden; display: flex; flex-direction: column; height: 680px; background: var(--wa-bg); }
+@media (max-width: 860px) { .phone { border-radius: 0; padding: 0; box-shadow: none; margin: 0 -16px; } .screen { border-radius: 0; height: 78vh; } }
+.wa-top { background: var(--wa-bar); color: #fff; display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+.wa-top .avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; overflow: hidden; }
+.wa-top .avatar img { width: 32px; }
+.wa-top b { font-size: 15px; display: block; }
+.wa-top small { font-size: 12px; opacity: .8; }
+.chat { flex: 1; overflow-y: auto; padding: 14px 10px; display: flex; flex-direction: column; gap: 6px;
+  background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 14px 14px; }
+.msg { max-width: 82%; padding: 7px 10px 6px; border-radius: 8px; font-size: 14px; line-height: 1.4; position: relative; white-space: pre-wrap; word-wrap: break-word; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+.msg.in { background: var(--wa-in); align-self: flex-start; border-top-left-radius: 0; }
+.msg.out { background: var(--wa-out); align-self: flex-end; border-top-right-radius: 0; }
+.msg time { float: right; margin: 6px 0 -2px 10px; font-size: 10.5px; color: #667781; white-space: nowrap; }
+.msg.out time::after { content: ' ✓✓'; color: #53bdeb; }
+.day { align-self: center; background: #fff; font-size: 12px; color: #54656f; padding: 4px 10px; border-radius: 6px; margin-bottom: 4px; box-shadow: 0 1px .5px rgba(0,0,0,.1); }
+.typing { align-self: flex-start; background: #fff; border-radius: 8px; padding: 10px 14px; display: none; }
+.typing span { display: inline-block; width: 7px; height: 7px; margin: 0 1px; background: #9aa5ab; border-radius: 50%; animation: b 1.2s infinite; }
+.typing span:nth-child(2) { animation-delay: .2s; } .typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes b { 0%,60%,100% { transform: translateY(0); opacity: .5 } 30% { transform: translateY(-4px); opacity: 1 } }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 10px 0; }
+.chips button { border: 1px solid #cfd8dc; background: #fff; color: #075e54; font: 600 12.5px 'Inter', sans-serif; padding: 6px 10px; border-radius: 16px; cursor: pointer; }
+.chips button:hover { background: #e7f5f2; }
+.compose { display: flex; gap: 8px; padding: 8px 10px 10px; }
+.compose input { flex: 1; border: none; border-radius: 22px; padding: 11px 16px; font: 15px 'Inter', sans-serif; outline: none; }
+.compose button { width: 44px; height: 44px; border-radius: 50%; border: none; background: #00a884; color: #fff; font-size: 18px; cursor: pointer; }
+
+/* Panel */
+.panel { display: flex; flex-direction: column; gap: 16px; }
+.card { background: #fff; border-radius: 14px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.card h2 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+.card > p { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+.lead { border: 1px solid #e2e8f0; border-left: 4px solid var(--cym); border-radius: 10px; padding: 12px 14px; font-size: 13.5px; line-height: 1.6; white-space: pre-wrap; margin-top: 10px; background: #fffafb; }
+.lead .to { font-size: 12px; font-weight: 700; color: var(--cym); margin-bottom: 4px; display: block; }
+.empty { font-size: 13px; color: #94a3b8; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 16px; text-align: center; }
+.zones { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.zones div { font-size: 12.5px; background: #f8fafc; border-radius: 8px; padding: 8px 10px; }
+.zones b { display: block; font-size: 13px; }
+.zones span { color: var(--muted); }
+.btn { align-self: flex-start; border: none; background: var(--ink); color: #fff; font: 700 13px 'Inter', sans-serif; padding: 10px 16px; border-radius: 10px; cursor: pointer; }
+.btn:hover { background: var(--cym); }
+.note { font-size: 12px; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><img src="/logo-cym.png" alt="CyM Propiedades"></div>
+  <div>
+    <h1>Asistente de WhatsApp — demo</h1>
+    <p>Escribe como si fueras un cliente. El asistente califica la consulta y la deriva al corredor de la zona.</p>
+  </div>
+</header>
+
+<main>
+  <div class="phone">
+    <div class="screen">
+      <div class="wa-top">
+        <div class="avatar"><img src="/logo-cym.png" alt=""></div>
+        <div><b>CyM Propiedades</b><small id="status">en línea</small></div>
+      </div>
+      <div class="chat" id="chat">
+        <div class="day">HOY</div>
+        <div class="typing" id="typing"><span></span><span></span><span></span></div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <form class="compose" id="form" autocomplete="off">
+        <input id="input" placeholder="Escribe un mensaje" aria-label="Mensaje">
+        <button type="submit" aria-label="Enviar">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="card">
+      <h2>Lo que recibe el corredor</h2>
+      <p>Cuando el asistente termina, el corredor de la zona recibe este aviso en su WhatsApp con los datos del cliente, para contactarlo directo.</p>
+      <div id="leads"><div class="empty">Todavía no hay leads. Parte la conversación con un "Hola".</div></div>
+    </div>
+    <div class="card">
+      <h2>Derivación por zona</h2>
+      <p>Departamentos van siempre a Departamentos; casas, según la comuna. Códigos de propiedad y consultas generales van a la central.</p>
+      <div class="zones" id="zones"></div>
+    </div>
+    <button class="btn" id="reset">Reiniciar conversación</button>
+    <p class="note">Demo con la misma lógica que el asistente real. En la demo no se envían mensajes a nadie.</p>
+  </div>
+</main>
+
+<script>
+// Misma lógica que myp-whatsapp-agent/src/tree.js (árbol en /demo/cym-bot.json, copia de config/cym.json)
+function normalize(t) {
+  return (t || '').toLowerCase().replace(/[áàä]/g,'a').replace(/[éèë]/g,'e').replace(/[íìï]/g,'i')
+    .replace(/[óòö]/g,'o').replace(/[úùü]/g,'u').replace(/ñ/g,'n').trim()
+}
+function template(str, data) { return str.replace(/\{(\w+)\}/g, (m, k) => data[k] || m) }
+function matchOption(options, msg) {
+  const n = normalize(msg)
+  for (const o of options) {
+    if (o.keywords[0] === '*') return o
+    for (const k of o.keywords) if (n.indexOf(normalize(k)) !== -1) return o
+  }
+  return null
+}
+function findDeriveTarget(rules, data) {
+  for (const r of rules) {
+    if (r.condition.default) continue
+    let ok = true
+    for (const k in r.condition) if (normalize(data[k] || '') !== normalize(r.condition[k])) { ok = false; break }
+    if (ok) return r.to
+  }
+  const d = rules.find(r => r.condition.default)
+  return d ? d.to : null
+}
+function processMsg(tree, state, msg) {
+  const node = tree[state.node]
+  if (!node || !node.options) return { action: 'unknown' }
+  const m = matchOption(node.options, msg)
+  if (!m) return { action: 'unknown' }
+  const merge = Object.assign({}, m.data || {})
+  if (m.data_field) merge[m.data_field] = msg.trim()
+  const next = tree[m.next]
+  if (!next) return { action: 'unknown' }
+  if (next.action === 'derive') {
+    return { action: 'derive', message: next.message, director: findDeriveTarget(next.derive_rules, Object.assign({}, state.data, merge)), mergeData: merge }
+  }
+  return { action: 'reply', node: m.next, message: next.message, mergeData: merge }
+}
+
+// Opciones "tocables" a partir del menú del mensaje (1️⃣ Casa ...)
+const KEYCAP = { '1️⃣':'1','2️⃣':'2','3️⃣':'3','4️⃣':'4','5️⃣':'5','6️⃣':'6','7️⃣':'7' }
+function chipsFrom(message) {
+  return message.split('\n').map(l => {
+    const k = Object.keys(KEYCAP).find(e => l.startsWith(e))
+    return k ? l.slice(k.length).trim() : null
+  }).filter(Boolean)
+}
+
+let TREE = null, state = null
+const chat = document.getElementById('chat'), typing = document.getElementById('typing')
+const chipsEl = document.getElementById('chips'), input = document.getElementById('input')
+const leadsEl = document.getElementById('leads'), statusEl = document.getElementById('status')
+
+function now() { return new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }) }
+function fmt(t) { // *negrita* de WhatsApp
+  const d = document.createElement('div'); d.textContent = t
+  return d.innerHTML.replace(/\*([^*\n]+)\*/g, '<b>$1</b>').replace(/_([^_\n]+)_/g, '<i>$1</i>')
+}
+function add(text, dir) {
+  const el = document.createElement('div')
+  el.className = 'msg ' + dir
+  el.innerHTML = fmt(text) + '<time>' + now() + '</time>'
+  chat.insertBefore(el, typing)
+  chat.scrollTop = chat.scrollHeight
+}
+function setChips(list) {
+  chipsEl.innerHTML = ''
+  list.forEach(txt => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = txt
+    b.onclick = () => send(txt); chipsEl.appendChild(b)
+  })
+}
+function botSay(text, after) {
+  setChips([]); typing.style.display = 'block'; statusEl.textContent = 'escribiendo…'
+  chat.scrollTop = chat.scrollHeight
+  setTimeout(() => {
+    typing.style.display = 'none'; statusEl.textContent = 'en línea'
+    add(text, 'in'); setChips(chipsFrom(text)); if (after) after()
+  }, Math.min(1400, 500 + text.length * 6))
+}
+function leadCard(data, to) {
+  const L = ['🔔 *Nuevo lead — CyM Propiedades*', '']
+  if (data.nombre) L.push('*Nombre:* ' + data.nombre)
+  L.push('*Teléfono:* +56 9 •••• •••• (el WhatsApp del cliente)')
+  if (data.operacion) L.push('*Operación:* ' + data.operacion)
+  if (data.tipo) L.push('*Tipo:* ' + data.tipo)
+  if (data.comuna) L.push('*Comuna:* ' + data.comuna)
+  if (data.codigo) L.push('*Código propiedad:* ' + data.codigo)
+  L.push('', '_Contactar directamente por WhatsApp_ ↗️')
+  const empty = leadsEl.querySelector('.empty'); if (empty) empty.remove()
+  const el = document.createElement('div'); el.className = 'lead'
+  el.innerHTML = '<span class="to">Para: ' + fmt(to.name) + ' · ' + now() + '</span>' + fmt(L.join('\n'))
+  leadsEl.prepend(el)
+}
+function send(text) {
+  text = (text || '').trim(); if (!text) return
+  add(text, 'out'); input.value = ''
+  if (!state) { state = { node: 'root', data: {} }; botSay(TREE.root.message); return }
+  const r = processMsg(TREE, state, text)
+  if (r.action === 'reply') {
+    state.node = r.node; Object.assign(state.data, r.mergeData); botSay(r.message)
+  } else if (r.action === 'derive') {
+    Object.assign(state.data, r.mergeData)
+    const data = state.data, to = r.director
+    botSay(template(r.message, data), () => { leadCard(data, to); setChips(['Hola']) })
+    state = null
+  } else {
+    botSay('No entendí tu respuesta. ' + TREE[state.node].message)
+  }
+}
+function renderZones() {
+  const seen = new Set(), rules = TREE.derive_zona.derive_rules
+  document.getElementById('zones').innerHTML = rules.map(r => {
+    const m = r.to.name.match(/^(.*) \((.*)\)$/)
+    const zona = m ? m[2] : 'Central', quien = m ? m[1] : 'Códigos y consultas'
+    if (seen.has(zona)) return ''; seen.add(zona)
+    return '<div><b>' + zona + '</b><span>' + quien + '</span></div>'
+  }).join('')
+}
+function reset() {
+  state = null
+  chat.querySelectorAll('.msg').forEach(e => e.remove())
+  setChips(['Hola', 'Hola, vi una propiedad en Instagram'])
+  input.focus()
+}
+
+document.getElementById('form').addEventListener('submit', e => { e.preventDefault(); send(input.value) })
+document.getElementById('reset').onclick = reset
+fetch('/demo/cym-bot.json').then(r => r.json()).then(cfg => { TREE = cfg.tree; renderZones(); reset() })
+</script>
+</body>
+</html>
