@@ -347,15 +347,6 @@
         },
         {
           "condition": {
-            "comuna": "La Reina"
-          },
-          "to": {
-            "name": "James Robeson (La Reina)",
-            "phone": "PHONE_CYM_LA_REINA"
-          }
-        },
-        {
-          "condition": {
             "comuna": "San Carlos de Apoquindo"
           },
           "to": {

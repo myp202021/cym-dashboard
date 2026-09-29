@@ -103,7 +103,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 16px; display: grid; grid-tem
     </div>
     <div class="card">
       <h2>Derivación por director</h2>
-      <p>Departamentos van a la directora de Departamentos; casas, al director de la comuna. Códigos de propiedad y consultas generales van a la central.</p>
+      <p>Departamentos van a la directora de Departamentos; casas, al director de la comuna. La Reina (por ahora), códigos de propiedad y consultas generales van a la central.</p>
       <div class="zones" id="zones"></div>
     </div>
     <button class="btn" id="reset">Reiniciar conversación</button>
@@ -226,7 +226,7 @@ function renderZones() {
   const seen = new Set(), rules = TREE.derive_zona.derive_rules
   document.getElementById('zones').innerHTML = rules.map(r => {
     const m = r.to.name.match(/^(.*) \((.*)\)$/)
-    const zona = m ? m[2] : 'Central', quien = m ? m[1] : 'Códigos y consultas'
+    const zona = m ? m[2] : 'Central', quien = m ? m[1] : 'La Reina, códigos y consultas'
     if (seen.has(zona)) return ''; seen.add(zona)
     return '<div><b>' + zona + '</b><span>' + quien + '</span></div>'
   }).join('')
