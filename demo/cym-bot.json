@@ -311,6 +311,15 @@
       "derive_rules": [
         {
           "condition": {
+            "tipo": "Departamento"
+          },
+          "to": {
+            "name": "Caro Paoletti (Departamentos)",
+            "phone": "PHONE_CYM_DEPARTAMENTOS"
+          }
+        },
+        {
+          "condition": {
             "comuna": "Las Condes"
           },
           "to": {
