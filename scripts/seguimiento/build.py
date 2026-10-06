@@ -27,18 +27,41 @@ def key(s): return unicodedata.normalize('NFKD', (s or '').lower()).encode('asci
 COMUNAS = {'las condes': 'Las Condes', 'la dehesa': 'La Dehesa', 'vitacura': 'Vitacura', 'sca': 'SCA',
            'san carlos de apoquindo': 'SCA', 'la reina': 'La Reina', 'departamentos': 'Departamentos', 'depto vitacura': 'Vitacura'}
 
+PROPIEDADES = ('WhatsApp propiedades', 'Formulario propiedades')
+SIN_COMUNA = 'Otras / sin comuna'
+
+def comuna(txt):
+    # "Las Condes / Modificado" → "Las Condes"; si no calza con una comuna conocida, no se inventa
+    base = re.split(r'\s*/\s*', (txt or '').strip())[0]
+    return COMUNAS.get(key(base), SIN_COMUNA)
+
 def clasifica(campana):
     c = campana or ''
     m = re.match(r'(?i)whatsapp\s*-\s*(.+)', c)
-    if m: return COMUNAS.get(key(m.group(1)), m.group(1).strip()), 'WhatsApp propiedades'
-    m = re.match(r'(?i)nuevo director\s+(.+)', c)
-    if m: return COMUNAS.get(key(m.group(1)), m.group(1).strip()), 'Captación nuevo director'
-    return 'Marca / otros', 'Marca / otros'
+    if m: return comuna(m.group(1)), 'WhatsApp propiedades'
+    m = re.match(r'(?i)clientes potenciales\s*-\s*(.+)', c)
+    if m: return comuna(m.group(1)), 'Formulario propiedades'
+    m = re.match(r'(?i)(?:nuevo director|anuncio director/?a?)\s+(.+)', c)
+    if m: return comuna(m.group(1)), 'Captación nuevo director'
+    return SIN_COMUNA, 'Marca / otros'
+
+def codigo(anuncio):
+    # el nombre del anuncio es el código de propiedad ("5693", "5693 - 2"); si no, "sin código"
+    m = re.match(r'\s*(\d{4})\b', anuncio or '')
+    return m.group(1) if m else 'sin código'
 
 def leads(a): return int(a.get('conv_wa', 0)) + int(a.get('leads_form', 0))
 
 def cargar_meta():
     y, m = map(int, MES.split('-'))
+    # histórico mayo–septiembre bajado de una vez: {meses: {AAAA-MM: {anuncios, diario}}}
+    hp = os.path.join(RAW, 'cym-meta-may-sep.json')
+    if os.path.exists(hp):
+        h = json.load(open(hp, encoding='utf-8'))
+        if MES in h.get('meses', {}):
+            prev = f'{y if m > 1 else y - 1}-{(m - 2) % 12 + 1:02d}'
+            mm = h['meses'][MES]
+            return dict(generado=h.get('generado')), mm['anuncios'], mm['diario'], h['meses'].get(prev, {}).get('anuncios', [])
     for nombre in (f'cym-meta-{MES}.json', f'cym-meta-{ABR[m-1]}.json'):
         p = os.path.join(RAW, nombre)
         if os.path.exists(p): break
@@ -107,33 +130,38 @@ def main():
     dias = int(hasta[8:10]) if hasta[:7] == MES else calendar.monthrange(y, m)[1]
     # si el export se bajó el mismo día de "hasta", ese día va parcial: no cuenta para comparar el ritmo
     if (d.get('generado') or '')[:10] == hasta and dias > 1: dias -= 1
+    completo = dias == calendar.monthrange(y, m)[1]
     for r in ads + ads_prev:
         r['comuna'], r['tipo'] = clasifica(r['campana'])
+        r['codigo'] = codigo(r['anuncio'])
     kpi = tot(ads)
     dias_prev = calendar.monthrange(y if m > 1 else y - 1, m - 1 if m > 1 else 12)[1]
     tp = tot(ads_prev)
-    ritmo_prev = dict(gasto=round(tp['gasto'] * dias / dias_prev), leads=round(tp['leads'] * dias / dias_prev), cpl=tp['cpl'],
-                      gasto_mes=tp['gasto'], leads_mes=tp['leads'], dias_mes=dias_prev)
+    f = 1 if completo else dias / dias_prev  # mes cerrado: contra el mes anterior completo; mes en curso: mismo ritmo de días
+    ritmo_prev = dict(gasto=round(tp['gasto'] * f), leads=round(tp['leads'] * f), cpl=tp['cpl'],
+                      gasto_mes=tp['gasto'], leads_mes=tp['leads'], dias_mes=dias_prev) if ads_prev else None
     por_campana = agrupa(ads, lambda r: r['campana'], lambda k, rs: dict(campana=k, comuna=rs[0]['comuna'], tipo=rs[0]['tipo'], anuncios=len(rs)))
     prev_camp = {c['campana']: c for c in agrupa(ads_prev, lambda r: r['campana'], lambda k, rs: dict(campana=k))}
     for c in por_campana:
         p = prev_camp.get(c['campana']); c['cpl_mes_anterior'] = p['cpl'] if p else None
     por_comuna = agrupa(ads, lambda r: r['comuna'], lambda k, rs: dict(comuna=k, anuncios=len(rs),
                         gasto_whatsapp=round(sum(x['gasto'] for x in rs if x['tipo'] == 'WhatsApp propiedades')),
-                        gasto_director=round(sum(x['gasto'] for x in rs if x['tipo'] == 'Captación nuevo director'))))
+                        gasto_director=round(sum(x['gasto'] for x in rs if x['tipo'] == 'Captación nuevo director')),
+                        gasto_otros=round(sum(x['gasto'] for x in rs if x['tipo'] == 'Marca / otros'))))
     prev_com = {c['comuna']: c for c in agrupa(ads_prev, lambda r: r['comuna'], lambda k, rs: dict(comuna=k))}
     for c in por_comuna:
         p = prev_com.get(c['comuna']); c['cpl_mes_anterior'] = p['cpl'] if p else None
-    props = [r for r in ads if r['tipo'] == 'WhatsApp propiedades']
-    por_codigo = agrupa(props, lambda r: (r['anuncio'], r['comuna']), lambda k, rs: dict(codigo=k[0], comuna=k[1]))
+    props = [r for r in ads if r['tipo'] in PROPIEDADES]
+    por_codigo = agrupa(props, lambda r: (r['codigo'], r['comuna']), lambda k, rs: dict(codigo=k[0], comuna=k[1]))
     serie = defaultdict(lambda: dict(gasto=0, leads=0))
     for r in diario:
         serie[r['fecha']]['gasto'] += r['gasto']; serie[r['fecha']]['leads'] += leads(r)
     serie = [dict(fecha=f, gasto=round(v['gasto']), leads=v['leads']) for f, v in sorted(serie.items())]
-    sin_leads = [c for c in por_codigo if c['leads'] == 0]
+    sin_leads = [c for c in por_codigo if c['leads'] == 0 and c['gasto'] > 0 and c['codigo'] != 'sin código']
     out = dict(mes=MES, titulo=f'{MESES[m-1].capitalize()} {y}', desde=f'{MES}-01', hasta=hasta, dias=dias,
                generado=d.get('generado'), fuente='Meta Ads (cuenta act_2505215759834007), atribución por defecto',
-               kpi=kpi, mes_anterior=dict(nombre=MESES[(m - 2) % 12], **ritmo_prev),
+               completo=completo, kpi=kpi,
+               mes_anterior=dict(nombre=MESES[(m - 2) % 12], **ritmo_prev) if ritmo_prev else None,
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
                por_campana=por_campana, por_comuna=por_comuna, por_codigo=por_codigo, serie_diaria=serie,
@@ -142,8 +170,12 @@ def main():
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     idx_p = os.path.join(DATA, 'seguimiento-index.json')
     idx = json.load(open(idx_p)) if os.path.exists(idx_p) else []
-    idx = [i for i in idx if i['mes'] != MES] + [dict(mes=MES, titulo=out['titulo'], hasta=hasta)]
+    idx = [i for i in idx if i['mes'] != MES] + [dict(mes=MES, titulo=out['titulo'], hasta=hasta, completo=completo,
+           gasto=kpi['gasto'], leads=kpi['leads'], conv_wa=kpi['conv_wa'], leads_form=kpi['leads_form'], cpl=kpi['cpl'],
+           organico=out['organico'].get('total'), organico_contactados=out['organico'].get('con_contacto'))]
     json.dump(sorted(idx, key=lambda i: i['mes'], reverse=True), open(idx_p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-    print(f"{out['titulo']}: gasto ${kpi['gasto']:,} · leads {kpi['leads']} · CPL ${kpi['cpl']:,} · orgánico {out['organico']['estado']}")
+    sc = [c for c in por_campana if c['comuna'] == SIN_COMUNA]
+    print(f"{out['titulo']}: gasto ${kpi['gasto']:,} · leads {kpi['leads']} · CPL ${kpi['cpl']:,} · orgánico {out['organico']['estado']}"
+          f" · sin comuna: {', '.join(c['campana'] for c in sc) or '—'}")
 
 main()

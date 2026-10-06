@@ -98,7 +98,7 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#proyectos" id="nav-proy">Proyectos</a></nav>
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#proyectos" id="nav-proy">Proyectos</a></nav>
   <div id="v-seg">
   <div class="periodo" id="periodo">Cargando…</div>
   <div class="kpis" id="kpis"></div>
@@ -111,13 +111,19 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
     <section><h2>Por campaña</h2><div class="sub">CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
   </div>
 
-  <section><h2>Por código de propiedad</h2><div class="sub">Campañas WhatsApp · en rojo los códigos con gasto y sin leads</div>
+  <section><h2>Por código de propiedad</h2><div class="sub">Campañas de propiedades (WhatsApp y formularios) · en rojo los códigos con gasto y sin leads</div>
     <div class="tabs" id="f-codigo"></div><div class="tw" id="t-codigo"></div>
     <div class="leyenda"><span><i style="background:var(--verde)"></i>CPL bajo el promedio del mes</span><span><i style="background:var(--ambar)"></i>hasta 30% sobre el promedio</span><span><i style="background:var(--rojo)"></i>más de 30% sobre el promedio o sin leads</span></div>
   </section>
 
   <section><h2>Orgánico por comuna</h2><div class="sub">Leads orgánicos (lista de CyM) · contactados = respondieron / se logró contacto</div><div id="organico"></div></section>
 
+  </div>
+  <div id="v-res" class="oculto">
+    <div class="periodo">Resumen mes a mes · campañas pagadas en Meta desde mayo 2026</div>
+    <div class="kpis" id="res-kpis"></div>
+    <section><h2>Gasto y leads por mes</h2><div class="sub">Barras = gasto del mes · línea = leads · el mes en curso va parcial</div><div class="chart" id="res-chart"></div></section>
+    <section><h2>Detalle por mes</h2><div class="sub">Haz clic en un mes para ver su detalle por comuna, campaña y código</div><div class="tw" id="res-tabla"></div></section>
   </div>
   <div id="v-proy" class="oculto">
     <div class="periodo">Proyectos en desarrollo para CyM Propiedades</div>
@@ -141,7 +147,7 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){const p=location.hash==='#proyectos';document.getElementById('v-seg').classList.toggle('oculto',p);document.getElementById('v-proy').classList.toggle('oculto',!p);document.getElementById('nav-seg').classList.toggle('on',!p);document.getElementById('nav-proy').classList.toggle('on',p);document.querySelector('.mes').style.visibility=p?'hidden':'visible'}
+function vista(){const h=location.hash,p=h==='#proyectos',r=h==='#resumen',g=!p&&!r;[['v-seg',g],['v-res',r],['v-proy',p]].forEach(([id,on])=>document.getElementById(id).classList.toggle('oculto',!on));[['nav-seg',g],['nav-res',r],['nav-proy',p]].forEach(([id,on])=>document.getElementById(id).classList.toggle('on',on));document.querySelector('.mes').style.visibility=g?'visible':'hidden'}
 addEventListener('hashchange',vista);addEventListener('DOMContentLoaded',vista);
 </script>
 <script>
@@ -179,17 +185,17 @@ function chart(serie){
   $('chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto (miles CLP, eje izq.)</span><span><i style="background:#eb3d60"></i>Leads (eje der.)</span></div>';
 }
 function render(){
-  const k=D.kpi,p=D.mes_anterior;
+  const k=D.kpi,p=D.mes_anterior||{nombre:'mes anterior',gasto:null,leads:null,cpl:null},mesN=D.titulo.split(' ')[0].toLowerCase();
   $('periodo').innerHTML=`<b>${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
   $('kpis').innerHTML=[
-    ['Gasto Meta',clp(k.gasto),`ritmo ${p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto),1],
+    ['Gasto Meta',clp(k.gasto),D.mes_anterior?`${D.completo?p.nombre:'ritmo '+p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto):'sin mes anterior para comparar',1],
     ['Leads',num(k.leads),`${k.conv_wa} WhatsApp · ${k.leads_form} formularios`,1],
-    ['Costo por lead',clp(k.cpl),`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true),0],
-    ['Leads '+p.nombre+' (mismo período)',num(p.leads),`primeros ${D.dias} días · octubre`+delta(k.leads,p.leads),0],
+    ['Costo por lead',clp(k.cpl),D.mes_anterior?`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true):'—',0],
+    [D.completo?'Leads '+p.nombre+' (mes completo)':'Leads '+p.nombre+' (mismo período)',num(p.leads),D.mes_anterior?(D.completo?`${mesN} vs ${p.nombre}`:`primeros ${D.dias} días · ${mesN}`)+delta(k.leads,p.leads):'—',0],
     ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`,0]
   ].map(([l,v,s,d])=>`<div class="kpi ${d&&l==='Leads'?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
   const a=D.alertas;
-  $('alerta').innerHTML=a.codigos_sin_leads?`<div class="alerta">⚠ ${a.codigos_sin_leads} códigos con gasto y sin leads: ${clp(a.gasto_sin_leads)} (${Math.round(a.gasto_sin_leads/a.gasto_whatsapp*100)}% del gasto en WhatsApp propiedades).</div>`:'';
+  $('alerta').innerHTML=a.codigos_sin_leads?`<div class="alerta">⚠ ${a.codigos_sin_leads} códigos con gasto y sin leads: ${clp(a.gasto_sin_leads)} (${Math.round(a.gasto_sin_leads/a.gasto_whatsapp*100)}% del gasto en campañas de propiedades).</div>`:'';
   chart(D.serie_diaria);
   const ref=k.cpl||1;
   const tc=D.por_comuna;
@@ -198,7 +204,7 @@ function render(){
     {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
   ],tc,{total:{comuna:'Total',gasto:clp(k.gasto),conv_wa:k.conv_wa,leads_form:k.leads_form,leads:k.leads,cpl:clp(k.cpl),cpl_mes_anterior:clp(p.cpl)}});
   tabla($('t-campana'),[
-    {k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
+    {k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ').replace('Clientes potenciales - ','Form. · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
     {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
   ],D.por_campana);
   const comunas=['Todas',...new Set(D.por_codigo.map(c=>c.comuna))];let fc='Todas';
@@ -215,10 +221,26 @@ function render(){
     '<div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>'}
   $('pie').textContent=`Fuente: ${D.fuente}. Leads = conversaciones de WhatsApp iniciadas + formularios. CPL = gasto / leads. Se actualiza todos los martes.`;
 }
+function resumen(idx){
+  const m=[...idx].sort((a,b)=>a.mes.localeCompare(b.mes)),cerr=m.filter(x=>x.completo);
+  const N=x=>x.titulo.split(' ')[0];
+  const tg=cerr.reduce((s,x)=>s+x.gasto,0),tl=cerr.reduce((s,x)=>s+x.leads,0),best=[...cerr].sort((a,b)=>a.cpl-b.cpl)[0];
+  $('res-kpis').innerHTML=[['Gasto meses cerrados',clp(tg),`${N(cerr[0])}–${N(cerr.at(-1))}`],['Leads meses cerrados',num(tl),`${num(tl/cerr.length)} promedio al mes`],['CPL meses cerrados',clp(tg/tl),'gasto / leads'],['Mejor CPL',clp(best.cpl),N(best)]].map(([l,v,s],i)=>`<div class="kpi ${i===1?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  const W=1100,H=280,L=64,R=48,T=22,B=40,w=W-L-R,h=H-T-B,n=m.length,bw=w/n,mg=Math.max(...m.map(x=>x.gasto))*1.15,ml=Math.max(...m.map(x=>x.leads))*1.25;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gasto y leads por mes">`;
+  for(let i=0;i<=4;i++){const y=T+h-h*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#9ca3af">${clp(mg*i/4/1000)}k</text><text x="${W-R+8}" y="${y+4}" font-size="11" fill="#eb3d60">${Math.round(ml*i/4)}</text>`}
+  m.forEach((x,i)=>{const bh=x.gasto/mg*h,bx=L+i*bw+bw*.22;s+=`<rect x="${bx}" y="${T+h-bh}" width="${bw*.56}" height="${bh}" rx="6" fill="#111" opacity="${x.completo?.82:.35}"><title>${x.titulo}: ${clp(x.gasto)} · ${x.leads} leads · CPL ${clp(x.cpl)}</title></rect><text x="${L+i*bw+bw/2}" y="${T+h-bh-8}" font-size="12" font-weight="700" text-anchor="middle" fill="#111">${clp(x.gasto/1000)}k</text><text x="${L+i*bw+bw/2}" y="${H-16}" font-size="12" font-weight="700" text-anchor="middle" fill="#374151">${N(x)}${x.completo?'':' (parcial)'}</text>`});
+  const pts=m.map((x,i)=>[L+i*bw+bw/2,T+h-x.leads/ml*h]);
+  s+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#eb3d60" stroke-width="3" stroke-linejoin="round"/>`;
+  pts.forEach((p,i)=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#eb3d60" stroke="#fff" stroke-width="2"/><text x="${p[0]+10}" y="${p[1]-10}" font-size="12" font-weight="800" fill="#eb3d60">${m[i].leads}</text>`);
+  $('res-chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto (miles CLP, eje izq.)</span><span><i style="background:#eb3d60"></i>Leads (eje der.)</span><span><i style="background:#111;opacity:.35"></i>Mes en curso (parcial)</span></div>';
+  const ref=tg/tl,rows=m.map((x,i)=>({...x,mesN:x.titulo+(x.completo?'':' · parcial'),dcpl:i&&m[i-1].cpl?Math.round((x.cpl-m[i-1].cpl)/m[i-1].cpl*100):null,org:x.organico==null?null:x.organico}));
+  tabla($('res-tabla'),[{k:'mes',t:'Mes',n:1,f:r=>`<a href="?mes=${r.mes}#seguimiento" style="color:inherit">${r.mesN}</a>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'leads_form',t:'Form.'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'dcpl',t:'CPL vs mes ant.',f:r=>r.dcpl==null?'—':`<span class="${r.dcpl<=0?'up':'down'}">${r.dcpl>0?'▲':'▼'} ${Math.abs(r.dcpl)}%</span>`},{k:'org',t:'Orgánicos',f:r=>r.org==null?'—':`${r.org} <span class="tag">${r.organico_contactados} contact.</span>`}],rows,{sort:'mes'});
+}
 async function carga(mes){D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
 (async()=>{const idx=await fetch('/data/seguimiento-index.json?v='+Date.now()).then(r=>r.json());const q=new URLSearchParams(location.search).get('mes');
 $('mes').innerHTML=idx.map(i=>`<option value="${i.mes}">${i.titulo}</option>`).join('');const m=q&&idx.some(i=>i.mes===q)?q:idx[0].mes;$('mes').value=m;
-$('mes').onchange=e=>{history.replaceState(null,'','?mes='+e.target.value);carga(e.target.value)};carga(m)})().catch(e=>{$('periodo').textContent='No se pudo cargar la data: '+e.message});
+$('mes').onchange=e=>{history.replaceState(null,'','?mes='+e.target.value+location.hash);carga(e.target.value)};carga(m);resumen(idx)})().catch(e=>{$('periodo').textContent='No se pudo cargar la data: '+e.message});
 </script>
 </body>
 </html>

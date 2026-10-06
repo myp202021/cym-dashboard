@@ -2,6 +2,79 @@
  {
   "mes": "2026-10",
   "titulo": "Octubre 2026",
-  "hasta": "2026-10-06"
+  "hasta": "2026-10-06",
+  "completo": false,
+  "gasto": 298806,
+  "leads": 59,
+  "conv_wa": 43,
+  "leads_form": 16,
+  "cpl": 5065,
+  "organico": null,
+  "organico_contactados": null
+ },
+ {
+  "mes": "2026-09",
+  "titulo": "Septiembre 2026",
+  "hasta": "2026-09-30",
+  "completo": true,
+  "gasto": 2152396,
+  "leads": 518,
+  "conv_wa": 411,
+  "leads_form": 107,
+  "cpl": 4155,
+  "organico": 210,
+  "organico_contactados": 134
+ },
+ {
+  "mes": "2026-08",
+  "titulo": "Agosto 2026",
+  "hasta": "2026-08-31",
+  "completo": true,
+  "gasto": 1364643,
+  "leads": 346,
+  "conv_wa": 305,
+  "leads_form": 41,
+  "cpl": 3944,
+  "organico": null,
+  "organico_contactados": null
+ },
+ {
+  "mes": "2026-07",
+  "titulo": "Julio 2026",
+  "hasta": "2026-07-31",
+  "completo": true,
+  "gasto": 1731151,
+  "leads": 439,
+  "conv_wa": 50,
+  "leads_form": 389,
+  "cpl": 3943,
+  "organico": null,
+  "organico_contactados": null
+ },
+ {
+  "mes": "2026-06",
+  "titulo": "Junio 2026",
+  "hasta": "2026-06-30",
+  "completo": true,
+  "gasto": 1736431,
+  "leads": 403,
+  "conv_wa": 31,
+  "leads_form": 372,
+  "cpl": 4309,
+  "organico": null,
+  "organico_contactados": null
+ },
+ {
+  "mes": "2026-05",
+  "titulo": "Mayo 2026",
+  "hasta": "2026-05-31",
+  "completo": true,
+  "gasto": 366361,
+  "leads": 232,
+  "conv_wa": 8,
+  "leads_form": 224,
+  "cpl": 1579,
+  "organico": null,
+  "organico_contactados": null
  }
 ]

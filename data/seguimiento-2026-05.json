@@ -1,0 +1,560 @@
+{
+ "mes": "2026-05",
+ "titulo": "Mayo 2026",
+ "desde": "2026-05-01",
+ "hasta": "2026-05-31",
+ "dias": 31,
+ "generado": "2026-10-06T12:52:34.862Z",
+ "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
+ "completo": true,
+ "kpi": {
+  "gasto": 366361,
+  "leads": 232,
+  "conv_wa": 8,
+  "leads_form": 224,
+  "impresiones": 104627,
+  "clics": 4825,
+  "cpl": 1579
+ },
+ "mes_anterior": null,
+ "alertas": {
+  "codigos_sin_leads": 5,
+  "gasto_sin_leads": 8902,
+  "gasto_whatsapp": 366361
+ },
+ "por_campana": [
+  {
+   "gasto": 69283,
+   "leads": 44,
+   "conv_wa": 2,
+   "leads_form": 42,
+   "impresiones": 20186,
+   "clics": 961,
+   "cpl": 1575,
+   "campana": "Clientes potenciales - SCA",
+   "comuna": "SCA",
+   "tipo": "Formulario propiedades",
+   "anuncios": 3,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 69197,
+   "leads": 18,
+   "conv_wa": 1,
+   "leads_form": 17,
+   "impresiones": 16991,
+   "clics": 488,
+   "cpl": 3844,
+   "campana": "Clientes potenciales - Vitacura",
+   "comuna": "Vitacura",
+   "tipo": "Formulario propiedades",
+   "anuncios": 5,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 57934,
+   "leads": 11,
+   "conv_wa": 0,
+   "leads_form": 11,
+   "impresiones": 7857,
+   "clics": 296,
+   "cpl": 5267,
+   "campana": "Clientes potenciales - Departamentos",
+   "comuna": "Departamentos",
+   "tipo": "Formulario propiedades",
+   "anuncios": 3,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56906,
+   "leads": 90,
+   "conv_wa": 1,
+   "leads_form": 89,
+   "impresiones": 26712,
+   "clics": 1654,
+   "cpl": 632,
+   "campana": "Clientes potenciales - La Reina",
+   "comuna": "La Reina",
+   "tipo": "Formulario propiedades",
+   "anuncios": 3,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56616,
+   "leads": 43,
+   "conv_wa": 4,
+   "leads_form": 39,
+   "impresiones": 17521,
+   "clics": 808,
+   "cpl": 1317,
+   "campana": "Clientes potenciales - Las Condes",
+   "comuna": "Las Condes",
+   "tipo": "Formulario propiedades",
+   "anuncios": 5,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56425,
+   "leads": 26,
+   "conv_wa": 0,
+   "leads_form": 26,
+   "impresiones": 15360,
+   "clics": 618,
+   "cpl": 2170,
+   "campana": "Clientes potenciales - La Dehesa",
+   "comuna": "La Dehesa",
+   "tipo": "Formulario propiedades",
+   "anuncios": 5,
+   "cpl_mes_anterior": null
+  }
+ ],
+ "por_comuna": [
+  {
+   "gasto": 69283,
+   "leads": 44,
+   "conv_wa": 2,
+   "leads_form": 42,
+   "impresiones": 20186,
+   "clics": 961,
+   "cpl": 1575,
+   "comuna": "SCA",
+   "anuncios": 3,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 69197,
+   "leads": 18,
+   "conv_wa": 1,
+   "leads_form": 17,
+   "impresiones": 16991,
+   "clics": 488,
+   "cpl": 3844,
+   "comuna": "Vitacura",
+   "anuncios": 5,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 57934,
+   "leads": 11,
+   "conv_wa": 0,
+   "leads_form": 11,
+   "impresiones": 7857,
+   "clics": 296,
+   "cpl": 5267,
+   "comuna": "Departamentos",
+   "anuncios": 3,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56906,
+   "leads": 90,
+   "conv_wa": 1,
+   "leads_form": 89,
+   "impresiones": 26712,
+   "clics": 1654,
+   "cpl": 632,
+   "comuna": "La Reina",
+   "anuncios": 3,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56616,
+   "leads": 43,
+   "conv_wa": 4,
+   "leads_form": 39,
+   "impresiones": 17521,
+   "clics": 808,
+   "cpl": 1317,
+   "comuna": "Las Condes",
+   "anuncios": 5,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 56425,
+   "leads": 26,
+   "conv_wa": 0,
+   "leads_form": 26,
+   "impresiones": 15360,
+   "clics": 618,
+   "cpl": 2170,
+   "comuna": "La Dehesa",
+   "anuncios": 5,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": null
+  }
+ ],
+ "por_codigo": [
+  {
+   "gasto": 63143,
+   "leads": 40,
+   "conv_wa": 2,
+   "leads_form": 38,
+   "impresiones": 18896,
+   "clics": 887,
+   "cpl": 1579,
+   "codigo": "5645",
+   "comuna": "SCA"
+  },
+  {
+   "gasto": 53444,
+   "leads": 87,
+   "conv_wa": 1,
+   "leads_form": 86,
+   "impresiones": 25931,
+   "clics": 1603,
+   "cpl": 614,
+   "codigo": "5397",
+   "comuna": "La Reina"
+  },
+  {
+   "gasto": 46326,
+   "leads": 12,
+   "conv_wa": 1,
+   "leads_form": 11,
+   "impresiones": 11636,
+   "clics": 325,
+   "cpl": 3860,
+   "codigo": "5513",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 41385,
+   "leads": 7,
+   "conv_wa": 0,
+   "leads_form": 7,
+   "impresiones": 5578,
+   "clics": 204,
+   "cpl": 5912,
+   "codigo": "5580",
+   "comuna": "Departamentos"
+  },
+  {
+   "gasto": 32147,
+   "leads": 12,
+   "conv_wa": 0,
+   "leads_form": 12,
+   "impresiones": 9980,
+   "clics": 363,
+   "cpl": 2679,
+   "codigo": "5649",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 30576,
+   "leads": 28,
+   "conv_wa": 4,
+   "leads_form": 24,
+   "impresiones": 10702,
+   "clics": 512,
+   "cpl": 1092,
+   "codigo": "5559",
+   "comuna": "Las Condes"
+  },
+  {
+   "gasto": 13757,
+   "leads": 8,
+   "conv_wa": 0,
+   "leads_form": 8,
+   "impresiones": 3770,
+   "clics": 167,
+   "cpl": 1720,
+   "codigo": "5505",
+   "comuna": "Las Condes"
+  },
+  {
+   "gasto": 13456,
+   "leads": 4,
+   "conv_wa": 0,
+   "leads_form": 4,
+   "impresiones": 1778,
+   "clics": 78,
+   "cpl": 3364,
+   "codigo": "5488",
+   "comuna": "Departamentos"
+  },
+  {
+   "gasto": 12262,
+   "leads": 4,
+   "conv_wa": 0,
+   "leads_form": 4,
+   "impresiones": 2708,
+   "clics": 91,
+   "cpl": 3066,
+   "codigo": "5635",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 11084,
+   "leads": 6,
+   "conv_wa": 0,
+   "leads_form": 6,
+   "impresiones": 2522,
+   "clics": 123,
+   "cpl": 1847,
+   "codigo": "5671",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 7720,
+   "leads": 3,
+   "conv_wa": 0,
+   "leads_form": 3,
+   "impresiones": 1690,
+   "clics": 76,
+   "cpl": 2573,
+   "codigo": "5634",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 6747,
+   "leads": 5,
+   "conv_wa": 0,
+   "leads_form": 5,
+   "impresiones": 1928,
+   "clics": 94,
+   "cpl": 1349,
+   "codigo": "5664",
+   "comuna": "Las Condes"
+  },
+  {
+   "gasto": 4901,
+   "leads": 2,
+   "conv_wa": 0,
+   "leads_form": 2,
+   "impresiones": 890,
+   "clics": 30,
+   "cpl": 2450,
+   "codigo": "5527",
+   "comuna": "Las Condes"
+  },
+  {
+   "gasto": 4780,
+   "leads": 5,
+   "conv_wa": 0,
+   "leads_form": 5,
+   "impresiones": 972,
+   "clics": 49,
+   "cpl": 956,
+   "codigo": "5677",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 4731,
+   "leads": 4,
+   "conv_wa": 0,
+   "leads_form": 4,
+   "impresiones": 953,
+   "clics": 63,
+   "cpl": 1183,
+   "codigo": "5412",
+   "comuna": "SCA"
+  },
+  {
+   "gasto": 4302,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 1058,
+   "clics": 26,
+   "cpl": 4302,
+   "codigo": "5610",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 3236,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 906,
+   "clics": 27,
+   "cpl": 3236,
+   "codigo": "5240",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 3093,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 501,
+   "clics": 14,
+   "cpl": null,
+   "codigo": "5600",
+   "comuna": "Departamentos"
+  },
+  {
+   "gasto": 3071,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 683,
+   "clics": 19,
+   "cpl": null,
+   "codigo": "5241",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 1867,
+   "leads": 2,
+   "conv_wa": 0,
+   "leads_form": 2,
+   "impresiones": 425,
+   "clics": 28,
+   "cpl": 934,
+   "codigo": "5452",
+   "comuna": "La Reina"
+  },
+  {
+   "gasto": 1595,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 356,
+   "clics": 23,
+   "cpl": 1595,
+   "codigo": "5450",
+   "comuna": "La Reina"
+  },
+  {
+   "gasto": 1409,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 337,
+   "clics": 11,
+   "cpl": null,
+   "codigo": "5219",
+   "comuna": "SCA"
+  },
+  {
+   "gasto": 694,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 196,
+   "clics": 7,
+   "cpl": null,
+   "codigo": "5660",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 635,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 231,
+   "clics": 5,
+   "cpl": null,
+   "codigo": "5562",
+   "comuna": "Las Condes"
+  }
+ ],
+ "serie_diaria": [
+  {
+   "fecha": "2026-05-15",
+   "gasto": 5020,
+   "leads": 2
+  },
+  {
+   "fecha": "2026-05-16",
+   "gasto": 6303,
+   "leads": 7
+  },
+  {
+   "fecha": "2026-05-17",
+   "gasto": 11482,
+   "leads": 11
+  },
+  {
+   "fecha": "2026-05-18",
+   "gasto": 21921,
+   "leads": 14
+  },
+  {
+   "fecha": "2026-05-19",
+   "gasto": 29486,
+   "leads": 16
+  },
+  {
+   "fecha": "2026-05-20",
+   "gasto": 23049,
+   "leads": 18
+  },
+  {
+   "fecha": "2026-05-21",
+   "gasto": 24006,
+   "leads": 17
+  },
+  {
+   "fecha": "2026-05-22",
+   "gasto": 21759,
+   "leads": 12
+  },
+  {
+   "fecha": "2026-05-23",
+   "gasto": 17908,
+   "leads": 15
+  },
+  {
+   "fecha": "2026-05-24",
+   "gasto": 30022,
+   "leads": 20
+  },
+  {
+   "fecha": "2026-05-25",
+   "gasto": 24571,
+   "leads": 15
+  },
+  {
+   "fecha": "2026-05-26",
+   "gasto": 23705,
+   "leads": 11
+  },
+  {
+   "fecha": "2026-05-27",
+   "gasto": 28063,
+   "leads": 18
+  },
+  {
+   "fecha": "2026-05-28",
+   "gasto": 26726,
+   "leads": 17
+  },
+  {
+   "fecha": "2026-05-29",
+   "gasto": 23329,
+   "leads": 14
+  },
+  {
+   "fecha": "2026-05-30",
+   "gasto": 18422,
+   "leads": 12
+  },
+  {
+   "fecha": "2026-05-31",
+   "gasto": 30589,
+   "leads": 13
+  }
+ ],
+ "organico": {
+  "estado": "pendiente",
+  "nota": "Pendiente lista orgánica de mayo (la manda CyM los martes)."
+ }
+}

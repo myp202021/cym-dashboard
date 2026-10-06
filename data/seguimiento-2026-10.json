@@ -6,6 +6,7 @@
  "dias": 5,
  "generado": "2026-10-06T12:06:15.951Z",
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
+ "completo": false,
  "kpi": {
   "gasto": 298806,
   "leads": 59,
@@ -156,6 +157,7 @@
    "anuncios": 7,
    "gasto_whatsapp": 71720,
    "gasto_director": 17593,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 4810
   },
   {
@@ -170,6 +172,7 @@
    "anuncios": 7,
    "gasto_whatsapp": 60046,
    "gasto_director": 17250,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 3816
   },
   {
@@ -184,6 +187,7 @@
    "anuncios": 4,
    "gasto_whatsapp": 42002,
    "gasto_director": 0,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 3331
   },
   {
@@ -198,6 +202,7 @@
    "anuncios": 5,
    "gasto_whatsapp": 35798,
    "gasto_director": 0,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 4225
   },
   {
@@ -212,6 +217,7 @@
    "anuncios": 4,
    "gasto_whatsapp": 34318,
    "gasto_director": 0,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 3967
   },
   {
@@ -226,6 +232,7 @@
    "anuncios": 2,
    "gasto_whatsapp": 20079,
    "gasto_director": 0,
+   "gasto_otros": 0,
    "cpl_mes_anterior": 1871
   }
  ],
