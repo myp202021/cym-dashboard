@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-CyM — Panel de seguimiento mensual (se actualiza todos los martes).
+CyM — Panel de seguimiento mensual (se actualiza todos los lunes).
 
 Entradas (scripts/seguimiento/raw/, NO se commitean):
   cym-meta-<AAAA-MM>.json  export de Meta bajado vía Chrome (adsmanager-graph): anuncios_<mes>, diario_<mes>, anuncios_<mes anterior>
                            (compatibilidad: cym-meta-oct.json con anuncios_oct / diario_oct / anuncios_sep)
+  data/propiedades-catalogo.json  código → tipo y comuna (scripts/seguimiento/catalogo.py, correr antes)
   contactos-cym.xlsx       lista orgánica que manda CyM ("CONTACTOS CYM.xlsx"): una hoja por mes ("Septiembre", "Octubre"…)
                            con resumen COMUNA | CON CONTACTO | SIN CONTACTO | TOTAL y detalle con/sin contacto. Tiene prioridad.
   organico-<AAAA-MM>.txt   formato antiguo (texto pegado, como scripts/organico/entrada.txt), solo si no está la hoja del mes
@@ -90,6 +91,30 @@ def agrupa(rows, fkey, extra=None):
         t = tot(rs); t.update(extra(k, rs) if extra else {}); out.append(t)
     return sorted(out, key=lambda x: -x['gasto'])
 
+
+# Catálogo código → tipo y comuna (data/propiedades-catalogo.json, armado por catalogo.py desde la ficha pública de CyM)
+CAT_P = os.path.join(DATA, 'propiedades-catalogo.json')
+CAT = json.load(open(CAT_P, encoding='utf-8'))['codigos'] if os.path.exists(CAT_P) else {}
+ZONA = {'lo barnechea': 'La Dehesa', 'la dehesa': 'La Dehesa', 'sca': 'San Carlos de Apoquindo',
+        'san carlos de apoquindo': 'San Carlos de Apoquindo', 'las condes': 'Las Condes', 'vitacura': 'Vitacura',
+        'la reina': 'La Reina'}
+def zona(txt): return ZONA.get(key(txt), txt) if txt and txt != 'Sin dato' else ''
+
+def resolver(cod, com_lista):
+    """Tipo y comuna de un contacto. La comuna de la lista de CyM manda; si es 'Departamentos (sin comuna)', 'Sin comuna'
+    o ambigua ('La Reina / Las Condes'), se usa la de la ficha de la propiedad. Nada se inventa: lo no resuelto = 'Sin dato'."""
+    c = CAT.get(cod or '', {})
+    k = key(com_lista)
+    depto = k.startswith('departamento')
+    tipo = 'Depto' if depto else (c.get('tipo') if c.get('tipo') not in (None, '', 'Sin dato') else 'Sin dato')
+    resto = re.sub(r'^departamentos?\s*[-–(]*\s*', '', com_lista or '', flags=re.I).strip(' )')
+    opciones = [x.strip() for x in re.split(r'\s*/\s*', resto)] if resto and key(resto) not in ('sin comuna', '') else []
+    cat_z = zona(c.get('comuna'))
+    if len(opciones) == 1: comuna_r = zona(opciones[0])
+    elif len(opciones) > 1: comuna_r = cat_z if cat_z in [zona(o) for o in opciones] else ' / '.join(zona(o) for o in opciones)
+    else: comuna_r = cat_z or 'Sin dato'
+    return tipo, comuna_r
+
 def _int(v):
     try: return int(str(v).strip())
     except Exception: return 0
@@ -160,8 +185,27 @@ def organico_xlsx():
     top = Counter()
     for d in det.values(): top.update(d['codigos'])
     if dif: print('  ⚠ orgánico, diferencias resumen vs detalle:', '; '.join(dif))
+    for f in privado:
+        f['lista_comuna'] = f['comuna']; f['tipo'], f['comuna'] = resolver(f['codigo'], f['comuna'])
     json.dump(dict(mes=MES, hoja=ws.title, filas=privado), open(os.path.join(RAW, f'organico-detalle-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False)
-    return dict(estado='cargado', fuente=f'{archivo} (CyM), hoja {ws.title}', por_comuna=res, total=total,
+    # agregados por comuna REAL (resuelta con el catálogo) y por tipo; los totales cuadran con el resumen de la hoja
+    g = defaultdict(lambda: dict(con=0, sin=0, casas=0, deptos=0, otros=0, codigos=Counter()))
+    for f in privado:
+        x = g[f['comuna']]; x['con' if f['estado'] == 'Con contacto' else 'sin'] += 1
+        x['casas' if f['tipo'] == 'Casa' else 'deptos' if f['tipo'] == 'Depto' else 'otros'] += 1
+        if f['codigo']: x['codigos'][f['codigo']] += 1
+    if sum(v['con'] + v['sin'] for v in g.values()) == total:
+        res = [dict(comuna=k, total=v['con'] + v['sin'], con_contacto=v['con'], sin_contacto=v['sin'],
+                    pct_contacto=round(100 * v['con'] / (v['con'] + v['sin'])), casas=v['casas'], deptos=v['deptos'], otros=v['otros'],
+                    top_codigos=[dict(codigo=c, n=n) for c, n in v['codigos'].most_common(3)]) for k, v in g.items()]
+        res.sort(key=lambda x: (x['comuna'] == 'Sin dato', -x['total']))
+    pt = defaultdict(lambda: dict(con=0, sin=0))
+    for f in privado: pt[f['tipo']]['con' if f['estado'] == 'Con contacto' else 'sin'] += 1
+    por_tipo = sorted([dict(tipo=k, total=v['con'] + v['sin'], con_contacto=v['con'], sin_contacto=v['sin'],
+                            pct_contacto=round(100 * v['con'] / (v['con'] + v['sin']))) for k, v in pt.items()], key=lambda x: (x['tipo'] == 'Sin dato', -x['total']))
+    sin_res = sorted({f['codigo'] for f in privado if f['codigo'] and (f['tipo'] == 'Sin dato' or f['comuna'] == 'Sin dato')})
+    if sin_res: print('  códigos sin tipo/comuna en el catálogo:', ', '.join(sin_res))
+    return dict(estado='cargado', fuente=f'{archivo} (CyM), hoja {ws.title}', por_comuna=res, por_tipo=por_tipo, total=total,
                 con_contacto=con, sin_contacto=total - con, pct_contacto=round(100 * con / total) if total else 0,
                 top_codigos=[dict(codigo=c, n=k) for c, k in top.most_common(8)], celulares_revisar=revisar,
                 diferencias=dif)
@@ -245,7 +289,7 @@ def main():
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
                por_campana=por_campana, por_comuna=por_comuna, por_codigo=por_codigo, serie_diaria=serie,
-               organico=organico() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los martes).'))
+               organico=organico() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     idx_p = os.path.join(DATA, 'seguimiento-index.json')

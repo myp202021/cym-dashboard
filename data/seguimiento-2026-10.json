@@ -572,24 +572,38 @@
   "fuente": "CONTACTOS CYM-OCTUBRE.xlsx (CyM), hoja Octubre",
   "por_comuna": [
    {
-    "comuna": "Departamentos (sin comuna)",
-    "total": 24,
-    "con_contacto": 8,
-    "sin_contacto": 16,
-    "pct_contacto": 33,
+    "comuna": "Las Condes",
+    "total": 39,
+    "con_contacto": 14,
+    "sin_contacto": 25,
+    "pct_contacto": 36,
+    "casas": 14,
+    "deptos": 24,
+    "otros": 1,
     "top_codigos": [
      {
       "codigo": "5615",
       "n": 24
+     },
+     {
+      "codigo": "5778",
+      "n": 6
+     },
+     {
+      "codigo": "5833",
+      "n": 1
      }
     ]
    },
    {
     "comuna": "La Dehesa",
-    "total": 17,
-    "con_contacto": 8,
+    "total": 18,
+    "con_contacto": 9,
     "sin_contacto": 9,
-    "pct_contacto": 47,
+    "pct_contacto": 50,
+    "casas": 14,
+    "deptos": 1,
+    "otros": 3,
     "top_codigos": [
      {
       "codigo": "5308",
@@ -606,32 +620,14 @@
     ]
    },
    {
-    "comuna": "Las Condes",
-    "total": 14,
-    "con_contacto": 5,
-    "sin_contacto": 9,
-    "pct_contacto": 36,
-    "top_codigos": [
-     {
-      "codigo": "5778",
-      "n": 6
-     },
-     {
-      "codigo": "5833",
-      "n": 1
-     },
-     {
-      "codigo": "5505",
-      "n": 1
-     }
-    ]
-   },
-   {
     "comuna": "Vitacura",
     "total": 8,
     "con_contacto": 5,
     "sin_contacto": 3,
     "pct_contacto": 62,
+    "casas": 6,
+    "deptos": 0,
+    "otros": 2,
     "top_codigos": [
      {
       "codigo": "5904",
@@ -653,24 +649,33 @@
     "con_contacto": 1,
     "sin_contacto": 0,
     "pct_contacto": 100,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 1,
     "top_codigos": []
+   }
+  ],
+  "por_tipo": [
+   {
+    "tipo": "Casa",
+    "total": 34,
+    "con_contacto": 18,
+    "sin_contacto": 16,
+    "pct_contacto": 53
    },
    {
-    "comuna": "Sin comuna",
-    "total": 2,
+    "tipo": "Depto",
+    "total": 25,
+    "con_contacto": 9,
+    "sin_contacto": 16,
+    "pct_contacto": 36
+   },
+   {
+    "tipo": "Sin dato",
+    "total": 7,
     "con_contacto": 2,
-    "sin_contacto": 0,
-    "pct_contacto": 100,
-    "top_codigos": [
-     {
-      "codigo": "3672",
-      "n": 1
-     },
-     {
-      "codigo": "6021",
-      "n": 1
-     }
-    ]
+    "sin_contacto": 5,
+    "pct_contacto": 29
    }
   ],
   "total": 66,

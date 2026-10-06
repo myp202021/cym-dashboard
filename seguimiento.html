@@ -77,6 +77,16 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
 .vista-nav{display:flex;gap:6px;margin-top:16px}
 .vista-nav a{font-size:13px;font-weight:800;text-decoration:none;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:7px 16px}
 .vista-nav a.on{background:var(--rosa);color:#fff;border-color:var(--rosa)}
+.vista-nav{flex-wrap:wrap}
+.vista-nav a.wa{color:#128C4A;border-color:#25D366;background:#eafaf0}
+.vista-nav a.wa.on{background:#25D366;color:#fff;border-color:#25D366}
+.proyecto-embed{background:var(--card);border:1px solid var(--linea);border-radius:16px;overflow:hidden;margin-top:12px}
+.proyecto-embed iframe{width:100%;height:78vh;min-height:620px;border:0;display:block;background:#fff}
+.proy-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:16px}
+.proy-top p{font-size:13px;color:#374151;font-weight:500;max-width:760px}
+.proy-top .estado{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:3px 10px;background:#f3f4f6;color:#374151;margin-right:6px}
+.btn-ir{font-size:13px;font-weight:800;text-decoration:none;border-radius:10px;padding:9px 16px;color:#fff;background:var(--rosa);white-space:nowrap}
+.btn-ir.wa{background:#25D366}
 .proys{display:grid;gap:16px;margin-top:16px}
 @media(min-width:760px){.proys{grid-template-columns:1fr 1fr}}
 .proy{background:var(--card);border:1px solid var(--linea);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px}
@@ -109,7 +119,7 @@ td.rev{background:#fff7d6}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#proyectos" id="nav-proy">Proyectos</a></nav>
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a></nav>
   <div id="v-seg">
   <div class="periodo" id="periodo">Cargando…</div>
   <div class="kpis" id="kpis"></div>
@@ -139,33 +149,26 @@ td.rev{background:#fff7d6}
     <div class="periodo" id="org-periodo"></div>
     <div class="kpis" id="org-kpis"></div>
     <section><h2>Contactados por comuna</h2><div class="sub">Lista de CyM · contactados = se logró contacto / respondieron</div><div id="organico"></div></section>
-    <section><h2>Por comuna</h2><div class="sub">Haz clic en un encabezado para ordenar</div><div class="tw" id="org-tabla"></div></section>
+    <section><h2>Por comuna</h2><div class="sub">Comuna real de la propiedad (ficha en cympropiedades.cl) · haz clic en un encabezado para ordenar</div><div id="org-tipo"></div><div class="tw" id="org-tabla"></div></section>
     <section><h2>Propiedades más consultadas</h2><div class="sub">Códigos que más se repiten en la lista orgánica del mes</div><div id="org-codigos"></div></section>
     <section><h2>Detalle por contacto <span class="tag">privado</span></h2><div class="sub">Nombres y teléfonos solo con clave</div><div id="org-detalle"></div></section>
   </div>
-  <div id="v-proy" class="oculto">
-    <div class="periodo">Proyectos en desarrollo para CyM Propiedades</div>
-    <div class="proys">
-      <div class="proy">
-        <h3>Portal nuevo de propiedades</h3>
-        <span class="estado">Demo · piloto propuesto a CyM</span>
-        <p>Portal inmobiliario con herramientas para la corredora, el propietario y el comprador.</p>
-        <ul><li>Buscador por zona, tipo y precio</li><li>Ficha de propiedad con semáforo de precio ("¿está caro?")</li><li>Panel de la corredora: propiedades, corredores, contactos y visitas</li><li>Simulador de crédito hipotecario</li></ul>
-        <a class="ir" href="https://portal-propiedades-myp.vercel.app" target="_blank" rel="noopener">Abrir portal →</a>
-      </div>
-      <div class="proy">
-        <h3>Agente de WhatsApp CyM</h3>
-        <span class="estado">Listo en demo · falta número del bot y salir en vivo</span>
-        <p>Asistente que atiende los mensajes de WhatsApp y deriva cada contacto al director que corresponde.</p>
-        <ul><li>Pregunta si busca comprar, arrendar o vender</li><li>Casa o departamento y comuna</li><li>Deriva al director de la comuna o a Departamentos</li><li>Código de propiedad → central</li></ul>
-        <a class="ir" href="/demo" target="_blank" rel="noopener">Abrir demo →</a>
-      </div>
-    </div>
+  <div id="v-wa" class="oculto">
+    <div class="proy-top"><div><span class="estado" style="background:#eafaf0;color:#128C4A">Listo en demo · falta número del bot y salir en vivo</span>
+      <p><b>Agente de WhatsApp CyM.</b> Atiende los mensajes de WhatsApp, pregunta si busca comprar, arrendar o vender, si es casa o departamento y la comuna, y deriva cada contacto al director que corresponde (Departamentos o director de la comuna; código de propiedad → central).</p></div>
+      <a class="btn-ir wa" href="/demo" target="_blank" rel="noopener">Abrir demo en pantalla completa →</a></div>
+    <div class="proyecto-embed"><iframe src="/demo" title="Demo agente WhatsApp CyM" loading="lazy"></iframe></div>
+  </div>
+  <div id="v-portal" class="oculto">
+    <div class="proy-top"><div><span class="estado">Demo · piloto propuesto a CyM</span>
+      <p><b>Portal nuevo de propiedades.</b> Buscador por zona, tipo y precio; ficha de propiedad con semáforo de precio ("¿está caro?"); panel de la corredora con propiedades, corredores, contactos y visitas; simulador de crédito hipotecario.</p></div>
+      <a class="btn-ir" href="https://portal-propiedades-myp.vercel.app" target="_blank" rel="noopener">Abrir portal →</a></div>
+    <div class="proyecto-embed"><iframe src="https://portal-propiedades-myp.vercel.app" title="Portal de propiedades" loading="lazy"></iframe></div>
   </div>
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){const h=location.hash,v={seg:!['#proyectos','#resumen','#organico'].includes(h),res:h==='#resumen',org:h==='#organico',proy:h==='#proyectos'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);document.getElementById('nav-'+k).classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg()}
+function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico'].includes(h),res:h==='#resumen',org:h==='#organico',wa:h==='#whatsapp',portal:h==='#portal'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);document.getElementById('nav-'+k).classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg()}
 addEventListener('hashchange',vista);addEventListener('DOMContentLoaded',vista);
 </script>
 <script>
@@ -232,7 +235,7 @@ function render(){
     tabla($('t-codigo'),[{k:'codigo',t:'Código',n:1,f:r=>`${r.codigo}<span class="tag">${r.comuna}</span>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'clics',t:'Clics'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,refWA)}],rows,{cero:r=>r.gasto>0&&!r.leads})};
   drawCod();
   organico();
-  $('pie').textContent=`Fuente: ${D.fuente}. Leads = conversaciones de WhatsApp iniciadas + formularios. CPL = gasto / leads. Se actualiza todos los martes.`;
+  $('pie').textContent=`Fuente: ${D.fuente}. Leads = conversaciones de WhatsApp iniciadas + formularios. CPL = gasto / leads. Se actualiza todos los lunes.`;
 }
 function resumen(idx){
   const m=[...idx].sort((a,b)=>a.mes.localeCompare(b.mes)),cerr=m.filter(x=>x.completo);
@@ -258,7 +261,7 @@ function organico(){
   $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
   if(o.estado!=='cargado'){
     const pend=`<div class="pend"><b>Pendiente lista orgánica de ${mesN}</b>${o.nota||''}</div>`;
-    ['org-kpis','org-tabla','org-codigos'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;return}
+    ['org-kpis','org-tabla','org-codigos','org-tipo'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;return}
   const pv=prevMes?{total:prevMes.organico,con:prevMes.organico_contactados}:null;
   const pctPrev=pv&&pv.total?Math.round(pv.con/pv.total*100):null;
   const sub=pv?`${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+prevMes.mes.slice(5)-1]}${D.completo?'':' (mes completo)'}: `:'';
@@ -273,10 +276,11 @@ function organico(){
   $('organico').innerHTML=o.por_comuna.map(r=>`<div class="org-row"><div class="c">${r.comuna}</div><div class="stack" style="width:${Math.max(18,r.total/mx*100)}%"><div class="con" style="width:${r.con_contacto/r.total*100}%">${r.con_contacto||''}</div><div class="sin" style="width:${r.sin_contacto/r.total*100}%">${r.sin_contacto||''}</div></div><div class="t">${r.total}<small>${r.pct_contacto}% contact.</small></div></div>`).join('')+
     '<div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>';
   tabla($('org-tabla'),[{k:'comuna',t:'Comuna',n:1},{k:'total',t:'Total',bar:'g'},{k:'con_contacto',t:'Contactados',bar:1},{k:'sin_contacto',t:'Sin contacto'},
-    {k:'pct_contacto',t:'% contactado',f:r=>`<span class="pill ${r.pct_contacto>=60?'p-v':r.pct_contacto>=40?'p-a':'p-r'}">${r.pct_contacto}%</span>`},
+    {k:'pct_contacto',t:'% contactado',f:r=>`<span class="pill ${r.pct_contacto>=60?'p-v':r.pct_contacto>=40?'p-a':'p-r'}">${r.pct_contacto}%</span>`},{k:'casas',t:'Casas',f:r=>r.casas??'—'},{k:'deptos',t:'Deptos',f:r=>r.deptos??'—'},
     {k:'top',t:'Códigos más consultados',f:r=>r.top_codigos.map(c=>c.codigo+' ('+c.n+')').join(' · ')||'—'}],
     o.por_comuna.map(r=>({...r,top:r.top_codigos.length?r.top_codigos[0].n:0})),
-    {sort:'total',total:{comuna:'Total',total:o.total,con_contacto:o.con_contacto,sin_contacto:o.sin_contacto,pct_contacto:o.pct_contacto+'%',top:''}});
+    {sort:'total',total:{comuna:'Total',total:o.total,con_contacto:o.con_contacto,sin_contacto:o.sin_contacto,pct_contacto:o.pct_contacto+'%',casas:(o.por_tipo||[]).filter(x=>x.tipo==='Casa').reduce((s,x)=>s+x.total,0),deptos:(o.por_tipo||[]).filter(x=>x.tipo==='Depto').reduce((s,x)=>s+x.total,0),top:''}});
+  $('org-tipo').innerHTML=(o.por_tipo||[]).length?'<div class="chips">'+o.por_tipo.map(x=>`<div class="chip"><b>${x.total}</b>${x.tipo==='Depto'?'departamentos':x.tipo==='Casa'?'casas':x.tipo==='Sin dato'?'sin tipo (código sin ficha)':x.tipo} · ${x.pct_contacto}% contactado</div>`).join('')+'</div>':'';
   $('org-codigos').innerHTML=(o.top_codigos||[]).length?'<div class="chips">'+o.top_codigos.map(c=>`<div class="chip"><b>${c.n}</b>${c.codigo}</div>`).join('')+'</div>':'<div class="sub">Sin códigos en la lista.</div>';
   if($('org-mini'))$('org-mini').innerHTML=`<div class="chips"><div class="chip"><b>${o.total}</b>leads orgánicos</div><div class="chip"><b>${o.con_contacto}</b>contactados (${o.pct_contacto}%)</div><div class="chip"><b>${o.sin_contacto}</b>sin contacto</div><a class="chip" href="#organico" style="text-decoration:none;color:var(--rosa)">Ver pestaña Orgánico →</a></div>`;
   ORG_FILAS=null;if(!$('v-org').classList.contains('oculto'))detalleOrg();
@@ -296,18 +300,19 @@ async function detalleOrg(){
   ORG_FILAS=(await r.json()).filas;ORG_MES=D.mes;pintaDetalle();
 }
 function pintaDetalle(){
-  const el=$('org-detalle'),f=ORG_FILAS,comunas=[...new Set(f.map(x=>x.comuna))].sort(),codigos=[...new Set(f.map(x=>x.codigo).filter(Boolean))].sort();
+  const el=$('org-detalle'),f=ORG_FILAS,comunas=[...new Set(f.map(x=>x.comuna))].sort(),tipos=[...new Set(f.map(x=>x.tipo||'Sin dato'))].sort(),codigos=[...new Set(f.map(x=>x.codigo).filter(Boolean))].sort();
   el.innerHTML=`<div class="filtros"><input id="od-q" placeholder="Buscar nombre o celular"><select id="od-com"><option value="">Todas las comunas</option>${comunas.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
+    <select id="od-tipo"><option value="">Casas y deptos</option>${tipos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
     <select id="od-est"><option value="">Con y sin contacto</option><option>Con contacto</option><option>Sin contacto</option></select>
     <select id="od-cod"><option value="">Todos los códigos</option>${codigos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
     <a class="btn" href="/api/organico-detalle?mes=${D.mes}&formato=csv">Exportar CSV</a><button type="button" id="od-salir" style="background:#999">Salir</button><span class="cnt" id="od-cnt"></span></div><div class="tw" id="od-t"></div>
     <div class="leyenda"><span><i style="background:#fff7d6;border:1px solid #eee"></i>Celular a revisar antes de escribir (formato incompleto o extranjero)</span></div>`;
-  const draw=()=>{const q=$('od-q').value.toLowerCase().trim(),c=$('od-com').value,e=$('od-est').value,cd=$('od-cod').value;
-    const rs=f.filter(x=>(!c||x.comuna===c)&&(!e||x.estado===e)&&(!cd||x.codigo===cd)&&(!q||(x.nombre+' '+x.celular).toLowerCase().includes(q)));
+  const draw=()=>{const q=$('od-q').value.toLowerCase().trim(),c=$('od-com').value,e=$('od-est').value,cd=$('od-cod').value,tp=$('od-tipo').value;
+    const rs=f.filter(x=>(!c||x.comuna===c)&&(!tp||(x.tipo||'Sin dato')===tp)&&(!e||x.estado===e)&&(!cd||x.codigo===cd)&&(!q||(x.nombre+' '+x.celular).toLowerCase().includes(q)));
     $('od-cnt').textContent=`${rs.length} de ${f.length} contactos`;
-    $('od-t').innerHTML='<table><thead><tr><th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Comuna</th></tr></thead><tbody>'+
-      rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.comuna)}</td></tr>`).join('')+'</tbody></table>'};
-  ['od-q','od-com','od-est','od-cod'].forEach(id=>$(id).oninput=draw);
+    $('od-t').innerHTML='<table><thead><tr><th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Tipo</th><th style="text-align:left">Comuna</th></tr></thead><tbody>'+
+      rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td><td style="text-align:left" title="${esc(x.lista_comuna&&x.lista_comuna!==x.comuna?'Lista de CyM: '+x.lista_comuna:'')}">${esc(x.comuna)}</td></tr>`).join('')+'</tbody></table>'};
+  ['od-q','od-com','od-est','od-cod','od-tipo'].forEach(id=>$(id).oninput=draw);
   $('od-salir').onclick=async()=>{await fetch('/api/organico-detalle?accion=salir',{method:'POST',credentials:'same-origin'});ORG_FILAS=null;detalleOrg()};
   draw();
 }

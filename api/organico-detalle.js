@@ -66,8 +66,8 @@ export default async function handler(req, res) {
   try { filas = detalle().meses[mes] || []; } catch (e) { return res.status(500).json({ error: 'No se pudo leer el detalle' }); }
 
   if (req.query.formato === 'csv') {
-    const cols = ['estado', 'nombre', 'celular', 'codigo', 'comuna', 'revisar'];
-    const csv = '﻿' + ['Estado;Nombre;Celular;Código;Comuna;Revisar celular', ...filas.map(f => cols.map(c => c === 'revisar' ? (f[c] ? 'sí' : '') : csvCelda(f[c])).join(';'))].join('\n');
+    const cols = ['estado', 'nombre', 'celular', 'codigo', 'tipo', 'comuna', 'lista_comuna', 'revisar'];
+    const csv = '﻿' + ['Estado;Nombre;Celular;Código;Tipo;Comuna;Comuna en lista CyM;Revisar celular', ...filas.map(f => cols.map(c => c === 'revisar' ? (f[c] ? 'sí' : '') : csvCelda(f[c])).join(';'))].join('\n');
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
     res.setHeader('Content-Disposition', `attachment; filename="cym-organico-${mes}.csv"`);
     return res.status(200).send(csv);

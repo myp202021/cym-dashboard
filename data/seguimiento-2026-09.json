@@ -1047,10 +1047,13 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 94,
-    "con_contacto": 55,
-    "sin_contacto": 39,
-    "pct_contacto": 59,
+    "total": 101,
+    "con_contacto": 58,
+    "sin_contacto": 43,
+    "pct_contacto": 57,
+    "casas": 75,
+    "deptos": 7,
+    "otros": 19,
     "top_codigos": [
      {
       "codigo": "5890",
@@ -1068,10 +1071,13 @@
    },
    {
     "comuna": "La Dehesa",
-    "total": 60,
-    "con_contacto": 34,
+    "total": 61,
+    "con_contacto": 35,
     "sin_contacto": 26,
     "pct_contacto": 57,
+    "casas": 56,
+    "deptos": 0,
+    "otros": 5,
     "top_codigos": [
      {
       "codigo": "5941",
@@ -1089,10 +1095,13 @@
    },
    {
     "comuna": "Vitacura",
-    "total": 35,
+    "total": 36,
     "con_contacto": 28,
-    "sin_contacto": 7,
-    "pct_contacto": 80,
+    "sin_contacto": 8,
+    "pct_contacto": 78,
+    "casas": 33,
+    "deptos": 1,
+    "otros": 2,
     "top_codigos": [
      {
       "codigo": "5975",
@@ -1114,6 +1123,9 @@
     "con_contacto": 6,
     "sin_contacto": 3,
     "pct_contacto": 67,
+    "casas": 6,
+    "deptos": 0,
+    "otros": 3,
     "top_codigos": [
      {
       "codigo": "5850",
@@ -1130,24 +1142,14 @@
     ]
    },
    {
-    "comuna": "Departamentos (sin comuna)",
-    "total": 7,
-    "con_contacto": 3,
-    "sin_contacto": 4,
-    "pct_contacto": 43,
-    "top_codigos": [
-     {
-      "codigo": "5615",
-      "n": 7
-     }
-    ]
-   },
-   {
     "comuna": "La Reina",
     "total": 3,
     "con_contacto": 2,
     "sin_contacto": 1,
     "pct_contacto": 67,
+    "casas": 2,
+    "deptos": 0,
+    "otros": 1,
     "top_codigos": [
      {
       "codigo": "4634",
@@ -1160,38 +1162,49 @@
     ]
    },
    {
-    "comuna": "Departamentos – Vitacura",
-    "total": 1,
-    "con_contacto": 0,
-    "sin_contacto": 1,
-    "pct_contacto": 0,
-    "top_codigos": [
-     {
-      "codigo": "5636",
-      "n": 1
-     }
-    ]
-   },
-   {
     "comuna": "Las Condes / Vitacura",
     "total": 1,
     "con_contacto": 1,
     "sin_contacto": 0,
     "pct_contacto": 100,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 1,
     "top_codigos": []
    },
    {
-    "comuna": "Sin comuna",
-    "total": 10,
-    "con_contacto": 6,
+    "comuna": "Sin dato",
+    "total": 9,
+    "con_contacto": 5,
     "sin_contacto": 4,
-    "pct_contacto": 60,
-    "top_codigos": [
-     {
-      "codigo": "4564",
-      "n": 1
-     }
-    ]
+    "pct_contacto": 56,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 9,
+    "top_codigos": []
+   }
+  ],
+  "por_tipo": [
+   {
+    "tipo": "Casa",
+    "total": 172,
+    "con_contacto": 108,
+    "sin_contacto": 64,
+    "pct_contacto": 63
+   },
+   {
+    "tipo": "Depto",
+    "total": 8,
+    "con_contacto": 3,
+    "sin_contacto": 5,
+    "pct_contacto": 38
+   },
+   {
+    "tipo": "Sin dato",
+    "total": 40,
+    "con_contacto": 24,
+    "sin_contacto": 16,
+    "pct_contacto": 60
    }
   ],
   "total": 220,
