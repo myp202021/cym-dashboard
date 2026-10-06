@@ -74,6 +74,11 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
 .tabs{display:flex;gap:6px;margin:0 0 10px 14px;flex-wrap:wrap}
 .tabs button{font-family:inherit;font-size:12px;font-weight:700;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:5px 12px;cursor:pointer;color:var(--gris)}
 .tabs button.on{background:var(--negro);color:#fff;border-color:var(--negro)}
+.meses{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px;align-items:center}
+.meses span{font-size:12px;font-weight:800;color:var(--gris);margin-right:4px}
+.meses a{font-size:13px;font-weight:800;text-decoration:none;color:#111;background:#fff;border:1px solid var(--linea);border-radius:8px;padding:6px 14px}
+.meses a.on{background:#111;color:#fff;border-color:#111}
+.meses a small{font-weight:600;opacity:.6;margin-left:4px}
 .vista-nav{display:flex;gap:6px;margin-top:16px}
 .vista-nav a{font-size:13px;font-weight:800;text-decoration:none;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:7px 16px}
 .vista-nav a.on{background:var(--rosa);color:#fff;border-color:var(--rosa)}
@@ -121,6 +126,7 @@ td.rev{background:#fff7d6}
 <div class="wrap">
   <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a></nav>
   <div id="v-seg">
+  <div class="meses" id="meses"></div>
   <div class="periodo" id="periodo">Cargando…</div>
   <div class="kpis" id="kpis"></div>
   <div id="alerta"></div>
@@ -320,7 +326,9 @@ function pintaDetalle(){
 async function carga(mes){D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
 (async()=>{const idx=await fetch('/data/seguimiento-index.json?v='+Date.now()).then(r=>r.json());IDX=idx;const q=new URLSearchParams(location.search).get('mes');
 $('mes').innerHTML=idx.map(i=>`<option value="${i.mes}">${i.titulo}</option>`).join('');const m=q&&idx.some(i=>i.mes===q)?q:idx[0].mes;$('mes').value=m;
-$('mes').onchange=e=>{history.replaceState(null,'','?mes='+e.target.value+location.hash);carga(e.target.value)};carga(m);resumen(idx)})().catch(e=>{$('periodo').textContent='No se pudo cargar la data: '+e.message});
+const pinta=v=>{$('meses').innerHTML='<span>Mes:</span>'+idx.map(i=>`<a href="?mes=${i.mes}" data-m="${i.mes}" class="${i.mes===v?'on':''}">${i.titulo.replace(' 2026','')}${i.completo===false?'<small>en curso</small>':''}</a>`).join('');[...document.querySelectorAll('#meses a')].forEach(a=>a.onclick=e=>{e.preventDefault();cambia(a.dataset.m)})};
+const cambia=v=>{$('mes').value=v;history.replaceState(null,'','?mes='+v+location.hash);pinta(v);carga(v);scrollTo({top:0,behavior:'smooth'})};
+$('mes').onchange=e=>cambia(e.target.value);pinta(m);carga(m);resumen(idx)})().catch(e=>{$('periodo').textContent='No se pudo cargar la data: '+e.message});
 </script>
 </body>
 </html>
