@@ -127,7 +127,6 @@ td.rev{background:#fff7d6}
     <div class="leyenda"><span><i style="background:var(--verde)"></i>CPL bajo el promedio del mes</span><span><i style="background:var(--ambar)"></i>hasta 30% sobre el promedio</span><span><i style="background:var(--rojo)"></i>más de 30% sobre el promedio o sin leads</span></div>
   </section>
 
-  <section><h2>Orgánico</h2><div class="sub">Leads orgánicos de la lista de CyM</div><div id="org-mini"></div></section>
 
   </div>
   <div id="v-res" class="oculto">
@@ -259,7 +258,7 @@ function organico(){
   $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
   if(o.estado!=='cargado'){
     const pend=`<div class="pend"><b>Pendiente lista orgánica de ${mesN}</b>${o.nota||''}</div>`;
-    ['org-kpis','org-tabla','org-codigos'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;$('org-mini').innerHTML=pend;return}
+    ['org-kpis','org-tabla','org-codigos'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;return}
   const pv=prevMes?{total:prevMes.organico,con:prevMes.organico_contactados}:null;
   const pctPrev=pv&&pv.total?Math.round(pv.con/pv.total*100):null;
   const sub=pv?`${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+prevMes.mes.slice(5)-1]}${D.completo?'':' (mes completo)'}: `:'';
@@ -279,7 +278,7 @@ function organico(){
     o.por_comuna.map(r=>({...r,top:r.top_codigos.length?r.top_codigos[0].n:0})),
     {sort:'total',total:{comuna:'Total',total:o.total,con_contacto:o.con_contacto,sin_contacto:o.sin_contacto,pct_contacto:o.pct_contacto+'%',top:''}});
   $('org-codigos').innerHTML=(o.top_codigos||[]).length?'<div class="chips">'+o.top_codigos.map(c=>`<div class="chip"><b>${c.n}</b>${c.codigo}</div>`).join('')+'</div>':'<div class="sub">Sin códigos en la lista.</div>';
-  $('org-mini').innerHTML=`<div class="chips"><div class="chip"><b>${o.total}</b>leads orgánicos</div><div class="chip"><b>${o.con_contacto}</b>contactados (${o.pct_contacto}%)</div><div class="chip"><b>${o.sin_contacto}</b>sin contacto</div><a class="chip" href="#organico" style="text-decoration:none;color:var(--rosa)">Ver pestaña Orgánico →</a></div>`;
+  if($('org-mini'))$('org-mini').innerHTML=`<div class="chips"><div class="chip"><b>${o.total}</b>leads orgánicos</div><div class="chip"><b>${o.con_contacto}</b>contactados (${o.pct_contacto}%)</div><div class="chip"><b>${o.sin_contacto}</b>sin contacto</div><a class="chip" href="#organico" style="text-decoration:none;color:var(--rosa)">Ver pestaña Orgánico →</a></div>`;
   ORG_FILAS=null;if(!$('v-org').classList.contains('oculto'))detalleOrg();
 }
 let ORG_FILAS=null,ORG_MES=null;
