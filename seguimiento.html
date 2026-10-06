@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seguimiento CyM Propiedades</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--rosa:#eb3d60;--rosa-s:rgba(235,61,96,.12);--negro:#111;--gris:#6b7280;--gris2:#9ca3af;--linea:#ececec;--fondo:#f6f6f4;--card:#fff;--verde:#16a34a;--verde-s:rgba(22,163,74,.12);--ambar:#d97706;--ambar-s:rgba(217,119,6,.13);--rojo:#dc2626;--rojo-s:rgba(220,38,38,.11)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Raleway',sans-serif;background:var(--fondo);color:var(--negro);line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 56px}
+header{background:var(--negro);color:#fff}
+header .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;padding-top:20px;padding-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{height:44px;width:44px;border-radius:8px;object-fit:contain}
+.brand h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
+.brand p{font-size:12px;color:#bbb;font-weight:500}
+.mes{display:flex;align-items:center;gap:8px;font-size:12px;color:#bbb}
+.mes select{font-family:inherit;font-size:14px;font-weight:700;background:#222;color:#fff;border:1px solid #333;border-radius:8px;padding:7px 10px}
+.periodo{font-size:12px;color:var(--gris);margin:18px 0 10px;font-weight:600}
+.periodo b{color:var(--negro)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(5,1fr)}}
+.kpi{background:var(--card);border-radius:14px;padding:14px 16px;border:1px solid var(--linea)}
+.kpi .l{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gris)}
+.kpi .v{font-size:26px;font-weight:900;letter-spacing:-.8px;margin-top:2px}
+.kpi .s{font-size:12px;color:var(--gris);font-weight:600;margin-top:2px}
+.kpi.dest{background:var(--negro);color:#fff;border-color:var(--negro)}
+.kpi.dest .l,.kpi.dest .s{color:#bbb}
+.up{color:var(--verde)}.down{color:var(--rojo)}
+.kpi.dest .up{color:#4ade80}.kpi.dest .down{color:#f87171}
+.alerta{margin-top:10px;background:var(--rojo-s);border:1px solid rgba(220,38,38,.25);color:#991b1b;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:600}
+section{background:var(--card);border:1px solid var(--linea);border-radius:16px;padding:18px;margin-top:16px}
+section h2{font-size:16px;font-weight:800;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+section h2::before{content:"";width:6px;height:18px;border-radius:3px;background:var(--rosa)}
+section .sub{font-size:12px;color:var(--gris);margin:2px 0 12px 14px;font-weight:500}
+.grid2{display:grid;gap:16px}
+.grid2{display:block}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--gris);font-weight:700;text-align:right;padding:8px 8px;border-bottom:2px solid var(--negro);cursor:pointer;white-space:nowrap;user-select:none}
+th:first-child,td:first-child{text-align:left}
+th.on{color:var(--rosa)}
+th .ar{font-size:9px;margin-left:3px}
+td{padding:8px 8px;border-bottom:1px solid var(--linea);text-align:right;white-space:nowrap}
+td.n{font-weight:700}
+tr.tot td{font-weight:800;border-top:2px solid var(--negro);border-bottom:0}
+tr.cero td{background:rgba(220,38,38,.05)}
+.bar{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.bar i{display:block;height:8px;border-radius:4px;background:var(--rosa);opacity:.85;min-width:2px}
+.bar.g i{background:var(--negro);opacity:.75}
+.pill{display:inline-block;min-width:66px;text-align:center;border-radius:999px;padding:3px 9px;font-weight:800;font-size:12px}
+.p-v{background:var(--verde-s);color:var(--verde)}.p-a{background:var(--ambar-s);color:var(--ambar)}.p-r{background:var(--rojo-s);color:var(--rojo)}.p-n{background:#f1f1f1;color:var(--gris)}
+.tag{font-size:10px;font-weight:700;color:var(--gris);background:#f3f3f3;border-radius:5px;padding:2px 6px;margin-left:6px}
+.leyenda{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--gris);font-weight:600;margin-top:10px}
+.leyenda span{display:flex;align-items:center;gap:5px}
+.leyenda i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.chart svg{width:100%;height:auto;display:block}
+.pend{border:2px dashed #ddd;border-radius:12px;padding:22px;text-align:center;color:var(--gris);font-weight:600;font-size:14px}
+.pend b{display:block;color:var(--negro);font-size:16px;margin-bottom:4px}
+.org-row{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--linea);font-size:13px}
+.org-row .c{font-weight:700}
+.stack{display:flex;height:22px;border-radius:6px;overflow:hidden;background:#f1f1f1}
+.stack .con{background:var(--verde);opacity:.85;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.stack .sin{background:var(--rojo);opacity:.55;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.org-row .t{text-align:right;font-weight:800}
+.org-row .t small{display:block;font-size:11px;color:var(--gris);font-weight:600}
+.org-row .codes{grid-column:2/4;font-size:11px;color:var(--gris);margin-top:-4px}
+@media(max-width:560px){.org-row{grid-template-columns:100px 1fr 56px}.kpi .v{font-size:22px}}
+footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
+.tabs{display:flex;gap:6px;margin:0 0 10px 14px;flex-wrap:wrap}
+.tabs button{font-family:inherit;font-size:12px;font-weight:700;border:1px solid var(--linea);background:#fff;border-radius:999px;padding:5px 12px;cursor:pointer;color:var(--gris)}
+.tabs button.on{background:var(--negro);color:#fff;border-color:var(--negro)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><img src="/logo-cym.png" alt="CyM"><div><h1>Seguimiento de campañas</h1><p>Pagado (Meta) y orgánico · CyM Propiedades × M&amp;P</p></div></div>
+  <label class="mes">Mes <select id="mes"></select></label>
+</div></header>
+<div class="wrap">
+  <div class="periodo" id="periodo">Cargando…</div>
+  <div class="kpis" id="kpis"></div>
+  <div id="alerta"></div>
+
+  <section><h2>Gasto y leads por día</h2><div class="sub">Barras = gasto diario · línea = leads (conversaciones WhatsApp + formularios)</div><div class="chart" id="chart"></div></section>
+
+  <div class="grid2">
+    <section><h2>Por comuna</h2><div class="sub">Incluye WhatsApp propiedades y captación de directores</div><div class="tw" id="t-comuna"></div></section>
+    <section><h2>Por campaña</h2><div class="sub">CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
+  </div>
+
+  <section><h2>Por código de propiedad</h2><div class="sub">Campañas WhatsApp · en rojo los códigos con gasto y sin leads</div>
+    <div class="tabs" id="f-codigo"></div><div class="tw" id="t-codigo"></div>
+    <div class="leyenda"><span><i style="background:var(--verde)"></i>CPL bajo el promedio del mes</span><span><i style="background:var(--ambar)"></i>hasta 30% sobre el promedio</span><span><i style="background:var(--rojo)"></i>más de 30% sobre el promedio o sin leads</span></div>
+  </section>
+
+  <section><h2>Orgánico por comuna</h2><div class="sub">Leads orgánicos (lista de CyM) · contactados = respondieron / se logró contacto</div><div id="organico"></div></section>
+
+  <footer id="pie"></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const clp=n=>n==null?'—':'$'+Math.round(n).toLocaleString('es-CL');
+const num=n=>n==null?'—':Math.round(n).toLocaleString('es-CL');
+const MESC=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const fcorta=f=>{const[,m,d]=f.split('-');return +d+' '+MESC[+m-1]};
+const fl=f=>{const[y,m,d]=f.split('-');return +d+' de '+['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+m-1]};
+let D=null;
+function pill(cpl,leads,gasto,ref){if(!leads)return gasto>0?'<span class="pill p-r">0 leads</span>':'<span class="pill p-n">—</span>';const r=cpl/ref;return `<span class="pill ${r<=1?'p-v':r<=1.3?'p-a':'p-r'}">${clp(cpl)}</span>`}
+function delta(a,b,inv){if(b==null||!b||a==null)return '';const p=Math.round((a-b)/b*100);if(!p)return ' <span>= </span>';const good=inv?p<0:p>0;return ` <span class="${good?'up':'down'}">${p>0?'▲':'▼'} ${Math.abs(p)}%</span>`}
+function tabla(el,cols,rows,opts={}){
+  let sortK=opts.sort||cols[1].k,dir=-1;
+  const maxes={};cols.forEach(c=>{if(c.bar)maxes[c.k]=Math.max(1,...rows.map(r=>r[c.k]||0))});
+  function draw(){
+    const rs=[...rows].sort((a,b)=>{const x=a[sortK],y=b[sortK];if(x==null)return 1;if(y==null)return -1;return (typeof x==='string'?x.localeCompare(y):x-y)*dir});
+    let h='<table><thead><tr>'+cols.map(c=>`<th data-k="${c.k}" class="${c.k===sortK?'on':''}">${c.t}${c.k===sortK?`<span class="ar">${dir<0?'▼':'▲'}</span>`:''}</th>`).join('')+'</tr></thead><tbody>';
+    rs.forEach(r=>{h+=`<tr class="${opts.cero&&opts.cero(r)?'cero':''}">`+cols.map(c=>{const v=c.f?c.f(r):r[c.k];if(c.bar)return `<td><div class="bar ${c.bar==='g'?'g':''}"><span>${v}</span><i style="width:${Math.round((r[c.k]||0)/maxes[c.k]*70)}px"></i></div></td>`;return `<td class="${c.n?'n':''}">${v}</td>`}).join('')+'</tr>'});
+    if(opts.total)h+='<tr class="tot">'+cols.map(c=>`<td>${opts.total[c.k]??''}</td>`).join('')+'</tr>';
+    el.innerHTML=h+'</tbody></table>';
+    el.querySelectorAll('th').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sortK)dir=-dir;else{sortK=k;dir=typeof rows[0][k]==='string'?1:-1}draw()});
+  }
+  draw();
+}
+function chart(serie){
+  const W=1100,H=260,L=56,R=40,T=16,B=34,w=W-L-R,h=H-T-B,n=serie.length;
+  const mg=Math.max(...serie.map(s=>s.gasto))*1.15||1,ml=Math.max(...serie.map(s=>s.leads))*1.25||1,bw=w/n;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Gasto y leads por día">`;
+  for(let i=0;i<=4;i++){const y=T+h-h*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#9ca3af">${clp(mg*i/4/1000).replace('$','$')}k</text><text x="${W-R+8}" y="${y+4}" font-size="11" fill="#eb3d60">${Math.round(ml*i/4)}</text>`}
+  serie.forEach((d,i)=>{const bh=d.gasto/mg*h,x=L+i*bw+bw*.18;s+=`<rect x="${x}" y="${T+h-bh}" width="${bw*.64}" height="${bh}" rx="4" fill="#111" opacity=".82"><title>${fcorta(d.fecha)}: ${clp(d.gasto)} · ${d.leads} leads</title></rect><text x="${L+i*bw+bw/2}" y="${H-12}" font-size="11" text-anchor="middle" fill="#6b7280">${fcorta(d.fecha)}</text>`});
+  const pts=serie.map((d,i)=>[L+i*bw+bw/2,T+h-d.leads/ml*h]);
+  s+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#eb3d60" stroke-width="3" stroke-linejoin="round"/>`;
+  pts.forEach((p,i)=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#eb3d60" stroke="#fff" stroke-width="2"/><text x="${p[0]}" y="${p[1]-10}" font-size="12" font-weight="800" text-anchor="middle" fill="#eb3d60">${serie[i].leads}</text>`);
+  $('chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto (miles CLP, eje izq.)</span><span><i style="background:#eb3d60"></i>Leads (eje der.)</span></div>';
+}
+function render(){
+  const k=D.kpi,p=D.mes_anterior;
+  $('periodo').innerHTML=`<b>${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
+  $('kpis').innerHTML=[
+    ['Gasto Meta',clp(k.gasto),`ritmo ${p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto),1],
+    ['Leads',num(k.leads),`${k.conv_wa} WhatsApp · ${k.leads_form} formularios`,1],
+    ['Costo por lead',clp(k.cpl),`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true),0],
+    ['Leads '+p.nombre+' (mismo período)',num(p.leads),`primeros ${D.dias} días · octubre`+delta(k.leads,p.leads),0],
+    ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`,0]
+  ].map(([l,v,s,d])=>`<div class="kpi ${d&&l==='Leads'?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  const a=D.alertas;
+  $('alerta').innerHTML=a.codigos_sin_leads?`<div class="alerta">⚠ ${a.codigos_sin_leads} códigos con gasto y sin leads: ${clp(a.gasto_sin_leads)} (${Math.round(a.gasto_sin_leads/a.gasto_whatsapp*100)}% del gasto en WhatsApp propiedades).</div>`:'';
+  chart(D.serie_diaria);
+  const ref=k.cpl||1;
+  const tc=D.por_comuna;
+  tabla($('t-comuna'),[
+    {k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'leads_form',t:'Form.'},
+    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
+  ],tc,{total:{comuna:'Total',gasto:clp(k.gasto),conv_wa:k.conv_wa,leads_form:k.leads_form,leads:k.leads,cpl:clp(k.cpl),cpl_mes_anterior:clp(p.cpl)}});
+  tabla($('t-campana'),[
+    {k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
+    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
+  ],D.por_campana);
+  const comunas=['Todas',...new Set(D.por_codigo.map(c=>c.comuna))];let fc='Todas';
+  const refWA=D.por_codigo.reduce((s,c)=>s+c.gasto,0)/Math.max(1,D.por_codigo.reduce((s,c)=>s+c.leads,0));
+  const drawCod=()=>{$('f-codigo').innerHTML=comunas.map(c=>`<button class="${c===fc?'on':''}">${c}</button>`).join('');$('f-codigo').querySelectorAll('button').forEach(b=>b.onclick=()=>{fc=b.textContent;drawCod()});
+    const rows=D.por_codigo.filter(c=>fc==='Todas'||c.comuna===fc);
+    tabla($('t-codigo'),[{k:'codigo',t:'Código',n:1,f:r=>`${r.codigo}<span class="tag">${r.comuna}</span>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'clics',t:'Clics'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,refWA)}],rows,{cero:r=>r.gasto>0&&!r.leads})};
+  drawCod();
+  const o=D.organico;
+  if(o.estado!=='cargado'){$('organico').innerHTML=`<div class="pend"><b>Pendiente lista orgánica de ${D.titulo.split(' ')[0].toLowerCase()}</b>${o.nota||''}</div>`}
+  else{const mx=Math.max(...o.por_comuna.map(r=>r.total));
+    $('organico').innerHTML=`<div class="kpis" style="margin-bottom:12px"><div class="kpi dest"><div class="l">Leads orgánicos</div><div class="v">${o.total}</div></div><div class="kpi"><div class="l">Contactados</div><div class="v up">${o.con_contacto}</div><div class="s">${o.pct_contacto}% del total</div></div><div class="kpi"><div class="l">Sin contacto</div><div class="v down">${o.sin_contacto}</div></div></div>`+
+    o.por_comuna.map(r=>`<div class="org-row"><div class="c">${r.comuna}</div><div class="stack" style="width:${Math.max(18,r.total/mx*100)}%"><div class="con" style="width:${r.con_contacto/r.total*100}%">${r.con_contacto||''}</div><div class="sin" style="width:${r.sin_contacto/r.total*100}%">${r.sin_contacto||''}</div></div><div class="t">${r.total}<small>${r.pct_contacto}% contact.</small></div><div class="codes">${r.top_codigos.map(c=>c.codigo+' ('+c.n+')').join(' · ')}</div></div>`).join('')+
+    '<div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>'}
+  $('pie').textContent=`Fuente: ${D.fuente}. Leads = conversaciones de WhatsApp iniciadas + formularios. CPL = gasto / leads. Se actualiza todos los martes.`;
+}
+async function carga(mes){D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
+(async()=>{const idx=await fetch('/data/seguimiento-index.json?v='+Date.now()).then(r=>r.json());const q=new URLSearchParams(location.search).get('mes');
+$('mes').innerHTML=idx.map(i=>`<option value="${i.mes}">${i.titulo}</option>`).join('');const m=q&&idx.some(i=>i.mes===q)?q:idx[0].mes;$('mes').value=m;
+$('mes').onchange=e=>{history.replaceState(null,'','?mes='+e.target.value);carga(e.target.value)};carga(m)})().catch(e=>{$('periodo').textContent='No se pudo cargar la data: '+e.message});
+</script>
+</body>
+</html>
