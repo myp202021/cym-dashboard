@@ -1,3 +1,7 @@
 .vercel
 scripts/organico/
 scripts/seguimiento/raw/
+.panel-password.local
+.detalle-key.local
+.cookie-secret.local
+privado/*.json

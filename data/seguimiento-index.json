@@ -9,8 +9,8 @@
   "conv_wa": 43,
   "leads_form": 16,
   "cpl": 5065,
-  "organico": null,
-  "organico_contactados": null
+  "organico": 66,
+  "organico_contactados": 29
  },
  {
   "mes": "2026-09",
@@ -22,8 +22,8 @@
   "conv_wa": 411,
   "leads_form": 107,
   "cpl": 4155,
-  "organico": 210,
-  "organico_contactados": 134
+  "organico": 220,
+  "organico_contactados": 135
  },
  {
   "mes": "2026-08",

@@ -15,5 +15,22 @@
       "source": "/seguimiento",
       "destination": "/seguimiento.html"
     }
+  ],
+  "functions": {
+    "api/organico-detalle.js": {
+      "includeFiles": "privado/**"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/privado/:path*",
+      "destination": "/seguimiento",
+      "permanent": false
+    },
+    {
+      "source": "/scripts/:path*",
+      "destination": "/seguimiento",
+      "permanent": false
+    }
   ]
 }

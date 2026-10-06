@@ -568,7 +568,150 @@
   }
  ],
  "organico": {
-  "estado": "pendiente",
-  "nota": "Pendiente lista orgánica de octubre (la manda CyM los martes)."
+  "estado": "cargado",
+  "fuente": "CONTACTOS CYM.xlsx (CyM), hoja Octubre",
+  "por_comuna": [
+   {
+    "comuna": "Departamentos (sin comuna)",
+    "total": 24,
+    "con_contacto": 8,
+    "sin_contacto": 16,
+    "pct_contacto": 33,
+    "top_codigos": [
+     {
+      "codigo": "5615",
+      "n": 24
+     }
+    ]
+   },
+   {
+    "comuna": "La Dehesa",
+    "total": 17,
+    "con_contacto": 8,
+    "sin_contacto": 9,
+    "pct_contacto": 47,
+    "top_codigos": [
+     {
+      "codigo": "5308",
+      "n": 3
+     },
+     {
+      "codigo": "5944",
+      "n": 2
+     },
+     {
+      "codigo": "5953",
+      "n": 2
+     }
+    ]
+   },
+   {
+    "comuna": "Las Condes",
+    "total": 14,
+    "con_contacto": 5,
+    "sin_contacto": 9,
+    "pct_contacto": 36,
+    "top_codigos": [
+     {
+      "codigo": "5778",
+      "n": 6
+     },
+     {
+      "codigo": "5833",
+      "n": 1
+     },
+     {
+      "codigo": "5505",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Vitacura",
+    "total": 8,
+    "con_contacto": 5,
+    "sin_contacto": 3,
+    "pct_contacto": 62,
+    "top_codigos": [
+     {
+      "codigo": "5904",
+      "n": 3
+     },
+     {
+      "codigo": "6008",
+      "n": 1
+     },
+     {
+      "codigo": "5697",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "La Reina / Las Condes",
+    "total": 1,
+    "con_contacto": 1,
+    "sin_contacto": 0,
+    "pct_contacto": 100,
+    "top_codigos": []
+   },
+   {
+    "comuna": "Sin comuna",
+    "total": 2,
+    "con_contacto": 2,
+    "sin_contacto": 0,
+    "pct_contacto": 100,
+    "top_codigos": [
+     {
+      "codigo": "3672",
+      "n": 1
+     },
+     {
+      "codigo": "6021",
+      "n": 1
+     }
+    ]
+   }
+  ],
+  "total": 66,
+  "con_contacto": 29,
+  "sin_contacto": 37,
+  "pct_contacto": 44,
+  "top_codigos": [
+   {
+    "codigo": "5615",
+    "n": 24
+   },
+   {
+    "codigo": "5778",
+    "n": 6
+   },
+   {
+    "codigo": "5308",
+    "n": 3
+   },
+   {
+    "codigo": "5904",
+    "n": 3
+   },
+   {
+    "codigo": "5944",
+    "n": 2
+   },
+   {
+    "codigo": "5953",
+    "n": 2
+   },
+   {
+    "codigo": "5952",
+    "n": 2
+   },
+   {
+    "codigo": "5627",
+    "n": 1
+   }
+  ],
+  "celulares_revisar": 2,
+  "diferencias": []
  }
 }

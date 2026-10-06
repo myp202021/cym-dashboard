@@ -5,7 +5,9 @@ CyM — Panel de seguimiento mensual (se actualiza todos los martes).
 Entradas (scripts/seguimiento/raw/, NO se commitean):
   cym-meta-<AAAA-MM>.json  export de Meta bajado vía Chrome (adsmanager-graph): anuncios_<mes>, diario_<mes>, anuncios_<mes anterior>
                            (compatibilidad: cym-meta-oct.json con anuncios_oct / diario_oct / anuncios_sep)
-  organico-<AAAA-MM>.txt   lista orgánica que manda CyM (mismo formato que scripts/organico/entrada.txt), opcional
+  contactos-cym.xlsx       lista orgánica que manda CyM ("CONTACTOS CYM.xlsx"): una hoja por mes ("Septiembre", "Octubre"…)
+                           con resumen COMUNA | CON CONTACTO | SIN CONTACTO | TOTAL y detalle con/sin contacto. Tiene prioridad.
+  organico-<AAAA-MM>.txt   formato antiguo (texto pegado, como scripts/organico/entrada.txt), solo si no está la hoja del mes
 
 Salida (sí se commitea, solo agregados, sin nombres ni teléfonos):
   data/seguimiento-<AAAA-MM>.json  y  data/seguimiento-index.json (meses disponibles)
@@ -88,7 +90,75 @@ def agrupa(rows, fkey, extra=None):
         t = tot(rs); t.update(extra(k, rs) if extra else {}); out.append(t)
     return sorted(out, key=lambda x: -x['gasto'])
 
+def _int(v):
+    try: return int(str(v).strip())
+    except Exception: return 0
+
+def organico_xlsx():
+    """Lee la hoja del mes en contactos-cym.xlsx. El resumen de la hoja manda; el detalle aporta códigos y se cuadra."""
+    p = os.path.join(RAW, 'contactos-cym.xlsx')
+    if not os.path.exists(p): return None
+    import openpyxl
+    y, m = map(int, MES.split('-'))
+    wb = openpyxl.load_workbook(p, data_only=True)
+    ws = next((w for w in wb.worksheets if key(w.title) == MESES[m-1]), None)
+    if ws is None: return None
+    rows = [[c for c in r] for r in ws.iter_rows()]
+    val = lambda c: (str(c.value).strip() if c is not None and c.value is not None else '')
+    # 1) resumen
+    resumen, i = {}, 0
+    while i < len(rows) and key(val(rows[i][0])) != 'comuna': i += 1
+    i += 1
+    tot_hoja = None
+    while i < len(rows) and val(rows[i][0]):
+        nom = val(rows[i][0]); con, sin, t = (_int(val(rows[i][j])) for j in (1, 2, 3))
+        if key(nom) == 'total': tot_hoja = dict(con=con, sin=sin, total=t); break
+        resumen[nom] = dict(con=con, sin=sin, total=t); i += 1
+    # 2) detalle: izquierda = con contacto (NOMBRE, CELULAR, CÓDIGO, COMUNA); derecha = sin contacto (NOMBRE, CÓDIGO, COMUNA)
+    while i < len(rows) and key(val(rows[i][0])) != 'nombre': i += 1
+    det = defaultdict(lambda: dict(con=0, sin=0, codigos=Counter())); revisar = 0
+    privado = []  # detalle con datos personales: SOLO a raw/ (gitignored); se publica cifrado con cifrar-detalle.mjs
+    grupo = re.compile(r'.*\(\d+\)\s*$')
+    for r in rows[i + 1:]:
+        r = r + [None] * 8
+        n, cel, cod, com = (val(r[j]) for j in (0, 1, 2, 3))
+        if n and not grupo.match(n) and (cod or com):
+            d = det[com or 'Sin comuna']; d['con'] += 1
+            if cod and cod != '-': d['codigos'][cod] += 1
+            f = r[1].fill if r[1] is not None else None
+            color = (f.fgColor.rgb if f is not None and f.fill_type and f.fgColor is not None and isinstance(f.fgColor.rgb, str) else '') or ''
+            amarillo = color[-6:].upper() in ('FFFF00', 'FFF2CC', 'FFF2B3', 'FFEB9C', 'FFFF99', 'FFE699', 'FFD966')
+            revisar += amarillo
+            privado.append(dict(estado='Con contacto', nombre=n, celular=cel, codigo=cod if cod != '-' else '', comuna=com or 'Sin comuna', revisar=bool(amarillo)))
+        n2, cod2, com2 = (val(r[j]) for j in (5, 6, 7))
+        if n2 and not grupo.match(n2) and (cod2 or com2):
+            d = det[com2 or 'Sin comuna']; d['sin'] += 1
+            if cod2 and cod2 != '-': d['codigos'][cod2] += 1
+            privado.append(dict(estado='Sin contacto', nombre=n2, celular='', codigo=cod2 if cod2 != '-' else '', comuna=com2 or 'Sin comuna', revisar=False))
+    res, dif = [], []
+    for nom, s_ in resumen.items():
+        d = det.get(nom, dict(con=0, sin=0, codigos=Counter()))
+        if (d['con'], d['sin']) != (s_['con'], s_['sin']): dif.append(f"{nom}: hoja {s_['con']}/{s_['sin']} vs detalle {d['con']}/{d['sin']}")
+        res.append(dict(comuna=nom, total=s_['total'], con_contacto=s_['con'], sin_contacto=s_['sin'],
+                        pct_contacto=round(100 * s_['con'] / s_['total']) if s_['total'] else 0,
+                        top_codigos=[dict(codigo=c, n=k) for c, k in d['codigos'].most_common(3)]))
+    for nom in det:
+        if nom not in resumen: dif.append(f"{nom}: está en el detalle y no en el resumen")
+    res.sort(key=lambda x: (x['comuna'] == 'Sin comuna', -x['total']))
+    con = sum(r['con_contacto'] for r in res); total = sum(r['total'] for r in res)
+    if tot_hoja and (tot_hoja['con'], tot_hoja['total']) != (con, total): dif.append(f"TOTAL hoja {tot_hoja} vs suma comunas {con}/{total}")
+    top = Counter()
+    for d in det.values(): top.update(d['codigos'])
+    if dif: print('  ⚠ orgánico, diferencias resumen vs detalle:', '; '.join(dif))
+    json.dump(dict(mes=MES, hoja=ws.title, filas=privado), open(os.path.join(RAW, f'organico-detalle-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False)
+    return dict(estado='cargado', fuente='CONTACTOS CYM.xlsx (CyM), hoja ' + ws.title, por_comuna=res, total=total,
+                con_contacto=con, sin_contacto=total - con, pct_contacto=round(100 * con / total) if total else 0,
+                top_codigos=[dict(codigo=c, n=k) for c, k in top.most_common(8)], celulares_revisar=revisar,
+                diferencias=dif)
+
 def organico():
+    x = organico_xlsx()
+    if x: return x
     p = os.path.join(RAW, f'organico-{MES}.txt')
     if not os.path.exists(p): return None
     def norm(s): return ' '.join((s or '').replace('\xa0', ' ').split()).strip()

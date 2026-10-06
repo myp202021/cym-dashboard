@@ -1043,13 +1043,14 @@
  ],
  "organico": {
   "estado": "cargado",
+  "fuente": "CONTACTOS CYM.xlsx (CyM), hoja Septiembre",
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 93,
-    "con_contacto": 56,
-    "sin_contacto": 37,
-    "pct_contacto": 60,
+    "total": 94,
+    "con_contacto": 55,
+    "sin_contacto": 39,
+    "pct_contacto": 59,
     "top_codigos": [
      {
       "codigo": "5890",
@@ -1067,10 +1068,10 @@
    },
    {
     "comuna": "La Dehesa",
-    "total": 61,
-    "con_contacto": 36,
-    "sin_contacto": 25,
-    "pct_contacto": 59,
+    "total": 60,
+    "con_contacto": 34,
+    "sin_contacto": 26,
+    "pct_contacto": 57,
     "top_codigos": [
      {
       "codigo": "5941",
@@ -1078,24 +1079,24 @@
      },
      {
       "codigo": "4876",
-      "n": 12
+      "n": 11
      },
      {
       "codigo": "5944",
-      "n": 5
+      "n": 4
      }
     ]
    },
    {
     "comuna": "Vitacura",
-    "total": 36,
-    "con_contacto": 30,
-    "sin_contacto": 6,
-    "pct_contacto": 83,
+    "total": 35,
+    "con_contacto": 28,
+    "sin_contacto": 7,
+    "pct_contacto": 80,
     "top_codigos": [
      {
       "codigo": "5975",
-      "n": 16
+      "n": 15
      },
      {
       "codigo": "5875",
@@ -1108,7 +1109,7 @@
     ]
    },
    {
-    "comuna": "SCA",
+    "comuna": "San Carlos de Apoquindo",
     "total": 9,
     "con_contacto": 6,
     "sin_contacto": 3,
@@ -1119,12 +1120,25 @@
       "n": 3
      },
      {
-      "codigo": "5938",
+      "codigo": "5840",
       "n": 1
      },
      {
-      "codigo": "5840",
+      "codigo": "5966",
       "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Departamentos (sin comuna)",
+    "total": 7,
+    "con_contacto": 3,
+    "sin_contacto": 4,
+    "pct_contacto": 43,
+    "top_codigos": [
+     {
+      "codigo": "5615",
+      "n": 7
      }
     ]
    },
@@ -1146,17 +1160,79 @@
     ]
    },
    {
-    "comuna": "Sin comuna",
-    "total": 8,
-    "con_contacto": 4,
-    "sin_contacto": 4,
-    "pct_contacto": 50,
+    "comuna": "Departamentos – Vitacura",
+    "total": 1,
+    "con_contacto": 0,
+    "sin_contacto": 1,
+    "pct_contacto": 0,
+    "top_codigos": [
+     {
+      "codigo": "5636",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Las Condes / Vitacura",
+    "total": 1,
+    "con_contacto": 1,
+    "sin_contacto": 0,
+    "pct_contacto": 100,
     "top_codigos": []
+   },
+   {
+    "comuna": "Sin comuna",
+    "total": 10,
+    "con_contacto": 6,
+    "sin_contacto": 4,
+    "pct_contacto": 60,
+    "top_codigos": [
+     {
+      "codigo": "4564",
+      "n": 1
+     }
+    ]
    }
   ],
-  "total": 210,
-  "con_contacto": 134,
-  "sin_contacto": 76,
-  "pct_contacto": 64
+  "total": 220,
+  "con_contacto": 135,
+  "sin_contacto": 85,
+  "pct_contacto": 61,
+  "top_codigos": [
+   {
+    "codigo": "5890",
+    "n": 21
+   },
+   {
+    "codigo": "5941",
+    "n": 21
+   },
+   {
+    "codigo": "5505",
+    "n": 20
+   },
+   {
+    "codigo": "5972",
+    "n": 18
+   },
+   {
+    "codigo": "5975",
+    "n": 15
+   },
+   {
+    "codigo": "4876",
+    "n": 11
+   },
+   {
+    "codigo": "5854",
+    "n": 10
+   },
+   {
+    "codigo": "5615",
+    "n": 7
+   }
+  ],
+  "celulares_revisar": 11,
+  "diferencias": []
  }
 }
