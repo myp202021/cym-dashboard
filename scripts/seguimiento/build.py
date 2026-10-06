@@ -96,15 +96,25 @@ def _int(v):
 
 def organico_xlsx():
     """Lee la hoja del mes en contactos-cym.xlsx. El resumen de la hoja manda; el detalle aporta códigos y se cuadra."""
-    p = os.path.join(RAW, 'contactos-cym.xlsx')
-    if not os.path.exists(p): return None
     import openpyxl
     y, m = map(int, MES.split('-'))
-    wb = openpyxl.load_workbook(p, data_only=True)
-    ws = next((w for w in wb.worksheets if key(w.title) == MESES[m-1]), None)
+    # prioridad: archivo propio del mes ("CONTACTOS CYM-OCTUBRE.xlsx"); si no, la hoja del mes en contactos-cym.xlsx
+    cands = [f for f in os.listdir(RAW) if f.lower().endswith('.xlsx') and key(f.replace('-', ' ')).find(MESES[m-1]) >= 0]
+    cands += ['contactos-cym.xlsx']
+    ws = None
+    for f in cands:
+        pth = os.path.join(RAW, f)
+        if not os.path.exists(pth): continue
+        wb = openpyxl.load_workbook(pth, data_only=True)
+        ws = next((w for w in wb.worksheets if key(w.title) == MESES[m-1]), None)
+        if ws is not None: archivo = f; break
     if ws is None: return None
     rows = [[c for c in r] for r in ws.iter_rows()]
-    val = lambda c: (str(c.value).strip() if c is not None and c.value is not None else '')
+    def val(c):
+        if c is None or c.value is None: return ''
+        v = c.value
+        if isinstance(v, float) and v.is_integer(): v = int(v)  # códigos/celulares que Excel guardó como 5615.0
+        return re.sub(r'^(\d+)\.0$', r'\1', str(v).strip())
     # 1) resumen
     resumen, i = {}, 0
     while i < len(rows) and key(val(rows[i][0])) != 'comuna': i += 1
@@ -151,7 +161,7 @@ def organico_xlsx():
     for d in det.values(): top.update(d['codigos'])
     if dif: print('  ⚠ orgánico, diferencias resumen vs detalle:', '; '.join(dif))
     json.dump(dict(mes=MES, hoja=ws.title, filas=privado), open(os.path.join(RAW, f'organico-detalle-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False)
-    return dict(estado='cargado', fuente='CONTACTOS CYM.xlsx (CyM), hoja ' + ws.title, por_comuna=res, total=total,
+    return dict(estado='cargado', fuente=f'{archivo} (CyM), hoja {ws.title}', por_comuna=res, total=total,
                 con_contacto=con, sin_contacto=total - con, pct_contacto=round(100 * con / total) if total else 0,
                 top_codigos=[dict(codigo=c, n=k) for c, k in top.most_common(8)], celulares_revisar=revisar,
                 diferencias=dif)

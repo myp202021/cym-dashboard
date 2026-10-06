@@ -256,13 +256,13 @@ let IDX=[];
 function organico(){
   const o=D.organico,mesN=D.titulo.split(' ')[0].toLowerCase();
   const prevMes=IDX.find(x=>x.mes<D.mes&&x.organico!=null&&x.mes===[...IDX].map(y=>y.mes).filter(m=>m<D.mes).sort().at(-1));
-  $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${o.fuente?' · '+o.fuente:''}`;
+  $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
   if(o.estado!=='cargado'){
     const pend=`<div class="pend"><b>Pendiente lista orgánica de ${mesN}</b>${o.nota||''}</div>`;
     ['org-kpis','org-tabla','org-codigos'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;$('org-mini').innerHTML=pend;return}
   const pv=prevMes?{total:prevMes.organico,con:prevMes.organico_contactados}:null;
   const pctPrev=pv&&pv.total?Math.round(pv.con/pv.total*100):null;
-  const sub=pv?`${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+prevMes.mes.slice(5)-1]}: `:'';
+  const sub=pv?`${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+prevMes.mes.slice(5)-1]}${D.completo?'':' (mes completo)'}: `:'';
   $('org-kpis').innerHTML=[
     ['Leads orgánicos',num(o.total),pv?sub+num(pv.total)+delta(o.total,pv.total):'sin mes anterior',1],
     ['Contactados',num(o.con_contacto),pv?sub+num(pv.con)+delta(o.con_contacto,pv.con):'',0],

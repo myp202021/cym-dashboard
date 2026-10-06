@@ -1043,7 +1043,7 @@
  ],
  "organico": {
   "estado": "cargado",
-  "fuente": "CONTACTOS CYM.xlsx (CyM), hoja Septiembre",
+  "fuente": "contactos-cym.xlsx (CyM), hoja Septiembre",
   "por_comuna": [
    {
     "comuna": "Las Condes",
