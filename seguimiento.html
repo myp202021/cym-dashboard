@@ -162,12 +162,8 @@ td.rev{background:#fff7d6}
   <div id="v-vit" class="oculto">
     <div class="periodo" id="vit-periodo"></div>
     <div class="kpis" id="vit-kpis"></div>
-    <section><h2>Vitacura mes a mes</h2><div class="sub">Barras = gasto en Meta · línea = leads pagados · puntos grises = leads orgánicos (lista de CyM)</div><div class="chart" id="vit-chart"></div></section>
-    <div class="grid2">
-      <section><h2>Campañas</h2><div class="sub">Campañas pagadas de Vitacura en el mes</div><div class="tw" id="vit-campana"></div></section>
-      <section><h2>Orgánico</h2><div class="sub">Lista de CyM · contactados = se logró contacto / respondieron</div><div id="vit-org"></div></section>
-    </div>
-    <section><h2>Por código de propiedad</h2><div class="sub">Pagado (Meta) y orgánico por código · en rojo los códigos con gasto y sin leads</div><div class="tw" id="vit-codigo"></div></section>
+    <section><h2>Orgánico Vitacura mes a mes</h2><div class="sub">Barras = leads orgánicos · verde = contactados · rojo = sin contacto (lista de CyM)</div><div class="chart" id="vit-chart"></div></section>
+    <section><h2>Propiedades más consultadas</h2><div class="sub">Códigos de Vitacura que más se repiten en la lista orgánica del mes</div><div class="tw" id="vit-codigo"></div></section>
     <section><h2>Contactos orgánicos de Vitacura <span class="tag">privado</span></h2><div class="sub">Nombres y teléfonos solo con clave</div><div id="vit-detalle"></div></section>
   </div>
   <div id="v-wa" class="oculto">
@@ -338,38 +334,29 @@ function pintaDetalle(){
 const VIT='Vitacura';let VIT_HIST=null;
 async function vitacura(){
   if(!D)return;
-  const cm=(D.por_comuna||[]).find(r=>r.comuna===VIT)||{gasto:0,leads:0,conv_wa:0,leads_form:0,cpl:null,cpl_mes_anterior:null};
-  const o=D.organico||{},ov=o.estado==='cargado'?(o.por_comuna||[]).find(r=>r.comuna===VIT):null;
-  $('vit-periodo').innerHTML=`<b>Vitacura · ${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)}${D.completo?'':' · mes en curso'} · pagado en Meta + orgánico de la lista de CyM`;
-  $('vit-kpis').innerHTML=[
-    ['Gasto Meta Vitacura',clp(cm.gasto),`${Math.round(cm.gasto/Math.max(1,D.kpi.gasto)*100)}% del gasto total`,0],
-    ['Leads pagados',num(cm.leads),`${cm.conv_wa||0} WhatsApp · ${cm.leads_form||0} formularios`,1],
-    ['Costo por lead',clp(cm.cpl),cm.cpl_mes_anterior!=null?`${(D.mes_anterior||{}).nombre||'mes anterior'}: ${clp(cm.cpl_mes_anterior)}`+delta(cm.cpl,cm.cpl_mes_anterior,true):'',0],
-    ['Leads orgánicos',ov?num(ov.total):'—',ov?`${ov.con_contacto} contactados · ${ov.sin_contacto} sin contacto`:(o.estado==='cargado'?'sin leads de Vitacura':'pendiente lista de CyM'),1],
-    ['% contactado',ov?ov.pct_contacto+'%':'—',ov?'orgánico Vitacura':'',0]
+  const o=D.organico||{},ov=o.estado==='cargado'?((o.por_comuna||[]).find(r=>r.comuna===VIT)||{total:0,con_contacto:0,sin_contacto:0,pct_contacto:0,casas:0,deptos:0,top_codigos:[]}):null;
+  if(!VIT_HIST){VIT_HIST=await Promise.all([...IDX].sort((a,b)=>a.mes.localeCompare(b.mes)).map(async i=>{const d=await fetch(`/data/seguimiento-${i.mes}.json`).then(r=>r.json());const ok=d.organico&&d.organico.estado==='cargado';const c=ok?((d.organico.por_comuna||[]).find(r=>r.comuna===VIT)||{total:0,con_contacto:0,sin_contacto:0}):null;return {mes:i.mes,t:i.titulo.split(' ')[0],completo:i.completo!==false,c}}))}
+  const prev=[...VIT_HIST].filter(x=>x.mes<D.mes&&x.c).at(-1);
+  $('vit-periodo').innerHTML=`<b>Vitacura · orgánico · ${D.titulo}</b>${D.completo?'':' · mes en curso'} · lista de leads orgánicos que manda CyM`;
+  if(!ov){$('vit-kpis').innerHTML='';$('vit-codigo').innerHTML='';$('vit-detalle').innerHTML='';}
+  const pn=prev?prev.t.toLowerCase()+(D.completo?'':' (mes completo)')+': ':'';
+  if(ov)$('vit-kpis').innerHTML=[
+    ['Leads orgánicos',num(ov.total),prev?pn+num(prev.c.total)+delta(ov.total,prev.c.total):'',1],
+    ['Contactados',num(ov.con_contacto),prev?pn+num(prev.c.con_contacto):'',0],
+    ['Sin contacto',num(ov.sin_contacto),prev?pn+num(prev.c.sin_contacto):'',0],
+    ['% contactado',ov.pct_contacto+'%',prev&&prev.c.total?pn+Math.round(prev.c.con_contacto/prev.c.total*100)+'%':'',1],
+    ['Casas / deptos',`${ov.casas??'—'} / ${ov.deptos??'—'}`,'según ficha de la propiedad',0]
   ].map(([l,v,s,d])=>`<div class="kpi ${d?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
-  const ref=cm.cpl||D.kpi.cpl||1;
-  const camp=(D.por_campana||[]).filter(r=>r.comuna===VIT);
-  if(camp.length)tabla($('vit-campana'),[{k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ').replace('Clientes potenciales - ','Form. · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)}],camp);
-  else $('vit-campana').innerHTML='<div class="sub">Sin campañas de Vitacura en el mes.</div>';
-  $('vit-org').innerHTML=ov?`<div class="org-row"><div class="c">Vitacura</div><div class="stack" style="width:100%"><div class="con" style="width:${ov.con_contacto/ov.total*100}%">${ov.con_contacto||''}</div><div class="sin" style="width:${ov.sin_contacto/ov.total*100}%">${ov.sin_contacto||''}</div></div><div class="t">${ov.total}<small>${ov.pct_contacto}% contact.</small></div></div>
-    <div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>
-    <div class="chips">${(ov.top_codigos||[]).map(c=>`<div class="chip"><b>${c.n}</b>${c.codigo}</div>`).join('')}</div>`:`<div class="pend"><b>${o.estado==='cargado'?'Sin leads orgánicos de Vitacura este mes':'Pendiente lista orgánica del mes'}</b></div>`;
-  const cods={};(D.por_codigo||[]).filter(r=>r.comuna===VIT).forEach(r=>cods[r.codigo]={...r,org:0});
-  (ov&&ov.top_codigos||[]).forEach(c=>{cods[c.codigo]=cods[c.codigo]||{codigo:c.codigo,gasto:0,clics:0,leads:0,cpl:null};cods[c.codigo].org=c.n});
-  const rc=Object.values(cods);
-  if(rc.length)tabla($('vit-codigo'),[{k:'codigo',t:'Código',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'clics',t:'Clics',f:r=>num(r.clics)},{k:'leads',t:'Leads pagados',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'org',t:'Orgánicos',f:r=>r.org?num(r.org):'—'}],rc,{cero:r=>r.gasto>0&&!r.leads});
-  else $('vit-codigo').innerHTML='<div class="sub">Sin códigos de Vitacura en el mes.</div>';
-  if(!VIT_HIST){VIT_HIST=await Promise.all([...IDX].sort((a,b)=>a.mes.localeCompare(b.mes)).map(async i=>{const d=await fetch(`/data/seguimiento-${i.mes}.json`).then(r=>r.json());const c=(d.por_comuna||[]).find(r=>r.comuna===VIT)||{gasto:0,leads:0};const og=d.organico&&d.organico.estado==='cargado'?((d.organico.por_comuna||[]).find(r=>r.comuna===VIT)||{total:0}).total:null;return {mes:i.mes,t:i.titulo.split(' ')[0],completo:i.completo!==false,gasto:c.gasto,leads:c.leads,org:og}}))}
-  const m=VIT_HIST,W=1100,H=260,L=64,R=48,T=22,B=40,w=W-L-R,h=H-T-B,n=m.length,bw=w/n,mg=Math.max(1,...m.map(x=>x.gasto))*1.15,ml=Math.max(1,...m.map(x=>Math.max(x.leads,x.org||0)))*1.25;
-  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Vitacura mes a mes">`;
-  for(let i=0;i<=4;i++){const y=T+h-h*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#9ca3af">${clp(mg*i/4/1000)}k</text><text x="${W-R+8}" y="${y+4}" font-size="11" fill="#eb3d60">${Math.round(ml*i/4)}</text>`}
-  m.forEach((x,i)=>{const bh=x.gasto/mg*h;s+=`<rect x="${L+i*bw+bw*.22}" y="${T+h-bh}" width="${bw*.56}" height="${bh}" rx="6" fill="#111" opacity="${x.completo?.82:.35}"><title>${x.t}: ${clp(x.gasto)} · ${x.leads} leads pagados${x.org!=null?' · '+x.org+' orgánicos':''}</title></rect><text x="${L+i*bw+bw/2}" y="${H-16}" font-size="12" font-weight="700" text-anchor="middle" fill="#374151">${x.t}${x.completo?'':' (parcial)'}</text>`});
-  const pts=m.map((x,i)=>[L+i*bw+bw/2,T+h-x.leads/ml*h]);
-  s+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#eb3d60" stroke-width="3"/>`;
-  pts.forEach((p,i)=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#eb3d60" stroke="#fff" stroke-width="2"/><text x="${p[0]}" y="${p[1]-12}" font-size="13" font-weight="800" text-anchor="middle" fill="#eb3d60" stroke="#fff" stroke-width="4" paint-order="stroke">${m[i].leads}</text>`);
-  m.forEach((x,i)=>{if(x.org!=null){const y=T+h-x.org/ml*h;s+=`<circle cx="${L+i*bw+bw/2+18}" cy="${y}" r="6" fill="#9ca3af" stroke="#fff" stroke-width="2"><title>${x.org} orgánicos</title></circle><text x="${L+i*bw+bw/2+30}" y="${y+4}" font-size="12" font-weight="700" fill="#6b7280">${x.org}</text>`}});
-  $('vit-chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto Meta Vitacura (miles CLP)</span><span><i style="background:#eb3d60"></i>Leads pagados</span><span><i style="background:#9ca3af"></i>Leads orgánicos</span></div>';
+  const m=VIT_HIST.filter(x=>x.c),W=1100,H=260,L=56,R=24,T=26,B=40,w=W-L-R,h=H-T-B,n=Math.max(1,m.length),bw=w/n,mx=Math.max(1,...m.map(x=>x.c.total))*1.15;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Orgánico Vitacura mes a mes">`;
+  for(let i=0;i<=4;i++){const y=T+h-h*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#9ca3af">${Math.round(mx*i/4)}</text>`}
+  m.forEach((x,i)=>{const hc=x.c.con_contacto/mx*h,hs=x.c.sin_contacto/mx*h,bx=L+i*bw+bw*.28,ww=bw*.44;
+    s+=`<rect x="${bx}" y="${T+h-hc}" width="${ww}" height="${hc}" fill="#16a34a"><title>${x.t}: ${x.c.con_contacto} contactados</title></rect><rect x="${bx}" y="${T+h-hc-hs}" width="${ww}" height="${hs}" fill="#ef4444" opacity=".55"><title>${x.t}: ${x.c.sin_contacto} sin contacto</title></rect>`+
+    `<text x="${L+i*bw+bw/2}" y="${T+h-hc-hs-8}" font-size="13" font-weight="800" text-anchor="middle" fill="#111">${x.c.total}</text><text x="${L+i*bw+bw/2}" y="${H-16}" font-size="12" font-weight="700" text-anchor="middle" fill="#374151">${x.t}${x.completo?'':' (parcial)'}</text>`});
+  $('vit-chart').innerHTML=m.length?s+'</svg><div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>':'<div class="sub">Sin listas orgánicas cargadas.</div>';
+  if(!ov){$('vit-chart').insertAdjacentHTML('beforebegin','');$('vit-kpis').innerHTML=`<div class="pend"><b>Pendiente lista orgánica de ${D.titulo.split(' ')[0].toLowerCase()}</b></div>`;return}
+  const tc=ov.top_codigos||[];
+  if(tc.length)tabla($('vit-codigo'),[{k:'codigo',t:'Código',n:1},{k:'n',t:'Leads orgánicos',bar:1}],tc,{sort:'n'});else $('vit-codigo').innerHTML='<div class="sub">Sin códigos de Vitacura en el mes.</div>';
   detalleVit();
 }
 async function detalleVit(){
