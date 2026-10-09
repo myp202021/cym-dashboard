@@ -53,7 +53,8 @@ export default async function handler(req, res) {
   const plataforma = body.object === 'instagram' ? 'instagram' : 'messenger';
   const filas = [];
   for (const entry of body.entry || []) {
-    for (const ev of entry.messaging || []) {
+    const eventos = [...(entry.messaging || []), ...(entry.changes || []).filter(c => c.field === 'messages' && c.value).map(c => c.value)];
+    for (const ev of eventos) {
       const msg = ev.message;
       if (!msg || !msg.mid) continue;
       const saliente = !!msg.is_echo;
