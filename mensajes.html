@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mensajes de Instagram y Messenger · CyM</title><meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--rosa:#eb3d60;--negro:#111;--gris:#6b7280;--linea:#e5e7eb;--verde:#16a34a;--rojo:#ef4444;--fondo:#f6f6f7}
+*{box-sizing:border-box}body{margin:0;font-family:Raleway,system-ui,sans-serif;background:var(--fondo);color:var(--negro)}
+header{background:#111;color:#fff;padding:18px 0}.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header .wrap{display:flex;align-items:center;gap:14px;justify-content:space-between}header img{height:34px;background:#fff;border-radius:6px;padding:4px}
+h1{font-size:20px;margin:0}header p{margin:2px 0 0;color:#cbd5e1;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}
+.kpi{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:14px}.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gris);font-weight:700}
+.kpi .v{font-size:26px;font-weight:800;margin-top:4px}.kpi.dest{background:#111;color:#fff}.kpi.dest .l{color:#cbd5e1}
+section{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:16px;margin-bottom:16px}h2{font-size:16px;margin:0 0 4px}.sub{color:var(--gris);font-size:13px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px;border-bottom:1px solid var(--linea);text-align:left;vertical-align:top}th{font-size:11px;text-transform:uppercase;color:var(--gris)}
+.ok{color:var(--verde);font-weight:700}.no{color:var(--rojo);font-weight:700}.tag{display:inline-block;font-size:11px;background:#f3f4f6;border-radius:999px;padding:2px 8px;margin-left:4px}
+.login{display:flex;gap:8px;flex-wrap:wrap}.login input,select{padding:9px 12px;border:1px solid var(--linea);border-radius:8px;font:inherit}.login button{background:var(--rosa);color:#fff;border:0;border-radius:8px;padding:9px 16px;font-weight:700;cursor:pointer}
+.err{color:var(--rojo);font-size:13px;width:100%}.vacio{color:var(--gris);padding:20px 0;text-align:center}.tw{overflow-x:auto}
+</style></head><body>
+<header><div class="wrap"><div style="display:flex;gap:12px;align-items:center"><img src="/logo-cym.png" alt="CyM"><div><h1>Mensajes de Instagram y Messenger</h1><p>Consultas que llegan a CyM y si fueron respondidas · CyM Propiedades × M&amp;P</p></div></div>
+<label style="color:#fff;font-size:13px">Mes <select id="mes"></select></label></div></header>
+<div class="wrap" id="app"><section><div class="vacio">Cargando…</div></section></div>
+<script>
+const $=id=>document.getElementById(id);const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const hoy=new Date();const meses=[];for(let i=0;i<6;i++){const d=new Date(hoy.getFullYear(),hoy.getMonth()-i,1);meses.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
+$('mes').innerHTML=meses.map(m=>`<option value="${m}">${MES[+m.slice(5)-1]} ${m.slice(0,4)}</option>`).join('');$('mes').onchange=carga;
+let CAT={};fetch('/data/propiedades-catalogo.json').then(r=>r.json()).then(d=>{CAT=d.codigos||{}}).catch(()=>{});
+const fh=s=>new Date(s).toLocaleString('es-CL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+const tiempo=m=>m==null?'—':m<60?m+' min':m<1440?Math.round(m/60)+' h':Math.round(m/1440)+' d';
+async function carga(){
+  const r=await fetch('/api/mensajes?mes='+$('mes').value,{credentials:'same-origin'});
+  if(r.status===401){$('app').innerHTML=`<section><h2>Acceso privado</h2><div class="sub">Ingresa la clave del panel de CyM.</div><form class="login" id="f"><input type="password" id="c" placeholder="Clave del panel" required><button>Entrar</button><div class="err" id="e"></div></form></section>`;
+    $('f').onsubmit=async e=>{e.preventDefault();const x=await fetch('/api/organico-detalle?accion=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clave:$('c').value}),credentials:'same-origin'});if(x.ok)carga();else $('e').textContent='Clave incorrecta'};return}
+  if(!r.ok){$('app').innerHTML='<section><div class="vacio">No se pudo cargar.</div></section>';return}
+  const d=await r.json(),c=d.conversaciones,min=c.filter(x=>x.minutos!=null).map(x=>x.minutos).sort((a,b)=>a-b),med=min.length?min[Math.floor(min.length/2)]:null;
+  const ig=c.filter(x=>x.plataforma==='instagram').length;
+  $('app').innerHTML=`<div class="kpis"><div class="kpi dest"><div class="l">Conversaciones nuevas</div><div class="v">${d.total}</div></div>
+   <div class="kpi"><div class="l">Respondidas</div><div class="v">${d.respondidas}<span style="font-size:14px;color:var(--gris)"> · ${d.total?Math.round(d.respondidas/d.total*100):0}%</span></div></div>
+   <div class="kpi"><div class="l">Sin respuesta</div><div class="v" style="color:var(--rojo)">${d.total-d.respondidas}</div></div>
+   <div class="kpi"><div class="l">Tiempo de respuesta (mediana)</div><div class="v">${tiempo(med)}</div></div>
+   <div class="kpi"><div class="l">Instagram / Messenger</div><div class="v">${ig} / ${d.total-ig}</div></div></div>
+   <section><h2>Conversaciones</h2><div class="sub">Se registran automáticamente desde que la página quedó conectada. La comuna sale del código de propiedad mencionado en el mensaje.</div>
+   <div class="tw">${c.length?`<table><thead><tr><th>Fecha</th><th>Canal</th><th>Primer mensaje</th><th>Código</th><th>Comuna</th><th>Respondida</th><th>Tiempo</th></tr></thead><tbody>`+
+   c.map(x=>{const p=CAT[x.codigo]||{};return `<tr><td>${fh(x.primer_mensaje)}</td><td>${x.plataforma==='instagram'?'Instagram':'Messenger'}</td><td>${esc(x.texto)||'—'}</td><td>${x.codigo||'—'}</td><td>${esc(p.comuna)||'—'}${p.tipo?`<span class="tag">${esc(p.tipo)}</span>`:''}</td><td class="${x.respondida?'ok':'no'}">${x.respondida?'Sí':'No'}</td><td>${tiempo(x.minutos)}</td></tr>`}).join('')+'</tbody></table>':'<div class="vacio">Aún no hay conversaciones registradas este mes.</div>'}</div></section>`;
+}
+carga();
+</script></body></html>

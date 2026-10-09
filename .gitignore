@@ -5,3 +5,4 @@ scripts/seguimiento/raw/
 .detalle-key.local
 .cookie-secret.local
 privado/*.json
+.meta-webhook.local

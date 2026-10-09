@@ -14,11 +14,18 @@
     {
       "source": "/seguimiento",
       "destination": "/seguimiento.html"
+    },
+    {
+      "source": "/mensajes",
+      "destination": "/mensajes.html"
     }
   ],
   "functions": {
     "api/organico-detalle.js": {
       "includeFiles": "privado/**"
+    },
+    "api/meta-webhook.js": {
+      "includeFiles": "data/propiedades-catalogo.json"
     }
   },
   "redirects": [
