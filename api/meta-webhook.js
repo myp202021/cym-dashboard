@@ -40,6 +40,7 @@ export default async function handler(req, res) {
     return res.status(403).send('Forbidden');
   }
   if (req.method !== 'POST') return res.status(405).end();
+  console.log('webhook POST', 'clave_ok=' + (!!process.env.META_WEBHOOK_KEY && iguales(req.query.k || '', process.env.META_WEBHOOK_KEY)), 'firma=' + (req.headers['x-hub-signature-256'] ? 'si' : 'no'));
   if (!process.env.META_WEBHOOK_KEY || !iguales(req.query.k || '', process.env.META_WEBHOOK_KEY)) return res.status(403).end();
 
   const raw = await leerCuerpo(req);
