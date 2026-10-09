@@ -52,6 +52,9 @@ export default async function handler(req, res) {
 
   const plataforma = body.object === 'instagram' ? 'instagram' : 'messenger';
   const filas = [];
+  // La prueba del panel de Meta puede venir como {field, value} o {sample:{field, value}} sin "entry".
+  const suelto = body.sample || (body.field ? body : null);
+  if (suelto && suelto.field === 'messages' && suelto.value) body.entry = [{ id: suelto.value.recipient?.id || 'prueba', changes: [suelto] }];
   for (const entry of body.entry || []) {
     const eventos = [...(entry.messaging || []), ...(entry.changes || []).filter(c => c.field === 'messages' && c.value).map(c => c.value)];
     for (const ev of eventos) {
@@ -68,6 +71,7 @@ export default async function handler(req, res) {
       });
     }
   }
+  if (!filas.length) console.log('webhook sin mensajes', JSON.stringify(Object.keys(body)), JSON.stringify(body).slice(0, 300));
   if (filas.length && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
     const r = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?on_conflict=mid', {
       method: 'POST',
