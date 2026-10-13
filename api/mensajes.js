@@ -11,7 +11,7 @@ function autenticado(req) {
 }
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Robots-Tag', 'noindex');
-  if (!autenticado(req)) return res.status(401).json({ error: 'Sin sesión' });
+  // sin clave por pedido de Christopher
   const desde = /^\d{4}-\d{2}$/.test(req.query.mes || '') ? req.query.mes + '-01' : '2026-10-01';
   const hasta = new Date(new Date(desde + 'T00:00:00Z').setUTCMonth(new Date(desde + 'T00:00:00Z').getUTCMonth() + 1)).toISOString();
   const url = `${process.env.SUPABASE_URL}/rest/v1/meta_mensajes?cliente=eq.cym&enviado_en=gte.${desde}T00:00:00Z&enviado_en=lt.${hasta}&select=plataforma,contacto_id,direccion,enviado_en,texto,codigo&order=enviado_en.asc&limit=5000`;
