@@ -29,6 +29,10 @@ header .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-con
 .kpi .v{font-size:26px;font-weight:900;letter-spacing:-.8px;margin-top:2px}
 .kpi .s{font-size:12px;color:var(--gris);font-weight:600;margin-top:2px}
 .kpi.dest{background:var(--negro);color:#fff;border-color:var(--negro)}
+.kpi.verde{background:#16a34a;color:#fff;border-color:#16a34a}
+.kpi.verde .l,.kpi.verde .s{color:#dcfce7}
+.kpi.verde .up{color:#fff}.kpi.verde .down{color:#fee2e2}
+.meta-bar{height:6px;border-radius:4px;background:rgba(255,255,255,.3);margin-top:6px;overflow:hidden}.meta-bar i{display:block;height:100%;background:#fff}
 .kpi.dest .l,.kpi.dest .s{color:#bbb}
 .up{color:var(--verde)}.down{color:var(--rojo)}
 .kpi.dest .up{color:#4ade80}.kpi.dest .down{color:#f87171}
@@ -154,7 +158,7 @@ td.rev{background:#fff7d6}
   <div id="v-org" class="oculto">
     <div class="periodo" id="org-periodo"></div>
     <div class="kpis" id="org-kpis"></div>
-    <section><h2>Contactados por comuna</h2><div class="sub">Lista de CyM · contactados = se logró contacto / respondieron</div><div id="organico"></div></section>
+    <section><h2>Contactados por comuna</h2><div class="sub">Solo los leads contactados (con teléfono), que son los que se gestionan · lista de CyM</div><div id="organico"></div></section>
     <section><h2>Por comuna</h2><div class="sub">Comuna real de la propiedad (ficha en cympropiedades.cl) · haz clic en un encabezado para ordenar</div><div id="org-tipo"></div><div class="tw" id="org-tabla"></div></section>
     <section><h2>Propiedades más consultadas</h2><div class="sub">Códigos que más se repiten en la lista orgánica del mes</div><div id="org-codigos"></div></section>
     <section><h2>Detalle por contacto <span class="tag">privado</span></h2><div class="sub">Nombres y teléfonos solo con clave</div><div id="org-detalle"></div></section>
@@ -162,7 +166,7 @@ td.rev{background:#fff7d6}
   <div id="v-vit" class="oculto">
     <div class="periodo" id="vit-periodo"></div>
     <div class="kpis" id="vit-kpis"></div>
-    <section><h2>Orgánico Vitacura mes a mes</h2><div class="sub">Barras = leads orgánicos · verde = contactados · rojo = sin contacto (lista de CyM)</div><div class="chart" id="vit-chart"></div></section>
+    <section><h2>Orgánico Vitacura mes a mes</h2><div class="sub">Barras = leads orgánicos · verde = contactados (con teléfono) · rojo = sin teléfono (lista de CyM)</div><div class="chart" id="vit-chart"></div></section>
     <section><h2>Propiedades más consultadas</h2><div class="sub">Códigos de Vitacura que más se repiten en la lista orgánica del mes</div><div class="tw" id="vit-codigo"></div></section>
     <section><h2>Contactos orgánicos de Vitacura <span class="tag">privado</span></h2><div class="sub">Nombres y teléfonos solo con clave</div><div id="vit-detalle"></div></section>
   </div>
@@ -269,6 +273,7 @@ function resumen(idx){
 }
 
 let IDX=[];
+const META_CONTACTADOS=150; // meta mensual de leads orgánicos contactados (Christopher, 13 oct 2026)
 function organico(){
   const o=D.organico,mesN=D.titulo.split(' ')[0].toLowerCase();
   const prevMes=IDX.find(x=>x.mes<D.mes&&x.organico!=null&&x.mes===[...IDX].map(y=>y.mes).filter(m=>m<D.mes).sort().at(-1));
@@ -283,22 +288,24 @@ function organico(){
   const sub=pv?`${['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'][+prevMes.mes.slice(5)-1]}${D.completo?'':' (mes completo)'}: `:'';
   $('org-kpis').innerHTML=[
     ['Leads orgánicos',num(o.total),pv?sub+num(pv.total)+delta(o.total,pv.total):'sin mes anterior',1],
-    ['Contactados',num(o.con_contacto),pv?sub+num(pv.con)+delta(o.con_contacto,pv.con):'',0],
-    ['Sin contacto',num(o.sin_contacto),pv?sub+num(pv.total-pv.con):'',0],
-    ['% contactado',o.pct_contacto+'%',pctPrev!=null?sub+pctPrev+'%'+delta(o.pct_contacto,pctPrev):'',0],
+    ['Contactados',num(o.con_contacto),`con teléfono · meta ${META_CONTACTADOS} al mes · ${Math.round(o.con_contacto/META_CONTACTADOS*100)}%`+(pv?'<br>'+sub+num(pv.con)+delta(o.con_contacto,pv.con):'')+`<div class="meta-bar"><i style="width:${Math.min(100,o.con_contacto/META_CONTACTADOS*100)}%"></i></div>`,'verde'],
+    ['Sin teléfono',num(o.sin_contacto),'el lead no dejó sus datos'+(pv?'<br>'+sub+num(pv.total-pv.con):''),0],
+    ['% con teléfono',o.pct_contacto+'%',pctPrev!=null?sub+pctPrev+'%'+delta(o.pct_contacto,pctPrev):'',0],
     ['Celulares a revisar',num(o.celulares_revisar||0),'formato incompleto o extranjero',0]
-  ].map(([l,v,s,d])=>`<div class="kpi ${d?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
-  const mx=Math.max(...o.por_comuna.map(r=>r.total));
-  $('organico').innerHTML=o.por_comuna.map(r=>`<div class="org-row"><div class="c">${r.comuna}</div><div class="stack" style="width:${Math.max(18,r.total/mx*100)}%"><div class="con" style="width:${r.con_contacto/r.total*100}%">${r.con_contacto||''}</div><div class="sin" style="width:${r.sin_contacto/r.total*100}%">${r.sin_contacto||''}</div></div><div class="t">${r.total}<small>${r.pct_contacto}% contact.</small></div></div>`).join('')+
-    '<div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>';
-  tabla($('org-tabla'),[{k:'comuna',t:'Comuna',n:1},{k:'total',t:'Total',bar:'g'},{k:'con_contacto',t:'Contactados',bar:1},{k:'sin_contacto',t:'Sin contacto'},
-    {k:'pct_contacto',t:'% contactado',f:r=>`<span class="pill ${r.pct_contacto>=60?'p-v':r.pct_contacto>=40?'p-a':'p-r'}">${r.pct_contacto}%</span>`},{k:'casas',t:'Casas',f:r=>r.casas??'—'},{k:'deptos',t:'Deptos',f:r=>r.deptos??'—'},
+  ].map(([l,v,s,d])=>`<div class="kpi ${d===1?'dest':d||''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
+  // Se gestiona sobre los contactados (con teléfono): el gráfico muestra solo esos, por comuna
+  const cc=o.por_comuna.filter(r=>r.con_contacto>0).sort((a,b)=>(a.comuna==='Sin dato')-(b.comuna==='Sin dato')||b.con_contacto-a.con_contacto);
+  const mx=Math.max(1,...cc.map(r=>r.con_contacto));
+  $('organico').innerHTML=cc.map(r=>`<div class="org-row"><div class="c">${r.comuna}</div><div class="stack" style="width:${Math.max(8,r.con_contacto/mx*100)}%"><div class="con" style="width:100%">${r.con_contacto}</div></div><div class="t">${r.con_contacto}<small>${Math.round(r.con_contacto/o.con_contacto*100)}% del total</small></div></div>`).join('')+
+    `<div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados (con teléfono) · ${num(o.con_contacto)} en total</span></div>`;
+  tabla($('org-tabla'),[{k:'comuna',t:'Comuna',n:1},{k:'total',t:'Total',bar:'g'},{k:'con_contacto',t:'Contactados',bar:1},{k:'sin_contacto',t:'Sin teléfono'},
+    {k:'pct_contacto',t:'% con teléfono',f:r=>`<span class="pill ${r.pct_contacto>=60?'p-v':r.pct_contacto>=40?'p-a':'p-r'}">${r.pct_contacto}%</span>`},{k:'casas',t:'Casas',f:r=>r.casas??'—'},{k:'deptos',t:'Deptos',f:r=>r.deptos??'—'},
     {k:'top',t:'Códigos más consultados',f:r=>r.top_codigos.map(c=>c.codigo+' ('+c.n+')').join(' · ')||'—'}],
     o.por_comuna.map(r=>({...r,top:r.top_codigos.length?r.top_codigos[0].n:0})),
     {sort:'total',total:{comuna:'Total',total:o.total,con_contacto:o.con_contacto,sin_contacto:o.sin_contacto,pct_contacto:o.pct_contacto+'%',casas:(o.por_tipo||[]).filter(x=>x.tipo==='Casa').reduce((s,x)=>s+x.total,0),deptos:(o.por_tipo||[]).filter(x=>x.tipo==='Depto').reduce((s,x)=>s+x.total,0),top:''}});
-  $('org-tipo').innerHTML=(o.por_tipo||[]).length?'<div class="chips">'+o.por_tipo.map(x=>`<div class="chip"><b>${x.total}</b>${x.tipo==='Depto'?'departamentos':x.tipo==='Casa'?'casas':x.tipo==='Sin dato'?'sin tipo (código sin ficha)':x.tipo} · ${x.pct_contacto}% contactado</div>`).join('')+'</div>':'';
+  $('org-tipo').innerHTML=(o.por_tipo||[]).length?'<div class="chips">'+o.por_tipo.map(x=>`<div class="chip"><b>${x.total}</b>${x.tipo==='Depto'?'departamentos':x.tipo==='Casa'?'casas':x.tipo==='Sin dato'?'sin tipo (código sin ficha)':x.tipo} · ${x.pct_contacto}% con teléfono</div>`).join('')+'</div>':'';
   $('org-codigos').innerHTML=(o.top_codigos||[]).length?'<div class="chips">'+o.top_codigos.map(c=>`<div class="chip"><b>${c.n}</b>${c.codigo}</div>`).join('')+'</div>':'<div class="sub">Sin códigos en la lista.</div>';
-  if($('org-mini'))$('org-mini').innerHTML=`<div class="chips"><div class="chip"><b>${o.total}</b>leads orgánicos</div><div class="chip"><b>${o.con_contacto}</b>contactados (${o.pct_contacto}%)</div><div class="chip"><b>${o.sin_contacto}</b>sin contacto</div><a class="chip" href="#organico" style="text-decoration:none;color:var(--rosa)">Ver pestaña Orgánico →</a></div>`;
+  if($('org-mini'))$('org-mini').innerHTML=`<div class="chips"><div class="chip"><b>${o.total}</b>leads orgánicos</div><div class="chip"><b>${o.con_contacto}</b>contactados (${o.pct_contacto}%) · meta ${META_CONTACTADOS}</div><div class="chip"><b>${o.sin_contacto}</b>sin teléfono</div><a class="chip" href="#organico" style="text-decoration:none;color:var(--rosa)">Ver pestaña Orgánico →</a></div>`;
   ORG_FILAS=null;if(!$('v-org').classList.contains('oculto'))detalleOrg();
 }
 let ORG_FILAS=null,ORG_MES=null;
@@ -319,7 +326,7 @@ function pintaDetalle(){
   const el=$('org-detalle'),f=ORG_FILAS,comunas=[...new Set(f.map(x=>x.comuna))].sort(),tipos=[...new Set(f.map(x=>x.tipo||'Sin dato'))].sort(),codigos=[...new Set(f.map(x=>x.codigo).filter(Boolean))].sort();
   el.innerHTML=`<div class="filtros"><input id="od-q" placeholder="Buscar nombre o celular"><select id="od-com"><option value="">Todas las comunas</option>${comunas.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
     <select id="od-tipo"><option value="">Casas y deptos</option>${tipos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
-    <select id="od-est"><option value="">Con y sin contacto</option><option>Con contacto</option><option>Sin contacto</option></select>
+    <select id="od-est"><option value="">Con y sin teléfono</option><option value="Con contacto">Con teléfono</option><option value="Sin contacto">Sin teléfono</option></select>
     <select id="od-cod"><option value="">Todos los códigos</option>${codigos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
     <a class="btn" href="/api/organico-detalle?mes=${D.mes}&formato=csv">Exportar CSV</a><button type="button" id="od-salir" style="background:#999">Salir</button><span class="cnt" id="od-cnt"></span></div><div class="tw" id="od-t"></div>
     <div class="leyenda"><span><i style="background:#fff7d6;border:1px solid #eee"></i>Celular a revisar antes de escribir (formato incompleto o extranjero)</span></div>`;
@@ -327,7 +334,7 @@ function pintaDetalle(){
     const rs=f.filter(x=>(!c||x.comuna===c)&&(!tp||(x.tipo||'Sin dato')===tp)&&(!e||x.estado===e)&&(!cd||x.codigo===cd)&&(!q||(x.nombre+' '+x.celular).toLowerCase().includes(q)));
     $('od-cnt').textContent=`${rs.length} de ${f.length} contactos`;
     $('od-t').innerHTML='<table><thead><tr><th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Tipo</th><th style="text-align:left">Comuna</th></tr></thead><tbody>'+
-      rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td><td style="text-align:left" title="${esc(x.lista_comuna&&x.lista_comuna!==x.comuna?'Lista de CyM: '+x.lista_comuna:'')}">${esc(x.comuna)}</td></tr>`).join('')+'</tbody></table>'};
+      rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado==='Con contacto'?'Con teléfono':'Sin teléfono'}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td><td style="text-align:left" title="${esc(x.lista_comuna&&x.lista_comuna!==x.comuna?'Lista de CyM: '+x.lista_comuna:'')}">${esc(x.comuna)}</td></tr>`).join('')+'</tbody></table>'};
   ['od-q','od-com','od-est','od-cod','od-tipo'].forEach(id=>$(id).oninput=draw);
   $('od-salir').onclick=async()=>{await fetch('/api/organico-detalle?accion=salir',{method:'POST',credentials:'same-origin'});ORG_FILAS=null;detalleOrg()};
   draw();
@@ -347,17 +354,17 @@ async function vitacura(){
   if(ov)$('vit-kpis').innerHTML=[
     ['Leads orgánicos',num(ov.total),prev?pn+num(prev.c.total)+delta(ov.total,prev.c.total):'',1],
     ['Contactados',num(ov.con_contacto),prev?pn+num(prev.c.con_contacto):'',0],
-    ['Sin contacto',num(ov.sin_contacto),prev?pn+num(prev.c.sin_contacto):'',0],
-    ['% contactado',ov.pct_contacto+'%',prev&&prev.c.total?pn+Math.round(prev.c.con_contacto/prev.c.total*100)+'%':'',1],
+    ['Sin teléfono',num(ov.sin_contacto),prev?pn+num(prev.c.sin_contacto):'',0],
+    ['% con teléfono',ov.pct_contacto+'%',prev&&prev.c.total?pn+Math.round(prev.c.con_contacto/prev.c.total*100)+'%':'',1],
     ['Casas / deptos',`${ov.casas??'—'} / ${ov.deptos??'—'}`,'según ficha de la propiedad',0]
   ].map(([l,v,s,d])=>`<div class="kpi ${d?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
   const m=VIT_HIST.filter(x=>x.c),W=1100,H=260,L=56,R=24,T=26,B=40,w=W-L-R,h=H-T-B,n=Math.max(1,m.length),bw=w/n,mx=Math.max(1,...m.map(x=>x.c.total))*1.15;
   let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Orgánico Vitacura mes a mes">`;
   for(let i=0;i<=4;i++){const y=T+h-h*i/4;s+=`<line x1="${L}" x2="${W-R}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="#9ca3af">${Math.round(mx*i/4)}</text>`}
   m.forEach((x,i)=>{const hc=x.c.con_contacto/mx*h,hs=x.c.sin_contacto/mx*h,bx=L+i*bw+bw*.28,ww=bw*.44;
-    s+=`<rect x="${bx}" y="${T+h-hc}" width="${ww}" height="${hc}" fill="#16a34a"><title>${x.t}: ${x.c.con_contacto} contactados</title></rect><rect x="${bx}" y="${T+h-hc-hs}" width="${ww}" height="${hs}" fill="#ef4444" opacity=".55"><title>${x.t}: ${x.c.sin_contacto} sin contacto</title></rect>`+
+    s+=`<rect x="${bx}" y="${T+h-hc}" width="${ww}" height="${hc}" fill="#16a34a"><title>${x.t}: ${x.c.con_contacto} contactados</title></rect><rect x="${bx}" y="${T+h-hc-hs}" width="${ww}" height="${hs}" fill="#ef4444" opacity=".55"><title>${x.t}: ${x.c.sin_contacto} sin teléfono</title></rect>`+
     `<text x="${L+i*bw+bw/2}" y="${T+h-hc-hs-8}" font-size="13" font-weight="800" text-anchor="middle" fill="#111">${x.c.total}</text><text x="${L+i*bw+bw/2}" y="${H-16}" font-size="12" font-weight="700" text-anchor="middle" fill="#374151">${x.t}${x.completo?'':' (parcial)'}</text>`});
-  $('vit-chart').innerHTML=m.length?s+'</svg><div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin contacto</span></div>':'<div class="sub">Sin listas orgánicas cargadas.</div>';
+  $('vit-chart').innerHTML=m.length?s+'</svg><div class="leyenda"><span><i style="background:var(--verde)"></i>Contactados</span><span><i style="background:var(--rojo);opacity:.55"></i>Sin teléfono</span></div>':'<div class="sub">Sin listas orgánicas cargadas.</div>';
   if(!ov){$('vit-chart').insertAdjacentHTML('beforebegin','');$('vit-kpis').innerHTML=`<div class="pend"><b>Pendiente lista orgánica de ${D.titulo.split(' ')[0].toLowerCase()}</b></div>`;return}
   const tc=ov.top_codigos||[];
   if(tc.length)tabla($('vit-codigo'),[{k:'codigo',t:'Código',n:1},{k:'n',t:'Leads orgánicos',bar:1}],tc,{sort:'n'});else $('vit-codigo').innerHTML='<div class="sub">Sin códigos de Vitacura en el mes.</div>';
@@ -372,8 +379,8 @@ async function detalleVit(){
     if(!r.ok){el.innerHTML='<div class="sub">No se pudo cargar el detalle.</div>';return}
     ORG_FILAS=(await r.json()).filas;ORG_MES=D.mes}
   const rs=ORG_FILAS.filter(x=>x.comuna===VIT);
-  el.innerHTML=rs.length?`<div class="sub">${rs.length} contactos · ${rs.filter(x=>x.estado==='Con contacto').length} con contacto</div><div class="tw"><table><thead><tr><th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Tipo</th></tr></thead><tbody>`+
-    rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td></tr>`).join('')+'</tbody></table></div>':'<div class="sub">Sin contactos orgánicos de Vitacura este mes.</div>';
+  el.innerHTML=rs.length?`<div class="sub">${rs.length} contactos · ${rs.filter(x=>x.estado==='Con contacto').length} con teléfono</div><div class="tw"><table><thead><tr><th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Tipo</th></tr></thead><tbody>`+
+    rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado==='Con contacto'?'Con teléfono':'Sin teléfono'}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td></tr>`).join('')+'</tbody></table></div>':'<div class="sub">Sin contactos orgánicos de Vitacura este mes.</div>';
 }
 
 async function carga(mes){D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
