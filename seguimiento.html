@@ -274,7 +274,7 @@ function organico(){
   const prevMes=IDX.find(x=>x.mes<D.mes&&x.organico!=null&&x.mes===[...IDX].map(y=>y.mes).filter(m=>m<D.mes).sort().at(-1));
   $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
   // Botones de mes visibles en la pestaña (además del selector de arriba), solo meses con lista orgánica
-  $('org-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${[...IDX].filter(x=>x.organico!=null).sort((a,b)=>a.mes.localeCompare(b.mes)).map(x=>`<button type="button" onclick="document.getElementById('mes').value='${x.mes}';cambia('${x.mes}')" style="padding:8px 16px;border-radius:999px;border:1px solid ${x.mes===D.mes?'#eb3d60':'#ddd'};background:${x.mes===D.mes?'#eb3d60':'#fff'};color:${x.mes===D.mes?'#fff':'#111'};font-weight:700;cursor:pointer">${x.titulo.split(' ')[0]}</button>`).join('')}</div>`+$('org-periodo').innerHTML;
+  $('org-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${[...IDX].filter(x=>x.organico!=null).sort((a,b)=>a.mes.localeCompare(b.mes)).map(x=>`<button type="button" onclick="const s=document.getElementById('mes');s.value='${x.mes}';s.dispatchEvent(new Event('change'))" style="padding:8px 16px;border-radius:999px;border:1px solid ${x.mes===D.mes?'#eb3d60':'#ddd'};background:${x.mes===D.mes?'#eb3d60':'#fff'};color:${x.mes===D.mes?'#fff':'#111'};font-weight:700;cursor:pointer">${x.titulo.split(' ')[0]}</button>`).join('')}</div>`+$('org-periodo').innerHTML;
   if(o.estado!=='cargado'){
     const pend=`<div class="pend"><b>Pendiente lista orgánica de ${mesN}</b>${o.nota||''}</div>`;
     ['org-kpis','org-tabla','org-codigos','org-tipo'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;return}
@@ -341,7 +341,7 @@ async function vitacura(){
   const prev=[...VIT_HIST].filter(x=>x.mes<D.mes&&x.c).at(-1);
   $('vit-periodo').innerHTML=`<b>Vitacura · orgánico · ${D.titulo}</b>${D.completo?'':' · mes en curso'} · lista de leads orgánicos que manda CyM`;
   // Botones de mes visibles en la pestaña (además del selector de arriba), solo meses con lista orgánica
-  $('vit-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${VIT_HIST.filter(x=>x.c).map(x=>`<button type="button" onclick="document.getElementById('mes').value='${x.mes}';cambia('${x.mes}')" style="padding:8px 16px;border-radius:999px;border:1px solid ${x.mes===D.mes?'#eb3d60':'#ddd'};background:${x.mes===D.mes?'#eb3d60':'#fff'};color:${x.mes===D.mes?'#fff':'#111'};font-weight:700;cursor:pointer">${x.t}</button>`).join('')}</div>`+$('vit-periodo').innerHTML;
+  $('vit-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${VIT_HIST.filter(x=>x.c).map(x=>`<button type="button" onclick="const s=document.getElementById('mes');s.value='${x.mes}';s.dispatchEvent(new Event('change'))" style="padding:8px 16px;border-radius:999px;border:1px solid ${x.mes===D.mes?'#eb3d60':'#ddd'};background:${x.mes===D.mes?'#eb3d60':'#fff'};color:${x.mes===D.mes?'#fff':'#111'};font-weight:700;cursor:pointer">${x.t}</button>`).join('')}</div>`+$('vit-periodo').innerHTML;
   if(!ov){$('vit-kpis').innerHTML='';$('vit-codigo').innerHTML='';$('vit-detalle').innerHTML='';}
   const pn=prev?prev.t.toLowerCase()+(D.completo?'':' (mes completo)')+': ':'';
   if(ov)$('vit-kpis').innerHTML=[
