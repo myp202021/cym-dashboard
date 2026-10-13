@@ -258,9 +258,19 @@ def main():
     for r in ads + ads_prev:
         r['comuna'], r['tipo'] = clasifica(r['campana'])
         r['codigo'] = codigo(r['anuncio'])
-    kpi = tot(ads)
+    # REGLA (Christopher/Camila, 13 oct 2026): leads de VENTA = solo campañas de propiedades. Venta por FORMULARIO
+    # ("Clientes potenciales - X") del 15 may al 3 ago; venta por WHATSAPP desde ago (prueba 29 jul). Desde el 5 ago los
+    # formularios son solo búsqueda de personas ("Nuevo director …", captación de directores): NO es venta, va aparte.
+    venta = [r for r in ads if r['tipo'] in PROPIEDADES]
+    venta_prev = [r for r in ads_prev if r['tipo'] in PROPIEDADES]
+    dirs = [r for r in ads if r['tipo'] == 'Captación nuevo director']
+    kpi = tot(venta)
+    kpi['gasto_total'] = round(sum(r['gasto'] for r in ads))
+    td = tot(dirs)
+    kpi['directores'] = dict(gasto=td['gasto'], leads=td['leads'], cpl=td['cpl'])
+    kpi['gasto_otros'] = round(sum(r['gasto'] for r in ads if r['tipo'] == 'Marca / otros'))
     dias_prev = calendar.monthrange(y if m > 1 else y - 1, m - 1 if m > 1 else 12)[1]
-    tp = tot(ads_prev)
+    tp = tot(venta_prev)
     f = 1 if completo else dias / dias_prev  # mes cerrado: contra el mes anterior completo; mes en curso: mismo ritmo de días
     ritmo_prev = dict(gasto=round(tp['gasto'] * f), leads=round(tp['leads'] * f), cpl=tp['cpl'],
                       gasto_mes=tp['gasto'], leads_mes=tp['leads'], dias_mes=dias_prev) if ads_prev else None
@@ -268,17 +278,19 @@ def main():
     prev_camp = {c['campana']: c for c in agrupa(ads_prev, lambda r: r['campana'], lambda k, rs: dict(campana=k))}
     for c in por_campana:
         p = prev_camp.get(c['campana']); c['cpl_mes_anterior'] = p['cpl'] if p else None
-    por_comuna = agrupa(ads, lambda r: r['comuna'], lambda k, rs: dict(comuna=k, anuncios=len(rs),
+    por_comuna = agrupa(venta, lambda r: r['comuna'], lambda k, rs: dict(comuna=k, anuncios=len(rs),
                         gasto_whatsapp=round(sum(x['gasto'] for x in rs if x['tipo'] == 'WhatsApp propiedades')),
                         gasto_director=round(sum(x['gasto'] for x in rs if x['tipo'] == 'Captación nuevo director')),
                         gasto_otros=round(sum(x['gasto'] for x in rs if x['tipo'] == 'Marca / otros'))))
-    prev_com = {c['comuna']: c for c in agrupa(ads_prev, lambda r: r['comuna'], lambda k, rs: dict(comuna=k))}
+    prev_com = {c['comuna']: c for c in agrupa(venta_prev, lambda r: r['comuna'], lambda k, rs: dict(comuna=k))}
+    directores_por_comuna = agrupa(dirs, lambda r: r['comuna'], lambda k, rs: dict(comuna=k))
     for c in por_comuna:
         p = prev_com.get(c['comuna']); c['cpl_mes_anterior'] = p['cpl'] if p else None
     props = [r for r in ads if r['tipo'] in PROPIEDADES]
     por_codigo = agrupa(props, lambda r: (r['codigo'], r['comuna']), lambda k, rs: dict(codigo=k[0], comuna=k[1]))
     serie = defaultdict(lambda: dict(gasto=0, leads=0))
     for r in diario:
+        if clasifica(r['campana'])[1] not in PROPIEDADES: continue  # serie = solo campañas de venta
         serie[r['fecha']]['gasto'] += r['gasto']; serie[r['fecha']]['leads'] += leads(r)
     serie = [dict(fecha=f, gasto=round(v['gasto']), leads=v['leads']) for f, v in sorted(serie.items())]
     sin_leads = [c for c in por_codigo if c['leads'] == 0 and c['gasto'] > 0 and c['codigo'] != 'sin código']
@@ -288,7 +300,7 @@ def main():
                mes_anterior=dict(nombre=MESES[(m - 2) % 12], **ritmo_prev) if ritmo_prev else None,
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
-               por_campana=por_campana, por_comuna=por_comuna, por_codigo=por_codigo, serie_diaria=serie,
+               por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, serie_diaria=serie,
                organico=organico() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
@@ -296,6 +308,7 @@ def main():
     idx = json.load(open(idx_p)) if os.path.exists(idx_p) else []
     idx = [i for i in idx if i['mes'] != MES] + [dict(mes=MES, titulo=out['titulo'], hasta=hasta, completo=completo,
            gasto=kpi['gasto'], leads=kpi['leads'], conv_wa=kpi['conv_wa'], leads_form=kpi['leads_form'], cpl=kpi['cpl'],
+           gasto_total=kpi['gasto_total'], directores=kpi['directores']['leads'], gasto_directores=kpi['directores']['gasto'],
            organico=out['organico'].get('total'), organico_contactados=out['organico'].get('con_contacto'))]
     json.dump(sorted(idx, key=lambda i: i['mes'], reverse=True), open(idx_p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     sc = [c for c in por_campana if c['comuna'] == SIN_COMUNA]

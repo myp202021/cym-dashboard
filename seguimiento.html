@@ -131,14 +131,14 @@ td.rev{background:#fff7d6}
   <div class="kpis" id="kpis"></div>
   <div id="alerta"></div>
 
-  <section><h2>Gasto y leads por día</h2><div class="sub">Barras = gasto diario · línea = leads (conversaciones WhatsApp + formularios)</div><div class="chart" id="chart"></div></section>
+  <section><h2>Gasto y leads por día</h2><div class="sub">Barras = gasto diario · línea = leads de venta (WhatsApp de propiedades; hasta el 3 ago, formularios de propiedades)</div><div class="chart" id="chart"></div></section>
 
   <div class="grid2">
-    <section><h2>Por comuna</h2><div class="sub">Incluye WhatsApp propiedades y captación de directores</div><div class="tw" id="t-comuna"></div></section>
+    <section><h2>Por comuna</h2><div class="sub">Solo campañas de venta (WhatsApp de propiedades). La captación de directores va aparte, no suma leads de venta</div><div class="tw" id="t-comuna"></div></section>
     <section><h2>Por campaña</h2><div class="sub">CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
   </div>
 
-  <section><h2>Por código de propiedad</h2><div class="sub">Campañas de propiedades (WhatsApp y formularios) · en rojo los códigos con gasto y sin leads</div>
+  <section><h2>Por código de propiedad</h2><div class="sub">Campañas de venta (WhatsApp de propiedades) · en rojo los códigos con gasto y sin leads</div>
     <div class="tabs" id="f-codigo"></div><div class="tw" id="t-codigo"></div>
     <div class="leyenda"><span><i style="background:var(--verde)"></i>CPL bajo el promedio del mes</span><span><i style="background:var(--ambar)"></i>hasta 30% sobre el promedio</span><span><i style="background:var(--rojo)"></i>más de 30% sobre el promedio o sin leads</span></div>
   </section>
@@ -146,7 +146,7 @@ td.rev{background:#fff7d6}
 
   </div>
   <div id="v-res" class="oculto">
-    <div class="periodo">Resumen mes a mes · campañas pagadas en Meta desde mayo 2026</div>
+    <div class="periodo">Resumen mes a mes · campañas pagadas en Meta desde mayo 2026</div><div class="periodo" style="background:#FFF7E6;border-left:4px solid #eb3d60;padding:8px 12px;border-radius:6px;margin:6px 0 10px">Ojo al comparar meses: <b>15 may – 3 ago</b> las campañas de venta eran de <b>formulario</b> ("Clientes potenciales"); desde <b>agosto</b> la venta es por <b>WhatsApp</b> (prueba desde el 29 jul). Desde el 5 ago los formularios son solo <b>búsqueda de personas (directores)</b>: van aparte y no son leads de venta.</div>
     <div class="kpis" id="res-kpis"></div>
     <section><h2>Gasto y leads por mes</h2><div class="sub">Barras = gasto del mes · línea = leads · el mes en curso va parcial</div><div class="chart" id="res-chart"></div></section>
     <section><h2>Detalle por mes</h2><div class="sub">Haz clic en un mes para ver su detalle por comuna, campaña y código</div><div class="tw" id="res-tabla"></div></section>
@@ -223,7 +223,7 @@ function render(){
   $('periodo').innerHTML=`<b>${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
   $('kpis').innerHTML=[
     ['Gasto Meta',clp(k.gasto),D.mes_anterior?`${D.completo?p.nombre:'ritmo '+p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto):'sin mes anterior para comparar',1],
-    ['Leads',num(k.leads),`${k.conv_wa} WhatsApp · ${k.leads_form} formularios`,1],
+    ['Leads de venta',num(k.leads),`conversaciones WhatsApp de propiedades${k.directores?` · aparte: captación de directores ${num(k.directores.leads)} formularios (${clp(k.directores.gasto)})`:''}`,1],
     ['Costo por lead',clp(k.cpl),D.mes_anterior?`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true):'—',0],
     [D.completo?'Leads '+p.nombre+' (mes completo)':'Leads '+p.nombre+' (mismo período)',num(p.leads),D.mes_anterior?(D.completo?`${mesN} vs ${p.nombre}`:`primeros ${D.dias} días · ${mesN}`)+delta(k.leads,p.leads):'—',0],
     ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`,0]
@@ -234,9 +234,9 @@ function render(){
   const ref=k.cpl||1;
   const tc=D.por_comuna;
   tabla($('t-comuna'),[
-    {k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'leads_form',t:'Form.'},
+    {k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},
     {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
-  ],tc,{total:{comuna:'Total',gasto:clp(k.gasto),conv_wa:k.conv_wa,leads_form:k.leads_form,leads:k.leads,cpl:clp(k.cpl),cpl_mes_anterior:clp(p.cpl)}});
+  ],tc,{total:{comuna:'Total',gasto:clp(k.gasto),conv_wa:k.conv_wa,leads:k.leads,cpl:clp(k.cpl),cpl_mes_anterior:clp(p.cpl)}});
   tabla($('t-campana'),[
     {k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ').replace('Clientes potenciales - ','Form. · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
     {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
@@ -249,7 +249,7 @@ function render(){
   drawCod();
   organico();
   if(!$('v-vit').classList.contains('oculto'))vitacura();
-  $('pie').textContent=`Fuente: ${D.fuente}. Leads = conversaciones de WhatsApp iniciadas + formularios. CPL = gasto / leads. Se actualiza todos los lunes.`;
+  $('pie').textContent=`Fuente: ${D.fuente}. Leads de venta = conversaciones de WhatsApp iniciadas en campañas de propiedades. La captación de directores (formularios) se informa aparte y no suma. CPL = gasto de venta / leads de venta. Se actualiza todos los lunes.`;
 }
 function resumen(idx){
   const m=[...idx].sort((a,b)=>a.mes.localeCompare(b.mes)),cerr=m.filter(x=>x.completo);
@@ -265,7 +265,7 @@ function resumen(idx){
   pts.forEach((p,i)=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#eb3d60" stroke="#fff" stroke-width="2"/><text x="${p[0]}" y="${p[1]-12}" font-size="13" font-weight="800" text-anchor="middle" fill="#eb3d60" stroke="#fff" stroke-width="4" paint-order="stroke">${m[i].leads} leads</text>`);
   $('res-chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto (miles CLP, eje izq.)</span><span><i style="background:#eb3d60"></i>Leads (eje der.)</span><span><i style="background:#111;opacity:.35"></i>Mes en curso (parcial)</span></div>';
   const ref=tg/tl,rows=m.map((x,i)=>({...x,mesN:x.titulo+(x.completo?'':' · parcial'),dcpl:i&&m[i-1].cpl?Math.round((x.cpl-m[i-1].cpl)/m[i-1].cpl*100):null,org:x.organico==null?null:x.organico}));
-  tabla($('res-tabla'),[{k:'mes',t:'Mes',n:1,f:r=>`<a href="?mes=${r.mes}#seguimiento" style="color:inherit">${r.mesN}</a>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'leads_form',t:'Form.'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'dcpl',t:'CPL vs mes ant.',f:r=>r.dcpl==null?'—':r.dcpl===0?'= 0%':`<span class="${r.dcpl<0?'up':'down'}">${r.dcpl>0?'▲':'▼'} ${Math.abs(r.dcpl)}%</span>`},{k:'org',t:'Orgánicos',f:r=>r.org==null?'—':`${r.org} <span class="tag">${r.organico_contactados} contact.</span>`}],rows,{sort:'mes'});
+  tabla($('res-tabla'),[{k:'mes',t:'Mes',n:1,f:r=>`<a href="?mes=${r.mes}#seguimiento" style="color:inherit">${r.mesN}</a>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'directores',t:'Directores (form.)',f:r=>r.directores==null?'—':num(r.directores)},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'dcpl',t:'CPL vs mes ant.',f:r=>r.dcpl==null?'—':r.dcpl===0?'= 0%':`<span class="${r.dcpl<0?'up':'down'}">${r.dcpl>0?'▲':'▼'} ${Math.abs(r.dcpl)}%</span>`},{k:'org',t:'Orgánicos',f:r=>r.org==null?'—':`${r.org} <span class="tag">${r.organico_contactados} contact.</span>`}],rows,{sort:'mes'});
 }
 
 let IDX=[];

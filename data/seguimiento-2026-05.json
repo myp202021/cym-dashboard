@@ -14,7 +14,14 @@
   "leads_form": 224,
   "impresiones": 104627,
   "clics": 4825,
-  "cpl": 1579
+  "cpl": 1579,
+  "gasto_total": 366361,
+  "directores": {
+   "gasto": 0,
+   "leads": 0,
+   "cpl": null
+  },
+  "gasto_otros": 0
  },
  "mes_anterior": null,
  "alertas": {
@@ -200,6 +207,7 @@
    "cpl_mes_anterior": null
   }
  ],
+ "directores_por_comuna": [],
  "por_codigo": [
   {
    "gasto": 63143,

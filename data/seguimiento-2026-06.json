@@ -8,13 +8,20 @@
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
  "completo": true,
  "kpi": {
-  "gasto": 1736431,
-  "leads": 403,
-  "conv_wa": 31,
+  "gasto": 1713214,
+  "leads": 402,
+  "conv_wa": 30,
   "leads_form": 372,
-  "impresiones": 407447,
-  "clics": 12586,
-  "cpl": 4309
+  "impresiones": 373575,
+  "clics": 12125,
+  "cpl": 4262,
+  "gasto_total": 1736431,
+  "directores": {
+   "gasto": 0,
+   "leads": 0,
+   "cpl": null
+  },
+  "gasto_otros": 23217
  },
  "mes_anterior": {
   "nombre": "mayo",
@@ -304,23 +311,9 @@
    "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 632
-  },
-  {
-   "gasto": 23217,
-   "leads": 1,
-   "conv_wa": 1,
-   "leads_form": 0,
-   "impresiones": 33872,
-   "clics": 461,
-   "cpl": 23217,
-   "comuna": "Otras / sin comuna",
-   "anuncios": 2,
-   "gasto_whatsapp": 0,
-   "gasto_director": 0,
-   "gasto_otros": 23217,
-   "cpl_mes_anterior": null
   }
  ],
+ "directores_por_comuna": [],
  "por_codigo": [
   {
    "gasto": 140204,
@@ -815,37 +808,37 @@
   },
   {
    "fecha": "2026-06-24",
-   "gasto": 65108,
+   "gasto": 62368,
    "leads": 14
   },
   {
    "fecha": "2026-06-25",
-   "gasto": 55189,
+   "gasto": 51833,
    "leads": 10
   },
   {
    "fecha": "2026-06-26",
-   "gasto": 53870,
+   "gasto": 50506,
    "leads": 13
   },
   {
    "fecha": "2026-06-27",
-   "gasto": 39844,
-   "leads": 7
+   "gasto": 36289,
+   "leads": 6
   },
   {
    "fecha": "2026-06-28",
-   "gasto": 78064,
+   "gasto": 74613,
    "leads": 20
   },
   {
    "fecha": "2026-06-29",
-   "gasto": 72343,
+   "gasto": 68873,
    "leads": 15
   },
   {
    "fecha": "2026-06-30",
-   "gasto": 61219,
+   "gasto": 57938,
    "leads": 15
   }
  ],

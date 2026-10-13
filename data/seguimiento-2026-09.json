@@ -8,21 +8,28 @@
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
  "completo": true,
  "kpi": {
-  "gasto": 2152396,
-  "leads": 518,
-  "conv_wa": 411,
-  "leads_form": 107,
-  "impresiones": 516962,
-  "clics": 13086,
-  "cpl": 4155
+  "gasto": 1755631,
+  "leads": 409,
+  "conv_wa": 409,
+  "leads_form": 0,
+  "impresiones": 278071,
+  "clics": 6247,
+  "cpl": 4292,
+  "gasto_total": 2152396,
+  "directores": {
+   "gasto": 167730,
+   "leads": 108,
+   "cpl": 1553
+  },
+  "gasto_otros": 229035
  },
  "mes_anterior": {
   "nombre": "agosto",
-  "gasto": 1364643,
-  "leads": 346,
-  "cpl": 3944,
-  "gasto_mes": 1364643,
-  "leads_mes": 346,
+  "gasto": 1171095,
+  "leads": 314,
+  "cpl": 3730,
+  "gasto_mes": 1171095,
+  "leads_mes": 314,
   "dias_mes": 31
  },
  "alertas": {
@@ -188,34 +195,34 @@
  ],
  "por_comuna": [
   {
-   "gasto": 499939,
-   "leads": 131,
+   "gasto": 433944,
+   "leads": 101,
    "conv_wa": 101,
-   "leads_form": 30,
-   "impresiones": 93235,
-   "clics": 2841,
-   "cpl": 3816,
+   "leads_form": 0,
+   "impresiones": 71413,
+   "clics": 1791,
+   "cpl": 4296,
    "comuna": "Vitacura",
-   "anuncios": 14,
+   "anuncios": 12,
    "gasto_whatsapp": 433944,
-   "gasto_director": 65995,
+   "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 4607
   },
   {
-   "gasto": 456908,
-   "leads": 95,
+   "gasto": 415985,
+   "leads": 68,
    "conv_wa": 68,
-   "leads_form": 27,
-   "impresiones": 88522,
-   "clics": 1865,
-   "cpl": 4810,
+   "leads_form": 0,
+   "impresiones": 71367,
+   "clics": 1348,
+   "cpl": 6117,
    "comuna": "La Dehesa",
-   "anuncios": 14,
+   "anuncios": 12,
    "gasto_whatsapp": 415985,
-   "gasto_director": 40923,
+   "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3492
+   "cpl_mes_anterior": 4086
   },
   {
    "gasto": 289794,
@@ -263,34 +270,51 @@
    "cpl_mes_anterior": 3557
   },
   {
-   "gasto": 229035,
-   "leads": 1,
-   "conv_wa": 1,
+   "gasto": 72046,
+   "leads": 20,
+   "conv_wa": 20,
    "leads_form": 0,
-   "impresiones": 172357,
-   "clics": 4055,
-   "cpl": 229035,
-   "comuna": "Otras / sin comuna",
-   "anuncios": 2,
-   "gasto_whatsapp": 0,
-   "gasto_director": 0,
-   "gasto_otros": 229035,
-   "cpl_mes_anterior": 130514
-  },
-  {
-   "gasto": 132858,
-   "leads": 71,
-   "conv_wa": 21,
-   "leads_form": 50,
-   "impresiones": 41035,
-   "clics": 1461,
-   "cpl": 1871,
+   "impresiones": 13478,
+   "clics": 244,
+   "cpl": 3602,
    "comuna": "La Reina",
-   "anuncios": 4,
+   "anuncios": 3,
    "gasto_whatsapp": 72046,
-   "gasto_director": 60812,
+   "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 2432
+  }
+ ],
+ "directores_por_comuna": [
+  {
+   "gasto": 65995,
+   "leads": 30,
+   "conv_wa": 0,
+   "leads_form": 30,
+   "impresiones": 21822,
+   "clics": 1050,
+   "cpl": 2200,
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 60812,
+   "leads": 51,
+   "conv_wa": 1,
+   "leads_form": 50,
+   "impresiones": 27557,
+   "clics": 1217,
+   "cpl": 1192,
+   "comuna": "La Reina"
+  },
+  {
+   "gasto": 40923,
+   "leads": 27,
+   "conv_wa": 0,
+   "leads_form": 27,
+   "impresiones": 17155,
+   "clics": 517,
+   "cpl": 1516,
+   "comuna": "La Dehesa"
   }
  ],
  "por_codigo": [
@@ -892,153 +916,153 @@
  "serie_diaria": [
   {
    "fecha": "2026-09-01",
-   "gasto": 90471,
-   "leads": 18
+   "gasto": 77324,
+   "leads": 14
   },
   {
    "fecha": "2026-09-02",
-   "gasto": 69918,
-   "leads": 13
+   "gasto": 57990,
+   "leads": 10
   },
   {
    "fecha": "2026-09-03",
-   "gasto": 75274,
-   "leads": 15
+   "gasto": 64446,
+   "leads": 11
   },
   {
    "fecha": "2026-09-04",
-   "gasto": 54289,
+   "gasto": 43757,
    "leads": 17
   },
   {
    "fecha": "2026-09-05",
-   "gasto": 57591,
-   "leads": 15
+   "gasto": 45541,
+   "leads": 14
   },
   {
    "fecha": "2026-09-06",
-   "gasto": 58530,
-   "leads": 16
+   "gasto": 44826,
+   "leads": 13
   },
   {
    "fecha": "2026-09-07",
-   "gasto": 73316,
-   "leads": 18
+   "gasto": 53624,
+   "leads": 5
   },
   {
    "fecha": "2026-09-08",
-   "gasto": 105706,
-   "leads": 22
+   "gasto": 80951,
+   "leads": 16
   },
   {
    "fecha": "2026-09-09",
-   "gasto": 92168,
-   "leads": 26
+   "gasto": 68564,
+   "leads": 18
   },
   {
    "fecha": "2026-09-10",
-   "gasto": 72093,
-   "leads": 19
+   "gasto": 49787,
+   "leads": 11
   },
   {
    "fecha": "2026-09-11",
-   "gasto": 70446,
-   "leads": 14
+   "gasto": 45727,
+   "leads": 10
   },
   {
    "fecha": "2026-09-12",
-   "gasto": 58393,
-   "leads": 14
+   "gasto": 43301,
+   "leads": 13
   },
   {
    "fecha": "2026-09-13",
-   "gasto": 70547,
+   "gasto": 59987,
    "leads": 14
   },
   {
    "fecha": "2026-09-14",
-   "gasto": 74847,
-   "leads": 26
-  },
-  {
-   "fecha": "2026-09-15",
-   "gasto": 92233,
-   "leads": 25
-  },
-  {
-   "fecha": "2026-09-16",
-   "gasto": 88916,
-   "leads": 24
-  },
-  {
-   "fecha": "2026-09-17",
-   "gasto": 67887,
-   "leads": 14
-  },
-  {
-   "fecha": "2026-09-18",
-   "gasto": 42515,
-   "leads": 10
-  },
-  {
-   "fecha": "2026-09-19",
-   "gasto": 61394,
+   "gasto": 61271,
    "leads": 20
   },
   {
+   "fecha": "2026-09-15",
+   "gasto": 78360,
+   "leads": 15
+  },
+  {
+   "fecha": "2026-09-16",
+   "gasto": 76268,
+   "leads": 17
+  },
+  {
+   "fecha": "2026-09-17",
+   "gasto": 58277,
+   "leads": 13
+  },
+  {
+   "fecha": "2026-09-18",
+   "gasto": 33051,
+   "leads": 4
+  },
+  {
+   "fecha": "2026-09-19",
+   "gasto": 51666,
+   "leads": 19
+  },
+  {
    "fecha": "2026-09-20",
-   "gasto": 66738,
-   "leads": 23
+   "gasto": 55792,
+   "leads": 21
   },
   {
    "fecha": "2026-09-21",
-   "gasto": 81963,
-   "leads": 26
+   "gasto": 72683,
+   "leads": 21
   },
   {
    "fecha": "2026-09-22",
-   "gasto": 103543,
-   "leads": 22
+   "gasto": 93150,
+   "leads": 19
   },
   {
    "fecha": "2026-09-23",
-   "gasto": 76383,
-   "leads": 22
+   "gasto": 65672,
+   "leads": 21
   },
   {
    "fecha": "2026-09-24",
-   "gasto": 58468,
-   "leads": 11
+   "gasto": 49614,
+   "leads": 9
   },
   {
    "fecha": "2026-09-25",
-   "gasto": 60041,
+   "gasto": 49398,
    "leads": 11
   },
   {
    "fecha": "2026-09-26",
-   "gasto": 39451,
+   "gasto": 29003,
    "leads": 7
   },
   {
    "fecha": "2026-09-27",
-   "gasto": 51206,
-   "leads": 14
+   "gasto": 39474,
+   "leads": 12
   },
   {
    "fecha": "2026-09-28",
-   "gasto": 66536,
-   "leads": 14
+   "gasto": 56302,
+   "leads": 11
   },
   {
    "fecha": "2026-09-29",
-   "gasto": 81752,
-   "leads": 15
+   "gasto": 69615,
+   "leads": 12
   },
   {
    "fecha": "2026-09-30",
-   "gasto": 89781,
-   "leads": 13
+   "gasto": 80210,
+   "leads": 11
   }
  ],
  "organico": {

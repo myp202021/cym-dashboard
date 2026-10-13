@@ -8,21 +8,28 @@
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
  "completo": true,
  "kpi": {
-  "gasto": 1731151,
+  "gasto": 1649363,
   "leads": 439,
   "conv_wa": 50,
   "leads_form": 389,
-  "impresiones": 552592,
-  "clics": 15915,
-  "cpl": 3943
+  "impresiones": 409914,
+  "clics": 13699,
+  "cpl": 3757,
+  "gasto_total": 1731151,
+  "directores": {
+   "gasto": 0,
+   "leads": 0,
+   "cpl": null
+  },
+  "gasto_otros": 81788
  },
  "mes_anterior": {
   "nombre": "junio",
-  "gasto": 1736431,
-  "leads": 403,
-  "cpl": 4309,
-  "gasto_mes": 1736431,
-  "leads_mes": 403,
+  "gasto": 1713214,
+  "leads": 402,
+  "cpl": 4262,
+  "gasto_mes": 1713214,
+  "leads_mes": 402,
   "dias_mes": 30
  },
  "alertas": {
@@ -290,23 +297,9 @@
    "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 1840
-  },
-  {
-   "gasto": 81788,
-   "leads": 0,
-   "conv_wa": 0,
-   "leads_form": 0,
-   "impresiones": 142678,
-   "clics": 2216,
-   "cpl": null,
-   "comuna": "Otras / sin comuna",
-   "anuncios": 6,
-   "gasto_whatsapp": 0,
-   "gasto_director": 0,
-   "gasto_otros": 81788,
-   "cpl_mes_anterior": 23217
   }
  ],
+ "directores_por_comuna": [],
  "por_codigo": [
   {
    "gasto": 84014,
@@ -796,122 +789,122 @@
  "serie_diaria": [
   {
    "fecha": "2026-07-01",
-   "gasto": 60838,
+   "gasto": 57534,
    "leads": 14
   },
   {
    "fecha": "2026-07-02",
-   "gasto": 53067,
+   "gasto": 49860,
    "leads": 9
   },
   {
    "fecha": "2026-07-03",
-   "gasto": 56013,
+   "gasto": 52716,
    "leads": 14
   },
   {
    "fecha": "2026-07-04",
-   "gasto": 41696,
+   "gasto": 38166,
    "leads": 11
   },
   {
    "fecha": "2026-07-05",
-   "gasto": 76693,
+   "gasto": 73298,
    "leads": 18
   },
   {
    "fecha": "2026-07-06",
-   "gasto": 63637,
+   "gasto": 60325,
    "leads": 7
   },
   {
    "fecha": "2026-07-07",
-   "gasto": 70049,
+   "gasto": 66710,
    "leads": 17
   },
   {
    "fecha": "2026-07-08",
-   "gasto": 64696,
+   "gasto": 61399,
    "leads": 14
   },
   {
    "fecha": "2026-07-09",
-   "gasto": 55252,
+   "gasto": 52049,
    "leads": 13
   },
   {
    "fecha": "2026-07-10",
-   "gasto": 49098,
+   "gasto": 45887,
    "leads": 10
   },
   {
    "fecha": "2026-07-11",
-   "gasto": 36692,
+   "gasto": 33208,
    "leads": 17
   },
   {
    "fecha": "2026-07-12",
-   "gasto": 72755,
+   "gasto": 69355,
    "leads": 17
   },
   {
    "fecha": "2026-07-13",
-   "gasto": 63794,
+   "gasto": 60417,
    "leads": 15
   },
   {
    "fecha": "2026-07-14",
-   "gasto": 63316,
+   "gasto": 59961,
    "leads": 11
   },
   {
    "fecha": "2026-07-15",
-   "gasto": 60031,
+   "gasto": 56862,
    "leads": 19
   },
   {
    "fecha": "2026-07-16",
-   "gasto": 61792,
+   "gasto": 58560,
    "leads": 16
   },
   {
    "fecha": "2026-07-17",
-   "gasto": 51324,
+   "gasto": 48075,
    "leads": 13
   },
   {
    "fecha": "2026-07-18",
-   "gasto": 35841,
+   "gasto": 32531,
    "leads": 17
   },
   {
    "fecha": "2026-07-19",
-   "gasto": 67146,
+   "gasto": 63877,
    "leads": 22
   },
   {
    "fecha": "2026-07-20",
-   "gasto": 65379,
+   "gasto": 62189,
    "leads": 20
   },
   {
    "fecha": "2026-07-21",
-   "gasto": 64478,
+   "gasto": 61369,
    "leads": 17
   },
   {
    "fecha": "2026-07-22",
-   "gasto": 61742,
+   "gasto": 58629,
    "leads": 18
   },
   {
    "fecha": "2026-07-23",
-   "gasto": 58874,
+   "gasto": 55799,
    "leads": 12
   },
   {
    "fecha": "2026-07-24",
-   "gasto": 53579,
+   "gasto": 52224,
    "leads": 10
   },
   {
@@ -941,12 +934,12 @@
   },
   {
    "fecha": "2026-07-30",
-   "gasto": 31595,
+   "gasto": 28931,
    "leads": 9
   },
   {
    "fecha": "2026-07-31",
-   "gasto": 32616,
+   "gasto": 30274,
    "leads": 6
   }
  ],

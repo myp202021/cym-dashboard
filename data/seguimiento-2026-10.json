@@ -8,21 +8,28 @@
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
  "completo": false,
  "kpi": {
-  "gasto": 793752,
-  "leads": 158,
-  "conv_wa": 110,
-  "leads_form": 48,
-  "impresiones": 161825,
-  "clics": 2402,
-  "cpl": 5024
+  "gasto": 692715,
+  "leads": 107,
+  "conv_wa": 107,
+  "leads_form": 0,
+  "impresiones": 138813,
+  "clics": 1726,
+  "cpl": 6474,
+  "gasto_total": 793752,
+  "directores": {
+   "gasto": 101037,
+   "leads": 51,
+   "cpl": 1981
+  },
+  "gasto_otros": 0
  },
  "mes_anterior": {
   "nombre": "septiembre",
-  "gasto": 860958,
-  "leads": 207,
-  "cpl": 4155,
-  "gasto_mes": 2152396,
-  "leads_mes": 518,
+  "gasto": 702252,
+  "leads": 164,
+  "cpl": 4292,
+  "gasto_mes": 1755631,
+  "leads_mes": 409,
   "dias_mes": 30
  },
  "alertas": {
@@ -160,34 +167,34 @@
  ],
  "por_comuna": [
   {
-   "gasto": 214248,
-   "leads": 37,
-   "conv_wa": 18,
-   "leads_form": 19,
-   "impresiones": 48137,
-   "clics": 567,
-   "cpl": 5790,
+   "gasto": 172243,
+   "leads": 16,
+   "conv_wa": 16,
+   "leads_form": 0,
+   "impresiones": 39104,
+   "clics": 345,
+   "cpl": 10765,
    "comuna": "La Dehesa",
-   "anuncios": 7,
+   "anuncios": 6,
    "gasto_whatsapp": 172243,
-   "gasto_director": 42005,
+   "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 4810
+   "cpl_mes_anterior": 6117
   },
   {
-   "gasto": 203799,
-   "leads": 44,
+   "gasto": 162693,
+   "leads": 22,
    "conv_wa": 22,
-   "leads_form": 22,
-   "impresiones": 43825,
-   "clics": 715,
-   "cpl": 4632,
+   "leads_form": 0,
+   "impresiones": 35269,
+   "clics": 433,
+   "cpl": 7395,
    "comuna": "Vitacura",
-   "anuncios": 7,
+   "anuncios": 6,
    "gasto_whatsapp": 162693,
-   "gasto_director": 41106,
+   "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3816
+   "cpl_mes_anterior": 4296
   },
   {
    "gasto": 110566,
@@ -235,19 +242,51 @@
    "cpl_mes_anterior": 3967
   },
   {
-   "gasto": 70666,
-   "leads": 14,
-   "conv_wa": 7,
-   "leads_form": 7,
-   "impresiones": 19046,
-   "clics": 310,
-   "cpl": 5048,
+   "gasto": 52740,
+   "leads": 6,
+   "conv_wa": 6,
+   "leads_form": 0,
+   "impresiones": 13623,
+   "clics": 138,
+   "cpl": 8790,
    "comuna": "La Reina",
-   "anuncios": 3,
+   "anuncios": 2,
    "gasto_whatsapp": 52740,
-   "gasto_director": 17926,
+   "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 1871
+   "cpl_mes_anterior": 3602
+  }
+ ],
+ "directores_por_comuna": [
+  {
+   "gasto": 42005,
+   "leads": 21,
+   "conv_wa": 2,
+   "leads_form": 19,
+   "impresiones": 9033,
+   "clics": 222,
+   "cpl": 2000,
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 41106,
+   "leads": 22,
+   "conv_wa": 0,
+   "leads_form": 22,
+   "impresiones": 8556,
+   "clics": 282,
+   "cpl": 1868,
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 17926,
+   "leads": 8,
+   "conv_wa": 1,
+   "leads_form": 7,
+   "impresiones": 5423,
+   "clics": 172,
+   "cpl": 2241,
+   "comuna": "La Reina"
   }
  ],
  "por_codigo": [
@@ -574,63 +613,63 @@
  "serie_diaria": [
   {
    "fecha": "2026-10-01",
-   "gasto": 66652,
-   "leads": 16
-  },
-  {
-   "fecha": "2026-10-02",
-   "gasto": 69518,
-   "leads": 14
-  },
-  {
-   "fecha": "2026-10-03",
-   "gasto": 52363,
+   "gasto": 61278,
    "leads": 11
   },
   {
+   "fecha": "2026-10-02",
+   "gasto": 62777,
+   "leads": 11
+  },
+  {
+   "fecha": "2026-10-03",
+   "gasto": 45052,
+   "leads": 6
+  },
+  {
    "fecha": "2026-10-04",
-   "gasto": 39592,
-   "leads": 9
+   "gasto": 31952,
+   "leads": 6
   },
   {
    "fecha": "2026-10-05",
-   "gasto": 67295,
-   "leads": 9
+   "gasto": 60290,
+   "leads": 7
   },
   {
    "fecha": "2026-10-06",
-   "gasto": 89272,
-   "leads": 12
+   "gasto": 82903,
+   "leads": 11
   },
   {
    "fecha": "2026-10-07",
-   "gasto": 77080,
-   "leads": 12
+   "gasto": 70664,
+   "leads": 7
   },
   {
    "fecha": "2026-10-08",
-   "gasto": 82882,
-   "leads": 13
+   "gasto": 75040,
+   "leads": 11
   },
   {
    "fecha": "2026-10-09",
-   "gasto": 73498,
-   "leads": 20
+   "gasto": 65191,
+   "leads": 15
   },
   {
    "fecha": "2026-10-10",
-   "gasto": 55939,
-   "leads": 9
+   "gasto": 42557,
+   "leads": 3
   },
   {
    "fecha": "2026-10-11",
-   "gasto": 39851,
-   "leads": 10
+   "gasto": 27740,
+   "leads": 3
   },
   {
    "fecha": "2026-10-12",
-   "gasto": 79810,
-   "leads": 23
+   "gasto": 67271,
+   "leads": 16
   }
  ],
  "organico": {

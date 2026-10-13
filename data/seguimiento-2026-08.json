@@ -8,20 +8,27 @@
  "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
  "completo": true,
  "kpi": {
-  "gasto": 1364643,
-  "leads": 346,
-  "conv_wa": 305,
-  "leads_form": 41,
-  "impresiones": 443190,
-  "clics": 8603,
-  "cpl": 3944
+  "gasto": 1171095,
+  "leads": 314,
+  "conv_wa": 303,
+  "leads_form": 11,
+  "impresiones": 183058,
+  "clics": 5614,
+  "cpl": 3730,
+  "gasto_total": 1364643,
+  "directores": {
+   "gasto": 63034,
+   "leads": 31,
+   "cpl": 2033
+  },
+  "gasto_otros": 130514
  },
  "mes_anterior": {
   "nombre": "julio",
-  "gasto": 1731151,
+  "gasto": 1649363,
   "leads": 439,
-  "cpl": 3943,
-  "gasto_mes": 1731151,
+  "cpl": 3757,
+  "gasto_mes": 1649363,
   "leads_mes": 439,
   "dias_mes": 31
  },
@@ -216,17 +223,17 @@
  ],
  "por_comuna": [
   {
-   "gasto": 373594,
-   "leads": 107,
-   "conv_wa": 76,
-   "leads_form": 31,
-   "impresiones": 177031,
-   "clics": 1931,
-   "cpl": 3492,
+   "gasto": 310560,
+   "leads": 76,
+   "conv_wa": 75,
+   "leads_form": 1,
+   "impresiones": 53595,
+   "clics": 1250,
+   "cpl": 4086,
    "comuna": "La Dehesa",
-   "anuncios": 11,
+   "anuncios": 9,
    "gasto_whatsapp": 310560,
-   "gasto_director": 63034,
+   "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 4126
   },
@@ -291,21 +298,6 @@
    "cpl_mes_anterior": 4333
   },
   {
-   "gasto": 130514,
-   "leads": 1,
-   "conv_wa": 1,
-   "leads_form": 0,
-   "impresiones": 136696,
-   "clics": 2308,
-   "cpl": 130514,
-   "comuna": "Otras / sin comuna",
-   "anuncios": 6,
-   "gasto_whatsapp": 0,
-   "gasto_director": 0,
-   "gasto_otros": 130514,
-   "cpl_mes_anterior": null
-  },
-  {
    "gasto": 2432,
    "leads": 1,
    "conv_wa": 1,
@@ -319,6 +311,18 @@
    "gasto_director": 0,
    "gasto_otros": 0,
    "cpl_mes_anterior": 2292
+  }
+ ],
+ "directores_por_comuna": [
+  {
+   "gasto": 63034,
+   "leads": 31,
+   "conv_wa": 1,
+   "leads_form": 30,
+   "impresiones": 123436,
+   "clics": 681,
+   "cpl": 2033,
+   "comuna": "La Dehesa"
   }
  ],
  "por_codigo": [
@@ -777,158 +781,158 @@
  "serie_diaria": [
   {
    "fecha": "2026-08-01",
-   "gasto": 18510,
+   "gasto": 17499,
    "leads": 3
   },
   {
    "fecha": "2026-08-02",
-   "gasto": 20109,
+   "gasto": 18012,
    "leads": 7
   },
   {
    "fecha": "2026-08-03",
-   "gasto": 27715,
+   "gasto": 25072,
    "leads": 11
   },
   {
    "fecha": "2026-08-04",
-   "gasto": 33209,
+   "gasto": 31067,
    "leads": 10
   },
   {
    "fecha": "2026-08-05",
-   "gasto": 27132,
+   "gasto": 23731,
    "leads": 10
   },
   {
    "fecha": "2026-08-06",
-   "gasto": 18591,
+   "gasto": 14615,
    "leads": 2
   },
   {
    "fecha": "2026-08-07",
-   "gasto": 16192,
+   "gasto": 10615,
    "leads": 3
   },
   {
    "fecha": "2026-08-08",
-   "gasto": 15901,
+   "gasto": 11571,
    "leads": 6
   },
   {
    "fecha": "2026-08-09",
-   "gasto": 10192,
+   "gasto": 5451,
    "leads": 0
   },
   {
    "fecha": "2026-08-10",
-   "gasto": 25405,
+   "gasto": 20679,
    "leads": 10
   },
   {
    "fecha": "2026-08-11",
-   "gasto": 57853,
+   "gasto": 53430,
    "leads": 5
   },
   {
    "fecha": "2026-08-12",
-   "gasto": 42457,
+   "gasto": 37986,
    "leads": 6
   },
   {
    "fecha": "2026-08-13",
-   "gasto": 60983,
+   "gasto": 57182,
    "leads": 18
   },
   {
    "fecha": "2026-08-14",
-   "gasto": 39927,
+   "gasto": 38172,
    "leads": 10
   },
   {
    "fecha": "2026-08-15",
-   "gasto": 33085,
+   "gasto": 31195,
    "leads": 14
   },
   {
    "fecha": "2026-08-16",
-   "gasto": 12839,
+   "gasto": 10758,
    "leads": 3
   },
   {
    "fecha": "2026-08-17",
-   "gasto": 47340,
+   "gasto": 45301,
    "leads": 11
   },
   {
    "fecha": "2026-08-18",
-   "gasto": 78279,
+   "gasto": 72427,
    "leads": 23
   },
   {
    "fecha": "2026-08-19",
-   "gasto": 75994,
+   "gasto": 66897,
    "leads": 11
   },
   {
    "fecha": "2026-08-20",
-   "gasto": 58464,
+   "gasto": 50764,
    "leads": 14
   },
   {
    "fecha": "2026-08-21",
-   "gasto": 40071,
-   "leads": 8
+   "gasto": 32928,
+   "leads": 7
   },
   {
    "fecha": "2026-08-22",
-   "gasto": 49914,
+   "gasto": 42435,
    "leads": 18
   },
   {
    "fecha": "2026-08-23",
-   "gasto": 25233,
+   "gasto": 14902,
    "leads": 8
   },
   {
    "fecha": "2026-08-24",
-   "gasto": 57281,
+   "gasto": 49132,
    "leads": 9
   },
   {
    "fecha": "2026-08-25",
-   "gasto": 87036,
-   "leads": 14
+   "gasto": 78100,
+   "leads": 12
   },
   {
    "fecha": "2026-08-26",
-   "gasto": 79506,
-   "leads": 26
+   "gasto": 67847,
+   "leads": 19
   },
   {
    "fecha": "2026-08-27",
-   "gasto": 65899,
-   "leads": 21
+   "gasto": 54728,
+   "leads": 17
   },
   {
    "fecha": "2026-08-28",
-   "gasto": 51302,
-   "leads": 15
+   "gasto": 40594,
+   "leads": 12
   },
   {
    "fecha": "2026-08-29",
-   "gasto": 55876,
-   "leads": 10
+   "gasto": 42993,
+   "leads": 6
   },
   {
    "fecha": "2026-08-30",
-   "gasto": 53229,
-   "leads": 18
+   "gasto": 37998,
+   "leads": 10
   },
   {
    "fecha": "2026-08-31",
-   "gasto": 79119,
-   "leads": 22
+   "gasto": 67014,
+   "leads": 19
   }
  ],
  "organico": {
