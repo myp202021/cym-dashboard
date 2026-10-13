@@ -53,6 +53,19 @@ export default async function handler(req, res) {
     res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(exp + '.' + firma(exp))}; Path=/; Max-Age=${DIAS * 86400}; HttpOnly; Secure; SameSite=Lax`);
     return res.status(200).json({ ok: true });
   }
+  // Link directo para el equipo CyM (sin escribir clave): GET ?accion=entrar&t=<token> → cookie 1 año y vuelve al panel.
+  // token = HMAC(CYM_COOKIE_SECRET, 'cym-acceso-directo'); para invalidar todos los links, cambiar CYM_COOKIE_SECRET.
+  if (accion === 'entrar') {
+    const ok = process.env.CYM_COOKIE_SECRET &&
+      iguales(String(req.query.t || ''), createHmac('sha256', process.env.CYM_COOKIE_SECRET).update('cym-acceso-directo').digest('hex'));
+    if (ok) {
+      const exp = String(Date.now() + 365 * 864e5);
+      res.setHeader('Set-Cookie', `${COOKIE}=${encodeURIComponent(exp + '.' + firma(exp))}; Path=/; Max-Age=${365 * 86400}; HttpOnly; Secure; SameSite=Lax`);
+    }
+    const destino = /^#[a-z]+$/.test(String(req.query.ir || '')) ? req.query.ir : '#vitacura';
+    res.setHeader('Location', '/seguimiento' + destino);
+    return res.status(302).end();
+  }
   if (accion === 'salir') {
     res.setHeader('Set-Cookie', `${COOKIE}=; Path=/; Max-Age=0; HttpOnly; Secure; SameSite=Lax`);
     return res.status(200).json({ ok: true });
