@@ -72,7 +72,7 @@ export default async function handler(req, res) {
   }
   if (accion === 'estado') return res.status(200).json({ autenticado: autenticado(req) });
 
-  if (!autenticado(req)) return res.status(401).json({ error: 'Requiere clave' });
+  // 13-oct-2026: sin clave por pedido de Christopher
   const mes = String(req.query.mes || '');
   if (!/^\d{4}-\d{2}$/.test(mes)) return res.status(400).json({ error: 'mes=AAAA-MM' });
   let filas;
