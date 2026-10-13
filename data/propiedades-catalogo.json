@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-10-06",
+ "actualizado": "2026-10-13",
  "codigos": {
   "3030": {
    "tipo": "Casa",
@@ -289,7 +289,7 @@
   "5412": {
    "tipo": "Casa",
    "comuna": "SCA",
-   "fuente": "campaña Meta \"WhatsApp - SCA\""
+   "fuente": "campaña Meta \"Clientes potenciales - SCA / Modificado\""
   },
   "5431": {
    "tipo": "Casa",
@@ -402,7 +402,7 @@
   "5562": {
    "tipo": "Casa",
    "comuna": "Las Condes",
-   "fuente": "campaña Meta \"Clientes potenciales - Las Condes\""
+   "fuente": "campaña Meta \"Clientes potenciales - Las Condes / Modificado\""
   },
   "5580": {
    "tipo": "Depto",
@@ -538,7 +538,7 @@
   "5660": {
    "tipo": "Casa",
    "comuna": "La Dehesa",
-   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa / Modificado\""
+   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa\""
   },
   "5664": {
    "tipo": "Casa",
@@ -1143,6 +1143,14 @@
    "tipo": "Sin dato",
    "comuna": "Sin dato",
    "fuente": "sin fuente"
+  },
+  "6012": {
+   "tipo": "Casa",
+   "comuna": "Las Condes",
+   "operacion": "Venta",
+   "precio": "UF 15.200,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6012"
   },
   "6021": {
    "tipo": "Casa",
