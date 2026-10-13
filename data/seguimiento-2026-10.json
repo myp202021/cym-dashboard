@@ -639,72 +639,96 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 39,
-    "con_contacto": 14,
-    "sin_contacto": 25,
-    "pct_contacto": 36,
-    "casas": 14,
-    "deptos": 24,
-    "otros": 1,
+    "total": 65,
+    "con_contacto": 32,
+    "sin_contacto": 33,
+    "pct_contacto": 49,
+    "casas": 31,
+    "deptos": 29,
+    "otros": 5,
     "top_codigos": [
      {
       "codigo": "5615",
-      "n": 24
+      "n": 29
+     },
+     {
+      "codigo": "5988",
+      "n": 7
      },
      {
       "codigo": "5778",
       "n": 6
-     },
-     {
-      "codigo": "5833",
-      "n": 1
      }
     ]
    },
    {
     "comuna": "La Dehesa",
-    "total": 18,
-    "con_contacto": 9,
-    "sin_contacto": 9,
-    "pct_contacto": 50,
-    "casas": 14,
+    "total": 28,
+    "con_contacto": 15,
+    "sin_contacto": 13,
+    "pct_contacto": 54,
+    "casas": 24,
     "deptos": 1,
     "otros": 3,
     "top_codigos": [
      {
+      "codigo": "5953",
+      "n": 5
+     },
+     {
+      "codigo": "5941",
+      "n": 5
+     },
+     {
       "codigo": "5308",
       "n": 3
-     },
-     {
-      "codigo": "5944",
-      "n": 2
-     },
-     {
-      "codigo": "5953",
-      "n": 2
      }
     ]
    },
    {
     "comuna": "Vitacura",
-    "total": 8,
+    "total": 17,
+    "con_contacto": 12,
+    "sin_contacto": 5,
+    "pct_contacto": 71,
+    "casas": 13,
+    "deptos": 0,
+    "otros": 4,
+    "top_codigos": [
+     {
+      "codigo": "5856",
+      "n": 5
+     },
+     {
+      "codigo": "6008",
+      "n": 3
+     },
+     {
+      "codigo": "5904",
+      "n": 3
+     }
+    ]
+   },
+   {
+    "comuna": "San Carlos de Apoquindo",
+    "total": 9,
     "con_contacto": 5,
-    "sin_contacto": 3,
-    "pct_contacto": 62,
-    "casas": 6,
+    "sin_contacto": 4,
+    "pct_contacto": 56,
+    "casas": 7,
     "deptos": 0,
     "otros": 2,
     "top_codigos": [
      {
-      "codigo": "5904",
-      "n": 3
+      "codigo": "6014",
+      "n": 6
      },
      {
-      "codigo": "6008",
+      "codigo": "6041",
       "n": 1
      },
      {
-      "codigo": "5697",
+      "codigo": "5507",
       "n": 1
      }
     ]
@@ -718,71 +742,87 @@
     "casas": 0,
     "deptos": 0,
     "otros": 1,
+    "top_codigos": [
+     {
+      "codigo": "5559/5801",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Sin dato",
+    "total": 1,
+    "con_contacto": 0,
+    "sin_contacto": 1,
+    "pct_contacto": 0,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 1,
     "top_codigos": []
    }
   ],
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 34,
-    "con_contacto": 18,
-    "sin_contacto": 16,
-    "pct_contacto": 53
+    "total": 75,
+    "con_contacto": 42,
+    "sin_contacto": 33,
+    "pct_contacto": 56
    },
    {
     "tipo": "Depto",
-    "total": 25,
-    "con_contacto": 9,
+    "total": 30,
+    "con_contacto": 14,
     "sin_contacto": 16,
-    "pct_contacto": 36
+    "pct_contacto": 47
    },
    {
     "tipo": "Sin dato",
-    "total": 7,
-    "con_contacto": 2,
-    "sin_contacto": 5,
-    "pct_contacto": 29
+    "total": 16,
+    "con_contacto": 9,
+    "sin_contacto": 7,
+    "pct_contacto": 56
    }
   ],
-  "total": 66,
-  "con_contacto": 29,
-  "sin_contacto": 37,
-  "pct_contacto": 44,
+  "total": 121,
+  "con_contacto": 65,
+  "sin_contacto": 56,
+  "pct_contacto": 54,
   "top_codigos": [
    {
     "codigo": "5615",
-    "n": 24
+    "n": 29
+   },
+   {
+    "codigo": "5988",
+    "n": 7
    },
    {
     "codigo": "5778",
     "n": 6
    },
    {
-    "codigo": "5308",
-    "n": 3
+    "codigo": "6014",
+    "n": 6
    },
    {
-    "codigo": "5904",
-    "n": 3
-   },
-   {
-    "codigo": "5944",
-    "n": 2
+    "codigo": "5856",
+    "n": 5
    },
    {
     "codigo": "5953",
-    "n": 2
+    "n": 5
    },
    {
-    "codigo": "5952",
-    "n": 2
+    "codigo": "5941",
+    "n": 5
    },
    {
-    "codigo": "5627",
-    "n": 1
+    "codigo": "6029",
+    "n": 3
    }
   ],
-  "celulares_revisar": 2,
+  "celulares_revisar": 13,
   "diferencias": []
  }
 }

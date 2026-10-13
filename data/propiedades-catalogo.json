@@ -289,7 +289,7 @@
   "5412": {
    "tipo": "Casa",
    "comuna": "SCA",
-   "fuente": "campaña Meta \"Clientes potenciales - SCA / Modificado\""
+   "fuente": "campaña Meta \"WhatsApp - SCA\""
   },
   "5431": {
    "tipo": "Casa",
@@ -359,6 +359,11 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5505"
   },
+  "5507": {
+   "tipo": "Sin dato",
+   "comuna": "Sin dato",
+   "fuente": "sin fuente"
+  },
   "5513": {
    "tipo": "Casa",
    "comuna": "Vitacura",
@@ -402,12 +407,17 @@
   "5562": {
    "tipo": "Casa",
    "comuna": "Las Condes",
-   "fuente": "campaña Meta \"Clientes potenciales - Las Condes / Modificado\""
+   "fuente": "campaña Meta \"Clientes potenciales - Las Condes\""
   },
   "5580": {
    "tipo": "Depto",
    "comuna": "Sin dato",
    "fuente": "campaña Meta \"Clientes potenciales - Departamentos\""
+  },
+  "5585": {
+   "tipo": "Sin dato",
+   "comuna": "Sin dato",
+   "fuente": "sin fuente"
   },
   "5600": {
    "tipo": "Depto",
@@ -538,7 +548,7 @@
   "5660": {
    "tipo": "Casa",
    "comuna": "La Dehesa",
-   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa\""
+   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa / Modificado\""
   },
   "5664": {
    "tipo": "Casa",
@@ -749,6 +759,14 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5812"
   },
+  "5815": {
+   "tipo": "Casa",
+   "comuna": "Vitacura",
+   "operacion": "Venta",
+   "precio": "UF 18.900,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5815"
+  },
   "5818": {
    "tipo": "Casa",
    "comuna": "SCA",
@@ -794,6 +812,11 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5835"
   },
+  "5836": {
+   "tipo": "Sin dato",
+   "comuna": "Sin dato",
+   "fuente": "sin fuente"
+  },
   "5840": {
    "tipo": "Casa",
    "comuna": "Las Condes",
@@ -831,6 +854,11 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5852"
   },
+  "5853": {
+   "tipo": "Sin dato",
+   "comuna": "Sin dato",
+   "fuente": "sin fuente"
+  },
   "5854": {
    "tipo": "Casa",
    "comuna": "Las Condes",
@@ -838,6 +866,14 @@
    "precio": "UF 11.950,00",
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5854"
+  },
+  "5856": {
+   "tipo": "Casa",
+   "comuna": "Vitacura",
+   "operacion": "Venta",
+   "precio": "UF 20.900,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5856"
   },
   "5857": {
    "tipo": "Casa",
@@ -1152,6 +1188,14 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6012"
   },
+  "6014": {
+   "tipo": "Casa",
+   "comuna": "Las Condes",
+   "operacion": "Venta",
+   "precio": "UF 14.500,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6014"
+  },
   "6021": {
    "tipo": "Casa",
    "comuna": "Las Condes",
@@ -1160,6 +1204,14 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6021"
   },
+  "6028": {
+   "tipo": "Casa",
+   "comuna": "Lo Barnechea",
+   "operacion": "Venta",
+   "precio": "UF 15.400,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6028"
+  },
   "6029": {
    "tipo": "Casa",
    "comuna": "Las Condes",
@@ -1167,6 +1219,14 @@
    "precio": "UF 15.800,00",
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6029"
+  },
+  "6041": {
+   "tipo": "Casa",
+   "comuna": "Las Condes",
+   "operacion": "Venta",
+   "precio": "UF 32.000,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6041"
   }
  }
 }
