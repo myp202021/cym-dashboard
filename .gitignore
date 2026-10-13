@@ -6,3 +6,4 @@ scripts/seguimiento/raw/
 .cookie-secret.local
 privado/*.json
 .meta-webhook.local
+.link-acceso-cym.local
