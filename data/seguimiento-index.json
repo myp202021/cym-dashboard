@@ -2,18 +2,18 @@
  {
   "mes": "2026-10",
   "titulo": "Octubre 2026",
-  "hasta": "2026-10-12",
+  "hasta": "2026-10-18",
   "completo": false,
-  "gasto": 692715,
-  "leads": 107,
-  "conv_wa": 107,
+  "gasto": 1041894,
+  "leads": 229,
+  "conv_wa": 229,
   "leads_form": 0,
-  "cpl": 6474,
-  "gasto_total": 793752,
-  "directores": 51,
-  "gasto_directores": 101037,
-  "organico": 121,
-  "organico_contactados": 65
+  "cpl": 4550,
+  "gasto_total": 1210134,
+  "directores": 83,
+  "gasto_directores": 168240,
+  "organico": 191,
+  "organico_contactados": 106
  },
  {
   "mes": "2026-09",
