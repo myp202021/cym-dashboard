@@ -700,11 +700,11 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 119,
-    "con_contacto": 66,
-    "sin_contacto": 53,
+    "total": 121,
+    "con_contacto": 67,
+    "sin_contacto": 54,
     "pct_contacto": 55,
-    "casas": 83,
+    "casas": 85,
     "deptos": 30,
     "otros": 6,
     "top_codigos": [
@@ -717,7 +717,7 @@
       "n": 25
      },
      {
-      "codigo": "5854",
+      "codigo": "5835",
       "n": 10
      }
     ]
@@ -725,9 +725,9 @@
    {
     "comuna": "La Dehesa",
     "total": 34,
-    "con_contacto": 18,
-    "sin_contacto": 16,
-    "pct_contacto": 53,
+    "con_contacto": 17,
+    "sin_contacto": 17,
+    "pct_contacto": 50,
     "casas": 30,
     "deptos": 1,
     "otros": 3,
@@ -772,17 +772,17 @@
    },
    {
     "comuna": "San Carlos de Apoquindo",
-    "total": 11,
-    "con_contacto": 5,
+    "total": 12,
+    "con_contacto": 6,
     "sin_contacto": 6,
-    "pct_contacto": 45,
-    "casas": 9,
+    "pct_contacto": 50,
+    "casas": 10,
     "deptos": 0,
     "otros": 2,
     "top_codigos": [
      {
       "codigo": "6014",
-      "n": 8
+      "n": 9
      },
      {
       "codigo": "6041",
@@ -825,10 +825,10 @@
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 141,
-    "con_contacto": 80,
-    "sin_contacto": 61,
-    "pct_contacto": 57
+    "total": 144,
+    "con_contacto": 81,
+    "sin_contacto": 63,
+    "pct_contacto": 56
    },
    {
     "tipo": "Depto",
@@ -845,9 +845,9 @@
     "pct_contacto": 58
    }
   ],
-  "total": 191,
-  "con_contacto": 106,
-  "sin_contacto": 85,
+  "total": 194,
+  "con_contacto": 107,
+  "sin_contacto": 87,
   "pct_contacto": 55,
   "top_codigos": [
    {
@@ -859,15 +859,19 @@
     "n": 25
    },
    {
+    "codigo": "5835",
+    "n": 10
+   },
+   {
     "codigo": "5854",
     "n": 10
    },
    {
-    "codigo": "5835",
+    "codigo": "6014",
     "n": 9
    },
    {
-    "codigo": "6014",
+    "codigo": "5890",
     "n": 8
    },
    {
@@ -875,15 +879,11 @@
     "n": 7
    },
    {
-    "codigo": "5890",
-    "n": 7
-   },
-   {
     "codigo": "5778",
     "n": 6
    }
   ],
-  "celulares_revisar": 14,
+  "celulares_revisar": 4,
   "diferencias": []
  }
 }
