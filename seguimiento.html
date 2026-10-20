@@ -328,10 +328,11 @@ function pintaDetalle(){
     <select id="od-tipo"><option value="">Casas y deptos</option>${tipos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
     <select id="od-est"><option value="">Con y sin teléfono</option><option value="Con contacto">Con teléfono</option><option value="Sin contacto">Sin teléfono</option></select>
     <select id="od-cod"><option value="">Todos los códigos</option>${codigos.map(c=>`<option>${esc(c)}</option>`).join('')}</select>
-    <a class="btn" href="/api/organico-detalle?mes=${D.mes}&formato=csv">Exportar CSV</a><button type="button" id="od-salir" style="background:#999">Salir</button><span class="cnt" id="od-cnt"></span></div><div class="tw" id="od-t"></div>
+    <button type="button" class="btn" id="od-csv">Exportar CSV</button><button type="button" id="od-salir" style="background:#999">Salir</button><span class="cnt" id="od-cnt"></span></div><div class="tw" id="od-t"></div>
     <div class="leyenda"><span><i style="background:#fff7d6;border:1px solid #eee"></i>Celular a revisar antes de escribir (formato incompleto o extranjero)</span></div>`;
   const draw=()=>{const q=$('od-q').value.toLowerCase().trim(),c=$('od-com').value,e=$('od-est').value,cd=$('od-cod').value,tp=$('od-tipo').value;
     const rs=f.filter(x=>(!c||x.comuna===c)&&(!tp||(x.tipo||'Sin dato')===tp)&&(!e||x.estado===e)&&(!cd||x.codigo===cd)&&(!q||(x.nombre+' '+x.celular).toLowerCase().includes(q)));
+    window.OD_VISIBLES=rs;
     $('od-cnt').textContent=`${rs.length} de ${f.length} contactos`;
     // Propiedades más consultadas siguen los filtros (comuna, tipo, teléfono, búsqueda); el filtro de código no las achica
     const base=f.filter(x=>(!c||x.comuna===c)&&(!tp||(x.tipo||'Sin dato')===tp)&&(!e||x.estado===e)&&(!q||(x.nombre+' '+x.celular).toLowerCase().includes(q)));
@@ -346,6 +347,12 @@ function pintaDetalle(){
     $('od-t').innerHTML='<table><thead><tr>'+(hayF?'<th style="text-align:left">Fecha</th>':'')+'<th>Nombre</th><th style="text-align:left">Estado</th><th style="text-align:left">Celular</th><th>Código</th><th style="text-align:left">Tipo</th><th style="text-align:left">Comuna</th></tr></thead><tbody>'+
       rs.map(x=>`<tr>${hayF?`<td style="text-align:left;white-space:nowrap">${esc(fd(x.fecha))}</td>`:''}<td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado==='Con contacto'?'Con teléfono':'Sin teléfono'}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td><td style="text-align:left" title="${esc(x.lista_comuna&&x.lista_comuna!==x.comuna?'Lista de CyM: '+x.lista_comuna:'')}">${esc(x.comuna)}</td></tr>`).join('')+'</tbody></table>'};
   ['od-q','od-com','od-est','od-cod','od-tipo'].forEach(id=>$(id).oninput=draw);
+  // Exportar CSV = solo lo que se ve con los filtros aplicados
+  $('od-csv').onclick=()=>{const rs=window.OD_VISIBLES||f,cel=v=>'"'+String(v??'').replace(/"/g,'""')+'"',hayF=f.some(x=>x.fecha);
+    const cols=[...(hayF?[['fecha','Fecha']]:[]),['estado','Estado'],['nombre','Nombre'],['celular','Celular'],['codigo','Código'],['tipo','Tipo'],['comuna','Comuna'],['lista_comuna','Comuna en lista CyM'],['revisar','Revisar celular']];
+    const csv='\ufeff'+[cols.map(c=>c[1]).join(';'),...rs.map(x=>cols.map(([k])=>k==='revisar'?(x[k]?'sí':''):k==='estado'?(x[k]==='Con contacto'?'Con teléfono':'Sin teléfono'):cel(k==='tipo'?(x[k]||'Sin dato'):x[k])).join(';'))].join('\n');
+    const filtro=[$('od-com').value,$('od-tipo').value,$('od-est').value&&($('od-est').value==='Con contacto'?'con-telefono':'sin-telefono'),$('od-cod').value].filter(Boolean).join('-').replace(/[^\w-]+/g,'_');
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`CyM_organico_${D.mes}${filtro?'_'+filtro:''}.csv`;document.body.appendChild(a);a.click();a.remove()};
   $('od-salir').onclick=async()=>{await fetch('/api/organico-detalle?accion=salir',{method:'POST',credentials:'same-origin'});ORG_FILAS=null;detalleOrg()};
   draw();
 }
