@@ -337,7 +337,7 @@ function organico(){
   ORG_FILAS=null;if(!$('v-org').classList.contains('oculto'))detalleOrg();
 }
 function aplicaComuna(){
-  const o=D.organico,c=window.ORG_COM||'';
+  const o=window.ORG_ACUM&&window.ORG_SUMA?window.ORG_SUMA:D.organico,c=window.ORG_COM||'';
   if(!c){$('org-kpis').innerHTML=window.KPI_TODO;if(!ORG_FILAS)$('org-codigos').innerHTML=window.COD_TODO;return}
   const r=o.por_comuna.find(x=>x.comuna===c)||{total:0,con_contacto:0,sin_contacto:0,pct_contacto:0,casas:0,deptos:0,top_codigos:[]};
   $('org-kpis').innerHTML=[['Leads orgánicos · '+c,num(r.total),Math.round(r.total/Math.max(1,o.total)*100)+'% del total del mes',1],
