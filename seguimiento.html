@@ -275,12 +275,31 @@ function resumen(idx){
 
 let IDX=[];
 const META_CONTACTADOS=150; // meta mensual de leads orgánicos contactados (Christopher, 13 oct 2026)
+// Acumulado: suma todos los meses con lista orgánica (Christopher 20 oct). Se arma en el navegador desde los JSON de cada mes.
+window.ORG_ACUM=false;window.ORG_SUMA=null;
+async function cargaAcum(){
+  const meses=[...IDX].filter(x=>x.organico!=null).map(x=>x.mes).sort();
+  const ds=await Promise.all(meses.map(m=>fetch(`/data/seguimiento-${m}.json?v=${Date.now()}`).then(r=>r.json())));
+  const os_=ds.map(d=>d.organico).filter(o=>o&&o.estado==='cargado');
+  const pc={},pt={},tc={};
+  os_.forEach(o=>{(o.por_comuna||[]).forEach(r=>{const a=pc[r.comuna]||(pc[r.comuna]={comuna:r.comuna,total:0,con_contacto:0,sin_contacto:0,casas:0,deptos:0,otros:0,cods:{}});
+      ['total','con_contacto','sin_contacto','casas','deptos','otros'].forEach(k=>a[k]+=(r[k]||0));(r.top_codigos||[]).forEach(c=>a.cods[c.codigo]=(a.cods[c.codigo]||0)+c.n)});
+    (o.por_tipo||[]).forEach(r=>{const a=pt[r.tipo]||(pt[r.tipo]={tipo:r.tipo,total:0,con_contacto:0,sin_contacto:0});a.total+=r.total;a.con_contacto+=r.con_contacto||0;a.sin_contacto+=r.sin_contacto||0});
+    (o.top_codigos||[]).forEach(c=>tc[c.codigo]=(tc[c.codigo]||0)+c.n)});
+  const pct=(c,t)=>t?Math.round(c/t*100):0,top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]).map(([codigo,n])=>({codigo,n}));
+  const por_comuna=Object.values(pc).map(a=>({...a,pct_contacto:pct(a.con_contacto,a.total),top_codigos:top(a.cods).slice(0,3)}));
+  const total=por_comuna.reduce((s,r)=>s+r.total,0),con=por_comuna.reduce((s,r)=>s+r.con_contacto,0);
+  window.ORG_SUMA={estado:'cargado',por_comuna,por_tipo:Object.values(pt).map(a=>({...a,pct_contacto:pct(a.con_contacto,a.total)})),total,con_contacto:con,sin_contacto:total-con,
+    pct_contacto:pct(con,total),top_codigos:top(tc).slice(0,8),celulares_revisar:os_.reduce((s,o)=>s+(o.celulares_revisar||0),0),
+    titulo:'Acumulado '+meses.map(m=>['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][+m.slice(5)-1]).join(' + ')};
+  window.ORG_ACUM=true;organico();
+}
 function organico(){
-  const o=D.organico,mesN=D.titulo.split(' ')[0].toLowerCase();
-  const prevMes=IDX.find(x=>x.mes<D.mes&&x.organico!=null&&x.mes===[...IDX].map(y=>y.mes).filter(m=>m<D.mes).sort().at(-1));
-  $('org-periodo').innerHTML=`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
+  const o=window.ORG_ACUM&&window.ORG_SUMA?window.ORG_SUMA:D.organico,mesN=window.ORG_ACUM?'el acumulado':D.titulo.split(' ')[0].toLowerCase();
+  const prevMes=window.ORG_ACUM?null:IDX.find(x=>x.mes<D.mes&&x.organico!=null&&x.mes===[...IDX].map(y=>y.mes).filter(m=>m<D.mes).sort().at(-1));
+  $('org-periodo').innerHTML=window.ORG_ACUM?`<b>${o.titulo}</b> · suma de todos los meses con lista orgánica de CyM`:`<b>${D.titulo}</b> · leads orgánicos de la lista que manda CyM${D.completo?'':' · mes en curso'}${o.fuente?' · '+o.fuente:''}`;
   // Botones de mes visibles en la pestaña (además del selector de arriba), solo meses con lista orgánica
-  $('org-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${[...IDX].filter(x=>x.organico!=null).sort((a,b)=>a.mes.localeCompare(b.mes)).map(x=>`<button type="button" onclick="const s=document.getElementById('mes');s.value='${x.mes}';s.dispatchEvent(new Event('change'))" style="padding:8px 16px;border-radius:999px;border:1px solid ${x.mes===D.mes?'#eb3d60':'#ddd'};background:${x.mes===D.mes?'#eb3d60':'#fff'};color:${x.mes===D.mes?'#fff':'#111'};font-weight:700;cursor:pointer">${x.titulo.split(' ')[0]}</button>`).join('')}</div>`+$('org-periodo').innerHTML;
+  $('org-periodo').innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${[...IDX].filter(x=>x.organico!=null).sort((a,b)=>a.mes.localeCompare(b.mes)).map(x=>{const on=!window.ORG_ACUM&&x.mes===D.mes;return `<button type="button" onclick="window.ORG_ACUM=false;const s=document.getElementById('mes');if(s.value==='${x.mes}')organico();else{s.value='${x.mes}';s.dispatchEvent(new Event('change'))}" style="padding:8px 16px;border-radius:999px;border:1px solid ${on?'#eb3d60':'#ddd'};background:${on?'#eb3d60':'#fff'};color:${on?'#fff':'#111'};font-weight:700;cursor:pointer">${x.titulo.split(' ')[0]}</button>`}).join('')}<button type="button" onclick="cargaAcum()" style="padding:8px 16px;border-radius:999px;border:1px solid ${window.ORG_ACUM?'#0B1120':'#ddd'};background:${window.ORG_ACUM?'#0B1120':'#fff'};color:${window.ORG_ACUM?'#fff':'#111'};font-weight:700;cursor:pointer">Acumulado</button></div>`+$('org-periodo').innerHTML;
   if(o.estado!=='cargado'){
     const pend=`<div class="pend"><b>Pendiente lista orgánica de ${mesN}</b>${o.nota||''}</div>`;
     ['org-kpis','org-tabla','org-codigos','org-tipo'].forEach(id=>$(id).innerHTML='');$('organico').innerHTML=pend;return}
@@ -331,15 +350,15 @@ let ORG_FILAS=null,ORG_MES=null;
 const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 async function detalleOrg(){
   const el=$('org-detalle');if(!D)return;
-  if(D.organico.estado!=='cargado'){el.innerHTML='<div class="sub">Sin lista para este mes.</div>';return}
-  if(ORG_FILAS&&ORG_MES===D.mes)return pintaDetalle();
-  const r=await fetch(`/api/organico-detalle?mes=${D.mes}`,{credentials:'same-origin'});
+  const MK=window.ORG_ACUM?'todos':D.mes;if(!window.ORG_ACUM&&D.organico.estado!=='cargado'){el.innerHTML='<div class="sub">Sin lista para este mes.</div>';return}
+  if(ORG_FILAS&&ORG_MES===MK)return pintaDetalle();
+  const r=await fetch(`/api/organico-detalle?mes=${MK}`,{credentials:'same-origin'});
   if(r.status===401){
     el.innerHTML=`<form class="login" id="org-login"><input type="password" id="org-clave" placeholder="Clave del panel" autocomplete="current-password" required><button>Ver detalle</button><div class="err" id="org-err"></div></form>`;
     $('org-login').onsubmit=async e=>{e.preventDefault();const x=await fetch('/api/organico-detalle?accion=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clave:$('org-clave').value}),credentials:'same-origin'});
       if(x.ok){ORG_FILAS=null;detalleOrg()}else $('org-err').textContent='Clave incorrecta'};return}
   if(!r.ok){el.innerHTML='<div class="sub">No se pudo cargar el detalle.</div>';return}
-  ORG_FILAS=(await r.json()).filas;ORG_MES=D.mes;pintaDetalle();
+  ORG_FILAS=(await r.json()).filas;ORG_MES=MK;pintaDetalle();
 }
 function pintaDetalle(){
   const el=$('org-detalle'),f=ORG_FILAS,comunas=[...new Set(f.map(x=>x.comuna))].sort(),tipos=[...new Set(f.map(x=>x.tipo||'Sin dato'))].sort(),codigos=[...new Set(f.map(x=>x.codigo).filter(Boolean))].sort();
@@ -373,7 +392,7 @@ function pintaDetalle(){
     const cols=[...(hayF?[['fecha','Fecha']]:[]),['estado','Estado'],['nombre','Nombre'],['celular','Celular'],['codigo','Código'],['tipo','Tipo'],['comuna','Comuna'],['lista_comuna','Comuna en lista CyM'],['revisar','Revisar celular']];
     const csv='\ufeff'+[cols.map(c=>c[1]).join(';'),...rs.map(x=>cols.map(([k])=>k==='revisar'?(x[k]?'sí':''):k==='estado'?(x[k]==='Con contacto'?'Con teléfono':'Sin teléfono'):cel(k==='tipo'?(x[k]||'Sin dato'):x[k])).join(';'))].join('\n');
     const filtro=[$('od-com').value,$('od-tipo').value,$('od-est').value&&($('od-est').value==='Con contacto'?'con-telefono':'sin-telefono'),$('od-cod').value].filter(Boolean).join('-').replace(/[^\w-]+/g,'_');
-    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`CyM_organico_${D.mes}${filtro?'_'+filtro:''}.csv`;document.body.appendChild(a);a.click();a.remove()};
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download=`CyM_organico_${window.ORG_ACUM?'acumulado':D.mes}${filtro?'_'+filtro:''}.csv`;document.body.appendChild(a);a.click();a.remove()};
   $('od-salir').onclick=async()=>{await fetch('/api/organico-detalle?accion=salir',{method:'POST',credentials:'same-origin'});ORG_FILAS=null;detalleOrg()};
   draw();
 }
@@ -421,7 +440,7 @@ async function detalleVit(){
     rs.map(x=>`<tr><td class="n">${esc(x.nombre)}</td><td style="text-align:left" class="${x.estado==='Con contacto'?'est-con':'est-sin'}">${x.estado==='Con contacto'?'Con teléfono':'Sin teléfono'}</td><td style="text-align:left" class="${x.revisar?'rev':''}">${esc(x.celular)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td style="text-align:left">${esc(x.tipo||'Sin dato')}</td></tr>`).join('')+'</tbody></table></div>':'<div class="sub">Sin contactos orgánicos de Vitacura este mes.</div>';
 }
 
-async function carga(mes){D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
+async function carga(mes){window.ORG_ACUM=false;D=await fetch(`/data/seguimiento-${mes}.json?v=${Date.now()}`).then(r=>r.json());render()}
 (async()=>{const idx=await fetch('/data/seguimiento-index.json?v='+Date.now()).then(r=>r.json());IDX=idx;const q=new URLSearchParams(location.search).get('mes');
 $('mes').innerHTML=idx.map(i=>`<option value="${i.mes}">${i.titulo}</option>`).join('');const m=q&&idx.some(i=>i.mes===q)?q:idx[0].mes;$('mes').value=m;
 const pinta=v=>{$('meses').innerHTML='<span>Mes:</span>'+idx.map(i=>`<a href="?mes=${i.mes}" data-m="${i.mes}" class="${i.mes===v?'on':''}">${i.titulo.replace(' 2026','')}${i.completo===false?'<small>en curso</small>':''}</a>`).join('');[...document.querySelectorAll('#meses a')].forEach(a=>a.onclick=e=>{e.preventDefault();cambia(a.dataset.m)})};

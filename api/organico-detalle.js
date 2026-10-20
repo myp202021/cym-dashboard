@@ -74,9 +74,10 @@ export default async function handler(req, res) {
 
   // 13-oct-2026: sin clave por pedido de Christopher
   const mes = String(req.query.mes || '');
-  if (!/^\d{4}-\d{2}$/.test(mes)) return res.status(400).json({ error: 'mes=AAAA-MM' });
+  if (mes !== 'todos' && !/^\d{4}-\d{2}$/.test(mes)) return res.status(400).json({ error: 'mes=AAAA-MM o todos' });
   let filas;
-  try { filas = detalle().meses[mes] || []; } catch (e) { return res.status(500).json({ error: 'No se pudo leer el detalle' }); }
+  // mes=todos → acumulado de todos los meses (cada fila con su mes)
+  try { const m = detalle().meses; filas = mes === 'todos' ? Object.keys(m).sort().flatMap(k => m[k].map(f => ({ ...f, mes: k }))) : (m[mes] || []); } catch (e) { return res.status(500).json({ error: 'No se pudo leer el detalle' }); }
 
   if (req.query.formato === 'csv') {
     const cols = ['fecha', 'estado', 'nombre', 'celular', 'codigo', 'tipo', 'comuna', 'lista_comuna', 'revisar'];
