@@ -149,27 +149,47 @@ def organico_xlsx():
         nom = val(rows[i][0]); con, sin, t = (_int(val(rows[i][j])) for j in (1, 2, 3))
         if key(nom) == 'total': tot_hoja = dict(con=con, sin=sin, total=t); break
         resumen[nom] = dict(con=con, sin=sin, total=t); i += 1
-    # 2) detalle: izquierda = con contacto (NOMBRE, CELULAR, CÓDIGO, COMUNA); derecha = sin contacto (NOMBRE, CÓDIGO, COMUNA)
+    # 2) detalle: izquierda = con contacto (NOMBRE, CELULAR, CÓDIGO, COMUNA[, FECHA]); derecha = sin contacto (NOMBRE, CÓDIGO, COMUNA[, FECHA]).
+    # Las columnas se ubican por el encabezado (20 oct: se pidió a Nicole agregar FECHA = día en que entró el contacto).
     while i < len(rows) and key(val(rows[i][0])) != 'nombre': i += 1
+    hdr = [key(val(c)) if c is not None else '' for c in rows[i]] if i < len(rows) else []
+    noms = [j for j, h in enumerate(hdr) if h == 'nombre']
+    izq, der = (noms + [None, None])[:2]
+    def col(desde, hasta, nombre):
+        for j in range(desde, hasta if hasta is not None else len(hdr)):
+            if hdr[j].startswith(nombre): return j
+        return None
+    L = dict(n=izq, cel=col(izq, der, 'celular'), cod=col(izq, der, 'codigo'), com=col(izq, der, 'comuna'), fec=col(izq, der, 'fecha'))
+    R = dict(n=der, cod=col(der or 0, None, 'codigo'), com=col(der or 0, None, 'comuna'), fec=col(der or 0, None, 'fecha')) if der is not None else None
+    def fecha(c):
+        if c is None or c.value is None: return ''
+        v = c.value
+        if hasattr(v, 'strftime'): return v.strftime('%Y-%m-%d')
+        m_ = re.match(r'^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})$', str(v).strip())
+        if m_: d_, mo, a = m_.groups(); return f"{('20' + a) if len(a) == 2 else a}-{int(mo):02d}-{int(d_):02d}"
+        return str(v).strip()
     det = defaultdict(lambda: dict(con=0, sin=0, codigos=Counter())); revisar = 0
     privado = []  # detalle con datos personales: SOLO a raw/ (gitignored); se publica cifrado con cifrar-detalle.mjs
     grupo = re.compile(r'.*\(\d+\)\s*$')
+    g = lambda r, j: val(r[j]) if j is not None and j < len(r) else ''
     for r in rows[i + 1:]:
-        r = r + [None] * 8
-        n, cel, cod, com = (val(r[j]) for j in (0, 1, 2, 3))
+        r = r + [None] * 12
+        n, cel, cod, com = g(r, L['n']), g(r, L['cel']), g(r, L['cod']), g(r, L['com'])
         if n and not grupo.match(n) and (cod or com):
             d = det[com or 'Sin comuna']; d['con'] += 1
             if cod and cod != '-': d['codigos'][cod] += 1
-            f = r[1].fill if r[1] is not None else None
+            cc = r[L['cel']] if L['cel'] is not None else None
+            f = cc.fill if cc is not None else None
             color = (f.fgColor.rgb if f is not None and f.fill_type and f.fgColor is not None and isinstance(f.fgColor.rgb, str) else '') or ''
             amarillo = color[-6:].upper() in ('FFFF00', 'FFF2CC', 'FFF2B3', 'FFEB9C', 'FFFF99', 'FFE699', 'FFD966')
             revisar += amarillo
-            privado.append(dict(estado='Con contacto', nombre=n, celular=cel, codigo=cod if cod != '-' else '', comuna=com or 'Sin comuna', revisar=bool(amarillo)))
-        n2, cod2, com2 = (val(r[j]) for j in (5, 6, 7))
+            privado.append(dict(estado='Con contacto', nombre=n, celular=cel, codigo=cod if cod != '-' else '', comuna=com or 'Sin comuna', revisar=bool(amarillo), fecha=fecha(r[L['fec']]) if L['fec'] is not None else ''))
+        if R is None: continue
+        n2, cod2, com2 = g(r, R['n']), g(r, R['cod']), g(r, R['com'])
         if n2 and not grupo.match(n2) and (cod2 or com2):
             d = det[com2 or 'Sin comuna']; d['sin'] += 1
             if cod2 and cod2 != '-': d['codigos'][cod2] += 1
-            privado.append(dict(estado='Sin contacto', nombre=n2, celular='', codigo=cod2 if cod2 != '-' else '', comuna=com2 or 'Sin comuna', revisar=False))
+            privado.append(dict(estado='Sin contacto', nombre=n2, celular='', codigo=cod2 if cod2 != '-' else '', comuna=com2 or 'Sin comuna', revisar=False, fecha=fecha(r[R['fec']]) if R['fec'] is not None else ''))
     res, dif = [], []
     for nom, s_ in resumen.items():
         d = det.get(nom, dict(con=0, sin=0, codigos=Counter()))
