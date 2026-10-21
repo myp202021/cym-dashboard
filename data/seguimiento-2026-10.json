@@ -700,12 +700,12 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 121,
-    "con_contacto": 67,
+    "total": 122,
+    "con_contacto": 68,
     "sin_contacto": 54,
-    "pct_contacto": 55,
+    "pct_contacto": 56,
     "casas": 85,
-    "deptos": 30,
+    "deptos": 31,
     "otros": 6,
     "top_codigos": [
      {
@@ -748,13 +748,13 @@
    },
    {
     "comuna": "Vitacura",
-    "total": 23,
-    "con_contacto": 15,
+    "total": 24,
+    "con_contacto": 16,
     "sin_contacto": 8,
-    "pct_contacto": 65,
+    "pct_contacto": 67,
     "casas": 19,
     "deptos": 0,
-    "otros": 4,
+    "otros": 5,
     "top_codigos": [
      {
       "codigo": "5856",
@@ -832,23 +832,23 @@
    },
    {
     "tipo": "Depto",
-    "total": 31,
-    "con_contacto": 15,
+    "total": 32,
+    "con_contacto": 16,
     "sin_contacto": 16,
-    "pct_contacto": 48
+    "pct_contacto": 50
    },
    {
     "tipo": "Sin dato",
-    "total": 19,
-    "con_contacto": 11,
+    "total": 20,
+    "con_contacto": 12,
     "sin_contacto": 8,
-    "pct_contacto": 58
+    "pct_contacto": 60
    }
   ],
-  "total": 194,
-  "con_contacto": 107,
+  "total": 196,
+  "con_contacto": 109,
   "sin_contacto": 87,
-  "pct_contacto": 55,
+  "pct_contacto": 56,
   "top_codigos": [
    {
     "codigo": "5615",
