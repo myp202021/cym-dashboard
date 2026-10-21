@@ -120,6 +120,22 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
 .filtros .cnt{font-size:12px;color:var(--gris);font-weight:700;margin-left:auto}
 .est-con{color:var(--verde);font-weight:800}.est-sin{color:var(--rojo);font-weight:800}
 td.rev{background:#fff7d6}
+.kpis.k3{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.kpis.k3{grid-template-columns:repeat(3,1fr)}}
+.kpis.k3 .kpi.txt{grid-column:1/-1}
+@media(min-width:760px){.kpis.k3 .kpi.txt{grid-column:auto}}
+.kpi.txt .v{font-size:17px;letter-spacing:-.2px;line-height:1.25;margin-top:6px}
+.cot-res{display:inline-block;border-radius:999px;padding:3px 10px;font-weight:800;font-size:12px;white-space:normal}
+.cot-res.ok{background:var(--verde-s);color:var(--verde)}.cot-res.no{background:var(--ambar-s);color:var(--ambar)}
+#cot-tabla td.t{white-space:normal;min-width:180px;text-align:left}
+#cot-tabla td.t a{color:var(--negro);font-weight:700}
+#cot-tabla td.l{text-align:left}
+.cot-cards{display:none}
+@media(max-width:640px){#cot-tabla{display:none}.cot-cards{display:grid;gap:10px}}
+.cot-card{border:1px solid var(--linea);border-radius:12px;padding:12px 14px;font-size:13px}
+.cot-card .f{font-size:12px;color:var(--gris);font-weight:700}
+.cot-card .p{font-weight:800;font-size:14px;margin:4px 0 2px;display:block;color:var(--negro)}
+.cot-card .d{display:flex;flex-wrap:wrap;gap:4px 12px;color:#374151;font-weight:600;margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -128,7 +144,7 @@ td.rev{background:#fff7d6}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a></nav>
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a></nav>
   <div id="v-seg">
   <div class="meses" id="meses"></div>
   <div class="periodo" id="periodo">Cargando…</div>
@@ -183,10 +199,34 @@ td.rev{background:#fff7d6}
       <a class="btn-ir" href="https://portal-propiedades-myp.vercel.app" target="_blank" rel="noopener">Abrir portal →</a></div>
     <div class="proyecto-embed"><iframe src="https://portal-propiedades-myp.vercel.app" title="Portal de propiedades" loading="lazy"></iframe></div>
   </div>
+  <div id="v-cot" class="oculto">
+    <div class="periodo">Fiscalización: cotizaciones automáticas en Portal Inmobiliario a casas en venta de la tienda oficial de CyM. Portal envía los datos de Christopher (M&amp;P) al director de la propiedad y se verifica en "Contactos realizados".</div>
+    <div class="kpis k3" id="cot-kpis"></div>
+    <section><h2>Registro de cotizaciones</h2><div class="sub" id="cot-sub">De la más reciente a la más antigua</div><div class="tw" id="cot-tabla"></div><div class="cot-cards" id="cot-cards"></div></section>
+  </div>
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura()}
+function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones()}
+window.cotizaciones=async function(){
+  const el=document.getElementById('cot-tabla'),cards=document.getElementById('cot-cards');
+  let d;try{d=await fetch('/data/cotizaciones-portal.json?v='+Date.now()).then(r=>r.json())}catch(e){el.innerHTML='<div class="pend">No se pudo cargar el registro</div>';return}
+  const F=d.cotizaciones||[],esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const fh=f=>{const[a,h]=f.split(' ');const[y,m,dd]=a.split('-');return `${+dd} ${MS[+m-1]} ${y} · ${(h||'').slice(0,5)}`};
+  const wa=n=>{n=String(n||'').replace(/\D/g,'');return n.length===11&&n.startsWith('569')?`+56 9 ${n.slice(3,7)} ${n.slice(7)}`:(n?'+'+n:'—')};
+  const res=r=>/^registrado/i.test(r||'')?'<span class="cot-res ok">Registrado en Contactos realizados</span>':`<span class="cot-res no">${esc(r||'Sin confirmar')}</span>`;
+  const hoy=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Santiago'}),mes=hoy.slice(0,7);
+  const dh=new Date(hoy+'T12:00:00Z'),lun=new Date(dh-(((dh.getUTCDay()+6)%7)*864e5)).toISOString().slice(0,10);
+  const nMes=F.filter(f=>f.fecha.slice(0,7)===mes).length,nSem=F.filter(f=>f.fecha.slice(0,10)>=lun).length;
+  const MESL=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  document.getElementById('cot-kpis').innerHTML=`<div class="kpi dest"><div class="l">Cotizaciones del mes</div><div class="v">${nMes}</div><div class="s">${MESL[+mes.slice(5)-1]} ${mes.slice(0,4)}</div></div><div class="kpi"><div class="l">Esta semana</div><div class="v">${nSem}</div><div class="s">desde el lunes ${+lun.slice(8)} ${MS[+lun.slice(5,7)-1]}</div></div><div class="kpi txt"><div class="l">Próximas corridas</div><div class="v">Lunes a viernes 11:00 y 16:00</div><div class="s">2 cotizaciones por día hábil</div></div>`;
+  document.getElementById('cot-sub').textContent=`${F.length} cotizaciones en total · de la más reciente a la más antigua · actualizado ${d.actualizado?fh(d.actualizado):'—'}`;
+  if(!F.length){el.innerHTML='<div class="pend">Aún no hay cotizaciones registradas</div>';cards.innerHTML='';return}
+  const prop=f=>`<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a>`;
+  el.innerHTML=`<table><thead><tr><th>Fecha y hora</th><th style="text-align:left">Comuna</th><th style="text-align:left">Propiedad</th><th>Precio</th><th>WhatsApp director</th><th style="text-align:left">Resultado</th></tr></thead><tbody>${F.map(f=>`<tr><td class="n">${fh(f.fecha)}</td><td class="l">${esc(f.comuna)}</td><td class="t">${prop(f)}</td><td>${esc(f.precio)}</td><td>${wa(f.whatsapp)}</td><td class="l">${res(f.resultado)}</td></tr>`).join('')}</tbody></table>`;
+  cards.innerHTML=F.map(f=>`<div class="cot-card"><div class="f">${fh(f.fecha)}</div><a class="p" href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.titulo)}</a><div class="d"><span>${esc(f.comuna)}</span><span>${esc(f.precio)}</span><span>Director: ${wa(f.whatsapp)}</span></div>${res(f.resultado)}</div>`).join('');
+};
 addEventListener('hashchange',vista);addEventListener('DOMContentLoaded',vista);
 </script>
 <script>
