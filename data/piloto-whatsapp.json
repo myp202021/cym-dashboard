@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-26 13:40",
+  "actualizado": "2026-10-26 14:40",
   "codigo": "5328",
   "propiedad": "Casa Vitacura",
   "precio": "UF 17.500",
@@ -8,10 +8,10 @@
   "presupuesto_diario": 3000,
   "dias": 5,
   "campana": {
-    "estado": "Sin publicar",
-    "detalle": "Campaña propia de M&P, tope total $15.000. Falta conectar el WhatsApp de Rayen a la página de CyM y publicar",
-    "inicio": null,
-    "fin": null
+    "estado": "En revisión de Meta",
+    "detalle": "Campaña propia de M&P publicada el 26 oct: presupuesto total $15.000, Vitacura, Las Condes y Lo Barnechea, 35 a 65+, anuncio con la publicación del 18 oct y botón a WhatsApp de Rayen",
+    "inicio": "2026-10-26",
+    "fin": "2026-10-31"
   },
   "gasto": [],
   "leads": []
