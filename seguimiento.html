@@ -144,7 +144,7 @@ td.rev{background:#fff7d6}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a></nav>
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Seguimiento</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#portal" id="nav-portal">Portal</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a><a href="#piloto" id="nav-piloto" class="wa">Piloto WhatsApp 5856</a></nav>
   <div id="v-seg">
   <div class="meses" id="meses"></div>
   <div class="periodo" id="periodo">Cargando…</div>
@@ -204,10 +204,27 @@ td.rev{background:#fff7d6}
     <div class="kpis k3" id="cot-kpis"></div>
     <section><h2>Registro de cotizaciones</h2><div class="sub" id="cot-sub">De la más reciente a la más antigua</div><div class="tw" id="cot-tabla"></div><div class="cot-cards" id="cot-cards"></div></section>
   </div>
+  <div id="v-piloto" class="oculto">
+    <div class="periodo" id="pil-top">Cargando…</div>
+    <div class="kpis" id="pil-kpis"></div>
+    <section><h2>Consumo por día</h2><div class="sub">Gasto en Meta y conversaciones de WhatsApp iniciadas, día a día</div><div class="tw" id="pil-gasto"></div></section>
+    <section><h2>Leads del piloto</h2><div class="sub">Personas que escribieron por la casa 5856, el agente les pidió nombre y consulta y las derivó a Alejandro Ceballos</div><div class="tw" id="pil-leads"></div></section>
+  </div>
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones()}
+function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones','#piloto'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones',piloto:h==='#piloto'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones();if(v.piloto&&window.piloto)piloto()}
+window.piloto=async function(){
+  let d;try{d=await fetch('/data/piloto-whatsapp.json?v='+Date.now()).then(r=>r.json())}catch(e){document.getElementById('pil-top').textContent='No se pudo cargar el piloto';return}
+  const esc=t=>String(t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),pesos=n=>'$'+Math.round(n||0).toLocaleString('es-CL');
+  const MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],fd=f=>{if(!f)return '—';const[a,h]=f.split(' ');const[,m,dd]=a.split('-');return `${+dd} ${MS[+m-1]}${h?' · '+h.slice(0,5):''}`};
+  const G=d.gasto||[],L=d.leads||[],reales=L.filter(l=>!l.prueba),gasto=G.reduce((a,g)=>a+(g.gasto||0),0),conv=G.reduce((a,g)=>a+(g.conversaciones||0),0),tope=d.presupuesto_diario*d.dias;
+  const c=d.campana||{},activo=/activ/i.test(c.estado||'');
+  document.getElementById('pil-top').innerHTML=`<span class="estado" style="${activo?'background:#eafaf0;color:#128C4A':''}">${esc(c.estado)}</span> <b>Piloto Meta → WhatsApp · ${esc(d.propiedad)} código ${esc(d.codigo)} (${esc(d.precio)})</b> · ${pesos(d.presupuesto_diario)} diarios por ${d.dias} días${c.inicio?' · del '+fd(c.inicio)+' al '+fd(c.fin):''}${c.detalle?'<br>'+esc(c.detalle):''} · <a href="${esc(d.url)}" target="_blank" rel="noopener">Ver ficha</a> · actualizado ${fd(d.actualizado)}`;
+  document.getElementById('pil-kpis').innerHTML=`<div class="kpi dest"><div class="l">Gastado</div><div class="v">${pesos(gasto)}</div><div class="s">de ${pesos(tope)} del piloto</div></div><div class="kpi"><div class="l">Conversaciones</div><div class="v">${conv}</div><div class="s">iniciadas en WhatsApp (Meta)</div></div><div class="kpi"><div class="l">Leads derivados</div><div class="v">${reales.length}</div><div class="s">a ${esc(d.director)}</div></div><div class="kpi"><div class="l">Costo por lead</div><div class="v">${reales.length?pesos(gasto/reales.length):'—'}</div><div class="s">gasto / leads</div></div><div class="kpi"><div class="l">Días</div><div class="v">${G.length} / ${d.dias}</div><div class="s">con consumo</div></div>`;
+  document.getElementById('pil-gasto').innerHTML=G.length?`<table><thead><tr><th>Día</th><th>Gasto</th><th>Conversaciones</th><th>Leads derivados</th></tr></thead><tbody>${G.map(g=>`<tr><td>${fd(g.fecha)}</td><td>${pesos(g.gasto)}</td><td>${g.conversaciones||0}</td><td>${reales.filter(l=>l.fecha.slice(0,10)===g.fecha).length}</td></tr>`).join('')}</tbody></table>`:'<div class="pend"><b>Sin consumo todavía</b>La campaña del piloto aún no está publicada</div>';
+  document.getElementById('pil-leads').innerHTML=L.length?`<table><thead><tr><th>Fecha y hora</th><th style="text-align:left">Nombre</th><th style="text-align:left">Consulta</th><th style="text-align:left">Derivado a</th></tr></thead><tbody>${L.slice().reverse().map(l=>`<tr><td>${fd(l.fecha)}</td><td style="text-align:left">${esc(l.nombre)}${l.prueba?' <span class="estado">prueba</span>':''}</td><td style="text-align:left">${esc(l.consulta)}</td><td style="text-align:left">${esc(l.derivado_a)}</td></tr>`).join('')}</tbody></table>`:'<div class="pend"><b>Aún no hay leads</b>Cuando alguien escriba por la casa 5856 aparecerá aquí</div>';
+};
 window.cotizaciones=async function(){
   const el=document.getElementById('cot-tabla'),cards=document.getElementById('cot-cards');
   let d;try{d=await fetch('/data/cotizaciones-portal.json?v='+Date.now()).then(r=>r.json())}catch(e){el.innerHTML='<div class="pend">No se pudo cargar el registro</div>';return}
