@@ -230,6 +230,13 @@ def organico_xlsx():
                 top_codigos=[dict(codigo=c, n=k) for c, k in top.most_common(8)], celulares_revisar=revisar,
                 diferencias=dif)
 
+def org_previo():
+    # En la nube (GitHub) no está la lista orgánica de CyM (tiene nombres y teléfonos): se conserva lo ya publicado del mes
+    p = os.path.join(DATA, f'seguimiento-{MES}.json')
+    if not os.path.exists(p): return None
+    o = json.load(open(p, encoding='utf-8')).get('organico')
+    return o if o and o.get('estado') != 'pendiente' else None
+
 def organico():
     x = organico_xlsx()
     if x: return x
@@ -321,7 +328,7 @@ def main():
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
                por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, serie_diaria=serie,
-               organico=organico() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
+               organico=organico() or org_previo() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     idx_p = os.path.join(DATA, 'seguimiento-index.json')
@@ -332,7 +339,7 @@ def main():
            organico=out['organico'].get('total'), organico_contactados=out['organico'].get('con_contacto'))]
     json.dump(sorted(idx, key=lambda i: i['mes'], reverse=True), open(idx_p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     sc = [c for c in por_campana if c['comuna'] == SIN_COMUNA]
-    print(f"{out['titulo']}: gasto ${kpi['gasto']:,} · leads {kpi['leads']} · CPL ${kpi['cpl']:,} · orgánico {out['organico']['estado']}"
+    print(f"{out['titulo']}: gasto ${kpi['gasto']:,} · leads {kpi['leads']} · CPL ${kpi['cpl'] or 0:,} · orgánico {out['organico']['estado']}"
           f" · sin comuna: {', '.join(c['campana'] for c in sc) or '—'}")
 
 main()
