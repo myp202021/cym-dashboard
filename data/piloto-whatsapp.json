@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-26 14:40",
+  "actualizado": "2026-10-26 14:46",
   "codigo": "5328",
   "propiedad": "Casa Vitacura",
   "precio": "UF 17.500",
@@ -14,5 +14,17 @@
     "fin": "2026-10-31"
   },
   "gasto": [],
-  "leads": []
+  "leads": [
+    {
+      "fecha": "2026-10-26 14:46",
+      "nombre": "Christopher Muller",
+      "telefono": "56992258137",
+      "casa": "5328",
+      "precio": "UF 17.500",
+      "consulta": "esta semana",
+      "pago": "Crédito hipotecario",
+      "derivado_a": "Alejandro Ceballos (piloto)",
+      "prueba": true
+    }
+  ]
 }
