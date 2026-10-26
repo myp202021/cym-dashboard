@@ -941,12 +941,12 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 206,
-    "con_contacto": 116,
-    "sin_contacto": 90,
-    "pct_contacto": 56,
+    "total": 171,
+    "con_contacto": 100,
+    "sin_contacto": 71,
+    "pct_contacto": 58,
     "casas": 163,
-    "deptos": 35,
+    "deptos": 0,
     "otros": 8,
     "top_codigos": [
      {
@@ -954,28 +954,28 @@
       "n": 52
      },
      {
-      "codigo": "5615",
-      "n": 31
-     },
-     {
       "codigo": "5854",
       "n": 23
+     },
+     {
+      "codigo": "5890",
+      "n": 20
      }
     ]
    },
    {
     "comuna": "La Dehesa",
-    "total": 60,
-    "con_contacto": 28,
-    "sin_contacto": 32,
-    "pct_contacto": 47,
-    "casas": 53,
+    "total": 65,
+    "con_contacto": 32,
+    "sin_contacto": 33,
+    "pct_contacto": 49,
+    "casas": 58,
     "deptos": 2,
     "otros": 5,
     "top_codigos": [
      {
       "codigo": "6044",
-      "n": 10
+      "n": 13
      },
      {
       "codigo": "2656",
@@ -989,11 +989,11 @@
    },
    {
     "comuna": "Vitacura",
-    "total": 38,
+    "total": 39,
     "con_contacto": 25,
-    "sin_contacto": 13,
-    "pct_contacto": 66,
-    "casas": 33,
+    "sin_contacto": 14,
+    "pct_contacto": 64,
+    "casas": 34,
     "deptos": 0,
     "otros": 5,
     "top_codigos": [
@@ -1008,6 +1008,30 @@
      {
       "codigo": "5675",
       "n": 4
+     }
+    ]
+   },
+   {
+    "comuna": "Departamentos",
+    "total": 38,
+    "con_contacto": 18,
+    "sin_contacto": 20,
+    "pct_contacto": 47,
+    "casas": 0,
+    "deptos": 38,
+    "otros": 0,
+    "top_codigos": [
+     {
+      "codigo": "5615",
+      "n": 32
+     },
+     {
+      "codigo": "6061",
+      "n": 4
+     },
+     {
+      "codigo": "6515",
+      "n": 2
      }
     ]
    },
@@ -1036,62 +1060,6 @@
     ]
    },
    {
-    "comuna": "-",
-    "total": 3,
-    "con_contacto": 2,
-    "sin_contacto": 1,
-    "pct_contacto": 67,
-    "casas": 2,
-    "deptos": 0,
-    "otros": 1,
-    "top_codigos": [
-     {
-      "codigo": "5123",
-      "n": 1
-     },
-     {
-      "codigo": "6052",
-      "n": 1
-     }
-    ]
-   },
-   {
-    "comuna": "La  Dehesa",
-    "total": 3,
-    "con_contacto": 3,
-    "sin_contacto": 0,
-    "pct_contacto": 100,
-    "casas": 3,
-    "deptos": 0,
-    "otros": 0,
-    "top_codigos": [
-     {
-      "codigo": "6044",
-      "n": 3
-     }
-    ]
-   },
-   {
-    "comuna": "Depto Las Condes",
-    "total": 2,
-    "con_contacto": 2,
-    "sin_contacto": 0,
-    "pct_contacto": 100,
-    "casas": 0,
-    "deptos": 1,
-    "otros": 1,
-    "top_codigos": [
-     {
-      "codigo": "5615",
-      "n": 1
-     },
-     {
-      "codigo": "6515",
-      "n": 1
-     }
-    ]
-   },
-   {
     "comuna": "La Reina / Las Condes",
     "total": 1,
     "con_contacto": 1,
@@ -1108,62 +1076,14 @@
     ]
    },
    {
-    "comuna": "--",
-    "total": 1,
-    "con_contacto": 0,
-    "sin_contacto": 1,
-    "pct_contacto": 0,
-    "casas": 0,
-    "deptos": 0,
-    "otros": 1,
-    "top_codigos": [
-     {
-      "codigo": "--",
-      "n": 1
-     }
-    ]
-   },
-   {
-    "comuna": "La Dehsa",
-    "total": 1,
-    "con_contacto": 0,
-    "sin_contacto": 1,
-    "pct_contacto": 0,
-    "casas": 1,
-    "deptos": 0,
-    "otros": 0,
-    "top_codigos": [
-     {
-      "codigo": "5506",
-      "n": 1
-     }
-    ]
-   },
-   {
-    "comuna": "Deptos",
-    "total": 1,
-    "con_contacto": 0,
-    "sin_contacto": 1,
-    "pct_contacto": 0,
-    "casas": 0,
-    "deptos": 1,
-    "otros": 0,
-    "top_codigos": [
-     {
-      "codigo": "6061",
-      "n": 1
-     }
-    ]
-   },
-   {
     "comuna": "Sin dato",
-    "total": 3,
-    "con_contacto": 1,
-    "sin_contacto": 2,
-    "pct_contacto": 33,
+    "total": 5,
+    "con_contacto": 2,
+    "sin_contacto": 3,
+    "pct_contacto": 40,
     "casas": 0,
     "deptos": 0,
-    "otros": 3,
+    "otros": 5,
     "top_codigos": []
    }
   ],
@@ -1177,17 +1097,17 @@
    },
    {
     "tipo": "Depto",
-    "total": 39,
-    "con_contacto": 19,
+    "total": 40,
+    "con_contacto": 20,
     "sin_contacto": 20,
-    "pct_contacto": 49
+    "pct_contacto": 50
    },
    {
     "tipo": "Sin dato",
-    "total": 29,
-    "con_contacto": 17,
+    "total": 28,
+    "con_contacto": 16,
     "sin_contacto": 12,
-    "pct_contacto": 59
+    "pct_contacto": 57
    }
   ],
   "total": 340,

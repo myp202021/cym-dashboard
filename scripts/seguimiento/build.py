@@ -106,6 +106,7 @@ def resolver(cod, com_lista):
     c = CAT.get(cod or '', {})
     k = key(com_lista)
     depto = k.startswith('departamento')
+    if depto: return 'Depto', 'Departamentos'
     tipo = 'Depto' if depto else (c.get('tipo') if c.get('tipo') not in (None, '', 'Sin dato') else 'Sin dato')
     resto = re.sub(r'^departamentos?\s*[-–(]*\s*', '', com_lista or '', flags=re.I).strip(' )')
     opciones = [x.strip() for x in re.split(r'\s*/\s*', resto)] if resto and key(resto) not in ('sin comuna', '') else []
@@ -114,6 +115,17 @@ def resolver(cod, com_lista):
     elif len(opciones) > 1: comuna_r = cat_z if cat_z in [zona(o) for o in opciones] else ' / '.join(zona(o) for o in opciones)
     else: comuna_r = cat_z or 'Sin dato'
     return tipo, comuna_r
+
+# 26 oct: la lista de CyM trae la misma comuna escrita de varias formas ("La Dehsa", "La Dehesa ", "--", "Depto Las Condes").
+# Se unifica al leer; los departamentos van todos a "Departamentos", sin importar la comuna (pedido de Christopher).
+LISTA_COM = {'la dehesa': 'La Dehesa', 'la dehsa': 'La Dehesa', 'lo barnechea': 'La Dehesa', 'las condes': 'Las Condes',
+             'vitacura': 'Vitacura', 'la reina': 'La Reina', 'sca': 'San Carlos de Apoquindo',
+             'san carlos de apoquindo': 'San Carlos de Apoquindo'}
+def norm_lista(t):
+    k = ' '.join(key(t).split())
+    if k.strip('- ') in ('', 'sin comuna', 'sin dato'): return 'Sin comuna'
+    if re.match(r'^(depto|deptos|departamento)', k): return 'Departamentos'
+    return LISTA_COM.get(k, ' / '.join(LISTA_COM.get(x.strip(), x.strip().title()) for x in k.split('/')) if '/' in k else (t or '').strip())
 
 def _int(v):
     try: return int(str(v).strip())
@@ -146,9 +158,10 @@ def organico_xlsx():
     i += 1
     tot_hoja = None
     while i < len(rows) and val(rows[i][0]):
-        nom = val(rows[i][0]); con, sin, t = (_int(val(rows[i][j])) for j in (1, 2, 3))
+        nom = norm_lista(val(rows[i][0])); con, sin, t = (_int(val(rows[i][j])) for j in (1, 2, 3))
         if key(nom) == 'total': tot_hoja = dict(con=con, sin=sin, total=t); break
-        resumen[nom] = dict(con=con, sin=sin, total=t); i += 1
+        p_ = resumen.get(nom, dict(con=0, sin=0, total=0))
+        resumen[nom] = dict(con=p_['con'] + con, sin=p_['sin'] + sin, total=p_['total'] + t); i += 1
     # 2) detalle: izquierda = con contacto (NOMBRE, CELULAR, CÓDIGO, COMUNA[, FECHA]); derecha = sin contacto (NOMBRE, CÓDIGO, COMUNA[, FECHA]).
     # Las columnas se ubican por el encabezado (20 oct: se pidió a Nicole agregar FECHA = día en que entró el contacto).
     while i < len(rows) and key(val(rows[i][0])) != 'nombre': i += 1
@@ -175,6 +188,8 @@ def organico_xlsx():
     for r in rows[i + 1:]:
         r = r + [None] * 12
         n, cel, cod, com = g(r, L['n']), g(r, L['cel']), g(r, L['cod']), g(r, L['com'])
+        com = norm_lista(com) if (n and com) else com
+        if not cod.strip('- '): cod = ''
         if n and not grupo.match(n) and (cod or com):
             d = det[com or 'Sin comuna']; d['con'] += 1
             if cod and cod != '-': d['codigos'][cod] += 1
@@ -186,6 +201,8 @@ def organico_xlsx():
             privado.append(dict(estado='Con contacto', nombre=n, celular=cel, codigo=cod if cod != '-' else '', comuna=com or 'Sin comuna', revisar=bool(amarillo), fecha=fecha(r[L['fec']]) if L['fec'] is not None else ''))
         if R is None: continue
         n2, cod2, com2 = g(r, R['n']), g(r, R['cod']), g(r, R['com'])
+        com2 = norm_lista(com2) if (n2 and com2) else com2
+        if not cod2.strip('- '): cod2 = ''
         if n2 and not grupo.match(n2) and (cod2 or com2):
             d = det[com2 or 'Sin comuna']; d['sin'] += 1
             if cod2 and cod2 != '-': d['codigos'][cod2] += 1
