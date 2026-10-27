@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-27 13:30",
+  "actualizado": "2026-10-27 13:29",
   "codigo": "5328",
   "propiedad": "Casa Vitacura",
   "precio": "UF 17.500",
@@ -32,6 +32,17 @@
       "consulta": "esta semana",
       "pago": "Crédito hipotecario",
       "derivado_a": "Christopher (prueba)",
+      "prueba": true
+    },
+    {
+      "fecha": "2026-10-27 13:29",
+      "nombre": "Chris",
+      "telefono": "56992258137",
+      "casa": "5328",
+      "precio": "UF 17.500",
+      "consulta": "hoy",
+      "pago": "Crédito hipotecario",
+      "derivado_a": "Alejandro Ceballos (piloto) + Rayen (prueba)",
       "prueba": true
     }
   ]
