@@ -245,7 +245,7 @@ window.cotizaciones=async function(){
   const MS=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   const fh=f=>{const[a,h]=f.split(' ');const[y,m,dd]=a.split('-');return `${+dd} ${MS[+m-1]} ${y} · ${(h||'').slice(0,5)}`};
   const wa=n=>{n=String(n||'').replace(/\D/g,'');return n.length===11&&n.startsWith('569')?`+56 9 ${n.slice(3,7)} ${n.slice(7)}`:(n?'+'+n:'—')};
-  const res=r=>/^registrado/i.test(r||'')?'<span class="cot-res ok">Registrado en Contactos realizados</span>':`<span class="cot-res no">${esc(r||'Sin confirmar')}</span>`;
+  const res=r=>/^registrado/i.test(r||'')?'<span class="cot-res ok">Registrado en Contactos realizados</span>':/^clic sin confirmaci/i.test(r||'')?'<span class="cot-res ok">WhatsApp enviado</span>':`<span class="cot-res no">${esc(r||'Sin confirmar')}</span>`;
   const hoy=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Santiago'}),mes=hoy.slice(0,7);
   const dh=new Date(hoy+'T12:00:00Z'),lun=new Date(dh-(((dh.getUTCDay()+6)%7)*864e5)).toISOString().slice(0,10);
   const nMes=F.filter(f=>f.fecha.slice(0,7)===mes).length,nSem=F.filter(f=>f.fecha.slice(0,10)>=lun).length;
