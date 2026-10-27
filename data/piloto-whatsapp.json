@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-26 14:46",
+  "actualizado": "2026-10-27 13:30",
   "codigo": "5328",
   "propiedad": "Casa Vitacura",
   "precio": "UF 17.500",
@@ -8,12 +8,20 @@
   "presupuesto_diario": 3000,
   "dias": 5,
   "campana": {
-    "estado": "En revisión de Meta",
-    "detalle": "Campaña propia de M&P publicada el 26 oct: presupuesto total $15.000, Vitacura, Las Condes y Lo Barnechea, 35 a 65+, anuncio con la publicación del 18 oct y botón a WhatsApp de Rayen",
+    "estado": "Activa",
+    "detalle": "Campaña propia de M&P, activa desde el 26 oct hasta el 31 oct: $3.000 diarios, Vitacura, Las Condes y Lo Barnechea, 35 a 65+, anuncio con la publicación del 18 oct y botón al WhatsApp de Rayen. Al 27 oct: 307 impresiones, 260 personas alcanzadas, 12 clics.",
     "inicio": "2026-10-26",
     "fin": "2026-10-31"
   },
-  "gasto": [],
+  "gasto": [
+    {
+      "fecha": "2026-10-27",
+      "gasto": 3711,
+      "conversaciones": 0,
+      "leads": 0,
+      "nota": "acumulado 26 y 27 oct"
+    }
+  ],
   "leads": [
     {
       "fecha": "2026-10-26 14:46",
@@ -23,7 +31,7 @@
       "precio": "UF 17.500",
       "consulta": "esta semana",
       "pago": "Crédito hipotecario",
-      "derivado_a": "Alejandro Ceballos (piloto)",
+      "derivado_a": "Christopher (prueba)",
       "prueba": true
     }
   ]
