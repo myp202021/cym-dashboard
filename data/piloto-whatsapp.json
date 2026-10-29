@@ -66,6 +66,17 @@
       "pago": "",
       "derivado_a": "Alejandro Ceballos (piloto)",
       "prueba": false
+    },
+    {
+      "fecha": "2026-10-29 08:17",
+      "nombre": "(sin nombre)",
+      "telefono": "56993368341",
+      "casa": "5328",
+      "precio": "UF 17.500",
+      "consulta": "Dejó la conversación a medias: contactar igual.",
+      "pago": "",
+      "derivado_a": "Alejandro Ceballos (piloto)",
+      "prueba": false
     }
   ]
 }
