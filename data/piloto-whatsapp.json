@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-28 13:53",
+  "actualizado": "2026-10-29 08:17",
   "codigo": "5328",
   "propiedad": "Casa Vitacura",
   "precio": "UF 17.500",
@@ -55,6 +55,17 @@
       "pago": "Contado",
       "derivado_a": "Christopher (prueba)",
       "prueba": true
+    },
+    {
+      "fecha": "2026-10-29 08:17",
+      "nombre": "(sin nombre)",
+      "telefono": "56992278843",
+      "casa": "5328",
+      "precio": "UF 17.500",
+      "consulta": "Dejó la conversación a medias: contactar igual.",
+      "pago": "",
+      "derivado_a": "Alejandro Ceballos (piloto)",
+      "prueba": false
     }
   ]
 }
