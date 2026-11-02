@@ -1180,11 +1180,11 @@
    },
    {
     "comuna": "La Dehesa",
-    "total": 65,
-    "con_contacto": 32,
+    "total": 64,
+    "con_contacto": 31,
     "sin_contacto": 33,
-    "pct_contacto": 49,
-    "casas": 56,
+    "pct_contacto": 48,
+    "casas": 55,
     "deptos": 2,
     "otros": 7,
     "top_codigos": [
@@ -1227,30 +1227,6 @@
     ]
    },
    {
-    "comuna": "Departamentos",
-    "total": 38,
-    "con_contacto": 18,
-    "sin_contacto": 20,
-    "pct_contacto": 47,
-    "casas": 0,
-    "deptos": 38,
-    "otros": 0,
-    "top_codigos": [
-     {
-      "codigo": "5615",
-      "n": 32
-     },
-     {
-      "codigo": "6061",
-      "n": 4
-     },
-     {
-      "codigo": "6515",
-      "n": 2
-     }
-    ]
-   },
-   {
     "comuna": "San Carlos de Apoquindo",
     "total": 38,
     "con_contacto": 11,
@@ -1270,6 +1246,30 @@
      },
      {
       "codigo": "6041",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Departamentos",
+    "total": 36,
+    "con_contacto": 16,
+    "sin_contacto": 20,
+    "pct_contacto": 44,
+    "casas": 0,
+    "deptos": 36,
+    "otros": 0,
+    "top_codigos": [
+     {
+      "codigo": "5615",
+      "n": 31
+     },
+     {
+      "codigo": "6061",
+      "n": 4
+     },
+     {
+      "codigo": "6515",
       "n": 1
      }
     ]
@@ -1303,13 +1303,13 @@
    },
    {
     "comuna": "Sin dato",
-    "total": 6,
-    "con_contacto": 3,
-    "sin_contacto": 3,
+    "total": 4,
+    "con_contacto": 2,
+    "sin_contacto": 2,
     "pct_contacto": 50,
     "casas": 0,
     "deptos": 0,
-    "otros": 6,
+    "otros": 4,
     "top_codigos": [
      {
       "codigo": "6086",
@@ -1321,34 +1321,34 @@
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 249,
-    "con_contacto": 127,
+    "total": 248,
+    "con_contacto": 126,
     "sin_contacto": 122,
     "pct_contacto": 51
    },
    {
     "tipo": "Depto",
-    "total": 40,
-    "con_contacto": 20,
+    "total": 38,
+    "con_contacto": 18,
     "sin_contacto": 20,
-    "pct_contacto": 50
+    "pct_contacto": 47
    },
    {
     "tipo": "Sin dato",
-    "total": 34,
-    "con_contacto": 21,
-    "sin_contacto": 13,
+    "total": 32,
+    "con_contacto": 20,
+    "sin_contacto": 12,
     "pct_contacto": 62
    }
   ],
-  "total": 323,
-  "con_contacto": 168,
-  "sin_contacto": 155,
+  "total": 318,
+  "con_contacto": 164,
+  "sin_contacto": 154,
   "pct_contacto": 52,
   "top_codigos": [
    {
     "codigo": "5615",
-    "n": 32
+    "n": 31
    },
    {
     "codigo": "6014",
