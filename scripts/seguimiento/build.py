@@ -42,7 +42,8 @@ def clasifica(campana):
     c = campana or ''
     m = re.match(r'(?i)whatsapp\s*-\s*(.+)', c)
     if m: return comuna(m.group(1)), 'WhatsApp propiedades'
-    m = re.match(r'(?i)clientes potenciales\s*-\s*(.+)', c)
+    # Desde 30 oct 2026 la venta vuelve a formulario: "Formulario - X" / "Formularios - X" (con datos del usuario)
+    m = re.match(r'(?i)(?:clientes potenciales|formularios?)\s*-\s*(.+)', c)
     if m: return comuna(m.group(1)), 'Formulario propiedades'
     m = re.match(r'(?i)(?:nuevo director|anuncio director/?a?)\s+(.+)', c)
     if m: return comuna(m.group(1)), 'Captación nuevo director'

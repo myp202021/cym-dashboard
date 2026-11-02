@@ -152,14 +152,14 @@ td.rev{background:#fff7d6}
   <div class="kpis" id="kpis"></div>
   <div id="alerta"></div>
 
-  <section><h2>Gasto y leads por día</h2><div class="sub">Barras = gasto diario · línea = leads de venta (WhatsApp de propiedades; hasta el 3 ago, formularios de propiedades)</div><div class="chart" id="chart"></div></section>
+  <section><h2>Gasto y leads por día</h2><div class="sub">Barras = gasto diario · línea = leads de venta (formularios de propiedades hasta el 3 ago; WhatsApp hasta el 30 oct; formularios desde el 30 oct)</div><div class="chart" id="chart"></div></section>
 
   <div class="grid2">
-    <section><h2>Por comuna</h2><div class="sub">Solo campañas de venta (WhatsApp de propiedades). La captación de directores va aparte, no suma leads de venta</div><div class="tw" id="t-comuna"></div></section>
+    <section><h2>Por comuna</h2><div class="sub">Solo campañas de venta de propiedades (WhatsApp hasta el 30 oct, formulario desde el 30 oct). La captación de directores va aparte, no suma leads de venta</div><div class="tw" id="t-comuna"></div></section>
     <section><h2>Por campaña</h2><div class="sub">CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
   </div>
 
-  <section><h2>Por código de propiedad</h2><div class="sub">Campañas de venta (WhatsApp de propiedades) · en rojo los códigos con gasto y sin leads</div>
+  <section><h2>Por código de propiedad</h2><div class="sub">Campañas de venta de propiedades (WhatsApp hasta el 30 oct, formulario desde el 30 oct) · en rojo los códigos con gasto y sin leads</div>
     <div class="tabs" id="f-codigo"></div><div class="tw" id="t-codigo"></div>
     <div class="leyenda"><span><i style="background:var(--verde)"></i>CPL bajo el promedio del mes</span><span><i style="background:var(--ambar)"></i>hasta 30% sobre el promedio</span><span><i style="background:var(--rojo)"></i>más de 30% sobre el promedio o sin leads</span></div>
   </section>
@@ -298,7 +298,7 @@ function render(){
   $('periodo').innerHTML=`<b>${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
   $('kpis').innerHTML=[
     ['Gasto Meta',clp(k.gasto),D.mes_anterior?`${D.completo?p.nombre:'ritmo '+p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto):'sin mes anterior para comparar',1],
-    ['Leads de venta',num(k.leads),`conversaciones WhatsApp de propiedades${k.directores?` · aparte: captación de directores ${num(k.directores.leads)} formularios (${clp(k.directores.gasto)})`:''}`,1],
+    ['Leads de venta',num(k.leads),`${num(k.conv_wa)} WhatsApp · ${num(k.leads_form)} formularios de propiedades${k.directores?` · aparte: captación de directores ${num(k.directores.leads)} formularios (${clp(k.directores.gasto)})`:''}`,1],
     ['Costo por lead',clp(k.cpl),D.mes_anterior?`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true):'—',0],
     [D.completo?'Leads '+p.nombre+' (mes completo)':'Leads '+p.nombre+' (mismo período)',num(p.leads),D.mes_anterior?(D.completo?`${mesN} vs ${p.nombre}`:`primeros ${D.dias} días · ${mesN}`)+delta(k.leads,p.leads):'—',0],
     ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`,0]
@@ -324,7 +324,7 @@ function render(){
   drawCod();
   organico();
   if(!$('v-vit').classList.contains('oculto'))vitacura();
-  $('pie').textContent=`Fuente: ${D.fuente}. Leads de venta = conversaciones de WhatsApp iniciadas en campañas de propiedades. La captación de directores (formularios) se informa aparte y no suma. CPL = gasto de venta / leads de venta. Se actualiza todos los lunes.`;
+  $('pie').textContent=`Fuente: ${D.fuente}. Leads de venta = campañas de propiedades: conversaciones de WhatsApp hasta el 30 oct 2026 y formularios con datos del usuario desde el 30 oct 2026 (no son comparables 1:1). La captación de directores (formularios) se informa aparte y no suma. CPL = gasto de venta / leads de venta. Se actualiza todos los lunes.`;
 }
 function resumen(idx){
   const m=[...idx].sort((a,b)=>a.mes.localeCompare(b.mes)),cerr=m.filter(x=>x.completo);

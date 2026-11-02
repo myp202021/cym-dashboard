@@ -1,0 +1,386 @@
+{
+ "mes": "2026-11",
+ "titulo": "Noviembre 2026",
+ "desde": "2026-11-01",
+ "hasta": "2026-11-02",
+ "dias": 1,
+ "generado": "2026-11-02T11:50:46.106Z",
+ "fuente": "Meta Ads (cuenta act_2505215759834007), atribución por defecto",
+ "completo": false,
+ "kpi": {
+  "gasto": 42837,
+  "leads": 12,
+  "conv_wa": 2,
+  "leads_form": 10,
+  "impresiones": 7873,
+  "clics": 315,
+  "cpl": 3570,
+  "gasto_total": 44919,
+  "directores": {
+   "gasto": 2082,
+   "leads": 0,
+   "cpl": null
+  },
+  "gasto_otros": 0
+ },
+ "mes_anterior": {
+  "nombre": "octubre",
+  "gasto": 58965,
+  "leads": 16,
+  "cpl": 3671,
+  "gasto_mes": 1827918,
+  "leads_mes": 498,
+  "dias_mes": 31
+ },
+ "alertas": {
+  "codigos_sin_leads": 2,
+  "gasto_sin_leads": 9660,
+  "gasto_whatsapp": 42837
+ },
+ "por_campana": [
+  {
+   "gasto": 24051,
+   "leads": 9,
+   "conv_wa": 1,
+   "leads_form": 8,
+   "impresiones": 4738,
+   "clics": 188,
+   "cpl": 2672,
+   "campana": "Formulario - Vitacura",
+   "comuna": "Vitacura",
+   "tipo": "Formulario propiedades",
+   "anuncios": 5,
+   "cpl_mes_anterior": 3498
+  },
+  {
+   "gasto": 4873,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 547,
+   "clics": 28,
+   "cpl": null,
+   "campana": "Formulario - Las Condes",
+   "comuna": "Las Condes",
+   "tipo": "Formulario propiedades",
+   "anuncios": 1,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 4787,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 644,
+   "clics": 27,
+   "cpl": null,
+   "campana": "Formularios - Departamentos",
+   "comuna": "Departamentos",
+   "tipo": "Formulario propiedades",
+   "anuncios": 1,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 4684,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 971,
+   "clics": 49,
+   "cpl": 4684,
+   "campana": "Formulario - La Dehesa",
+   "comuna": "La Dehesa",
+   "tipo": "Formulario propiedades",
+   "anuncios": 1,
+   "cpl_mes_anterior": 1037
+  },
+  {
+   "gasto": 4442,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 973,
+   "clics": 23,
+   "cpl": 4442,
+   "campana": "Formularios - SCA",
+   "comuna": "SCA",
+   "tipo": "Formulario propiedades",
+   "anuncios": 1,
+   "cpl_mes_anterior": null
+  },
+  {
+   "gasto": 2082,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 651,
+   "clics": 25,
+   "cpl": null,
+   "campana": "Nuevo director Departamentos",
+   "comuna": "Departamentos",
+   "tipo": "Captación nuevo director",
+   "anuncios": 1,
+   "cpl_mes_anterior": 2602
+  },
+  {
+   "gasto": 0,
+   "leads": 1,
+   "conv_wa": 1,
+   "leads_form": 0,
+   "impresiones": 0,
+   "clics": 0,
+   "cpl": 0,
+   "campana": "WhatsApp - La Reina",
+   "comuna": "La Reina",
+   "tipo": "WhatsApp propiedades",
+   "anuncios": 1,
+   "cpl_mes_anterior": 3970
+  },
+  {
+   "gasto": 0,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 0,
+   "clics": 0,
+   "cpl": null,
+   "campana": "PILOTO M&P agente WhatsApp 5328",
+   "comuna": "Otras / sin comuna",
+   "tipo": "Marca / otros",
+   "anuncios": 1,
+   "cpl_mes_anterior": 3748
+  }
+ ],
+ "por_comuna": [
+  {
+   "gasto": 24051,
+   "leads": 9,
+   "conv_wa": 1,
+   "leads_form": 8,
+   "impresiones": 4738,
+   "clics": 188,
+   "cpl": 2672,
+   "comuna": "Vitacura",
+   "anuncios": 5,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 4178
+  },
+  {
+   "gasto": 4873,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 547,
+   "clics": 28,
+   "cpl": null,
+   "comuna": "Las Condes",
+   "anuncios": 1,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 3111
+  },
+  {
+   "gasto": 4787,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 644,
+   "clics": 27,
+   "cpl": null,
+   "comuna": "Departamentos",
+   "anuncios": 1,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 2863
+  },
+  {
+   "gasto": 4684,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 971,
+   "clics": 49,
+   "cpl": 4684,
+   "comuna": "La Dehesa",
+   "anuncios": 1,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 3843
+  },
+  {
+   "gasto": 4442,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 973,
+   "clics": 23,
+   "cpl": 4442,
+   "comuna": "SCA",
+   "anuncios": 1,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 4517
+  },
+  {
+   "gasto": 0,
+   "leads": 1,
+   "conv_wa": 1,
+   "leads_form": 0,
+   "impresiones": 0,
+   "clics": 0,
+   "cpl": 0,
+   "comuna": "La Reina",
+   "anuncios": 1,
+   "gasto_whatsapp": 0,
+   "gasto_director": 0,
+   "gasto_otros": 0,
+   "cpl_mes_anterior": 3970
+  }
+ ],
+ "directores_por_comuna": [
+  {
+   "gasto": 2082,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 651,
+   "clics": 25,
+   "cpl": null,
+   "comuna": "Departamentos"
+  }
+ ],
+ "por_codigo": [
+  {
+   "gasto": 5242,
+   "leads": 2,
+   "conv_wa": 0,
+   "leads_form": 2,
+   "impresiones": 805,
+   "clics": 38,
+   "cpl": 2621,
+   "codigo": "6112",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 4907,
+   "leads": 2,
+   "conv_wa": 0,
+   "leads_form": 2,
+   "impresiones": 947,
+   "clics": 44,
+   "cpl": 2454,
+   "codigo": "6059",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 4873,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 547,
+   "clics": 28,
+   "cpl": null,
+   "codigo": "5835",
+   "comuna": "Las Condes"
+  },
+  {
+   "gasto": 4787,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 644,
+   "clics": 27,
+   "cpl": null,
+   "codigo": "6075",
+   "comuna": "Departamentos"
+  },
+  {
+   "gasto": 4684,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 971,
+   "clics": 49,
+   "cpl": 4684,
+   "codigo": "6079",
+   "comuna": "La Dehesa"
+  },
+  {
+   "gasto": 4675,
+   "leads": 1,
+   "conv_wa": 1,
+   "leads_form": 0,
+   "impresiones": 654,
+   "clics": 9,
+   "cpl": 4675,
+   "codigo": "6091",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 4636,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 1219,
+   "clics": 57,
+   "cpl": 4636,
+   "codigo": "6089",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 4591,
+   "leads": 3,
+   "conv_wa": 0,
+   "leads_form": 3,
+   "impresiones": 1113,
+   "clics": 40,
+   "cpl": 1530,
+   "codigo": "5898",
+   "comuna": "Vitacura"
+  },
+  {
+   "gasto": 4442,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 973,
+   "clics": 23,
+   "cpl": 4442,
+   "codigo": "6115",
+   "comuna": "SCA"
+  },
+  {
+   "gasto": 0,
+   "leads": 1,
+   "conv_wa": 1,
+   "leads_form": 0,
+   "impresiones": 0,
+   "clics": 0,
+   "cpl": 0,
+   "codigo": "5977",
+   "comuna": "La Reina"
+  }
+ ],
+ "serie_diaria": [
+  {
+   "fecha": "2026-11-01",
+   "gasto": 35583,
+   "leads": 10
+  },
+  {
+   "fecha": "2026-11-02",
+   "gasto": 7254,
+   "leads": 2
+  }
+ ],
+ "organico": {
+  "estado": "pendiente",
+  "nota": "Pendiente lista orgánica de noviembre (la manda CyM los lunes)."
+ }
+}
