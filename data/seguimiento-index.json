@@ -12,8 +12,8 @@
   "gasto_total": 44919,
   "directores": 0,
   "gasto_directores": 2082,
-  "organico": null,
-  "organico_contactados": null
+  "organico": 4,
+  "organico_contactados": 1
  },
  {
   "mes": "2026-10",
@@ -28,8 +28,8 @@
   "gasto_total": 2135704,
   "directores": 129,
   "gasto_directores": 292794,
-  "organico": 340,
-  "organico_contactados": 187
+  "organico": 323,
+  "organico_contactados": 168
  },
  {
   "mes": "2026-09",

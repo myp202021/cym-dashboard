@@ -1,5 +1,5 @@
 {
- "actualizado": "2026-10-26",
+ "actualizado": "2026-11-02",
  "codigos": {
   "2656": {
    "tipo": "Casa",
@@ -181,7 +181,7 @@
   "5219": {
    "tipo": "Casa",
    "comuna": "SCA",
-   "fuente": "campaña Meta \"Clientes potenciales - SCA\""
+   "fuente": "campaña Meta \"Clientes potenciales - SCA / Modificado\""
   },
   "5240": {
    "tipo": "Casa",
@@ -439,7 +439,7 @@
   "5562": {
    "tipo": "Casa",
    "comuna": "Las Condes",
-   "fuente": "campaña Meta \"Clientes potenciales - Las Condes / Modificado\""
+   "fuente": "campaña Meta \"Clientes potenciales - Las Condes\""
   },
   "5580": {
    "tipo": "Depto",
@@ -580,7 +580,7 @@
   "5660": {
    "tipo": "Casa",
    "comuna": "La Dehesa",
-   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa\""
+   "fuente": "campaña Meta \"Clientes potenciales - La Dehesa / Modificado\""
   },
   "5664": {
    "tipo": "Casa",
@@ -1146,6 +1146,11 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5966"
   },
+  "5970": {
+   "tipo": "Sin dato",
+   "comuna": "Sin dato",
+   "fuente": "sin fuente"
+  },
   "5971": {
    "tipo": "Sin dato",
    "comuna": "Sin dato",
@@ -1163,6 +1168,14 @@
    "precio": "UF 15.000,00",
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5975"
+  },
+  "5976": {
+   "tipo": "Casa",
+   "comuna": "Lo Barnechea",
+   "operacion": "Venta",
+   "precio": "UF 23.700,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=5976"
   },
   "5977": {
    "tipo": "Casa",
@@ -1329,6 +1342,14 @@
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6045"
   },
+  "6049": {
+   "tipo": "Casa",
+   "comuna": "Las Condes",
+   "operacion": "Venta",
+   "precio": "UF 21.800,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6049"
+  },
   "6050": {
    "tipo": "Casa",
    "comuna": "Vitacura",
@@ -1392,6 +1413,54 @@
    "precio": "UF 13.900,00",
    "fuente": "ficha cympropiedades.cl",
    "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6071"
+  },
+  "6075": {
+   "tipo": "Depto",
+   "comuna": "Providencia",
+   "operacion": "Venta",
+   "precio": "UF 15.200,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6075"
+  },
+  "6079": {
+   "tipo": "Casa",
+   "comuna": "Lo Barnechea",
+   "operacion": "Venta",
+   "precio": "UF 19.900,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6079"
+  },
+  "6089": {
+   "tipo": "Casa",
+   "comuna": "Vitacura",
+   "operacion": "Venta",
+   "precio": "UF 19.500,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6089"
+  },
+  "6091": {
+   "tipo": "Casa",
+   "comuna": "Vitacura",
+   "operacion": "Venta",
+   "precio": "UF 32.850,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6091"
+  },
+  "6112": {
+   "tipo": "Casa",
+   "comuna": "Vitacura",
+   "operacion": "Venta",
+   "precio": "UF 16.490,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6112"
+  },
+  "6115": {
+   "tipo": "Casa",
+   "comuna": "Las Condes",
+   "operacion": "Venta",
+   "precio": "UF 18.900,00",
+   "fuente": "ficha cympropiedades.cl",
+   "url": "https://www.cympropiedades.cl/property.asp?Origen=CODIGO&idpro=6115"
   },
   "6515": {
    "tipo": "Sin dato",

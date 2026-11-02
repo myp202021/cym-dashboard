@@ -1156,25 +1156,25 @@
   "por_comuna": [
    {
     "comuna": "Las Condes",
-    "total": 171,
-    "con_contacto": 100,
-    "sin_contacto": 71,
-    "pct_contacto": 58,
-    "casas": 163,
+    "total": 129,
+    "con_contacto": 76,
+    "sin_contacto": 53,
+    "pct_contacto": 59,
+    "casas": 120,
     "deptos": 0,
-    "otros": 8,
+    "otros": 9,
     "top_codigos": [
      {
       "codigo": "6045",
-      "n": 52
+      "n": 26
      },
      {
-      "codigo": "5854",
-      "n": 23
+      "codigo": "5835",
+      "n": 18
      },
      {
       "codigo": "5890",
-      "n": 20
+      "n": 14
      }
     ]
    },
@@ -1184,45 +1184,45 @@
     "con_contacto": 32,
     "sin_contacto": 33,
     "pct_contacto": 49,
-    "casas": 58,
+    "casas": 56,
     "deptos": 2,
-    "otros": 5,
+    "otros": 7,
     "top_codigos": [
      {
       "codigo": "6044",
-      "n": 13
-     },
-     {
-      "codigo": "2656",
-      "n": 9
+      "n": 15
      },
      {
       "codigo": "5953",
+      "n": 5
+     },
+     {
+      "codigo": "5941",
       "n": 5
      }
     ]
    },
    {
     "comuna": "Vitacura",
-    "total": 39,
-    "con_contacto": 25,
-    "sin_contacto": 14,
-    "pct_contacto": 64,
-    "casas": 34,
+    "total": 45,
+    "con_contacto": 26,
+    "sin_contacto": 19,
+    "pct_contacto": 58,
+    "casas": 38,
     "deptos": 0,
-    "otros": 5,
+    "otros": 7,
     "top_codigos": [
+     {
+      "codigo": "6112",
+      "n": 8
+     },
      {
       "codigo": "5856",
       "n": 5
      },
      {
       "codigo": "5352",
-      "n": 4
-     },
-     {
-      "codigo": "5675",
-      "n": 4
+      "n": 3
      }
     ]
    },
@@ -1252,21 +1252,21 @@
    },
    {
     "comuna": "San Carlos de Apoquindo",
-    "total": 21,
-    "con_contacto": 9,
-    "sin_contacto": 12,
-    "pct_contacto": 43,
-    "casas": 17,
+    "total": 38,
+    "con_contacto": 11,
+    "sin_contacto": 27,
+    "pct_contacto": 29,
+    "casas": 35,
     "deptos": 0,
-    "otros": 4,
+    "otros": 3,
     "top_codigos": [
      {
       "codigo": "6014",
-      "n": 13
+      "n": 30
      },
      {
       "codigo": "5850",
-      "n": 3
+      "n": 4
      },
      {
       "codigo": "6041",
@@ -1291,24 +1291,40 @@
     ]
    },
    {
-    "comuna": "Sin dato",
-    "total": 5,
-    "con_contacto": 2,
-    "sin_contacto": 3,
-    "pct_contacto": 40,
+    "comuna": "San Carlos de Apoquindo / La Dehesa",
+    "total": 1,
+    "con_contacto": 1,
+    "sin_contacto": 0,
+    "pct_contacto": 100,
     "casas": 0,
     "deptos": 0,
-    "otros": 5,
+    "otros": 1,
     "top_codigos": []
+   },
+   {
+    "comuna": "Sin dato",
+    "total": 6,
+    "con_contacto": 3,
+    "sin_contacto": 3,
+    "pct_contacto": 50,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 6,
+    "top_codigos": [
+     {
+      "codigo": "6086",
+      "n": 1
+     }
+    ]
    }
   ],
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 272,
-    "con_contacto": 151,
-    "sin_contacto": 121,
-    "pct_contacto": 56
+    "total": 249,
+    "con_contacto": 127,
+    "sin_contacto": 122,
+    "pct_contacto": 51
    },
    {
     "tipo": "Depto",
@@ -1319,51 +1335,51 @@
    },
    {
     "tipo": "Sin dato",
-    "total": 28,
-    "con_contacto": 16,
-    "sin_contacto": 12,
-    "pct_contacto": 57
+    "total": 34,
+    "con_contacto": 21,
+    "sin_contacto": 13,
+    "pct_contacto": 62
    }
   ],
-  "total": 340,
-  "con_contacto": 187,
-  "sin_contacto": 153,
-  "pct_contacto": 55,
+  "total": 323,
+  "con_contacto": 168,
+  "sin_contacto": 155,
+  "pct_contacto": 52,
   "top_codigos": [
-   {
-    "codigo": "6045",
-    "n": 52
-   },
    {
     "codigo": "5615",
     "n": 32
    },
    {
-    "codigo": "5854",
-    "n": 23
+    "codigo": "6014",
+    "n": 30
    },
    {
-    "codigo": "5890",
-    "n": 20
+    "codigo": "6045",
+    "n": 26
    },
    {
     "codigo": "5835",
-    "n": 20
+    "n": 18
    },
    {
     "codigo": "6044",
-    "n": 13
+    "n": 15
    },
    {
-    "codigo": "6014",
-    "n": 13
+    "codigo": "5890",
+    "n": 14
    },
    {
-    "codigo": "5833",
+    "codigo": "5854",
+    "n": 14
+   },
+   {
+    "codigo": "5988",
     "n": 9
    }
   ],
-  "celulares_revisar": 0,
+  "celulares_revisar": 2,
   "diferencias": []
  }
 }

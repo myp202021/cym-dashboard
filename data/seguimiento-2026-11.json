@@ -380,7 +380,93 @@
   }
  ],
  "organico": {
-  "estado": "pendiente",
-  "nota": "Pendiente lista orgánica de noviembre (la manda CyM los lunes)."
+  "estado": "cargado",
+  "fuente": "CONTACTOS CYM-NOVIEMBRE.xlsx (CyM), hoja Noviembre",
+  "por_comuna": [
+   {
+    "comuna": "Las Condes",
+    "total": 2,
+    "con_contacto": 1,
+    "sin_contacto": 1,
+    "pct_contacto": 50,
+    "casas": 1,
+    "deptos": 0,
+    "otros": 1,
+    "top_codigos": [
+     {
+      "codigo": "5730",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Vitacura",
+    "total": 1,
+    "con_contacto": 0,
+    "sin_contacto": 1,
+    "pct_contacto": 0,
+    "casas": 1,
+    "deptos": 0,
+    "otros": 0,
+    "top_codigos": [
+     {
+      "codigo": "6089",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "La Dehesa",
+    "total": 1,
+    "con_contacto": 0,
+    "sin_contacto": 1,
+    "pct_contacto": 0,
+    "casas": 0,
+    "deptos": 0,
+    "otros": 1,
+    "top_codigos": [
+     {
+      "codigo": "6054",
+      "n": 1
+     }
+    ]
+   }
+  ],
+  "por_tipo": [
+   {
+    "tipo": "Casa",
+    "total": 2,
+    "con_contacto": 1,
+    "sin_contacto": 1,
+    "pct_contacto": 50
+   },
+   {
+    "tipo": "Sin dato",
+    "total": 2,
+    "con_contacto": 0,
+    "sin_contacto": 2,
+    "pct_contacto": 0
+   }
+  ],
+  "total": 4,
+  "con_contacto": 1,
+  "sin_contacto": 3,
+  "pct_contacto": 25,
+  "top_codigos": [
+   {
+    "codigo": "5730",
+    "n": 1
+   },
+   {
+    "codigo": "6089",
+    "n": 1
+   },
+   {
+    "codigo": "6054",
+    "n": 1
+   }
+  ],
+  "celulares_revisar": 0,
+  "diferencias": []
  }
 }
