@@ -13,10 +13,11 @@ button{width:100%;padding:14px;border:0;border-radius:10px;background:#eb3d60;co
 <div id="caja"><h1>Déjanos tus datos</h1><p>El director de tu zona te contactará a la brevedad.</p>
 <form id="f"><label>Nombre<input name="nombre" required maxlength="80" autocomplete="name"></label>
 <label>Teléfono<input name="telefono" required inputmode="tel" autocomplete="tel" placeholder="9 1234 5678"></label>
-<label>Comuna<select name="comuna" required><option value="">Elige una</option><option>Las Condes</option><option>Vitacura</option><option>La Dehesa</option><option>La Reina</option><option>San Carlos de Apoquindo</option><option>Sin definir</option></select></label>
-<label>Tipo de propiedad<select name="tipo"><option>Casa</option><option>Departamento</option></select></label>
-<label>¿Qué necesitas?<select name="operacion"><option>Compra</option><option>Arriendo</option><option>Venta</option></select></label>
 <label>Código de la propiedad (si lo tienes)<input name="codigo" inputmode="numeric" maxlength="5"></label>
+<p id="ficha" hidden style="margin:-6px 0 14px;font-weight:600;color:#111"></p>
+<label id="lComuna">Comuna<select name="comuna" required><option value="">Elige una</option><option>Las Condes</option><option>Vitacura</option><option>La Dehesa</option><option>La Reina</option><option>San Carlos de Apoquindo</option><option>Sin definir</option></select></label>
+<label id="lTipo">Tipo de propiedad<select name="tipo"><option>Casa</option><option>Departamento</option></select></label>
+<label>¿Qué necesitas?<select name="operacion"><option>Compra</option><option>Arriendo</option><option>Venta</option></select></label>
 <label>Consulta (opcional)<textarea name="consulta" rows="2" maxlength="500"></textarea></label>
 <input class="oculto" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
 <p id="err" hidden></p><button id="b">Enviar</button>
@@ -25,6 +26,8 @@ button{width:100%;padding:14px;border:0;border-radius:10px;background:#eb3d60;co
 </main><script>
 const f=document.getElementById('f'),e=document.getElementById('err'),b=document.getElementById('b');
 const u=new URLSearchParams(location.search);if(u.get('codigo'))f.codigo.value=u.get('codigo');
+let CAT={};const ver=()=>{const c=CAT[f.codigo.value.trim()];const fi=document.getElementById('ficha');fi.hidden=!c;if(c)fi.textContent=c.tipo+' en '+c.comuna;document.getElementById('lComuna').hidden=!!c;document.getElementById('lTipo').hidden=!!c;f.comuna.required=!c;};
+f.codigo.addEventListener('input',ver);fetch('/data/propiedades-catalogo.json').then(r=>r.json()).then(d=>{CAT=d.codigos||{};ver();}).catch(()=>{});
 f.addEventListener('submit',async ev=>{ev.preventDefault();e.hidden=true;b.disabled=true;b.textContent='Enviando…';
 try{const r=await fetch('/api/lead-organico',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))});const d=await r.json();
 if(!r.ok)throw new Error(d.error||'No pudimos enviar tus datos.');document.getElementById('caja').style.display='none';document.getElementById('ok').style.display='block';}

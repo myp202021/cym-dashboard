@@ -1,7 +1,9 @@
 // Formulario de datos de leads orgánicos de CyM (enlace en las respuestas automáticas de Instagram y Facebook).
 // Guarda el lead en el panel y avisa por correo al director de su comuna, igual que los leads pagados.
 import { randomUUID } from 'node:crypto';
-import { buscaTelefono, directorDe, tema } from './_bot-cym.js';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { buscaTelefono, directorDe, fichaEn, tema } from './_bot-cym.js';
 import { avisaLead } from './_aviso-cym.js';
 
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
@@ -10,16 +12,20 @@ const TIPOS = ['Casa', 'Departamento'];
 const OPERACIONES = ['Compra', 'Arriendo', 'Venta'];
 const limpio = (t, n) => String(t ?? '').trim().slice(0, n);
 
-export function armaFormulario(b) {
+const catalogoReal = () => { try { return JSON.parse(readFileSync(join(process.cwd(), 'data', 'propiedades-catalogo.json'), 'utf8')).codigos || {}; } catch { return {}; } };
+
+export function armaFormulario(b, catalogo = catalogoReal()) {
   const nombre = limpio(b.nombre, 80), telefono = buscaTelefono(b.telefono);
   if (nombre.length < 2) return { error: 'Escribe tu nombre.' };
   if (!telefono) return { error: 'Revisa el teléfono: son 9 dígitos, por ejemplo 9 1234 5678.' };
-  const d = { origen: 'formulario', nombre, telefono,
+  let d = { origen: 'formulario', nombre, telefono,
     comuna: COMUNAS.includes(b.comuna) ? b.comuna : 'Sin definir',
     tipo: TIPOS.includes(b.tipo) ? b.tipo : null,
     operacion: OPERACIONES.includes(b.operacion) ? b.operacion : null,
     codigo: /^\d{4,5}$/.test(limpio(b.codigo, 5)) ? limpio(b.codigo, 5) : null,
     consulta: limpio(b.consulta, 500) || null };
+  // Con código conocido, la comuna y el tipo salen de la ficha: no se le preguntan a la persona.
+  if (d.codigo && catalogo[d.codigo]) d = fichaEn(d, d.codigo, catalogo);
   d.director = directorDe(d);
   d.tema = tema(d);
   return { d };
