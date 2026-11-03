@@ -35,9 +35,13 @@ async function leerCuerpo(req) {
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
 const CONV = () => process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones';
 
-// El agente conversa solo con META_BOT_ACTIVO='todos' (tras aprobar Meta). Antes responden las automatizaciones de Business Suite.
-function botAtiende() {
-  return process.env.META_BOT_ACTIVO === 'todos';
+// META_BOT_ACTIVO: 'prueba' = solo cuentas de META_BOT_PRUEBA (para el video de revisión); 'todos' = todos, tras aprobar Meta.
+// A los demás les responden las automatizaciones de Business Suite.
+function botAtiende(contacto) {
+  const modo = process.env.META_BOT_ACTIVO;
+  if (modo === 'todos') return true;
+  if (modo === 'prueba') return (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim()).includes(contacto);
+  return false;
 }
 async function leeConv(f) {
   const q = `?cliente=eq.cym&plataforma=eq.${f.plataforma}&contacto_id=eq.${encodeURIComponent(f.contacto_id)}&select=*`;

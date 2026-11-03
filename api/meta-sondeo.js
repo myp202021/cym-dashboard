@@ -117,7 +117,8 @@ export default async function handler(req, res) {
     const primer = Math.min(...l.mensajes.filter(m => !m.saliente).map(m => new Date(m.fecha).getTime()));
     const q = `?cliente=eq.cym&plataforma=eq.${l.plataforma}&contacto_id=eq.${encodeURIComponent(l.contacto_id)}&select=*`;
     if (seco) { if (armaLead(l, {}, catalogo).telefono) resumen.con_telefono++; continue; }
-    const deCuentaPrueba = prueba_ || prueba.includes(l.contacto_id); // las cuentas de M&P reciben el correo solas, sin molestar a los directores
+    if (!prueba_ && prueba.includes(l.contacto_id)) continue; // cuentas de prueba: las atiende el agente por webhook
+    const deCuentaPrueba = prueba_;
     try {
       const rc = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { headers: SB() });
       const previa = (await rc.json())[0];
