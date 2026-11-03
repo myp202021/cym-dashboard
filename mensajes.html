@@ -25,11 +25,11 @@ const $=id=>document.getElementById(id);const esc=t=>String(t??'').replace(/[&<>
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const hoy=new Date();const meses=[];for(let i=0;i<6;i++){const d=new Date(hoy.getFullYear(),hoy.getMonth()-i,1);meses.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
 $('mes').innerHTML=meses.map(m=>`<option value="${m}">${MES[+m.slice(5)-1]} ${m.slice(0,4)}</option>`).join('');$('mes').onchange=carga;
-let CAT={};fetch('/data/propiedades-catalogo.json').then(r=>r.json()).then(d=>{CAT=d.codigos||{}}).catch(()=>{});
+const CLAVE=new URLSearchParams(location.search).get('k')||'';let CAT={};fetch('/data/propiedades-catalogo.json').then(r=>r.json()).then(d=>{CAT=d.codigos||{}}).catch(()=>{});
 const fh=s=>new Date(s).toLocaleString('es-CL',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
 const tiempo=m=>m==null?'—':m<60?m+' min':m<1440?Math.round(m/60)+' h':Math.round(m/1440)+' d';
 async function carga(){
-  const r=await fetch('/api/mensajes?mes='+$('mes').value,{credentials:'same-origin'});
+  const r=await fetch('/api/mensajes?mes='+$('mes').value+(CLAVE?'&k='+encodeURIComponent(CLAVE):''),{credentials:'same-origin'});
   if(r.status===401){$('app').innerHTML=`<section><h2>Acceso privado</h2><div class="sub">Ingresa la clave del panel de CyM.</div><form class="login" id="f"><input type="password" id="c" placeholder="Clave del panel" required><button>Entrar</button><div class="err" id="e"></div></form></section>`;
     $('f').onsubmit=async e=>{e.preventDefault();const x=await fetch('/api/organico-detalle?accion=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clave:$('c').value}),credentials:'same-origin'});if(x.ok)carga();else $('e').textContent='Clave incorrecta'};return}
   if(!r.ok){$('app').innerHTML='<section><div class="vacio">No se pudo cargar.</div></section>';return}
@@ -39,10 +39,11 @@ async function carga(){
    <div class="kpi"><div class="l">Respondidas</div><div class="v">${d.respondidas}<span style="font-size:14px;color:var(--gris)"> · ${d.total?Math.round(d.respondidas/d.total*100):0}%</span></div></div>
    <div class="kpi"><div class="l">Sin respuesta</div><div class="v" style="color:var(--rojo)">${d.total-d.respondidas}</div></div>
    <div class="kpi"><div class="l">Tiempo de respuesta (mediana)</div><div class="v">${tiempo(med)}</div></div>
+   <div class="kpi"><div class="l">Con teléfono captado</div><div class="v" style="color:var(--verde)">${d.con_datos||0}</div></div>
    <div class="kpi"><div class="l">Instagram / Messenger</div><div class="v">${ig} / ${d.total-ig}</div></div></div>
    <section><h2>Conversaciones</h2><div class="sub">Se registran automáticamente desde que la página quedó conectada. La comuna sale del código de propiedad mencionado en el mensaje.</div>
-   <div class="tw">${c.length?`<table><thead><tr><th>Fecha</th><th>Canal</th><th>Primer mensaje</th><th>Código</th><th>Comuna</th><th>Respondida</th><th>Tiempo</th></tr></thead><tbody>`+
-   c.map(x=>{const p=CAT[x.codigo]||{};return `<tr><td>${fh(x.primer_mensaje)}</td><td>${x.plataforma==='instagram'?'Instagram':'Messenger'}</td><td>${esc(x.texto)||'—'}</td><td>${x.codigo||'—'}</td><td>${esc(p.comuna)||'—'}${p.tipo?`<span class="tag">${esc(p.tipo)}</span>`:''}</td><td class="${x.respondida?'ok':'no'}">${x.respondida?'Sí':'No'}</td><td>${tiempo(x.minutos)}</td></tr>`}).join('')+'</tbody></table>':'<div class="vacio">Aún no hay conversaciones registradas este mes.</div>'}</div></section>`;
+   <div class="tw">${c.length?`<table><thead><tr><th>Fecha</th><th>Canal</th><th>Primer mensaje</th><th>Tema</th>${d.con_clave?'<th>Nombre</th><th>Teléfono</th>':''}<th>Director</th><th>Código</th><th>Comuna</th><th>Respondida</th><th>Tiempo</th></tr></thead><tbody>`+
+   c.map(x=>{const p=CAT[x.codigo]||{};return `<tr><td>${fh(x.primer_mensaje)}</td><td>${x.plataforma==='instagram'?'Instagram':'Messenger'}</td><td>${esc(x.texto)||'—'}</td><td>${esc(x.tema)||'—'}</td>${d.con_clave?`<td>${esc(x.nombre)||'—'}</td><td>${esc(x.telefono)||'—'}</td>`:''}<td>${esc(x.director)||'—'}</td><td>${esc(x.codigo)||'—'}</td><td>${esc(p.comuna)||'—'}${p.tipo?`<span class="tag">${esc(p.tipo)}</span>`:''}</td><td class="${x.respondida?'ok':'no'}">${x.respondida?'Sí':'No'}</td><td>${tiempo(x.minutos)}</td></tr>`}).join('')+'</tbody></table>':'<div class="vacio">Aún no hay conversaciones registradas este mes.</div>'}</div></section>`;
 }
 carga();
 </script></body></html>

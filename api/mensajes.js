@@ -24,6 +24,16 @@ export default async function handler(req, res) {
     if (m.direccion === 'entrante') { if (!c.primer_mensaje) { c.primer_mensaje = m.enviado_en; c.texto = (m.texto || '').slice(0, 160); } if (!c.codigo && m.codigo) c.codigo = m.codigo; }
     else if (c.primer_mensaje && !c.respondida) { c.respondida = true; c.primera_respuesta = m.enviado_en; c.minutos = Math.round((new Date(m.enviado_en) - new Date(c.primer_mensaje)) / 60000); }
   }
+  // Datos recogidos por el agente. Nombre y teléfono son datos personales: solo con la clave de detalle.
+  const rc = await fetch(`${process.env.SUPABASE_URL}/rest/v1/meta_conversaciones?cliente=eq.cym&select=contacto_id,estado,datos`, { headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY } });
+  const conClave = !!process.env.CYM_DETALLE_KEY && iguales(req.query.k || '', process.env.CYM_DETALLE_KEY);
+  if (rc.ok) for (const l of await rc.json()) {
+    if (l.estado === 'alias') continue;
+    const c = conv[l.contacto_id]; if (!c) continue;
+    const d = l.datos || {};
+    Object.assign(c, { estado_agente: l.estado, tema: d.tema || null, comuna: d.comuna || null, director: d.director || null, consulta: d.consulta || null, codigo: c.codigo || d.codigo || null, tiene_telefono: !!d.telefono });
+    if (conClave) Object.assign(c, { nombre: d.nombre || null, telefono: d.telefono || null });
+  }
   const lista = Object.values(conv).filter(c => c.primer_mensaje).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
-  res.status(200).json({ desde, total: lista.length, respondidas: lista.filter(c => c.respondida).length, conversaciones: lista });
+  res.status(200).json({ desde, con_clave: conClave, total: lista.length, con_datos: lista.filter(c => c.tiene_telefono).length, respondidas: lista.filter(c => c.respondida).length, conversaciones: lista });
 }
