@@ -18,6 +18,10 @@
     {
       "source": "/mensajes",
       "destination": "/mensajes.html"
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contacto.html"
     }
   ],
   "functions": {

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>CyM Propiedades · Déjanos tus datos</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f6f6f7;color:#111;font:16px/1.45 Raleway,-apple-system,Segoe UI,Arial,sans-serif}
+main{max-width:460px;margin:0 auto;padding:28px 18px 40px}h1{font-size:24px;margin:0 0 6px}p{margin:0 0 18px;color:#555}
+.marca{font-weight:800;color:#eb3d60;letter-spacing:.04em;margin-bottom:18px}
+form{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+label{display:block;font-weight:600;font-size:14px;margin:0 0 14px}input,select,textarea{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid #ccc;border-radius:9px;font:inherit;font-size:16px;background:#fff}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#eb3d60;color:#fff;font:inherit;font-weight:700;cursor:pointer}button:disabled{opacity:.6}
+.oculto{position:absolute;left:-9999px}#err{color:#b91c1c;font-weight:600;margin:0 0 12px}small{display:block;color:#777;margin-top:12px}#ok{display:none;background:#fff;border-radius:14px;padding:24px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+</style></head><body><main>
+<div class="marca">CyM PROPIEDADES</div>
+<div id="caja"><h1>Déjanos tus datos</h1><p>El director de tu zona te contactará a la brevedad.</p>
+<form id="f"><label>Nombre<input name="nombre" required maxlength="80" autocomplete="name"></label>
+<label>Teléfono<input name="telefono" required inputmode="tel" autocomplete="tel" placeholder="9 1234 5678"></label>
+<label>Comuna<select name="comuna" required><option value="">Elige una</option><option>Las Condes</option><option>Vitacura</option><option>La Dehesa</option><option>La Reina</option><option>San Carlos de Apoquindo</option><option>Sin definir</option></select></label>
+<label>Tipo de propiedad<select name="tipo"><option>Casa</option><option>Departamento</option></select></label>
+<label>¿Qué necesitas?<select name="operacion"><option>Compra</option><option>Arriendo</option><option>Venta</option></select></label>
+<label>Código de la propiedad (si lo tienes)<input name="codigo" inputmode="numeric" maxlength="5"></label>
+<label>Consulta (opcional)<textarea name="consulta" rows="2" maxlength="500"></textarea></label>
+<input class="oculto" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
+<p id="err" hidden></p><button id="b">Enviar</button>
+<small>Usamos tus datos solo para que CyM Propiedades te contacte por tu consulta.</small></form></div>
+<div id="ok"><h1>¡Listo, gracias!</h1><p style="margin:0">Recibimos tus datos. El director de tu zona te contactará a la brevedad.</p></div>
+</main><script>
+const f=document.getElementById('f'),e=document.getElementById('err'),b=document.getElementById('b');
+const u=new URLSearchParams(location.search);if(u.get('codigo'))f.codigo.value=u.get('codigo');
+f.addEventListener('submit',async ev=>{ev.preventDefault();e.hidden=true;b.disabled=true;b.textContent='Enviando…';
+try{const r=await fetch('/api/lead-organico',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))});const d=await r.json();
+if(!r.ok)throw new Error(d.error||'No pudimos enviar tus datos.');document.getElementById('caja').style.display='none';document.getElementById('ok').style.display='block';}
+catch(x){e.textContent=x.message;e.hidden=false;b.disabled=false;b.textContent='Enviar';}});
+</script></body></html>

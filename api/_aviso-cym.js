@@ -15,8 +15,8 @@ const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '
 
 export function correoDe(conv, plataforma, prueba = false, correoPrueba = '') {
   const d = conv.datos || {};
-  const red = plataforma === 'instagram' ? 'Instagram' : 'Facebook';
-  const origen = `${red} · ${d.origen === 'comentario' ? 'comentario' : 'mensaje'} (orgánico)`;
+  const red = d.origen === 'formulario' ? 'Instagram/Facebook' : plataforma === 'instagram' ? 'Instagram' : 'Facebook';
+  const origen = `${red} · ${d.origen === 'formulario' ? 'formulario' : d.origen === 'comentario' ? 'comentario' : 'mensaje'} (orgánico)`;
   const quien = d.nombre || 'Sin nombre';
   const filas = [['Origen', origen], ['Nombre', d.nombre], ['Teléfono', d.telefono], ['Tema', d.tema], ['Código', d.codigo], ['Tipo', d.tipo], ['Comuna', d.comuna], ['Precio', d.precio], ['Consulta', d.consulta], ['Comentario', d.comentario], ['Director', d.director]]
     .filter(([, v]) => v).map(([k, v]) => `<tr><td style="padding:6px 12px 6px 0;color:#6b7280">${k}</td><td style="padding:6px 0;font-weight:600">${esc(v)}</td></tr>`).join('');
