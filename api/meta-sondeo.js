@@ -68,7 +68,8 @@ export function armaLead(l, previos, catalogo) {
   const cod = buscaCodigo(texto, catalogo) || buscaCodigo(l.contexto, catalogo) || d.codigo;
   if (cod) d = fichaEn(d, cod, catalogo);
   d.comuna = d.comuna || buscaComuna(texto) || buscaComuna(l.contexto) || null;
-  if (!d.tipo) d.tipo = /\b(depto|departamento)\b/.test(n) ? 'Departamento' : /\bcasa\b/.test(n) ? 'Casa' : null;
+  const tipoEn = x => /\b(depto|departamento)\b/.test(x) ? 'Departamento' : /\bcasa\b/.test(x) ? 'Casa' : null;
+  if (!d.tipo) d.tipo = tipoEn(n) || tipoEn(normal(l.contexto));
   if (!d.operacion) d.operacion = /arriend|alquil/.test(n) ? 'Arriendo' : /vender|tasar|tasacion/.test(n) ? 'Venta' : /compr/.test(n) ? 'Compra' : null;
   const c = entrantes.find(m => m.comentario);
   if (c) d.comentario = c.texto.slice(0, 300);
