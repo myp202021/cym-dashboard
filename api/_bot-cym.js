@@ -32,16 +32,16 @@ export function buscaTelefono(texto) {
   const m = String(texto || '').match(/(?<![\d])(?:\+?56[\s.-]*)?([29](?:[\s.-]*\d){8})(?![\s.-]*\d)/);
   return m ? '+56' + m[1].replace(/\D/g, '') : null;
 }
-const buscaComuna = t => { const n = normal(t); const c = COMUNAS.find(([k]) => n.includes(k)); return c ? c[1] : null; };
+export const buscaComuna = t => { const n = normal(t); const c = COMUNAS.find(([k]) => n.includes(k)); return c ? c[1] : null; };
 
 export function directorDe(d) {
   if (d.tipo === 'Departamento') return 'Caro Paoletti';
   return { 'Las Condes': 'Anita Hernández', 'La Reina': 'James Robeson', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
 }
-const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
+export const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
 const relleno = (s, d) => s.replace(/\{(\w+)\}/g, (_, k) => d[k] ?? '');
 
-function fichaEn(datos, codigo, catalogo) {
+export function fichaEn(datos, codigo, catalogo) {
   const f = catalogo[codigo] || {};
   return { ...datos, codigo, tipo: f.tipo || datos.tipo, comuna: buscaComuna(f.comuna) || f.comuna || datos.comuna, precio: f.precio, url: f.url, operacion: datos.operacion || f.operacion };
 }

@@ -26,6 +26,10 @@
     },
     "api/meta-webhook.js": {
       "includeFiles": "data/propiedades-catalogo.json"
+    },
+    "api/meta-sondeo.js": {
+      "includeFiles": "data/propiedades-catalogo.json",
+      "maxDuration": 60
     }
   },
   "redirects": [
