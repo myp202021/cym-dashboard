@@ -138,6 +138,10 @@ export default async function handler(req, res) {
         const rl = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { headers: SB() });
         const g = (await rl.json())[0]?.datos || {};
         resumen.prueba = { lead_guardado: !!g.telefono, director: g.director, comuna: g.comuna || null, tema: g.tema, plataforma: l.plataforma, avisado: !!g.avisado_tel };
+        const mes = new Date(primer).toISOString().slice(0, 7);
+        const panel = await (await fetch(\`https://\${req.headers.host}/api/mensajes?mes=\${mes}\`)).json().catch(() => ({}));
+        const fila = (panel.conversaciones || []).find(c => c.contacto === l.contacto_id);
+        resumen.prueba.en_panel = !!fila?.telefono;
         if (nuevasFilas.length) await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?mid=in.(' + nuevasFilas.map(f => '"' + f.mid + '"').join(',') + ')', { method: 'DELETE', headers: SB() });
         if (!previa) await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { method: 'DELETE', headers: SB() });
       }
