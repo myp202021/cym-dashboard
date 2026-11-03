@@ -74,6 +74,7 @@ export function armaLead(l, previos, catalogo) {
   const c = entrantes.find(m => m.comentario);
   if (c) d.comentario = c.texto.slice(0, 300);
   d.consulta = texto.slice(0, 500);
+  if (l.contexto) d.publicacion_texto = l.contexto.replace(/\s+/g, ' ').slice(0, 200);
   d.director = directorDe(d);
   d.tema = tema(d);
   return d;
@@ -97,10 +98,12 @@ export default async function handler(req, res) {
 
   const porPersona = {};
   for (const l of leidos) {
-    const k = l.plataforma + '|' + l.contacto_id;
+    // En Facebook el comentario y el chat traen ids distintos para la misma persona: se unen por nombre, y manda el id del chat.
+    const k = l.plataforma + '|' + (l.plataforma === 'messenger' && l.nombre ? 'n:' + normal(l.nombre) : l.contacto_id);
     const p = porPersona[k] ||= { ...l, mensajes: [] };
+    if (l.origen === 'mensaje') p.contacto_id = l.contacto_id;
     p.mensajes.push(...l.mensajes);
-    if (l.origen === 'mensaje') p.origen = 'mensaje';
+    if (l.origen === 'comentario') p.origen = 'comentario';
     p.contexto = [p.contexto, l.contexto].filter(Boolean).join(' ');
   }
   const prueba = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());

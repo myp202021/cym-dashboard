@@ -18,7 +18,7 @@ export function correoDe(conv, plataforma, prueba = false, correoPrueba = '') {
   const red = d.origen === 'formulario' ? 'Instagram/Facebook' : plataforma === 'instagram' ? 'Instagram' : 'Facebook';
   const origen = `${red} · ${d.origen === 'formulario' ? 'formulario' : d.origen === 'comentario' ? 'comentario' : 'mensaje'} (orgánico)`;
   const quien = d.nombre || 'Sin nombre';
-  const filas = [['Origen', origen], ['Nombre', d.nombre], ['Teléfono', d.telefono], ['Tema', d.tema], ['Código', d.codigo], ['Tipo', d.tipo], ['Comuna', d.comuna], ['Precio', d.precio], ['Consulta', d.consulta], ['Comentario', d.comentario], ['Director', d.director]]
+  const filas = [['Origen', origen], ['Nombre', d.nombre], ['Teléfono', d.telefono], ['Propiedad', d.codigo ? 'Código ' + d.codigo : null], ['Comuna', d.comuna], ['Tipo', d.tipo], ['Precio', d.precio], ['Tema', d.tema], ['Publicación comentada', d.publicacion_texto], ['Comentario', d.comentario], ['Consulta', d.consulta], ['Director', d.director]]
     .filter(([, v]) => v).map(([k, v]) => `<tr><td style="padding:6px 12px 6px 0;color:#6b7280">${k}</td><td style="padding:6px 0;font-weight:600">${esc(v)}</td></tr>`).join('');
   const nota = conv.estado === 'humano' ? '<p style="color:#b91c1c;font-weight:700">Pidió hablar con una persona: responder por el chat de ' + red + '.</p>'
     : d.telefono ? '' : '<p style="color:#b91c1c;font-weight:700">No dejó teléfono: responder por el chat de ' + red + '.</p>';
@@ -29,7 +29,7 @@ export function correoDe(conv, plataforma, prueba = false, correoPrueba = '') {
   return {
     to: prueba ? correoPrueba : destino,
     cc: prueba ? undefined : COPIA,
-    subject: `${prefijo}Nuevo lead orgánico ${red} — ${d.comuna && d.comuna !== 'Sin definir' ? d.comuna : 'CyM'} — ${quien}`,
+    subject: `${prefijo}Nuevo lead orgánico ${red} — ${[d.codigo ? 'Propiedad ' + d.codigo : null, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'CyM'} — ${quien}`,
     html: `<div style="font-family:Arial,sans-serif;font-size:14px;color:#111;max-width:560px">${prueba ? `<p style="color:#b91c1c;font-weight:700">Prueba de M&amp;P. En real iría a ${esc(destino)}.</p>` : ''}<h2 style="margin:0 0 12px">Nuevo lead de ${red}</h2>${nota}<table style="border-collapse:collapse">${filas}</table>${wa}${ficha}<p style="color:#6b7280;font-size:12px">Datos recogidos por el asistente de CyM Propiedades · M&amp;P</p></div>`,
   };
 }
