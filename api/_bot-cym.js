@@ -28,15 +28,15 @@ export function buscaCodigo(texto, catalogo) {
   return (String(texto || '').match(/\b\d{4,5}\b/g) || []).find(c => catalogo[c]) || null;
 }
 export function buscaTelefono(texto) {
-  const d = String(texto || '').replace(/[^\d]/g, '');
-  const m = d.match(/(?:56)?(9\d{8})$/) || d.match(/(?:56)?(2\d{8})$/);
-  return m ? '+56' + m[1] : null;
+  // Celular (9) o fijo (2) de Chile: 9 dígitos exactos, con o sin +56. Un dígito de más no se acepta.
+  const m = String(texto || '').match(/(?<![\d])(?:\+?56[\s.-]*)?([29](?:[\s.-]*\d){8})(?![\s.-]*\d)/);
+  return m ? '+56' + m[1].replace(/\D/g, '') : null;
 }
 const buscaComuna = t => { const n = normal(t); const c = COMUNAS.find(([k]) => n.includes(k)); return c ? c[1] : null; };
 
 export function directorDe(d) {
   if (d.tipo === 'Departamento') return 'Caro Paoletti';
-  return { 'Las Condes': 'Anita Hernández', Vitacura: 'Daniela Peñafiel', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
+  return { 'Las Condes': 'Anita Hernández', 'La Reina': 'Anita Hernández', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
 }
 const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
 const relleno = (s, d) => s.replace(/\{(\w+)\}/g, (_, k) => d[k] ?? '');
