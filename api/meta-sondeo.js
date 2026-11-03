@@ -88,7 +88,8 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Robots-Tag', 'noindex');
   // Sin clave: solo dispara una revisión idempotente y responde conteos, nunca datos de personas.
   const seco = req.query.seco === '1'; // solo cuenta: no guarda ni envía
-  const desde = new Date(seco && req.query.desde ? req.query.desde : INICIO);
+  const prueba_ = req.query.prueba === '1'; // revisa UN lead real con teléfono: correo solo a Christopher y luego borra lo guardado
+  const desde = new Date((seco || prueba_) && req.query.desde ? req.query.desde : INICIO);
   const catalogo = (() => { try { return JSON.parse(readFileSync(join(process.cwd(), 'data', 'propiedades-catalogo.json'), 'utf8')).codigos || {}; } catch { return {}; } })();
   const errores = [], fuentes = {};
   const lee = async (nombre, fn) => { try { const x = await fn(); fuentes[nombre] = x.length; return x; } catch (e) { errores.push(nombre + ': ' + e.message); fuentes[nombre] = 'error'; return []; } };
@@ -105,13 +106,15 @@ export default async function handler(req, res) {
   const prueba = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
   const resumen = { fuentes, personas: 0, guardados: 0, avisos: 0, con_telefono: 0, errores };
   const ahora = Date.now();
-  for (const l of Object.values(porPersona)) {
+  let personas = Object.values(porPersona);
+  if (prueba_) personas = personas.filter(l => armaLead(l, {}, catalogo).telefono).slice(0, 1);
+  for (const l of personas) {
     if (!l.mensajes.some(m => !m.saliente && m.texto)) continue;
     resumen.personas++;
     const primer = Math.min(...l.mensajes.filter(m => !m.saliente).map(m => new Date(m.fecha).getTime()));
     const q = `?cliente=eq.cym&plataforma=eq.${l.plataforma}&contacto_id=eq.${encodeURIComponent(l.contacto_id)}&select=*`;
     if (seco) { if (armaLead(l, {}, catalogo).telefono) resumen.con_telefono++; continue; }
-    if (prueba.includes(l.contacto_id)) continue; // cuentas de prueba: las atiende el agente por webhook
+    if (!prueba_ && prueba.includes(l.contacto_id)) continue; // cuentas de prueba: las atiende el agente por webhook
     try {
       const rc = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { headers: SB() });
       const previa = (await rc.json())[0];
@@ -119,17 +122,25 @@ export default async function handler(req, res) {
       if (d.telefono) resumen.con_telefono++;
       const filas = l.mensajes.map(m => ({ cliente: 'cym', plataforma: l.plataforma, cuenta_id: l.plataforma === 'instagram' ? process.env.META_IG_ID : process.env.META_PAGE_ID, contacto_id: l.contacto_id, direccion: m.saliente ? 'saliente' : 'entrante', enviado_en: new Date(m.fecha).toISOString(), mid: m.mid, texto: (m.comentario ? '[comentario] ' : '') + (m.texto || ''), codigo: m.saliente ? null : buscaCodigo(m.texto, catalogo), raw: {} }));
       const rm = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?on_conflict=mid', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=ignore-duplicates,return=representation' }, body: JSON.stringify(filas) });
-      if (rm.ok) resumen.guardados += (await rm.json()).length; else errores.push('guardar mensajes ' + rm.status);
+      const nuevasFilas = rm.ok ? await rm.json() : [];
+      if (rm.ok) resumen.guardados += nuevasFilas.length; else errores.push('guardar mensajes ' + rm.status);
       const aviso = decideAviso(d, primer, ahora);
       const estado = d.telefono ? 'completo' : (previa?.estado === 'humano' ? 'humano' : 'abierto');
       if (aviso) {
-        await avisaLead({ estado, datos: d }, l.plataforma, false);
+        await avisaLead({ estado, datos: d }, l.plataforma, prueba_);
         resumen.avisos++;
         d.avisado = true;
         if (aviso === 'telefono') d.avisado_tel = true;
       }
       const rg = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones?on_conflict=cliente,plataforma,contacto_id', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify({ cliente: 'cym', plataforma: l.plataforma, contacto_id: l.contacto_id, nodo: 'sondeo', estado, intentos: 0, datos: d, ultimo_bot: previa?.ultimo_bot ?? null, actualizado_en: new Date().toISOString() }) });
       if (!rg.ok) errores.push('guardar lead ' + rg.status);
+      if (prueba_) {
+        const rl = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { headers: SB() });
+        const g = (await rl.json())[0]?.datos || {};
+        resumen.prueba = { lead_guardado: !!g.telefono, director: g.director, comuna: g.comuna || null, tema: g.tema, plataforma: l.plataforma, avisado: !!g.avisado_tel };
+        if (nuevasFilas.length) await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?mid=in.(' + nuevasFilas.map(f => '"' + f.mid + '"').join(',') + ')', { method: 'DELETE', headers: SB() });
+        if (!previa) await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { method: 'DELETE', headers: SB() });
+      }
     } catch (e) { errores.push('lead: ' + e.message); }
   }
   console.log('sondeo', JSON.stringify(resumen));
