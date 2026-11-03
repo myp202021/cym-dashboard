@@ -1,13 +1,17 @@
 // Revisa cada 15 min mensajes de Messenger y comentarios de Facebook e Instagram de CyM de CUALQUIER persona, por lectura de la API.
 // Meta no entrega por webhook a personas sin rol mientras la app no esté aprobada; leer sí se puede. Las respuestas salen de las automatizaciones de Business Suite.
-// Idempotente: cada lead se avisa una vez con teléfono y, si no lo deja en 60 min, una vez sin teléfono.
+// Idempotente: cada lead se avisa una sola vez y solo con teléfono. Sin teléfono no va al director: se le insiste por Messenger.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { buscaTelefono, buscaCodigo, buscaComuna, directorDe, fichaEn, tema, comentarioVale } from './_bot-cym.js';
 import { avisaLead } from './_aviso-cym.js';
 
 const INICIO = '2026-11-03T18:48:00Z'; // nada anterior a esta fecha se avisa
-const ESPERA_MS = 60 * 60 * 1000;
+const MIN = 60 * 1000, HORA = 60 * MIN;
+export const INSISTE = [
+  'Hola, para que el director de CyM te pueda contactar necesito tu teléfono. ¿Me lo dejas por aquí? (ej: 9 1234 5678)',
+  'Sin tu teléfono el director de CyM no te puede llamar. Si te sigue interesando, escríbelo aquí y te contactamos a la brevedad.',
+];
 const G = 'https://graph.facebook.com/v25.0/';
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
 const normal = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -79,10 +83,28 @@ export function armaLead(l, previos, catalogo) {
   d.tema = tema(d);
   return d;
 }
-export function decideAviso(d, primerMs, ahora) {
-  if (d.telefono && !d.avisado_tel) return 'telefono';
-  if (!d.telefono && !d.avisado && ahora - primerMs >= ESPERA_MS) return 'sin_telefono';
-  return null;
+export function decideAviso(d) {
+  return d.telefono && !d.avisado_tel ? 'telefono' : null;
+}
+// Qué insistencia toca enviar por chat, o null. Máximo 2, dentro de 24 h, de 8 a 22 h de Chile; si alguien de CyM ya respondió a mano, no se mete.
+export function decideInsistencia(d, mensajes, ahora) {
+  if (d.telefono) return null;
+  const hechas = d.insistencias || 0;
+  if (hechas >= INSISTE.length || (d.insiste_fallos || 0) >= 3) return null;
+  const chat = mensajes.filter(m => !m.comentario && m.texto);
+  const entrantes = chat.filter(m => !m.saliente).map(m => new Date(m.fecha).getTime());
+  if (!entrantes.length) return null;
+  const ultima = Math.max(...entrantes);
+  if (ahora - ultima >= 24 * HORA) return null;
+  if (chat.filter(m => m.saliente && !INSISTE.includes(m.texto)).length > 1) return null; // la automática es una; más que eso, es una persona
+  if (ahora - Math.max(ultima, d.insiste_en || 0) < (hechas ? 4 * HORA : 10 * MIN)) return null;
+  const hora = Number(new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', hour: 'numeric', hourCycle: 'h23' }).format(ahora));
+  if (hora < 8 || hora >= 22) return null;
+  return INSISTE[hechas];
+}
+async function enviaChat(contacto, texto) {
+  const r = await fetch(G + process.env.META_PAGE_ID + '/messages', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.META_PAGE_TOKEN }, body: JSON.stringify({ recipient: { id: contacto }, messaging_type: 'RESPONSE', message: { text: texto } }) });
+  if (!r.ok) throw new Error('insistir ' + r.status + ' ' + (await r.text()).slice(0, 200));
 }
 
 export default async function handler(req, res) {
@@ -128,13 +150,18 @@ export default async function handler(req, res) {
       const rm = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?on_conflict=mid', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=ignore-duplicates,return=representation' }, body: JSON.stringify(filas) });
       const nuevasFilas = rm.ok ? await rm.json() : [];
       if (rm.ok) resumen.guardados += nuevasFilas.length; else errores.push('guardar mensajes ' + rm.status);
-      const aviso = decideAviso(d, primer, ahora);
+      const aviso = decideAviso(d);
       const estado = d.telefono ? 'completo' : (previa?.estado === 'humano' ? 'humano' : 'abierto');
       if (aviso) {
         await avisaLead({ estado, datos: d }, l.plataforma, deCuentaPrueba);
         resumen.avisos++;
         d.avisado = true;
-        if (aviso === 'telefono') d.avisado_tel = true;
+        d.avisado_tel = true;
+      }
+      const insiste = !prueba_ && l.plataforma === 'messenger' && estado !== 'humano' ? decideInsistencia(d, l.mensajes, ahora) : null;
+      if (insiste) {
+        try { await enviaChat(l.contacto_id, insiste); d.insistencias = (d.insistencias || 0) + 1; d.insiste_en = ahora; resumen.insistencias = (resumen.insistencias || 0) + 1; }
+        catch (e) { d.insiste_fallos = (d.insiste_fallos || 0) + 1; errores.push(e.message); }
       }
       const rg = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones?on_conflict=cliente,plataforma,contacto_id', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify({ cliente: 'cym', plataforma: l.plataforma, contacto_id: l.contacto_id, nodo: 'sondeo', estado, intentos: 0, datos: d, ultimo_bot: previa?.ultimo_bot ?? null, actualizado_en: new Date().toISOString() }) });
       if (!rg.ok) errores.push('guardar lead ' + rg.status);

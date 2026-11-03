@@ -111,7 +111,7 @@ async function atiende(f) {
   let fallo = null;
   try { await enviar(f.contacto_id, r.responder); } catch (e) { fallo = e; }
   // El lead se avisa aunque falle la respuesta final: sus datos ya están.
-  if (r.estado !== 'abierto') {
+  if (r.estado !== 'abierto' && r.datos?.telefono) { // sin teléfono no se avisa al director
     try { await avisaLead(r, f.plataforma, process.env.META_BOT_ACTIVO !== 'todos'); console.log('aviso enviado', r.datos?.director || 'central'); }
     catch (e) { console.error('aviso', e.message); }
   }

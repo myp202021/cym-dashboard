@@ -10,7 +10,7 @@ const P_NOMBRE = '¿Cómo te llamas?';
 const P_TELEFONO = 'Gracias, {nombre}. ¿A qué teléfono te puede llamar el director de CyM? (ej: +56 9 1234 5678)';
 const P_TELEFONO_DE_NUEVO = 'No alcancé a entender ese número. ¿Me lo escribes de nuevo con el 9 adelante? (ej: 9 1234 5678)';
 const FIN = '¡Listo, {nombre}! El director de CyM a cargo te va a contactar a la brevedad. Gracias por escribir a CyM Propiedades 🏠';
-const FIN_SIN_TEL = 'Gracias, {nombre}. Dejé tu consulta al equipo de CyM y te responderán por este mismo chat 🏠';
+const P_TELEFONO_ULTIMO = 'Sin tu teléfono el director de CyM no te puede llamar. Cuando quieras, escríbelo aquí y te contactamos a la brevedad (ej: 9 1234 5678).';
 const HUMANO = 'Perfecto, le paso tu mensaje al equipo de CyM y te responden por aquí mismo.';
 
 const elige = (t, opciones) => {
@@ -50,10 +50,10 @@ function presentaFicha(d) {
   const precio = d.precio ? ' (' + d.precio.replace(/,00$/, '') + ')' : '';
   return `¡Hola! 👋 Gracias por escribir a CyM Propiedades por la ${que}${precio}.${d.url ? '\nFicha: ' + d.url : ''}\n\nPara que el director te contacte, ${P_NOMBRE.toLowerCase()}`;
 }
-function cerrar(datos, conTelefono = true) {
+function cerrar(datos) {
   const d = { ...datos, director: directorDe(datos) };
   d.tema = tema(d);
-  return { nodo: 'fin', estado: 'completo', datos: d, responder: relleno(conTelefono ? FIN : FIN_SIN_TEL, d) };
+  return { nodo: 'fin', estado: 'completo', datos: d, responder: relleno(FIN, d) };
 }
 const seguir = (nodo, datos, responder) => ({ nodo, estado: 'abierto', datos: { ...datos, tema: tema(datos) }, responder });
 const pideNombre = d => d.nombre ? (d.telefono ? cerrar(d) : seguir('telefono', d, relleno(P_TELEFONO, d))) : seguir('nombre', d, P_NOMBRE);
@@ -115,7 +115,10 @@ export function responde(conv, texto, catalogo = {}) {
     }
     case 'telefono': {
       if (datos.telefono) return cerrar(datos);
-      return conv.intentos ? cerrar(datos, false) : { ...seguir('telefono', datos, P_TELEFONO_DE_NUEVO), intentos: 1 };
+      // Sin teléfono no hay lead: insiste y deja la conversación abierta, por si lo escribe después.
+      const n = conv.intentos || 0;
+      if (n >= 2) return { ...seguir('telefono', datos, null), intentos: n };
+      return { ...seguir('telefono', datos, n === 1 ? P_TELEFONO_ULTIMO : P_TELEFONO_DE_NUEVO), intentos: n + 1 };
     }
     default: return { ...conv, responder: null };
   }
