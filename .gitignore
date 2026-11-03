@@ -7,3 +7,4 @@ scripts/seguimiento/raw/
 privado/*.json
 .meta-webhook.local
 .link-acceso-cym.local
+node_modules

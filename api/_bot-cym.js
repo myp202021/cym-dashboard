@@ -36,7 +36,7 @@ const buscaComuna = t => { const n = normal(t); const c = COMUNAS.find(([k]) => 
 
 export function directorDe(d) {
   if (d.tipo === 'Departamento') return 'Caro Paoletti';
-  return { 'Las Condes': 'Anita Hernández', 'La Reina': 'Anita Hernández', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
+  return { 'Las Condes': 'Anita Hernández', 'La Reina': 'James Robeson', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
 }
 const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
 const relleno = (s, d) => s.replace(/\{(\w+)\}/g, (_, k) => d[k] ?? '');

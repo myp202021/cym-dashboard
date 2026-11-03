@@ -1,0 +1,5 @@
+{
+  "name": "cym-dashboard",
+  "private": true,
+  "dependencies": { "nodemailer": "^6.9.16" }
+}

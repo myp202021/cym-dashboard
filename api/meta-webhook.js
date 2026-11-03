@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { responde, comentarioDe, comentarioVale, respondeComentario } from './_bot-cym.js';
+import { avisaLead } from './_aviso-cym.js';
 
 export const config = { api: { bodyParser: false } };
 
@@ -99,12 +100,21 @@ async function atiende(f) {
   const conv = await leeConv(f);
   if (f.direccion === 'saliente') {
     if (conv && conv.estado === 'abierto' && (f.texto || '') !== (conv.ultimo_bot || '')) await guardaConv(f, { ...conv, estado: 'humano' });
+    // Alguien de CyM ya atiende este chat: el agente no se mete. El saludo del agente tras un comentario no cuenta.
+    if (!conv && !/^¡Hola! 👋 Gracias por/.test(f.texto || '')) await guardaConv(f, { nodo: null, estado: 'humano', datos: {}, ultimo_bot: null });
     return;
   }
   const r = responde(conv, f.texto, catalogo());
   if (!r.responder) { if (conv) await guardaConv(f, { ...conv, ...r, ultimo_bot: conv.ultimo_bot }); return; }
   await guardaConv(f, { ...r, ultimo_bot: r.responder }); // antes de enviar, para reconocer el eco de Meta
-  await enviar(f.contacto_id, r.responder);
+  let fallo = null;
+  try { await enviar(f.contacto_id, r.responder); } catch (e) { fallo = e; }
+  // El lead se avisa aunque falle la respuesta final: sus datos ya están.
+  if (r.estado !== 'abierto') {
+    try { await avisaLead(r, f.plataforma, process.env.META_BOT_ACTIVO !== 'todos'); console.log('aviso enviado', r.datos?.director || 'central'); }
+    catch (e) { console.error('aviso', e.message); }
+  }
+  if (fallo) throw fallo;
 }
 
 export default async function handler(req, res) {
