@@ -221,7 +221,7 @@ export default async function handler(req, res) {
         const g = (await rl.json())[0]?.datos || {};
         resumen.prueba = { lead_guardado: !!g.telefono, director: g.director, comuna: g.comuna || null, tema: g.tema, plataforma: l.plataforma, avisado: !!g.avisado_tel };
         const mes = new Date(primer).toISOString().slice(0, 7);
-        const panel = await (await fetch(`https://${req.headers.host}/api/mensajes?mes=${mes}`)).json().catch(() => ({}));
+        const panel = await (await fetch(`https://${req.headers.host}/api/mensajes?mes=${mes}&k=${encodeURIComponent(process.env.CYM_PANEL_DATOS || '')}`)).json().catch(() => ({}));
         const fila = (panel.conversaciones || []).find(c => c.contacto === l.contacto_id);
         resumen.prueba.en_panel = !!fila?.telefono;
         if (nuevasFilas.length) await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes?mid=in.(' + nuevasFilas.map(f => '"' + f.mid + '"').join(',') + ')', { method: 'DELETE', headers: SB() });

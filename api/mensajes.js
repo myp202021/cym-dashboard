@@ -41,6 +41,15 @@ export default async function handler(req, res) {
   // Fuera lo que no es consulta ("Precioso", quejas). Las cuentas de prueba siguen en la lista, marcadas, pero no suman.
   const pruebas = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
   const lista = Object.values(conv).filter(c => c.primer_mensaje && (!c.texto?.startsWith('[comentario] ') || esConsulta(c.texto.slice(13)))).map(c => ({ ...c, prueba: pruebas.includes(c.contacto) })).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
+  // Sin clave no salen datos personales: el enlace del panel es público (lo revisa Meta). Con ?k=CYM_PANEL_DATOS se ven completos.
+  const conDatos = !!process.env.CYM_PANEL_DATOS && iguales(req.query.k || '', process.env.CYM_PANEL_DATOS);
+  if (!conDatos) lista.forEach((c, i) => {
+    c.contacto = 'c' + (i + 1);
+    c.telefono = null;
+    if (c.nombre && /\s/.test(c.nombre.trim())) c.nombre = c.nombre.trim().split(/\s+/).map(w => w[0].toUpperCase() + '.').join(' ');
+    if (c.texto) c.texto = c.texto.replace(/\+?\d[\d\s.-]{7,}\d/g, '•••');
+    if (c.consulta) c.consulta = String(c.consulta).replace(/\+?\d[\d\s.-]{7,}\d/g, '•••');
+  });
   const reales = lista.filter(c => !c.prueba);
   res.status(200).json({ desde, total: reales.length, con_datos: reales.filter(c => c.tiene_telefono).length, respondidas: reales.filter(c => c.respondida).length, conversaciones: lista });
 }
