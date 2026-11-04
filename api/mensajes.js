@@ -1,3 +1,4 @@
+import { esConsulta } from './_bot-cym.js';
 // Conversaciones de Instagram y Messenger de CyM (desde el webhook), agrupadas por contacto. PRIVADO: misma clave del panel.
 import { createHmac, timingSafeEqual } from 'node:crypto';
 const COOKIE = 'cym_panel';
@@ -32,6 +33,9 @@ export default async function handler(req, res) {
     const d = l.datos || {};
     Object.assign(c, { estado_agente: l.estado, tema: d.tema || null, comuna: d.comuna || null, director: d.director || null, consulta: d.consulta || null, codigo: c.codigo || d.codigo || null, tiene_telefono: !!d.telefono, nombre: d.nombre || null, telefono: d.telefono || null });
   }
-  const lista = Object.values(conv).filter(c => c.primer_mensaje).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
-  res.status(200).json({ desde, total: lista.length, con_datos: lista.filter(c => c.tiene_telefono).length, respondidas: lista.filter(c => c.respondida).length, conversaciones: lista });
+  // Fuera lo que no es consulta ("Precioso", quejas). Las cuentas de prueba siguen en la lista, marcadas, pero no suman.
+  const pruebas = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
+  const lista = Object.values(conv).filter(c => c.primer_mensaje && (!c.texto?.startsWith('[comentario] ') || esConsulta(c.texto.slice(13)))).map(c => ({ ...c, prueba: pruebas.includes(c.contacto) })).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
+  const reales = lista.filter(c => !c.prueba);
+  res.status(200).json({ desde, total: reales.length, con_datos: reales.filter(c => c.tiene_telefono).length, respondidas: reales.filter(c => c.respondida).length, conversaciones: lista });
 }

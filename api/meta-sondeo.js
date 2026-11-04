@@ -3,7 +3,7 @@
 // Idempotente: cada lead se avisa una sola vez y solo con teléfono. Sin teléfono no va al director: se le insiste por Messenger.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { buscaTelefono, buscaCodigo, buscaComuna, directorDe, fichaEn, tema, comentarioVale } from './_bot-cym.js';
+import { buscaTelefono, buscaCodigo, buscaComuna, directorDe, fichaEn, tema, comentarioVale, esConsulta } from './_bot-cym.js';
 import { avisaLead } from './_aviso-cym.js';
 
 const INICIO = '2026-11-03T18:48:00Z'; // nada anterior a esta fecha se avisa
@@ -12,6 +12,9 @@ export const INSISTE = [
   'Hola, para que el director de CyM te pueda contactar necesito tu teléfono. ¿Me lo dejas por aquí? (ej: 9 1234 5678)',
   'Sin tu teléfono el director de CyM no te puede llamar. Si te sigue interesando, escríbelo aquí y te contactamos a la brevedad.',
 ];
+// Comentario con consulta que la automatización de Business Suite no contestó (no tenía palabra clave).
+export const RESPUESTA_COMENTARIO = c => `¡Hola! Un corredor de CyM te puede ayudar. Déjanos tus datos en cym-dashboard-liart.vercel.app/contacto${c ? '?codigo=' + c : ''} o escríbenos por WhatsApp al +56 9 3401 8822.`;
+const MAX_RESPUESTAS = 5; // por revisión
 const G = 'https://graph.facebook.com/v25.0/';
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
 const normal = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -42,23 +45,57 @@ async function leeMessenger(desde, errores) {
 }
 async function leeComentariosFb(desde) {
   const pag = process.env.META_PAGE_ID, out = [];
-  const { data = [] } = await api(pag + '/feed', { fields: 'message,comments.limit(50){id,from{id,name},message,created_time}', limit: 15 });
+  const { data = [] } = await api(pag + '/feed', { fields: 'message,comments.limit(50){id,from{id,name},message,created_time,comments.limit(10){id,from{id},message,created_time}}', limit: 50 });
   for (const p of data) for (const c of p.comments?.data || []) {
-    if (c.from?.id === pag || new Date(c.created_time) < desde || !comentarioVale(c.message)) continue;
+    if (c.from?.id === pag || new Date(c.created_time) < desde || !comentarioVale(c.message) || !esConsulta(c.message)) continue;
+    const res = (c.comments?.data || []).filter(r => r.from?.id === pag);
     out.push({ plataforma: 'messenger', contacto_id: c.from?.id || 'fb_' + c.id, nombre: c.from?.name || null, origen: 'comentario', contexto: p.message || '',
-      mensajes: [{ mid: 'c_' + c.id, fecha: c.created_time, texto: c.message, comentario: true }] });
+      mensajes: [{ mid: 'c_' + c.id, id: c.id, fecha: c.created_time, texto: c.message, comentario: true, respondido: res.length > 0 }, ...res.map(r => ({ mid: 'r_' + r.id, fecha: r.created_time, texto: r.message, saliente: true, comentario: true }))] });
   }
   return out;
 }
 async function leeComentariosIg(desde) {
   const out = [];
-  const { data = [] } = await api(process.env.META_IG_ID + '/media', { fields: 'caption,comments.limit(50){id,from{id,username},text,timestamp}', limit: 15 });
+  const { data = [] } = await api(process.env.META_IG_ID + '/media', { fields: 'caption,comments.limit(50){id,from{id,username},text,timestamp,replies.limit(10){id,from{id},text,timestamp}}', limit: 50 });
   for (const p of data) for (const c of p.comments?.data || []) {
-    if (c.from?.id === process.env.META_IG_ID || new Date(c.timestamp) < desde || !comentarioVale(c.text)) continue;
+    if (c.from?.id === process.env.META_IG_ID || new Date(c.timestamp) < desde || !comentarioVale(c.text) || !esConsulta(c.text)) continue;
+    const res = (c.replies?.data || []).filter(r => r.from?.id === process.env.META_IG_ID);
     out.push({ plataforma: 'instagram', contacto_id: c.from?.id || 'ig_' + c.id, nombre: c.from?.username || null, origen: 'comentario', contexto: p.caption || '',
-      mensajes: [{ mid: 'c_' + c.id, fecha: c.timestamp, texto: c.text, comentario: true }] });
+      mensajes: [{ mid: 'c_' + c.id, id: c.id, fecha: c.timestamp, texto: c.text, comentario: true, respondido: res.length > 0 }, ...res.map(r => ({ mid: 'r_' + r.id, fecha: r.timestamp, texto: r.text, saliente: true, comentario: true }))] });
   }
   return out;
+}
+// Comentarios que solo llegaron por webhook (por ejemplo, en un anuncio): la lectura de publicaciones no los ve.
+async function leeDeWebhook(desde, vistos) {
+  const r = await fetch(`${process.env.SUPABASE_URL}/rest/v1/meta_mensajes?cliente=eq.cym&mid=like.c_*&enviado_en=gte.${desde.toISOString()}&select=mid,plataforma,contacto_id,enviado_en,texto,raw&limit=200`, { headers: SB() });
+  if (!r.ok) throw new Error('webhook ' + r.status);
+  const out = [];
+  for (const f of await r.json()) {
+    if (vistos.has(f.mid)) continue;
+    const texto = (f.texto || '').replace(/^\[comentario\] /, ''), id = f.mid.slice(2), v = f.raw || {};
+    if (!comentarioVale(texto) || !esConsulta(texto)) continue;
+    const ig = f.plataforma === 'instagram', propia = ig ? process.env.META_IG_ID : process.env.META_PAGE_ID;
+    const media = v.media?.id || v.post_id;
+    const contexto = media ? await api(media, { fields: ig ? 'caption' : 'message' }).then(m => m.caption || m.message || '').catch(() => '') : '';
+    const res = await api(id, { fields: ig ? 'replies.limit(10){id,from{id},text,timestamp}' : 'comments.limit(10){id,from{id},message,created_time}' }).then(x => ((ig ? x.replies : x.comments)?.data || []).filter(y => y.from?.id === propia)).catch(() => []);
+    out.push({ plataforma: f.plataforma, contacto_id: f.contacto_id, nombre: v.from?.username || v.from?.name || null, origen: 'comentario', contexto,
+      mensajes: [{ mid: f.mid, id, fecha: f.enviado_en, texto, comentario: true, respondido: res.length > 0 }, ...res.map(y => ({ mid: 'r_' + y.id, fecha: y.timestamp || y.created_time, texto: y.text || y.message, saliente: true, comentario: true }))] });
+  }
+  return out;
+}
+// Qué comentarios toca contestar: con consulta, sin respuesta de CyM, entre 20 min (para dar tiempo a la automatización) y 72 h, de 8 a 22 h de Chile.
+export function comentariosPorContestar(d, mensajes, ahora) {
+  if (d.telefono) return [];
+  const hora = Number(new Intl.DateTimeFormat('es-CL', { timeZone: 'America/Santiago', hour: 'numeric', hourCycle: 'h23' }).format(ahora));
+  if (hora < 8 || hora >= 22) return [];
+  return mensajes.filter(m => m.comentario && !m.saliente && m.id && !m.respondido && !(d.contestados || []).includes(m.id) && esConsulta(m.texto)
+    && ahora - new Date(m.fecha).getTime() >= 20 * MIN && ahora - new Date(m.fecha).getTime() < 72 * HORA);
+}
+async function contestaComentario(plataforma, id, texto) {
+  const r = await fetch(G + id + (plataforma === 'instagram' ? '/replies' : '/comments'), { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + process.env.META_PAGE_TOKEN }, body: JSON.stringify({ message: texto }) });
+  const b = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error('contestar ' + r.status + ' ' + (b.error?.message || ''));
+  return b.id;
 }
 
 // Junta por persona lo que dijo y arma los datos del lead.
@@ -117,6 +154,8 @@ export default async function handler(req, res) {
   const errores = [], fuentes = {};
   const lee = async (nombre, fn) => { try { const x = await fn(); fuentes[nombre] = x.length; return x; } catch (e) { errores.push(nombre + ': ' + e.message); fuentes[nombre] = 'error'; return []; } };
   const leidos = [...await lee('messenger', () => leeMessenger(desde, errores)), ...await lee('comentarios_fb', () => leeComentariosFb(desde)), ...await lee('comentarios_ig', () => leeComentariosIg(desde))];
+  const vistos = new Set(leidos.flatMap(l => l.mensajes.map(m => m.mid)));
+  leidos.push(...await lee('comentarios_webhook', () => leeDeWebhook(desde, vistos)));
 
   const porPersona = {};
   for (const l of leidos) {
@@ -131,6 +170,7 @@ export default async function handler(req, res) {
   const prueba = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
   const resumen = { fuentes, personas: 0, guardados: 0, avisos: 0, con_telefono: 0, errores };
   const ahora = Date.now();
+  let contestados = 0;
   let personas = Object.values(porPersona);
   if (prueba_) personas = personas.filter(l => armaLead(l, {}, catalogo).telefono).slice(0, 1);
   for (const l of personas) {
@@ -138,7 +178,13 @@ export default async function handler(req, res) {
     resumen.personas++;
     const primer = Math.min(...l.mensajes.filter(m => !m.saliente).map(m => new Date(m.fecha).getTime()));
     const q = `?cliente=eq.cym&plataforma=eq.${l.plataforma}&contacto_id=eq.${encodeURIComponent(l.contacto_id)}&select=*`;
-    if (seco) { if (armaLead(l, {}, catalogo).telefono) resumen.con_telefono++; continue; }
+    if (seco) {
+      const dSeco = armaLead(l, {}, catalogo);
+      if (dSeco.telefono) resumen.con_telefono++;
+      resumen.comentarios_respondidos = (resumen.comentarios_respondidos || 0) + l.mensajes.filter(m => m.comentario && !m.saliente && m.respondido).length;
+      if (!prueba.includes(l.contacto_id)) resumen.por_contestar = (resumen.por_contestar || 0) + comentariosPorContestar(dSeco, l.mensajes, ahora).length;
+      continue;
+    }
     if (!prueba_ && prueba.includes(l.contacto_id)) continue; // cuentas de prueba: las atiende el agente por webhook
     const deCuentaPrueba = prueba_;
     try {
@@ -162,6 +208,11 @@ export default async function handler(req, res) {
       if (insiste) {
         try { await enviaChat(l.contacto_id, insiste); d.insistencias = (d.insistencias || 0) + 1; d.insiste_en = ahora; resumen.insistencias = (resumen.insistencias || 0) + 1; }
         catch (e) { d.insiste_fallos = (d.insiste_fallos || 0) + 1; errores.push(e.message); }
+      }
+      if (process.env.META_CONTESTA === '1' && !prueba_ && estado !== 'humano') for (const m of comentariosPorContestar(d, l.mensajes, ahora)) {
+        if (contestados >= MAX_RESPUESTAS || d.contesta_fallos >= 3) break;
+        try { await contestaComentario(l.plataforma, m.id, RESPUESTA_COMENTARIO(d.codigo)); d.contestados = [...(d.contestados || []), m.id]; contestados++; resumen.contestados = contestados; }
+        catch (e) { d.contesta_fallos = (d.contesta_fallos || 0) + 1; errores.push(e.message); }
       }
       const rg = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones?on_conflict=cliente,plataforma,contacto_id', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify({ cliente: 'cym', plataforma: l.plataforma, contacto_id: l.contacto_id, nodo: 'sondeo', estado, intentos: 0, datos: d, ultimo_bot: previa?.ultimo_bot ?? null, actualizado_en: new Date().toISOString() }) });
       if (!rg.ok) errores.push('guardar lead ' + rg.status);

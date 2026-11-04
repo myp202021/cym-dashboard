@@ -141,6 +141,12 @@ export function comentarioDe(plataforma, cuentaId, cambio, propias = []) {
   return c;
 }
 // Solo emojis o menciones a amigos no ameritan un mensaje privado.
+// ¿El comentario pide algo? "Precioso", emojis o quejas no son leads.
+export function esConsulta(texto) {
+  const n = normal(texto);
+  if (buscaTelefono(texto) || n.includes('?') || n.includes('¿')) return true;
+  return /\b(info|informacion|detalle|detalles|precio|valor|cuanto|cuesta|vale|visita|visitar|verla|verlo|agendar|direccion|ubicacion|donde|sector|interesa|interesada|interesado|disponible|metros|m2|dormitorios|codigo|contacto|contactar|datos|whatsapp|telefono|comprar|vender|tasar|tasacion|dm|interno)\b/.test(n);
+}
 export function comentarioVale(texto) {
   const limpio = String(texto || '').replace(/@[\w.]+/g, '').replace(/[^\p{L}\p{N}]/gu, '');
   return limpio.length >= 2;

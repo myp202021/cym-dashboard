@@ -33,7 +33,7 @@ async function carga(){
   if(r.status===401){$('app').innerHTML=`<section><h2>Acceso privado</h2><div class="sub">Ingresa la clave del panel de CyM.</div><form class="login" id="f"><input type="password" id="c" placeholder="Clave del panel" required><button>Entrar</button><div class="err" id="e"></div></form></section>`;
     $('f').onsubmit=async e=>{e.preventDefault();const x=await fetch('/api/organico-detalle?accion=login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clave:$('c').value}),credentials:'same-origin'});if(x.ok)carga();else $('e').textContent='Clave incorrecta'};return}
   if(!r.ok){$('app').innerHTML='<section><div class="vacio">No se pudo cargar.</div></section>';return}
-  const d=await r.json(),c=d.conversaciones,min=c.filter(x=>x.minutos!=null).map(x=>x.minutos).sort((a,b)=>a-b),med=min.length?min[Math.floor(min.length/2)]:null;
+  const d=await r.json();d.conversaciones=d.conversaciones.filter(x=>!x.prueba);const c=d.conversaciones,min=c.filter(x=>x.minutos!=null).map(x=>x.minutos).sort((a,b)=>a-b),med=min.length?min[Math.floor(min.length/2)]:null;
   const ig=c.filter(x=>x.plataforma==='instagram').length;
   $('app').innerHTML=`<div class="kpis"><div class="kpi dest"><div class="l">Conversaciones nuevas</div><div class="v">${d.total}</div></div>
    <div class="kpi"><div class="l">Respondidas</div><div class="v">${d.respondidas}<span style="font-size:14px;color:var(--gris)"> · ${d.total?Math.round(d.respondidas/d.total*100):0}%</span></div></div>
