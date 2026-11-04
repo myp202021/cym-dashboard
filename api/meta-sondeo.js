@@ -13,7 +13,7 @@ export const INSISTE = [
   'Sin tu teléfono el director de CyM no te puede llamar. Si te sigue interesando, escríbelo aquí y te contactamos a la brevedad.',
 ];
 // Comentario con consulta que la automatización de Business Suite no contestó (no tenía palabra clave).
-export const RESPUESTA_COMENTARIO = c => `¡Hola! Un corredor de CyM te puede ayudar. Déjanos tus datos en cym-dashboard-liart.vercel.app/contacto${c ? '?codigo=' + c : ''} o escríbenos por WhatsApp al +56 9 3401 8822.`;
+export const RESPUESTA_COMENTARIO = c => `¡Hola! Un corredor de CyM te puede ayudar. Déjanos tus datos en cympropiedades.vercel.app/contacto${c ? '?codigo=' + c : ''} o escríbenos por WhatsApp al +56 9 3401 8822.`;
 const MAX_RESPUESTAS = 5; // por revisión
 const G = 'https://graph.facebook.com/v25.0/';
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
