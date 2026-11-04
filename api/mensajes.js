@@ -13,8 +13,12 @@ function autenticado(req) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store'); res.setHeader('X-Robots-Tag', 'noindex');
   // sin clave por pedido de Christopher
-  const desde = /^\d{4}-\d{2}$/.test(req.query.mes || '') ? req.query.mes + '-01' : '2026-10-01';
-  const hasta = new Date(new Date(desde + 'T00:00:00Z').setUTCMonth(new Date(desde + 'T00:00:00Z').getUTCMonth() + 1)).toISOString();
+  // Planilla de Drive: =IMPORTDATA(.../api/mensajes?csv=1&k=...) trae todo desde noviembre 2026, con datos completos.
+  const claveCsv = process.env.CYM_COOKIE_SECRET ? createHmac('sha256', process.env.CYM_COOKIE_SECRET).update('cym-planilla-organico').digest('hex') : null;
+  const esCsv = req.query.csv === '1' && !!claveCsv && iguales(req.query.k || '', claveCsv);
+  if (req.query.csv === '1' && !esCsv) return res.status(403).send('Sin acceso');
+  const desde = esCsv ? '2026-11-01' : /^\d{4}-\d{2}$/.test(req.query.mes || '') ? req.query.mes + '-01' : '2026-10-01';
+  const hasta = esCsv ? '2099-01-01T00:00:00Z' : new Date(new Date(desde + 'T00:00:00Z').setUTCMonth(new Date(desde + 'T00:00:00Z').getUTCMonth() + 1)).toISOString();
   const url = `${process.env.SUPABASE_URL}/rest/v1/meta_mensajes?cliente=eq.cym&enviado_en=gte.${desde}T00:00:00Z&enviado_en=lt.${hasta}&select=plataforma,contacto_id,direccion,enviado_en,texto,codigo&order=enviado_en.asc&limit=5000`;
   const r = await fetch(url, { headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY } });
   if (!r.ok) return res.status(500).json({ error: 'No se pudo leer' });
@@ -42,7 +46,7 @@ export default async function handler(req, res) {
   const pruebas = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
   const lista = Object.values(conv).filter(c => c.primer_mensaje && (!c.texto?.startsWith('[comentario] ') || esConsulta(c.texto.slice(13)))).map(c => ({ ...c, prueba: pruebas.includes(c.contacto) })).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
   // Sin clave no salen datos personales: el enlace del panel es público (lo revisa Meta). Con ?k=CYM_PANEL_DATOS se ven completos.
-  const conDatos = !!process.env.CYM_PANEL_DATOS && iguales(req.query.k || '', process.env.CYM_PANEL_DATOS);
+  const conDatos = esCsv || (!!process.env.CYM_PANEL_DATOS && iguales(req.query.k || '', process.env.CYM_PANEL_DATOS));
   if (!conDatos) lista.forEach((c, i) => {
     c.contacto = 'c' + (i + 1);
     c.telefono = null;
@@ -51,5 +55,17 @@ export default async function handler(req, res) {
     if (c.consulta) c.consulta = String(c.consulta).replace(/\+?\d[\d\s.-]{7,}\d/g, '•••');
   });
   const reales = lista.filter(c => !c.prueba);
+  if (esCsv) {
+    // Texto de terceros: se neutraliza lo que una planilla podría leer como fórmula.
+    const celda = v => { let t = String(v ?? '').replace(/\s+/g, ' ').trim(); if (/^[=+\-@]/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; };
+    const hora = f => f ? new Date(f).toLocaleString('sv-SE', { timeZone: 'America/Santiago' }).slice(0, 16) : '';
+    const filas = [...reales].sort((a, b) => String(b.primer_mensaje).localeCompare(String(a.primer_mensaje))).map(c => {
+      const comentario = (c.texto || '').startsWith('[comentario] ');
+      const red = c.plataforma === 'instagram' ? 'Instagram' : 'Facebook';
+      return [hora(c.primer_mensaje), red, comentario ? 'Comentario' : c.plataforma === 'instagram' ? 'Formulario' : 'Mensaje', c.nombre, c.telefono, c.codigo, c.comuna, c.director, c.tema, (c.consulta || c.texto || '').replace(/^\[comentario\] /, ''), c.respondida ? 'Sí' : 'No'].map(celda).join(',');
+    });
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    return res.status(200).send(['Fecha,Red,Tipo,Nombre,Teléfono,Código,Comuna,Director,Tema,Consulta,Respondida', ...filas].join('\n'));
+  }
   res.status(200).json({ desde, total: reales.length, con_datos: reales.filter(c => c.tiene_telefono).length, respondidas: reales.filter(c => c.respondida).length, conversaciones: lista });
 }
