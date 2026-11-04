@@ -23,7 +23,11 @@ export default async function handler(req, res) {
     const c = conv[m.contacto_id] ||= { contacto: m.contacto_id, plataforma: m.plataforma, primer_mensaje: null, texto: null, codigo: null, respondida: false, primera_respuesta: null, minutos: null, mensajes: 0 };
     c.mensajes++;
     if (m.direccion === 'entrante') { if (!c.primer_mensaje) { c.primer_mensaje = m.enviado_en; c.texto = (m.texto || '').slice(0, 160); } if (!c.codigo && m.codigo) c.codigo = m.codigo; }
-    else if (c.primer_mensaje && !c.respondida) { c.respondida = true; c.primera_respuesta = m.enviado_en; c.minutos = Math.round((new Date(m.enviado_en) - new Date(c.primer_mensaje)) / 60000); }
+    else if (!c.respondida) {
+      // La hora de un comentario por webhook es la de llegada: la respuesta automática puede quedar segundos antes.
+      c.respondida = true; c.primera_respuesta = m.enviado_en;
+      if (c.primer_mensaje) c.minutos = Math.round((new Date(m.enviado_en) - new Date(c.primer_mensaje)) / 60000);
+    }
   }
   // Datos recogidos por el agente. Sin clave por pedido de Christopher (3 nov 2026).
   const rc = await fetch(`${process.env.SUPABASE_URL}/rest/v1/meta_conversaciones?cliente=eq.cym&select=contacto_id,estado,datos`, { headers: { apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY } });
@@ -33,6 +37,7 @@ export default async function handler(req, res) {
     const d = l.datos || {};
     Object.assign(c, { estado_agente: l.estado, tema: d.tema || null, comuna: d.comuna || null, director: d.director || null, consulta: d.consulta || null, codigo: c.codigo || d.codigo || null, tiene_telefono: !!d.telefono, nombre: d.nombre || null, telefono: d.telefono || null });
   }
+  for (const c of Object.values(conv)) if (c.respondida && c.primer_mensaje && c.minutos == null) c.minutos = 0;
   // Fuera lo que no es consulta ("Precioso", quejas). Las cuentas de prueba siguen en la lista, marcadas, pero no suman.
   const pruebas = (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim());
   const lista = Object.values(conv).filter(c => c.primer_mensaje && (!c.texto?.startsWith('[comentario] ') || esConsulta(c.texto.slice(13)))).map(c => ({ ...c, prueba: pruebas.includes(c.contacto) })).sort((a, b) => b.primer_mensaje.localeCompare(a.primer_mensaje));
