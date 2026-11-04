@@ -62,7 +62,7 @@ export default async function handler(req, res) {
     const filas = [...reales].sort((a, b) => String(b.primer_mensaje).localeCompare(String(a.primer_mensaje))).map(c => {
       const comentario = (c.texto || '').startsWith('[comentario] ');
       const red = c.plataforma === 'instagram' ? 'Instagram' : 'Facebook';
-      return [hora(c.primer_mensaje), red, comentario ? 'Comentario' : c.plataforma === 'instagram' ? 'Formulario' : 'Mensaje', c.nombre, c.telefono, c.codigo, c.comuna, c.director, c.tema, (c.consulta || c.texto || '').replace(/^\[comentario\] /, ''), c.respondida ? 'Sí' : 'No'].map(celda).join(',');
+      return [hora(c.primer_mensaje), red, comentario ? 'Comentario' : c.plataforma === 'instagram' ? 'Formulario' : 'Mensaje', c.nombre, String(c.telefono || '').replace(/^\+/, ''), c.codigo, c.comuna, c.director, c.tema, (c.consulta || c.texto || '').replace(/^\[comentario\] /, ''), c.respondida ? 'Sí' : 'No'].map(celda).join(',');
     });
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
     return res.status(200).send(['Fecha,Red,Tipo,Nombre,Teléfono,Código,Comuna,Director,Tema,Consulta,Respondida', ...filas].join('\n'));
