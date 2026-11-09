@@ -10,7 +10,7 @@ button{width:100%;padding:14px;border:0;border-radius:10px;background:#eb3d60;co
 .oculto{position:absolute;left:-9999px}#err{color:#b91c1c;font-weight:600;margin:0 0 12px}small{display:block;color:#777;margin-top:12px}#ok{display:none;background:#fff;border-radius:14px;padding:24px;box-shadow:0 1px 6px rgba(0,0,0,.08)}
 </style></head><body><main>
 <div class="marca">CyM PROPIEDADES</div>
-<div id="caja"><h1>Déjanos tus datos</h1><p>El director de tu zona te contactará a la brevedad.</p>
+<div id="caja"><h1>¿Te llamamos?</h1><p>Deja tu nombre y teléfono, y un corredor de tu zona te contacta pronto para contarte todo. Toma menos de un minuto.</p>
 <form id="f"><label>Nombre<input name="nombre" required maxlength="80" autocomplete="name"></label>
 <label>Teléfono<input name="telefono" required inputmode="tel" autocomplete="tel" placeholder="9 1234 5678"></label>
 <label>Código de la propiedad (si lo tienes)<input name="codigo" inputmode="numeric" maxlength="5"></label>
@@ -20,7 +20,7 @@ button{width:100%;padding:14px;border:0;border-radius:10px;background:#eb3d60;co
 <label>¿Qué necesitas?<select name="operacion"><option>Compra</option><option>Arriendo</option><option>Venta</option></select></label>
 <label>Consulta (opcional)<textarea name="consulta" rows="2" maxlength="500"></textarea></label>
 <input class="oculto" name="web" tabindex="-1" autocomplete="off" aria-hidden="true">
-<p id="err" hidden></p><button id="b">Enviar</button>
+<p id="err" hidden></p><button id="b">Quiero que me llamen</button>
 <small>Usamos tus datos solo para que CyM Propiedades te contacte por tu consulta.</small></form></div>
 <div id="ok"><h1>¡Listo, gracias!</h1><p style="margin:0">Recibimos tus datos. El director de tu zona te contactará a la brevedad.</p></div>
 </main><script>
@@ -31,5 +31,5 @@ f.codigo.addEventListener('input',ver);fetch('/data/propiedades-catalogo.json').
 f.addEventListener('submit',async ev=>{ev.preventDefault();e.hidden=true;b.disabled=true;b.textContent='Enviando…';
 try{const r=await fetch('/api/lead-organico',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))});const d=await r.json();
 if(!r.ok)throw new Error(d.error||'No pudimos enviar tus datos.');document.getElementById('caja').style.display='none';document.getElementById('ok').style.display='block';}
-catch(x){e.textContent=x.message;e.hidden=false;b.disabled=false;b.textContent='Enviar';}});
+catch(x){e.textContent=x.message;e.hidden=false;b.disabled=false;b.textContent='Quiero que me llamen';}});
 </script></body></html>
