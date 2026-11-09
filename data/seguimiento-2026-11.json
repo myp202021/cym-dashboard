@@ -786,23 +786,119 @@
   "fuente": "CONTACTOS CYM-NOVIEMBRE.xlsx (CyM), hoja Noviembre",
   "por_comuna": [
    {
-    "comuna": "Las Condes",
-    "total": 2,
-    "con_contacto": 1,
-    "sin_contacto": 1,
+    "comuna": "Vitacura",
+    "total": 10,
+    "con_contacto": 5,
+    "sin_contacto": 5,
     "pct_contacto": 50,
-    "casas": 1,
+    "casas": 6,
     "deptos": 0,
-    "otros": 1,
+    "otros": 4,
+    "top_codigos": [
+     {
+      "codigo": "6089",
+      "n": 3
+     },
+     {
+      "codigo": "5871",
+      "n": 2
+     },
+     {
+      "codigo": "6065",
+      "n": 2
+     }
+    ]
+   },
+   {
+    "comuna": "Las Condes",
+    "total": 9,
+    "con_contacto": 6,
+    "sin_contacto": 3,
+    "pct_contacto": 67,
+    "casas": 5,
+    "deptos": 0,
+    "otros": 4,
     "top_codigos": [
      {
       "codigo": "5730",
+      "n": 2
+     },
+     {
+      "codigo": "6095",
+      "n": 2
+     },
+     {
+      "codigo": "5988",
       "n": 1
      }
     ]
    },
    {
-    "comuna": "Vitacura",
+    "comuna": "San Carlos de Apoquindo",
+    "total": 6,
+    "con_contacto": 5,
+    "sin_contacto": 1,
+    "pct_contacto": 83,
+    "casas": 4,
+    "deptos": 0,
+    "otros": 2,
+    "top_codigos": [
+     {
+      "codigo": "6014",
+      "n": 4
+     }
+    ]
+   },
+   {
+    "comuna": "La Dehesa",
+    "total": 6,
+    "con_contacto": 3,
+    "sin_contacto": 3,
+    "pct_contacto": 50,
+    "casas": 3,
+    "deptos": 0,
+    "otros": 3,
+    "top_codigos": [
+     {
+      "codigo": "5451",
+      "n": 2
+     },
+     {
+      "codigo": "2656",
+      "n": 1
+     },
+     {
+      "codigo": "6085",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Departamentos",
+    "total": 4,
+    "con_contacto": 3,
+    "sin_contacto": 1,
+    "pct_contacto": 75,
+    "casas": 0,
+    "deptos": 4,
+    "otros": 0,
+    "top_codigos": [
+     {
+      "codigo": "5908",
+      "n": 2
+     },
+     {
+      "codigo": "5832",
+      "n": 1
+     },
+     {
+      "codigo": "5488",
+      "n": 1
+     }
+    ]
+   },
+   {
+    "comuna": "Los Dominicos",
     "total": 1,
     "con_contacto": 0,
     "sin_contacto": 1,
@@ -812,60 +908,82 @@
     "otros": 0,
     "top_codigos": [
      {
-      "codigo": "6089",
+      "codigo": "6041",
       "n": 1
      }
     ]
    },
    {
-    "comuna": "La Dehesa",
-    "total": 1,
-    "con_contacto": 0,
+    "comuna": "Sin dato",
+    "total": 2,
+    "con_contacto": 1,
     "sin_contacto": 1,
-    "pct_contacto": 0,
+    "pct_contacto": 50,
     "casas": 0,
     "deptos": 0,
-    "otros": 1,
-    "top_codigos": [
-     {
-      "codigo": "6054",
-      "n": 1
-     }
-    ]
+    "otros": 2,
+    "top_codigos": []
    }
   ],
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 2,
-    "con_contacto": 1,
+    "total": 19,
+    "con_contacto": 11,
+    "sin_contacto": 8,
+    "pct_contacto": 58
+   },
+   {
+    "tipo": "Depto",
+    "total": 4,
+    "con_contacto": 3,
     "sin_contacto": 1,
-    "pct_contacto": 50
+    "pct_contacto": 75
    },
    {
     "tipo": "Sin dato",
-    "total": 2,
-    "con_contacto": 0,
-    "sin_contacto": 2,
-    "pct_contacto": 0
+    "total": 15,
+    "con_contacto": 9,
+    "sin_contacto": 6,
+    "pct_contacto": 60
    }
   ],
-  "total": 4,
-  "con_contacto": 1,
-  "sin_contacto": 3,
-  "pct_contacto": 25,
+  "total": 38,
+  "con_contacto": 23,
+  "sin_contacto": 15,
+  "pct_contacto": 61,
   "top_codigos": [
    {
-    "codigo": "5730",
-    "n": 1
+    "codigo": "6014",
+    "n": 4
    },
    {
     "codigo": "6089",
-    "n": 1
+    "n": 3
    },
    {
-    "codigo": "6054",
-    "n": 1
+    "codigo": "5730",
+    "n": 2
+   },
+   {
+    "codigo": "6095",
+    "n": 2
+   },
+   {
+    "codigo": "5871",
+    "n": 2
+   },
+   {
+    "codigo": "6065",
+    "n": 2
+   },
+   {
+    "codigo": "5451",
+    "n": 2
+   },
+   {
+    "codigo": "5908",
+    "n": 2
    }
   ],
   "celulares_revisar": 0,
