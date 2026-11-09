@@ -1,10 +1,12 @@
 // Importa al panel (/mensajes) los DMs de Instagram leídos desde la bandeja de Business Suite (la API de Meta no los entrega
-// sin App Review). Exige ?k=META_WEBHOOK_KEY. NO avisa a directores ni responde a nadie: CyM ya los atendió a mano.
+// sin App Review). Exige ?k=META_WEBHOOK_KEY. No responde a nadie. Desde el 9 nov avisa por correo al director (una vez por
+// contacto) los DMs NUEVOS con teléfono; los ya guardados no se reavisan. ?historico=1 guarda sin avisar. ?prueba=1 avisa solo a Christopher.
 // Body: { personas: [{ contacto_id, nombre, fecha, texto, respondida, posts: ['/p/SHORTCODE/'] }] }
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash, timingSafeEqual } from 'node:crypto';
 import { armaLead } from './meta-sondeo.js';
+import { avisaLead } from './_aviso-cym.js';
 
 const SB = () => ({ apikey: process.env.SUPABASE_SERVICE_ROLE_KEY, Authorization: 'Bearer ' + process.env.SUPABASE_SERVICE_ROLE_KEY, 'Content-Type': 'application/json' });
 const iguales = (a, b) => { const x = Buffer.from(String(a)), y = Buffer.from(String(b)); return x.length === y.length && timingSafeEqual(x, y); };
@@ -29,17 +31,25 @@ export default async function handler(req, res) {
   const catalogo = (() => { try { return JSON.parse(readFileSync(join(process.cwd(), 'data', 'propiedades-catalogo.json'), 'utf8')).codigos || {}; } catch { return {}; } })();
   const cods = [...new Set(personas.flatMap(p => (p.posts || []).map(x => (x.match(/\/(?:p|reel)\/([^/]+)/) || [])[1]).filter(Boolean)))];
   const cap = cods.length ? await captions(cods) : {};
-  const resumen = { recibidas: personas.length, guardadas: 0, con_telefono: 0, con_codigo: 0, errores: [] };
+  const historico = req.query.historico === '1', prueba = req.query.prueba === '1';
+  const resumen = { recibidas: personas.length, guardadas: 0, con_telefono: 0, con_codigo: 0, avisos: 0, errores: [] };
   for (const p of personas) {
     try {
       const contexto = (p.posts || []).map(x => cap[(x.match(/\/(?:p|reel)\/([^/]+)/) || [])[1]] || '').join(' ');
       const texto = String(p.texto || '').replace(/\+?56\s?9\s?3401\s?8822/g, '').slice(0, 2000);
       const mid = 'b_' + createHash('sha1').update(p.contacto_id + '|' + p.fecha).digest('hex').slice(0, 24);
       const l = { plataforma: 'instagram', contacto_id: p.contacto_id, nombre: p.nombre, origen: 'mensaje', contexto, mensajes: [{ mid, fecha: p.fecha, texto, saliente: false }] };
-      const d = armaLead(l, {}, catalogo);
+      const q = `?cliente=eq.cym&plataforma=eq.instagram&contacto_id=eq.${encodeURIComponent(p.contacto_id)}&select=datos`;
+      const previa = (await (await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + q, { headers: SB() })).json())[0];
+      const d = armaLead(l, previa?.datos || {}, catalogo);
       if (d.telefono && d.telefono.replace(/\D/g, '').endsWith(CYM_TEL)) d.telefono = null;
       d.origen = 'bandeja';
-      d.avisado = true; d.avisado_tel = true; // histórico: no se avisa
+      if (historico || previa) { if (!previa?.datos || previa.datos.avisado_tel !== false) { d.avisado = true; d.avisado_tel = true; } } // histórico o ya guardado: no se reavisa
+      else if (d.telefono && !d.avisado_tel) {
+        await avisaLead({ estado: 'completo', datos: d }, 'instagram', prueba);
+        resumen.avisos++;
+        if (!prueba) { d.avisado = true; d.avisado_tel = true; d.avisado_correo = new Date().toISOString(); }
+      }
       if (d.telefono) resumen.con_telefono++;
       if (d.codigo) resumen.con_codigo++;
       const filas = [{ cliente: 'cym', plataforma: 'instagram', cuenta_id: process.env.META_IG_ID, contacto_id: p.contacto_id, direccion: 'entrante', enviado_en: new Date(p.fecha).toISOString(), mid, texto: '[DM] ' + texto.slice(0, 1000), codigo: d.codigo || null, raw: {} }];
