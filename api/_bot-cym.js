@@ -35,7 +35,7 @@ export function buscaTelefono(texto) {
 export const buscaComuna = t => { const n = normal(t); const c = COMUNAS.find(([k]) => n.includes(k)); return c ? c[1] : null; };
 
 export function directorDe(d) {
-  if (d.tipo === 'Departamento') return 'Caro Paoletti';
+  if (/^dep/i.test(d.tipo || '')) return 'Caro Paoletti'; // el catálogo trae 'Depto', el bot 'Departamento'
   return { 'Las Condes': 'Anita Hernández', 'La Reina': 'James Robeson', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
 }
 export const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
