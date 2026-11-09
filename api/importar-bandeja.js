@@ -58,6 +58,12 @@ export default async function handler(req, res) {
       if (!rm.ok) { resumen.errores.push('mensajes ' + rm.status); continue; }
       const rg = await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones?on_conflict=cliente,plataforma,contacto_id', { method: 'POST', headers: { ...SB(), Prefer: 'resolution=merge-duplicates,return=minimal' }, body: JSON.stringify({ cliente: 'cym', plataforma: 'instagram', contacto_id: p.contacto_id, nodo: 'bandeja', estado: d.telefono ? 'completo' : 'humano', intentos: 0, datos: d, ultimo_bot: null, actualizado_en: new Date().toISOString() }) });
       if (!rg.ok) resumen.errores.push('lead ' + rg.status); else resumen.guardadas++;
+      if (prueba) { // prueba: no deja rastro en el panel
+        const qb = `?cliente=eq.cym&plataforma=eq.instagram&contacto_id=eq.${encodeURIComponent(p.contacto_id)}`;
+        await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_mensajes' + qb, { method: 'DELETE', headers: SB() });
+        await fetch(process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones' + qb, { method: 'DELETE', headers: SB() });
+        resumen.prueba_borrada = true;
+      }
     } catch (e) { resumen.errores.push(e.message); }
   }
   res.status(200).json(resumen);
