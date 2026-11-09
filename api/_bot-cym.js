@@ -7,10 +7,10 @@ const MENU = '¿En qué te ayudo?\n\n1. Comprar una propiedad\n2. Arrendar una p
 const P_COMUNA = '¿En qué zona buscas?\n\n1. Las Condes\n2. Vitacura\n3. La Dehesa\n4. La Reina\n5. San Carlos de Apoquindo\n6. Aún no lo sé';
 const P_TIPO = '¿Buscas casa o departamento?\n\n1. Casa\n2. Departamento';
 const P_NOMBRE = '¿Cómo te llamas?';
-const P_TELEFONO = 'Gracias, {nombre}. ¿A qué teléfono te puede llamar el director de CyM? (ej: +56 9 1234 5678)';
-const P_TELEFONO_DE_NUEVO = 'No alcancé a entender ese número. ¿Me lo escribes de nuevo con el 9 adelante? (ej: 9 1234 5678)';
-const FIN = '¡Listo, {nombre}! El director de CyM a cargo te va a contactar a la brevedad. Gracias por escribir a CyM Propiedades 🏠';
-const P_TELEFONO_ULTIMO = 'Sin tu teléfono el director de CyM no te puede llamar. Cuando quieras, escríbelo aquí y te contactamos a la brevedad (ej: 9 1234 5678).';
+const P_TELEFONO = '¡Hola {nombre}! Dame tu celular para que te contacte una ejecutiva de {zona}.';
+const P_TELEFONO_DE_NUEVO = 'No me quedó claro el número. Escríbelo con el 9 adelante, ej: 9 1234 5678.';
+const FIN = '¡Listo! Te contacta una ejecutiva de {zona} a la brevedad 🏠';
+const P_TELEFONO_ULTIMO = 'Cuando quieras, déjame tu celular aquí y te llama una ejecutiva de {zona}.';
 const HUMANO = 'Perfecto, le paso tu mensaje al equipo de CyM y te responden por aquí mismo.';
 
 const elige = (t, opciones) => {
@@ -39,7 +39,8 @@ export function directorDe(d) {
   return { 'Las Condes': 'Anita Hernández', 'La Reina': 'James Robeson', Vitacura: 'Alejandro Ceballos', 'La Dehesa': 'María Eugenia Olave', 'San Carlos de Apoquindo': 'Benjamín Ceballos' }[d.comuna] || 'el equipo de CyM';
 }
 export const tema = d => d.codigo ? 'Propiedad ' + d.codigo : [d.operacion, d.tipo, d.comuna && d.comuna !== 'Sin definir' ? d.comuna : null].filter(Boolean).join(' · ') || 'Consulta general';
-const relleno = (s, d) => s.replace(/\{(\w+)\}/g, (_, k) => d[k] ?? '');
+const zonaDe = d => /^dep/i.test(d.tipo || '') ? 'departamentos' : d.comuna && d.comuna !== 'Sin definir' ? d.comuna : 'CyM';
+const relleno = (s, d) => s.replace(/\{(\w+)\}/g, (_, k) => k === 'zona' ? zonaDe(d) : d[k] ?? '');
 
 export function fichaEn(datos, codigo, catalogo) {
   const f = catalogo[codigo] || {};
@@ -48,7 +49,7 @@ export function fichaEn(datos, codigo, catalogo) {
 function presentaFicha(d) {
   const que = [d.tipo ? d.tipo.toLowerCase() : 'propiedad', 'código ' + d.codigo, d.comuna ? 'en ' + d.comuna : null].filter(Boolean).join(' ');
   const precio = d.precio ? ' (' + d.precio.replace(/,00$/, '') + ')' : '';
-  return `¡Hola! 👋 Gracias por escribir a CyM Propiedades por la ${que}${precio}.${d.url ? '\nFicha: ' + d.url : ''}\n\nPara que el director te contacte, ${P_NOMBRE.toLowerCase()}`;
+  return `¡Hola! 👋 Gracias por escribir a CyM Propiedades por la ${que}${precio}.${d.url ? '\nFicha: ' + d.url : ''}\n\n${P_NOMBRE}`;
 }
 function cerrar(datos) {
   const d = { ...datos, director: directorDe(datos) };
@@ -118,7 +119,7 @@ export function responde(conv, texto, catalogo = {}) {
       // Sin teléfono no hay lead: insiste y deja la conversación abierta, por si lo escribe después.
       const n = conv.intentos || 0;
       if (n >= 2) return { ...seguir('telefono', datos, null), intentos: n };
-      return { ...seguir('telefono', datos, n === 1 ? P_TELEFONO_ULTIMO : P_TELEFONO_DE_NUEVO), intentos: n + 1 };
+      return { ...seguir('telefono', datos, n === 1 ? relleno(P_TELEFONO_ULTIMO, datos) : P_TELEFONO_DE_NUEVO), intentos: n + 1 };
     }
     default: return { ...conv, responder: null };
   }
