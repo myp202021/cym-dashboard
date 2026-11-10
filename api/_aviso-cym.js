@@ -35,6 +35,9 @@ export function correoDe(conv, plataforma, prueba = false, correoPrueba = '') {
 }
 
 export async function avisaLead(conv, plataforma, prueba) {
+  // 10 nov 2026 (Christopher): el orgánico ya no se avisa por correo a directores; lo envían Nicole y Greta por WhatsApp
+  // hasta que funcione el agente. Para reactivar: AVISO_ORGANICO_CORREO=1 en Vercel.
+  if (process.env.AVISO_ORGANICO_CORREO !== '1') { console.log('aviso por correo apagado', conv?.datos?.director || 'central'); return; }
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) throw new Error('faltan GMAIL_USER / GMAIL_APP_PASSWORD');
   const t = nodemailer.createTransport({ service: 'gmail', auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_APP_PASSWORD } });
   await t.sendMail({ from: `"Leads CyM · M&P" <${process.env.GMAIL_USER}>`, ...correoDe(conv, plataforma, prueba, process.env.GMAIL_USER) });

@@ -16,6 +16,9 @@ import { fileURLToPath } from 'node:url';
 import { correoDe } from '../../api/_aviso-cym.js';
 import { directorDe, tema } from '../../api/_bot-cym.js';
 
+// APAGADO 10 nov 2026 (Christopher): el orgánico lo envían Nicole y Greta por WhatsApp al director. Reactivar con AVISO_ORGANICO_CORREO=1.
+if (process.env.AVISO_ORGANICO_CORREO !== '1') { console.log('Apagado: el orgánico lo envían Nicole y Greta por WhatsApp (ver protocolo).'); process.exit(0); }
+
 const AQUI = dirname(fileURLToPath(import.meta.url));
 const RAW = join(AQUI, 'raw');
 const REG = join(RAW, 'organico-avisados.json');

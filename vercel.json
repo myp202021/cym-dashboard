@@ -18,10 +18,6 @@
     {
       "source": "/mensajes",
       "destination": "/mensajes.html"
-    },
-    {
-      "source": "/contacto",
-      "destination": "/contacto.html"
     }
   ],
   "functions": {
@@ -40,6 +36,16 @@
     }
   },
   "redirects": [
+    {
+      "source": "/contacto",
+      "destination": "https://wa.me/56934018822",
+      "permanent": false
+    },
+    {
+      "source": "/contacto.html",
+      "destination": "https://wa.me/56934018822",
+      "permanent": false
+    },
     {
       "source": "/privado/:path*",
       "destination": "/seguimiento",
