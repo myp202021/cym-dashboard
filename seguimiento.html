@@ -137,6 +137,8 @@ td.rev{background:#fff7d6}
 .cot-card .p{font-weight:800;font-size:14px;margin:4px 0 2px;display:block;color:var(--negro)}
 .cot-card .d{display:flex;flex-wrap:wrap;gap:4px 12px;color:#374151;font-weight:600;margin-bottom:8px}
 .vista-nav .deseable{margin-left:auto;display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px dashed #ccc}.vista-nav .deseable small{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#888;font-weight:700}
+.comsel{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:0 0 16px}.comsel .tabs{margin:0}.canal{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px}.canal.wa{background:#dcfce7;color:#166534}.canal.fo{background:#e0e7ff;color:#3730a3}
+#t-campana td:nth-child(2),#t-campana th:nth-child(2),#t-dir td:nth-child(1),#t-dir th:nth-child(1){text-align:left}
 </style>
 </head>
 <body>
@@ -149,6 +151,7 @@ td.rev{background:#fff7d6}
   <div id="v-seg">
   <div class="meses" id="meses"></div>
   <div class="periodo" id="periodo">Cargando…</div>
+  <div class="comsel"><b>Comuna</b><div class="tabs" id="f-pag"></div></div>
   <div class="kpis" id="kpis"></div>
   <div id="alerta"></div>
 
@@ -156,8 +159,10 @@ td.rev{background:#fff7d6}
 
   <div class="grid2">
     <section><h2>Por comuna</h2><div class="sub">Solo campañas de venta de propiedades (hasta el 30 oct todo por WhatsApp; hoy: Vitacura y La Dehesa por formulario, llegan por correo a Alejandro y Eugenia; Las Condes y La Reina (Anita), SCA (Benjamín) y Departamentos (Caro) por WhatsApp). La captación de directores va aparte, no suma leads de venta</div><div class="tw" id="t-comuna"></div></section>
-    <section><h2>Por campaña</h2><div class="sub">CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
+    <section><h2>Campañas de venta</h2><div class="sub" id="sub-campana">Solo propiedades, ordenadas por comuna · CPL comparado con el mes anterior</div><div class="tw" id="t-campana"></div></section>
   </div>
+
+  <section id="sec-dir"><h2>Búsqueda de directores</h2><div class="sub">Campañas de captación de personas («Nuevo director»). No son venta: no suman leads, gasto ni CPL de venta</div><div class="kpis k3" id="dir-kpis"></div><div class="tw" id="t-dir"></div><div class="sub" id="otras-camp" style="margin-top:8px"></div></section>
 
   <section id="sec-form" style="display:none"><h2>Leads de formulario por comuna</h2><div class="sub">En vivo desde la planilla de Meta · campañas de venta con datos del usuario, desde el 30 oct 2026</div><div class="tabs" id="f-form"></div><div class="sub" id="form-dest" style="margin:6px 0 4px"></div><div class="tw" id="t-form"></div></section>
 
@@ -295,38 +300,67 @@ function chart(serie){
   pts.forEach((p,i)=>s+=`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#eb3d60" stroke="#fff" stroke-width="2"/><text x="${p[0]}" y="${p[1]-10}" font-size="12" font-weight="800" text-anchor="middle" fill="#eb3d60">${serie[i].leads}</text>`);
   $('chart').innerHTML=s+'</svg><div class="leyenda"><span><i style="background:#111"></i>Gasto (miles CLP, eje izq.)</span><span><i style="background:#eb3d60"></i>Leads (eje der.)</span></div>';
 }
+// 12 nov 2026 (Christopher): el pagado se ve POR COMUNA y la búsqueda de directores va aparte, nunca mezclada con venta
+const ORDEN_COM=['Vitacura','La Dehesa','Las Condes','La Reina','SCA','Departamentos'];
+const CANAL=t=>t==='WhatsApp propiedades'?'<span class="canal wa">WhatsApp</span>':'<span class="canal fo">Formulario</span>';
+const VENTA=c=>c.tipo==='WhatsApp propiedades'||c.tipo==='Formulario propiedades';
+const ordCom=c=>{const i=ORDEN_COM.indexOf(c);return i<0?99:i};
+window.PCOM=window.PCOM||'Todas';
 function render(){
-  const k=D.kpi,p=D.mes_anterior||{nombre:'mes anterior',gasto:null,leads:null,cpl:null},mesN=D.titulo.split(' ')[0].toLowerCase();
-  $('periodo').innerHTML=`<b>${D.titulo}</b> · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
+  const P=D.mes_anterior||{nombre:'mes anterior',gasto:null,leads:null,cpl:null},mesN=D.titulo.split(' ')[0].toLowerCase();
+  const coms=[...new Set(D.por_comuna.map(c=>c.comuna))].sort((a,b)=>ordCom(a)-ordCom(b));
+  if(PCOM!=='Todas'&&!coms.includes(PCOM))PCOM='Todas';
+  const C=PCOM,todas=C==='Todas';
+  $('f-pag').innerHTML=['Todas',...coms].map(c=>`<button class="${c===C?'on':''}" data-c="${c}">${c==='Todas'?'Todas las comunas':c}</button>`).join('');
+  $('f-pag').querySelectorAll('button').forEach(b=>b.onclick=()=>{PCOM=b.dataset.c;render()});
+  const fila=D.por_comuna.find(r=>r.comuna===C);
+  const k=todas?D.kpi:fila,p=todas?P:{nombre:P.nombre,gasto:fila.gasto_mes_anterior,leads:fila.leads_mes_anterior,cpl:fila.cpl_mes_anterior};
+  const dirC=todas?D.kpi.directores:(D.directores_por_comuna||[]).find(r=>r.comuna===C);
+  $('periodo').innerHTML=`<b>${D.titulo}</b>${todas?'':' · <b>'+esc(C)+'</b>'} · del ${fl(D.desde)} al ${fl(D.hasta)} · actualizado ${new Date(D.generado).toLocaleString('es-CL',{dateStyle:'medium',timeStyle:'short'})}`;
   $('kpis').innerHTML=[
-    ['Gasto Meta',clp(k.gasto),D.mes_anterior?`${D.completo?p.nombre:'ritmo '+p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto):'sin mes anterior para comparar',1],
-    ['Leads de venta',num(k.leads),`${num(k.conv_wa)} WhatsApp · ${num(k.leads_form)} formularios de propiedades${k.directores?` · aparte: captación de directores ${num(k.directores.leads)} formularios (${clp(k.directores.gasto)})`:''}`,1],
-    ['Costo por lead',clp(k.cpl),D.mes_anterior?`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true):'—',0],
-    [D.completo?'Leads '+p.nombre+' (mes completo)':'Leads '+p.nombre+' (mismo período)',num(p.leads),D.mes_anterior?(D.completo?`${mesN} vs ${p.nombre}`:`primeros ${D.dias} días · ${mesN}`)+delta(k.leads,p.leads):'—',0],
-    ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`,0]
-  ].map(([l,v,s,d])=>`<div class="kpi ${d&&l==='Leads'?'dest':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join('');
-  const a=D.alertas;
-  $('alerta').innerHTML=a.codigos_sin_leads?`<div class="alerta">⚠ ${a.codigos_sin_leads} códigos con gasto y sin leads: ${clp(a.gasto_sin_leads)} (${Math.round(a.gasto_sin_leads/a.gasto_whatsapp*100)}% del gasto en campañas de propiedades).</div>`:'';
-  chart(D.serie_diaria);
-  const ref=k.cpl||1;
-  const tc=D.por_comuna;
+    ['Gasto en venta',clp(k.gasto),D.mes_anterior&&p.gasto!=null?`${D.completo?p.nombre:'ritmo '+p.nombre}: ${clp(p.gasto)}`+delta(k.gasto,p.gasto):'sin mes anterior para comparar'],
+    ['Leads de venta',num(k.leads),`${num(k.conv_wa)} WhatsApp · ${num(k.leads_form)} formularios de propiedades`],
+    ['Costo por lead',clp(k.cpl),D.mes_anterior&&p.cpl!=null?`${p.nombre}: ${clp(p.cpl)}`+delta(k.cpl,p.cpl,true):'—'],
+    [D.completo?'Leads '+p.nombre+' (mes completo)':'Leads '+p.nombre+' (mismo período)',num(p.leads),D.mes_anterior&&p.leads!=null?(D.completo?`${mesN} vs ${p.nombre}`:`primeros ${D.dias} días · ${mesN}`)+delta(k.leads,p.leads):'—'],
+    ['Clics',num(k.clics),`${num(k.impresiones)} impresiones`]
+  ].map(([l,v,sub])=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`).join('');
+  const cods=D.por_codigo.filter(c=>todas||c.comuna===C);
+  const sin=cods.filter(c=>c.leads===0&&c.gasto>0&&c.codigo!=='sin código'),gsin=sin.reduce((x,c)=>x+c.gasto,0),gcod=cods.reduce((x,c)=>x+c.gasto,0);
+  $('alerta').innerHTML=sin.length?`<div class="alerta">⚠ ${sin.length} código${sin.length===1?'':'s'} con gasto y sin leads${todas?'':' en '+esc(C)}: ${clp(gsin)} (${Math.round(gsin/Math.max(1,gcod)*100)}% del gasto en campañas de propiedades).</div>`:'';
+  chart(todas?D.serie_diaria:((D.serie_por_comuna||{})[C]||D.serie_diaria));
+  const ref=D.kpi.cpl||1;
   tabla($('t-comuna'),[
-    {k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},
-    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
-  ],tc,{total:{comuna:'Total',gasto:clp(k.gasto),conv_wa:k.conv_wa,leads:k.leads,cpl:clp(k.cpl),cpl_mes_anterior:clp(p.cpl)}});
+    {k:'comuna',t:'Comuna',n:1,f:r=>r.comuna===C?`<b>${esc(r.comuna)}</b> ◀`:esc(r.comuna)},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'conv_wa',t:'WhatsApp'},{k:'leads_form',t:'Formulario'},
+    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+P.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
+  ],D.por_comuna,{total:{comuna:'Total',gasto:clp(D.kpi.gasto),conv_wa:D.kpi.conv_wa,leads_form:D.kpi.leads_form,leads:D.kpi.leads,cpl:clp(D.kpi.cpl),cpl_mes_anterior:clp(P.cpl)}});
+  // Campañas de venta: solo propiedades, por comuna (orden fijo de zonas CyM) y luego por gasto
+  const camp=D.por_campana.filter(c=>VENTA(c)&&(todas||c.comuna===C)).map(c=>({...c,orden:c.gasto-ordCom(c.comuna)*1e12}));
+  $('sub-campana').textContent=`Solo propiedades${todas?', ordenadas por comuna':' de '+C} · CPL comparado con ${P.nombre}`;
   tabla($('t-campana'),[
-    {k:'campana',t:'Campaña',n:1,f:r=>r.campana.replace('WhatsApp - ','WA · ').replace('Clientes potenciales - ','Form. · ')},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
-    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+p.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
-  ],D.por_campana);
-  const comunas=['Todas',...new Set(D.por_codigo.map(c=>c.comuna))];let fc='Todas';
-  const refWA=D.por_codigo.reduce((s,c)=>s+c.gasto,0)/Math.max(1,D.por_codigo.reduce((s,c)=>s+c.leads,0));
-  const drawCod=()=>{$('f-codigo').innerHTML=comunas.map(c=>`<button class="${c===fc?'on':''}">${c}</button>`).join('');$('f-codigo').querySelectorAll('button').forEach(b=>b.onclick=()=>{fc=b.textContent;drawCod()});
+    {k:'orden',t:'Comuna',n:1,f:r=>esc(r.comuna)},{k:'campana',t:'Campaña',n:1,f:r=>esc(r.campana)+CANAL(r.tipo)},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},
+    {k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,ref)},{k:'cpl_mes_anterior',t:'CPL '+P.nombre.slice(0,3),f:r=>clp(r.cpl_mes_anterior)}
+  ],camp.length?camp:[{orden:0,comuna:'—',campana:'Sin campañas de venta',tipo:'',gasto:0,leads:0,cpl:null,cpl_mes_anterior:null}],{sort:'orden'});
+  // Búsqueda de directores: aparte
+  const dirs=D.por_campana.filter(c=>c.tipo==='Captación nuevo director'&&(todas||c.comuna===C));
+  $('sec-dir').style.display=dirs.length?'':'none';
+  if(dirs.length){
+    const dk=dirC||{gasto:0,leads:0,cpl:null};
+    $('dir-kpis').innerHTML=[['Gasto en búsqueda de directores',clp(dk.gasto)],['Postulantes (formularios)',num(dk.leads)],['Costo por postulante',clp(dk.cpl)]].map(([l,v])=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+    tabla($('t-dir'),[{k:'campana',t:'Campaña',n:1,f:r=>esc(r.campana)},{k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'leads',t:'Postulantes',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'Costo por postulante',f:r=>clp(r.cpl)}],dirs);
+  }
+  const otras=D.por_campana.filter(c=>!VENTA(c)&&c.tipo!=='Captación nuevo director');
+  $('otras-camp').innerHTML=todas&&otras.length?'Otras campañas (no son venta ni búsqueda de directores): '+otras.map(c=>`${esc(c.campana)} ${clp(c.gasto)}`).join(' · '):'';
+  if(todas&&otras.length&&!dirs.length){$('sec-dir').style.display='';$('dir-kpis').innerHTML='';$('t-dir').innerHTML=''}
+  // Códigos: el filtro sigue a la comuna elegida arriba
+  const comunasCod=['Todas',...new Set(D.por_codigo.map(c=>c.comuna))].sort((a,b)=>(a==='Todas'?-1:b==='Todas'?1:ordCom(a)-ordCom(b)));let fc=todas?'Todas':C;
+  const refWA=D.por_codigo.reduce((x,c)=>x+c.gasto,0)/Math.max(1,D.por_codigo.reduce((x,c)=>x+c.leads,0));
+  const drawCod=()=>{$('f-codigo').innerHTML=comunasCod.map(c=>`<button class="${c===fc?'on':''}">${c}</button>`).join('');$('f-codigo').querySelectorAll('button').forEach(b=>b.onclick=()=>{fc=b.textContent;drawCod()});
     const rows=D.por_codigo.filter(c=>fc==='Todas'||c.comuna===fc);
-    tabla($('t-codigo'),[{k:'codigo',t:'Código',n:1,f:r=>`${r.codigo}<span class="tag">${r.comuna}</span>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'clics',t:'Clics'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,refWA)}],rows,{cero:r=>r.gasto>0&&!r.leads})};
+    tabla($('t-codigo'),[{k:'codigo',t:'Código',n:1,f:r=>`${r.codigo}<span class="tag">${r.comuna}</span>`},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'clics',t:'Clics'},{k:'leads',t:'Leads',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'CPL',f:r=>pill(r.cpl,r.leads,r.gasto,refWA)}],rows.length?rows:[{codigo:'—',comuna:'',gasto:0,clics:0,leads:0,cpl:null}],{cero:r=>r.gasto>0&&!r.leads})};
   drawCod();
   organico();
   if(!$('v-vit').classList.contains('oculto'))vitacura();
-  $('pie').textContent=`Fuente: ${D.fuente}. Leads de venta = campañas de propiedades: conversaciones de WhatsApp hasta el 30 oct 2026 y formularios con datos del usuario desde el 30 oct 2026 (no son comparables 1:1). La captación de directores (formularios) se informa aparte y no suma. CPL = gasto de venta / leads de venta. Se actualiza todos los lunes.`;
+  $('pie').textContent=`Fuente: ${D.fuente}. Leads de venta = campañas de propiedades: conversaciones de WhatsApp hasta el 30 oct 2026 y formularios con datos del usuario desde el 30 oct 2026 (no son comparables 1:1). La búsqueda de directores (formularios «Nuevo director») se informa aparte y no suma. CPL = gasto de venta / leads de venta. Se actualiza todos los lunes.`;
 }
 function resumen(idx){
   const m=[...idx].sort((a,b)=>a.mes.localeCompare(b.mes)),cerr=m.filter(x=>x.completo);

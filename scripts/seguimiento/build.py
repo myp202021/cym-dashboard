@@ -331,6 +331,9 @@ def main():
     directores_por_comuna = agrupa(dirs, lambda r: r['comuna'], lambda k, rs: dict(comuna=k))
     for c in por_comuna:
         p = prev_com.get(c['comuna']); c['cpl_mes_anterior'] = p['cpl'] if p else None
+        # 12 nov 2026: vista por comuna en el panel → leads y gasto del mes anterior al mismo ritmo de días, por comuna
+        c['leads_mes_anterior'] = round(p['leads'] * f) if p else None
+        c['gasto_mes_anterior'] = round(p['gasto'] * f) if p else None
     props = [r for r in ads if r['tipo'] in PROPIEDADES]
     por_codigo = agrupa(props, lambda r: (r['codigo'], r['comuna']), lambda k, rs: dict(codigo=k[0], comuna=k[1]))
     serie = defaultdict(lambda: dict(gasto=0, leads=0))
@@ -338,6 +341,15 @@ def main():
         if clasifica(r['campana'])[1] not in PROPIEDADES: continue  # serie = solo campañas de venta
         serie[r['fecha']]['gasto'] += r['gasto']; serie[r['fecha']]['leads'] += leads(r)
     serie = [dict(fecha=f, gasto=round(v['gasto']), leads=v['leads']) for f, v in sorted(serie.items())]
+    # 12 nov 2026 (Christopher: "se tiene que poder ver por comuna"): serie diaria de venta por comuna
+    sc_ = defaultdict(lambda: defaultdict(lambda: dict(gasto=0, leads=0)))
+    for r in diario:
+        com, tip = clasifica(r['campana'])
+        if tip not in PROPIEDADES: continue
+        sc_[com][r['fecha']]['gasto'] += r['gasto']; sc_[com][r['fecha']]['leads'] += leads(r)
+    fechas = [x['fecha'] for x in serie]
+    serie_por_comuna = {com: [dict(fecha=fe, gasto=round(v[fe]['gasto']) if fe in v else 0, leads=v[fe]['leads'] if fe in v else 0) for fe in fechas]
+                        for com, v in sc_.items()}
     sin_leads = [c for c in por_codigo if c['leads'] == 0 and c['gasto'] > 0 and c['codigo'] != 'sin código']
     out = dict(mes=MES, titulo=f'{MESES[m-1].capitalize()} {y}', desde=f'{MES}-01', hasta=hasta, dias=dias,
                generado=d.get('generado'), fuente='Meta Ads (cuenta act_2505215759834007), atribución por defecto',
@@ -345,7 +357,7 @@ def main():
                mes_anterior=dict(nombre=MESES[(m - 2) % 12], **ritmo_prev) if ritmo_prev else None,
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
-               por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, serie_diaria=serie,
+               por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, serie_diaria=serie, serie_por_comuna=serie_por_comuna,
                organico=organico() or org_previo() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

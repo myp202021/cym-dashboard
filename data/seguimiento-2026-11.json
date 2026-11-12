@@ -263,7 +263,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 4178
+   "cpl_mes_anterior": 4178,
+   "leads_mes_anterior": 30,
+   "gasto_mes_anterior": 123713
   },
   {
    "gasto": 78766,
@@ -278,7 +280,9 @@
    "gasto_whatsapp": 53090,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 2863
+   "cpl_mes_anterior": 2863,
+   "leads_mes_anterior": 28,
+   "gasto_mes_anterior": 79790
   },
   {
    "gasto": 75764,
@@ -293,7 +297,9 @@
    "gasto_whatsapp": 52873,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 4517
+   "cpl_mes_anterior": 4517,
+   "leads_mes_anterior": 16,
+   "gasto_mes_anterior": 73444
   },
   {
    "gasto": 44474,
@@ -308,7 +314,9 @@
    "gasto_whatsapp": 23802,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3111
+   "cpl_mes_anterior": 3111,
+   "leads_mes_anterior": 27,
+   "gasto_mes_anterior": 83989
   },
   {
    "gasto": 23048,
@@ -323,7 +331,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3843
+   "cpl_mes_anterior": 3843,
+   "leads_mes_anterior": 34,
+   "gasto_mes_anterior": 129411
   },
   {
    "gasto": 15357,
@@ -338,7 +348,9 @@
    "gasto_whatsapp": 12388,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3970
+   "cpl_mes_anterior": 3970,
+   "leads_mes_anterior": 10,
+   "gasto_mes_anterior": 40339
   }
  ],
  "directores_por_comuna": [
@@ -786,6 +798,290 @@
    "leads": 13
   }
  ],
+ "serie_por_comuna": {
+  "Vitacura": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 20001,
+    "leads": 8
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 15041,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 13152,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 12954,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 13720,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 10711,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 9213,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 20013,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 14256,
+    "leads": 2
+   }
+  ],
+  "La Dehesa": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 3887,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 2585,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 2374,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 2084,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 2305,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 1966,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 1594,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 3281,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 2972,
+    "leads": 2
+   }
+  ],
+  "Las Condes": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 3977,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 2642,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 8526,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 8363,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 4641,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 4978,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 4489,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 6858,
+    "leads": 3
+   }
+  ],
+  "SCA": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 3811,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 2874,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 8412,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 12249,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 10369,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 11559,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 11073,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 0,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 15417,
+    "leads": 4
+   }
+  ],
+  "Departamentos": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 3929,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 3071,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 9740,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 15460,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 11781,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 11597,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 8453,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 14735,
+    "leads": 2
+   }
+  ],
+  "La Reina": [
+   {
+    "fecha": "2026-11-01",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-02",
+    "gasto": 0,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-03",
+    "gasto": 2003,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-04",
+    "gasto": 2119,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-05",
+    "gasto": 2467,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-06",
+    "gasto": 2634,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-07",
+    "gasto": 2279,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-11-08",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-11-09",
+    "gasto": 3855,
+    "leads": 0
+   }
+  ]
+ },
  "organico": {
   "estado": "cargado",
   "fuente": "CONTACTOS CYM-NOVIEMBRE.xlsx (CyM), hoja Noviembre",

@@ -277,7 +277,9 @@
    "gasto_whatsapp": 442637,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 6117
+   "cpl_mes_anterior": 6117,
+   "leads_mes_anterior": 68,
+   "gasto_mes_anterior": 415985
   },
   {
    "gasto": 426121,
@@ -292,7 +294,9 @@
    "gasto_whatsapp": 408633,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 4296
+   "cpl_mes_anterior": 4296,
+   "leads_mes_anterior": 101,
+   "gasto_mes_anterior": 433944
   },
   {
    "gasto": 289297,
@@ -307,7 +311,9 @@
    "gasto_whatsapp": 286300,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3331
+   "cpl_mes_anterior": 3331,
+   "leads_mes_anterior": 87,
+   "gasto_mes_anterior": 289794
   },
   {
    "gasto": 274832,
@@ -322,7 +328,9 @@
    "gasto_whatsapp": 271846,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 4225
+   "cpl_mes_anterior": 4225,
+   "leads_mes_anterior": 63,
+   "gasto_mes_anterior": 266206
   },
   {
    "gasto": 252973,
@@ -337,7 +345,9 @@
    "gasto_whatsapp": 249942,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3967
+   "cpl_mes_anterior": 3967,
+   "leads_mes_anterior": 70,
+   "gasto_mes_anterior": 277656
   },
   {
    "gasto": 138947,
@@ -352,7 +362,9 @@
    "gasto_whatsapp": 138947,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3602
+   "cpl_mes_anterior": 3602,
+   "leads_mes_anterior": 20,
+   "gasto_mes_anterior": 72046
   }
  ],
  "directores_por_comuna": [
@@ -1150,6 +1162,950 @@
    "leads": 11
   }
  ],
+ "serie_por_comuna": {
+  "Las Condes": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 9211,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 9084,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 6799,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 8777,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 7628,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 13261,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 10712,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 12201,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 11475,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 7166,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 3796,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 10459,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 14793,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 11275,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 10003,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 10772,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 5032,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 3936,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 12198,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 13539,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 11008,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 9425,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 12265,
+    "leads": 9
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 8287,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 10697,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 13798,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 11739,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 9770,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 8282,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 1909,
+    "leads": 0
+   }
+  ],
+  "SCA": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 8655,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 9353,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 6696,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 9427,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 12578,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 10949,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 11724,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 9941,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 6930,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 10417,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 13808,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 11071,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 8833,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 11769,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 5677,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 11447,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 13321,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 11372,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 10270,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 11268,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 5555,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 10185,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 9731,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 8659,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 6768,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 4579,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 1990,
+    "leads": 1
+   }
+  ],
+  "Vitacura": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 14861,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 14990,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 11668,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 3563,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 14457,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 19987,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 16644,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 17659,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 16753,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 11627,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 3549,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 16950,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 7444,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 20625,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 16850,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 18696,
+    "leads": 8
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 10243,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 16243,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 18940,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 12282,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 10683,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 15732,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 12097,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 20110,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 22094,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 18205,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 15705,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 17752,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 9712,
+    "leads": 6
+   }
+  ],
+  "La Dehesa": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 13194,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 14220,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 10991,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 19612,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 13088,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 17243,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 14563,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 15008,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 12723,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 8486,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 20395,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 12722,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 19087,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 14184,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 12591,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 15557,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 6239,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 22968,
+    "leads": 13
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 12414,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 20518,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 15965,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 13430,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 16801,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 9838,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 22870,
+    "leads": 10
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 13767,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 18661,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 16018,
+    "leads": 9
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 12439,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 8274,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 1882,
+    "leads": 4
+   }
+  ],
+  "Departamentos": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 11044,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 9578,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 4713,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 10013,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 13374,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 11951,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 12611,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 9488,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 4112,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 10937,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 13361,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 12167,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 10522,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 10441,
+    "leads": 8
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 4134,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 0,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 13055,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 13846,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 12388,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 10837,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 11706,
+    "leads": 8
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 6140,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 11695,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 14527,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 12521,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 10318,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 7227,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 2126,
+    "leads": 0
+   }
+  ],
+  "La Reina": [
+   {
+    "fecha": "2026-10-01",
+    "gasto": 4313,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-02",
+    "gasto": 5552,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-03",
+    "gasto": 4185,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-04",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-05",
+    "gasto": 5677,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-06",
+    "gasto": 6460,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-07",
+    "gasto": 5845,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-08",
+    "gasto": 5837,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-09",
+    "gasto": 4811,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-10",
+    "gasto": 4236,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-11",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-12",
+    "gasto": 5825,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-13",
+    "gasto": 6985,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-14",
+    "gasto": 5929,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-15",
+    "gasto": 4830,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-16",
+    "gasto": 6133,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-17",
+    "gasto": 3185,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-18",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-19",
+    "gasto": 4950,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-20",
+    "gasto": 7258,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-10-21",
+    "gasto": 6135,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-22",
+    "gasto": 5981,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-23",
+    "gasto": 4855,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-10-24",
+    "gasto": 3650,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-25",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-10-26",
+    "gasto": 6496,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-10-27",
+    "gasto": 6713,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-28",
+    "gasto": 5362,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-10-29",
+    "gasto": 4750,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-30",
+    "gasto": 2994,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-10-31",
+    "gasto": 0,
+    "leads": 0
+   }
+  ]
+ },
  "organico": {
   "estado": "cargado",
   "fuente": "CONTACTOS CYM-OCTUBRE.xlsx (CyM), hoja Octubre",

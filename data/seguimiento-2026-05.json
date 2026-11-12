@@ -129,7 +129,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   },
   {
    "gasto": 69197,
@@ -144,7 +146,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   },
   {
    "gasto": 57934,
@@ -159,7 +163,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   },
   {
    "gasto": 56906,
@@ -174,7 +180,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   },
   {
    "gasto": 56616,
@@ -189,7 +197,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   },
   {
    "gasto": 56425,
@@ -204,7 +214,9 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": null
+   "cpl_mes_anterior": null,
+   "leads_mes_anterior": null,
+   "gasto_mes_anterior": null
   }
  ],
  "directores_por_comuna": [],
@@ -561,6 +573,530 @@
    "leads": 13
   }
  ],
+ "serie_por_comuna": {
+  "SCA": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 2584,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 3212,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 5891,
+    "leads": 9
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 2769,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 4282,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 4062,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 4273,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 4461,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 3425,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 4927,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 4197,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 3739,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 3558,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 4819,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 4602,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 3293,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 5189,
+    "leads": 2
+   }
+  ],
+  "Vitacura": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 2436,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 3091,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 5591,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 3641,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 4403,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 4290,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 4331,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 3534,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 3333,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 5066,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 3949,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 4842,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 5785,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 3528,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 3016,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 2956,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 5405,
+    "leads": 2
+   }
+  ],
+  "La Dehesa": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 3939,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 4155,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 3714,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 4503,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 3779,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 3000,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 4857,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 3752,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 4277,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 4634,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 4635,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 4135,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 2842,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 4203,
+    "leads": 1
+   }
+  ],
+  "La Reina": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 4323,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 6531,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 3327,
+    "leads": 9
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 3230,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 2446,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 3088,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 5056,
+    "leads": 10
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 3884,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 4100,
+    "leads": 8
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 4481,
+    "leads": 9
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 3858,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 4215,
+    "leads": 7
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 3573,
+    "leads": 6
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 4794,
+    "leads": 4
+   }
+  ],
+  "Las Condes": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 3846,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 5497,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 3583,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 3887,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 3512,
+    "leads": 4
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 2417,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 5063,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 3653,
+    "leads": 3
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 2910,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 5275,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 5376,
+    "leads": 5
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 3813,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 3057,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 4727,
+    "leads": 3
+   }
+  ],
+  "Departamentos": [
+   {
+    "fecha": "2026-05-15",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-16",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-17",
+    "gasto": 0,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-18",
+    "gasto": 3403,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-19",
+    "gasto": 4618,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-20",
+    "gasto": 4073,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-21",
+    "gasto": 3782,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-22",
+    "gasto": 4027,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-23",
+    "gasto": 2645,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-24",
+    "gasto": 5053,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-25",
+    "gasto": 5136,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-26",
+    "gasto": 3837,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-27",
+    "gasto": 4330,
+    "leads": 2
+   },
+   {
+    "fecha": "2026-05-28",
+    "gasto": 4510,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-29",
+    "gasto": 3548,
+    "leads": 0
+   },
+   {
+    "fecha": "2026-05-30",
+    "gasto": 2701,
+    "leads": 1
+   },
+   {
+    "fecha": "2026-05-31",
+    "gasto": 6271,
+    "leads": 1
+   }
+  ]
+ },
  "organico": {
   "estado": "pendiente",
   "nota": "Pendiente lista orgánica de mayo (la manda CyM los lunes)."
