@@ -3170,11 +3170,11 @@
    },
    {
     "comuna": "Vitacura",
-    "total": 26,
+    "total": 25,
     "con_contacto": 13,
-    "sin_contacto": 13,
-    "pct_contacto": 50,
-    "casas": 13,
+    "sin_contacto": 12,
+    "pct_contacto": 52,
+    "casas": 12,
     "deptos": 0,
     "otros": 13,
     "top_codigos": [
@@ -3266,20 +3266,20 @@
    },
    {
     "comuna": "Los Dominicos",
-    "total": 3,
-    "con_contacto": 2,
+    "total": 2,
+    "con_contacto": 1,
     "sin_contacto": 1,
-    "pct_contacto": 67,
-    "casas": 3,
+    "pct_contacto": 50,
+    "casas": 2,
     "deptos": 0,
     "otros": 0,
     "top_codigos": [
      {
-      "codigo": "6014",
-      "n": 2
+      "codigo": "6041",
+      "n": 1
      },
      {
-      "codigo": "6041",
+      "codigo": "6014",
       "n": 1
      }
     ]
@@ -3299,9 +3299,9 @@
   "por_tipo": [
    {
     "tipo": "Casa",
-    "total": 38,
-    "con_contacto": 22,
-    "sin_contacto": 16,
+    "total": 36,
+    "con_contacto": 21,
+    "sin_contacto": 15,
     "pct_contacto": 58
    },
    {
@@ -3319,9 +3319,9 @@
     "pct_contacto": 42
    }
   ],
-  "total": 137,
-  "con_contacto": 66,
-  "sin_contacto": 71,
+  "total": 135,
+  "con_contacto": 65,
+  "sin_contacto": 70,
   "pct_contacto": 48,
   "top_codigos": [
    {
@@ -3333,11 +3333,11 @@
     "n": 7
    },
    {
-    "codigo": "6014",
-    "n": 6
+    "codigo": "5730",
+    "n": 5
    },
    {
-    "codigo": "5730",
+    "codigo": "6014",
     "n": 5
    },
    {
