@@ -39,7 +39,7 @@ const CONV = () => process.env.SUPABASE_URL + '/rest/v1/meta_conversaciones';
 // A los demás les responden las automatizaciones de Business Suite.
 function botAtiende(contacto) {
   const modo = process.env.META_BOT_ACTIVO;
-  if (modo === 'todos') return true;
+  // 16 nov 2026 (Christopher: "SACALA"): el orgánico no lleva respuestas automáticas; 'todos' queda desactivado
   if (modo === 'prueba') return (process.env.META_BOT_PRUEBA || '').split(',').map(x => x.trim()).includes(contacto);
   return false;
 }
