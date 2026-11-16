@@ -210,7 +210,7 @@ export default async function handler(req, res) {
         try { await enviaChat(l.contacto_id, insiste); d.insistencias = (d.insistencias || 0) + 1; d.insiste_en = ahora; resumen.insistencias = (resumen.insistencias || 0) + 1; }
         catch (e) { d.insiste_fallos = (d.insiste_fallos || 0) + 1; errores.push(e.message); }
       }
-      if (process.env.META_CONTESTA === '1' && !prueba_ && estado !== 'humano') for (const m of comentariosPorContestar(d, l.mensajes, ahora)) {
+      if (process.env.META_CONTESTA_COMENTARIOS === '1' && !prueba_ && estado !== 'humano') for (const m of comentariosPorContestar(d, l.mensajes, ahora)) {
         if (contestados >= MAX_RESPUESTAS || d.contesta_fallos >= 3) break;
         try { await contestaComentario(l.plataforma, m.id, RESPUESTA_COMENTARIO(d.codigo)); d.contestados = [...(d.contestados || []), m.id]; contestados++; resumen.contestados = contestados; }
         catch (e) { d.contesta_fallos = (d.contesta_fallos || 0) + 1; errores.push(e.message); }
