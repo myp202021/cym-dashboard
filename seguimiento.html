@@ -330,9 +330,11 @@ function render(){
     const sec=$(idK).closest('section'),c=CN[cn],k=c?(todas?c.total:c.por_comuna[C]):null;
     const camp=D.por_campana.filter(x=>x.tipo===(cn==='WhatsApp'?'WhatsApp propiedades':'Formulario propiedades')&&enC(x)&&(x.gasto>0||x.leads>0));
     if((!k||(!k.gasto&&!k.leads))&&!camp.length){sec.style.display='none';return}
-    sec.style.display='';const kk=k||{gasto:0,leads:0,cpl:null,clics:0,impresiones:0},pm=kk.mes_anterior;
+    sec.style.display='';const kk=k||{gasto:0,leads:0,cpl:null,clics:0,impresiones:0};
+    // sin comparación si el canal casi no corrió el mes anterior (ej. formulario partió el 30 oct): un % así no dice nada
+    const pm=kk.mes_anterior&&kk.mes_anterior.leads>=5&&kk.mes_anterior.gasto>=kk.gasto*0.2?kk.mes_anterior:null;
     $(idK).innerHTML=[
-      ['Gasto',clp(kk.gasto),pm?`${comp}: ${clp(pm.gasto)}`+delta(kk.gasto,pm.gasto):'sin mes anterior'],
+      ['Gasto',clp(kk.gasto),pm?`${comp}: ${clp(pm.gasto)}`+delta(kk.gasto,pm.gasto):`sin base comparable en ${P.nombre}`],
       [unidad,num(kk.leads),pm?`${comp}: ${num(pm.leads)}`+delta(kk.leads,pm.leads):'—'],
       ['Costo por lead',clp(kk.cpl),pm&&pm.cpl?`${P.nombre}: ${clp(pm.cpl)}`+delta(kk.cpl,pm.cpl,true):'—'],
       ['Clics',num(kk.clics),`${num(kk.impresiones)} impresiones`]
