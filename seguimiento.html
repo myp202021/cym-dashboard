@@ -164,7 +164,7 @@ td.rev{background:#fff7d6}
     <div class="kpis k4" id="kpis-form"></div>
     <div class="chart" id="chart-form"></div>
     <div class="tw" id="t-camp-form"></div>
-    <div id="sec-form" style="display:none;margin-top:14px"><h3 style="margin:8px 0 4px">Leads de formulario recibidos</h3><div class="sub" id="form-dest" style="margin:0 0 6px"></div><div class="tw" id="t-form"></div></div>
+    <div id="sec-form" style="display:none;margin-top:14px"><h3 style="margin:8px 0 4px">Leads de formulario recibidos</h3><div class="tabs" id="f-form" style="margin:0 0 6px"></div><div class="sub" id="form-dest" style="margin:0 0 6px"></div><div class="tw" id="t-form"></div></div>
   </section>
 
   <section class="canal-blq" id="blq-wa"><h2><span class="canal wa">WhatsApp</span> Campañas de WhatsApp</h2>
@@ -601,8 +601,11 @@ const limpia=t=>t.replace(/_/g,' ');
 const DEST={'Vitacura':'Alejandro Ceballos','La Dehesa':'María Eugenia Olave','Las Condes':'Anita Hernández','SCA':'Benjamín Ceballos','La Reina':'James Robeson','Deptos':'Caro Paoletti'};
 async function pinta(){const mes=document.getElementById('mes').value;const sec=document.getElementById('sec-form');if(!mes||mes<'2026-10'){sec.style.display='none';return}sec.style.display='';const el=document.getElementById('t-form'),de=document.getElementById('form-dest');try{if(!LEADS){el.textContent='Cargando…';LEADS=await bajar()}
   // 16 nov 2026: sigue la comuna elegida arriba (todas las comunas tienen formulario desde el 30 oct)
-  const PC=window.PCOM||'Todas',FCm=PC==='Departamentos'?'Deptos':PC;const FCOMS=(window.FORM_COMS||[]).map(c=>c==='Departamentos'?'Deptos':c);const M=LEADS.filter(x=>x.fecha.startsWith(mes)&&(!FCOMS.length||FCOMS.includes(x.comuna)||x.comuna===FCm));const L=FCm==='Todas'?M:M.filter(x=>x.comuna===FCm);
+  const PC=window.PCOM||'Todas';if(window.__pcAnt!==PC){window.FCL=PC;window.__pcAnt=PC}const FCm=(window.FCL||'Todas')==='Departamentos'?'Deptos':(window.FCL||'Todas');const FCOMS=(window.FORM_COMS||[]).map(c=>c==='Departamentos'?'Deptos':c);const M=LEADS.filter(x=>x.fecha.startsWith(mes)&&(!FCOMS.length||FCOMS.includes(x.comuna)||x.comuna===FCm));const L=FCm==='Todas'?M:M.filter(x=>x.comuna===FCm);
   const cnt={};M.forEach(x=>cnt[x.comuna]=(cnt[x.comuna]||0)+1);
+  const nom=c=>c==='Deptos'?'Departamentos':c;const tb=document.getElementById('f-form');
+  tb.innerHTML=['Todas',...Object.keys(cnt)].map(c=>`<button class="${(c==='Todas'?FCm==='Todas':c===FCm)?'on':''}" data-c="${nom(c)}">${c==='Todas'?'Todas':esc(nom(c))} (${c==='Todas'?M.length:cnt[c]})</button>`).join('');
+  tb.querySelectorAll('button').forEach(b=>b.onclick=()=>{window.FCL=b.dataset.c;pinta()});
   de.innerHTML=FCm==='Todas'?`${M.length} lead${M.length===1?'':'s'} este mes · `+Object.entries(cnt).map(([c,n])=>`${esc(c==='Deptos'?'Departamentos':c)} ${n}`).join(' · ')+' · cada uno le llega por correo al director de su comuna (copia a M&amp;P)':`${L.length} lead${L.length===1?'':'s'} este mes · le llegan por correo a <b>${esc(DEST[FCm]||'contacto CyM')}</b> (copia a M&amp;P)`;
   el.innerHTML=L.length?`<table><thead><tr><th style="text-align:left">Fecha</th><th style="text-align:left">Comuna</th><th style="text-align:left">Código</th><th style="text-align:left">Nombre</th><th style="text-align:left">Teléfono</th><th style="text-align:left">Correo</th><th style="text-align:left">Busca</th><th style="text-align:left">Interés</th><th style="text-align:left">Financiamiento</th><th style="text-align:left">Plazo</th></tr></thead><tbody>${L.map(x=>`<tr>${[x.fecha.slice(0,16).replace('T',' '),x.comuna==='Deptos'?'Departamentos':x.comuna,x.cod,x.nombre,x.tel,x.email,limpia(x.busca),limpia(x.interes),limpia(x.fin),limpia(x.plazo)].map(v=>`<td style="text-align:left">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`:'Sin leads de formulario este mes en esta comuna.'}catch(e){el.textContent='No se pudo leer la planilla: '+e.message}}
 window.__formPinta=pinta;
