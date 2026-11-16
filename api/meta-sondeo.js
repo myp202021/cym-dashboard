@@ -204,7 +204,8 @@ export default async function handler(req, res) {
         d.avisado = true;
         d.avisado_tel = true;
       }
-      const insiste = !prueba_ && l.plataforma === 'messenger' && estado !== 'humano' ? decideInsistencia(d, l.mensajes, ahora) : null;
+      // 16 nov 2026 (Christopher: "SACALA"): sin respuestas automáticas en el orgánico. Solo vuelve con META_INSISTE=1
+      const insiste = process.env.META_INSISTE === '1' && !prueba_ && l.plataforma === 'messenger' && estado !== 'humano' ? decideInsistencia(d, l.mensajes, ahora) : null;
       if (insiste) {
         try { await enviaChat(l.contacto_id, insiste); d.insistencias = (d.insistencias || 0) + 1; d.insiste_en = ahora; resumen.insistencias = (resumen.insistencias || 0) + 1; }
         catch (e) { d.insiste_fallos = (d.insiste_fallos || 0) + 1; errores.push(e.message); }
