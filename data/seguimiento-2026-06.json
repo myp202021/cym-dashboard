@@ -9,12 +9,12 @@
  "completo": true,
  "kpi": {
   "gasto": 1713214,
-  "leads": 402,
-  "conv_wa": 30,
+  "leads": 372,
+  "conv_wa": 0,
   "leads_form": 372,
   "impresiones": 373575,
   "clics": 12125,
-  "cpl": 4262,
+  "cpl": 4605,
   "gasto_total": 1736431,
   "directores": {
    "gasto": 0,
@@ -26,10 +26,10 @@
  "mes_anterior": {
   "nombre": "mayo",
   "gasto": 366361,
-  "leads": 232,
-  "cpl": 1579,
+  "leads": 224,
+  "cpl": 1636,
   "gasto_mes": 366361,
-  "leads_mes": 232,
+  "leads_mes": 224,
   "dias_mes": 31
  },
  "alertas": {
@@ -40,26 +40,26 @@
  "por_campana": [
   {
    "gasto": 254089,
-   "leads": 52,
-   "conv_wa": 6,
+   "leads": 46,
+   "conv_wa": 0,
    "leads_form": 46,
    "impresiones": 60491,
    "clics": 1832,
-   "cpl": 4886,
+   "cpl": 5524,
    "campana": "Clientes potenciales - Vitacura",
    "comuna": "Vitacura",
    "tipo": "Formulario propiedades",
    "anuncios": 6,
-   "cpl_mes_anterior": 3844
+   "cpl_mes_anterior": 4070
   },
   {
    "gasto": 205825,
-   "leads": 39,
-   "conv_wa": 3,
+   "leads": 36,
+   "conv_wa": 0,
    "leads_form": 36,
    "impresiones": 43592,
    "clics": 1202,
-   "cpl": 5278,
+   "cpl": 5717,
    "campana": "Clientes potenciales - La Dehesa",
    "comuna": "La Dehesa",
    "tipo": "Formulario propiedades",
@@ -68,12 +68,12 @@
   },
   {
    "gasto": 190332,
-   "leads": 27,
-   "conv_wa": 2,
+   "leads": 25,
+   "conv_wa": 0,
    "leads_form": 25,
    "impresiones": 24708,
    "clics": 771,
-   "cpl": 7049,
+   "cpl": 7613,
    "campana": "Clientes potenciales - Departamentos",
    "comuna": "Departamentos",
    "tipo": "Formulario propiedades",
@@ -82,12 +82,12 @@
   },
   {
    "gasto": 164275,
-   "leads": 33,
-   "conv_wa": 3,
+   "leads": 30,
+   "conv_wa": 0,
    "leads_form": 30,
    "impresiones": 42418,
    "clics": 1338,
-   "cpl": 4978,
+   "cpl": 5476,
    "campana": "Clientes potenciales - Vitacura / Modificado",
    "comuna": "Vitacura",
    "tipo": "Formulario propiedades",
@@ -96,40 +96,40 @@
   },
   {
    "gasto": 156843,
-   "leads": 28,
-   "conv_wa": 1,
+   "leads": 27,
+   "conv_wa": 0,
    "leads_form": 27,
    "impresiones": 31852,
    "clics": 888,
-   "cpl": 5602,
+   "cpl": 5809,
    "campana": "Clientes potenciales - SCA",
    "comuna": "SCA",
    "tipo": "Formulario propiedades",
    "anuncios": 5,
-   "cpl_mes_anterior": 1575
+   "cpl_mes_anterior": 1650
   },
   {
    "gasto": 152872,
-   "leads": 55,
-   "conv_wa": 6,
+   "leads": 49,
+   "conv_wa": 0,
    "leads_form": 49,
    "impresiones": 31917,
    "clics": 1132,
-   "cpl": 2779,
+   "cpl": 3120,
    "campana": "Clientes potenciales - Las Condes",
    "comuna": "Las Condes",
    "tipo": "Formulario propiedades",
    "anuncios": 5,
-   "cpl_mes_anterior": 1317
+   "cpl_mes_anterior": 1452
   },
   {
    "gasto": 152215,
-   "leads": 20,
-   "conv_wa": 1,
+   "leads": 19,
+   "conv_wa": 0,
    "leads_form": 19,
    "impresiones": 36909,
    "clics": 963,
-   "cpl": 7611,
+   "cpl": 8011,
    "campana": "Clientes potenciales - La Dehesa / Modificado",
    "comuna": "La Dehesa",
    "tipo": "Formulario propiedades",
@@ -138,12 +138,12 @@
   },
   {
    "gasto": 136809,
-   "leads": 18,
-   "conv_wa": 1,
+   "leads": 17,
+   "conv_wa": 0,
    "leads_form": 17,
    "impresiones": 27720,
    "clics": 835,
-   "cpl": 7600,
+   "cpl": 8048,
    "campana": "Clientes potenciales - SCA / Modificado",
    "comuna": "SCA",
    "tipo": "Formulario propiedades",
@@ -152,12 +152,12 @@
   },
   {
    "gasto": 106421,
-   "leads": 29,
-   "conv_wa": 6,
+   "leads": 23,
+   "conv_wa": 0,
    "leads_form": 23,
    "impresiones": 18146,
    "clics": 809,
-   "cpl": 3670,
+   "cpl": 4627,
    "campana": "Clientes potenciales - Las Condes / Modificado",
    "comuna": "Las Condes",
    "tipo": "Formulario propiedades",
@@ -180,12 +180,12 @@
   },
   {
    "gasto": 68434,
-   "leads": 33,
-   "conv_wa": 1,
+   "leads": 32,
+   "conv_wa": 0,
    "leads_form": 32,
    "impresiones": 11653,
    "clics": 498,
-   "cpl": 2074,
+   "cpl": 2139,
    "campana": "Clientes potenciales - Departamentos / Modificación",
    "comuna": "Departamentos",
    "tipo": "Formulario propiedades",
@@ -204,7 +204,7 @@
    "comuna": "La Reina",
    "tipo": "Formulario propiedades",
    "anuncios": 3,
-   "cpl_mes_anterior": 632
+   "cpl_mes_anterior": 639
   },
   {
    "gasto": 23217,
@@ -224,29 +224,29 @@
  "por_comuna": [
   {
    "gasto": 418364,
-   "leads": 85,
-   "conv_wa": 9,
+   "leads": 76,
+   "conv_wa": 0,
    "leads_form": 76,
    "impresiones": 102909,
    "clics": 3170,
-   "cpl": 4922,
+   "cpl": 5505,
    "comuna": "Vitacura",
    "anuncios": 10,
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 3844,
-   "leads_mes_anterior": 18,
+   "cpl_mes_anterior": 4070,
+   "leads_mes_anterior": 17,
    "gasto_mes_anterior": 69197
   },
   {
    "gasto": 358040,
-   "leads": 59,
-   "conv_wa": 4,
+   "leads": 55,
+   "conv_wa": 0,
    "leads_form": 55,
    "impresiones": 80501,
    "clics": 2165,
-   "cpl": 6068,
+   "cpl": 6510,
    "comuna": "La Dehesa",
    "anuncios": 9,
    "gasto_whatsapp": 0,
@@ -258,46 +258,46 @@
   },
   {
    "gasto": 293652,
-   "leads": 46,
-   "conv_wa": 2,
+   "leads": 44,
+   "conv_wa": 0,
    "leads_form": 44,
    "impresiones": 59572,
    "clics": 1723,
-   "cpl": 6384,
+   "cpl": 6674,
    "comuna": "SCA",
    "anuncios": 8,
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 1575,
-   "leads_mes_anterior": 44,
+   "cpl_mes_anterior": 1650,
+   "leads_mes_anterior": 42,
    "gasto_mes_anterior": 69283
   },
   {
    "gasto": 259293,
-   "leads": 84,
-   "conv_wa": 12,
+   "leads": 72,
+   "conv_wa": 0,
    "leads_form": 72,
    "impresiones": 50063,
    "clics": 1941,
-   "cpl": 3087,
+   "cpl": 3601,
    "comuna": "Las Condes",
    "anuncios": 8,
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 1317,
-   "leads_mes_anterior": 43,
+   "cpl_mes_anterior": 1452,
+   "leads_mes_anterior": 39,
    "gasto_mes_anterior": 56616
   },
   {
    "gasto": 258766,
-   "leads": 60,
-   "conv_wa": 3,
+   "leads": 57,
+   "conv_wa": 0,
    "leads_form": 57,
    "impresiones": 36361,
    "clics": 1269,
-   "cpl": 4313,
+   "cpl": 4540,
    "comuna": "Departamentos",
    "anuncios": 6,
    "gasto_whatsapp": 0,
@@ -320,8 +320,8 @@
    "gasto_whatsapp": 0,
    "gasto_director": 0,
    "gasto_otros": 0,
-   "cpl_mes_anterior": 632,
-   "leads_mes_anterior": 90,
+   "cpl_mes_anterior": 639,
+   "leads_mes_anterior": 89,
    "gasto_mes_anterior": 56906
   }
  ],
@@ -329,25 +329,27 @@
  "por_codigo": [
   {
    "gasto": 140204,
-   "leads": 19,
-   "conv_wa": 2,
+   "leads": 17,
+   "conv_wa": 0,
    "leads_form": 17,
    "impresiones": 20402,
    "clics": 578,
-   "cpl": 7379,
+   "cpl": 8247,
    "codigo": "5600",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 122976,
-   "leads": 30,
-   "conv_wa": 4,
+   "leads": 26,
+   "conv_wa": 0,
    "leads_form": 26,
    "impresiones": 34717,
    "clics": 1097,
-   "cpl": 4099,
+   "cpl": 4730,
    "codigo": "5609",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 113683,
@@ -358,29 +360,32 @@
    "clics": 727,
    "cpl": 7579,
    "codigo": "5689",
-   "comuna": "SCA"
+   "comuna": "SCA",
+   "canal": "Formulario"
   },
   {
    "gasto": 95429,
-   "leads": 14,
-   "conv_wa": 3,
+   "leads": 11,
+   "conv_wa": 0,
    "leads_form": 11,
    "impresiones": 17927,
    "clics": 392,
-   "cpl": 6816,
+   "cpl": 8675,
    "codigo": "5677",
-   "comuna": "La Dehesa"
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
   },
   {
    "gasto": 90487,
-   "leads": 24,
-   "conv_wa": 1,
+   "leads": 23,
+   "conv_wa": 0,
    "leads_form": 23,
    "impresiones": 19605,
    "clics": 670,
-   "cpl": 3770,
+   "cpl": 3934,
    "codigo": "5671",
-   "comuna": "La Dehesa"
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
   },
   {
    "gasto": 85349,
@@ -391,7 +396,8 @@
    "clics": 678,
    "cpl": 6565,
    "codigo": "5649",
-   "comuna": "La Dehesa"
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
   },
   {
    "gasto": 81390,
@@ -402,18 +408,20 @@
    "clics": 439,
    "cpl": 13565,
    "codigo": "5610",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 75086,
-   "leads": 26,
-   "conv_wa": 4,
+   "leads": 22,
+   "conv_wa": 0,
    "leads_form": 22,
    "impresiones": 12917,
    "clics": 476,
-   "cpl": 2888,
+   "cpl": 3413,
    "codigo": "5375",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 72494,
@@ -424,7 +432,8 @@
    "clics": 405,
    "cpl": 4531,
    "codigo": "5533",
-   "comuna": "SCA"
+   "comuna": "SCA",
+   "canal": "Formulario"
   },
   {
    "gasto": 63265,
@@ -435,51 +444,56 @@
    "clics": 304,
    "cpl": 6326,
    "codigo": "5635",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 55071,
-   "leads": 7,
-   "conv_wa": 1,
+   "leads": 6,
+   "conv_wa": 0,
    "leads_form": 6,
    "impresiones": 11686,
    "clics": 333,
-   "cpl": 7867,
+   "cpl": 9178,
    "codigo": "5412",
-   "comuna": "SCA"
+   "comuna": "SCA",
+   "canal": "Formulario"
   },
   {
    "gasto": 54647,
-   "leads": 16,
-   "conv_wa": 3,
+   "leads": 13,
+   "conv_wa": 0,
    "leads_form": 13,
    "impresiones": 13065,
    "clics": 505,
-   "cpl": 3415,
+   "cpl": 4204,
    "codigo": "5240",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 51917,
-   "leads": 8,
-   "conv_wa": 1,
+   "leads": 7,
+   "conv_wa": 0,
    "leads_form": 7,
    "impresiones": 9163,
    "clics": 257,
-   "cpl": 6490,
+   "cpl": 7417,
    "codigo": "5219",
-   "comuna": "SCA"
+   "comuna": "SCA",
+   "canal": "Formulario"
   },
   {
    "gasto": 51285,
-   "leads": 20,
-   "conv_wa": 2,
+   "leads": 18,
+   "conv_wa": 0,
    "leads_form": 18,
    "impresiones": 15334,
    "clics": 566,
-   "cpl": 2564,
+   "cpl": 2849,
    "codigo": "5256",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 48950,
@@ -490,7 +504,8 @@
    "clics": 187,
    "cpl": 6119,
    "codigo": "5488",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 44421,
@@ -501,7 +516,8 @@
    "clics": 258,
    "cpl": 7404,
    "codigo": "5634",
-   "comuna": "La Dehesa"
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
   },
   {
    "gasto": 42354,
@@ -512,7 +528,8 @@
    "clics": 167,
    "cpl": 21177,
    "codigo": "5660",
-   "comuna": "La Dehesa"
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
   },
   {
    "gasto": 41400,
@@ -523,29 +540,32 @@
    "clics": 244,
    "cpl": 13800,
    "codigo": "5697",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 38920,
-   "leads": 7,
-   "conv_wa": 2,
+   "leads": 5,
+   "conv_wa": 0,
    "leads_form": 5,
    "impresiones": 3332,
    "clics": 102,
-   "cpl": 5560,
+   "cpl": 7784,
    "codigo": "5527",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 38859,
-   "leads": 17,
-   "conv_wa": 1,
+   "leads": 16,
+   "conv_wa": 0,
    "leads_form": 16,
    "impresiones": 10616,
    "clics": 363,
-   "cpl": 2286,
+   "cpl": 2429,
    "codigo": "5664",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 36653,
@@ -556,18 +576,20 @@
    "clics": 313,
    "cpl": 5236,
    "codigo": "5436",
-   "comuna": "La Reina"
+   "comuna": "La Reina",
+   "canal": "Formulario"
   },
   {
    "gasto": 36258,
-   "leads": 10,
-   "conv_wa": 1,
+   "leads": 9,
+   "conv_wa": 0,
    "leads_form": 9,
    "impresiones": 7964,
    "clics": 279,
-   "cpl": 3626,
+   "cpl": 4029,
    "codigo": "5505",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 36140,
@@ -578,18 +600,20 @@
    "clics": 707,
    "cpl": 1291,
    "codigo": "5435",
-   "comuna": "La Reina"
+   "comuna": "La Reina",
+   "canal": "Formulario"
   },
   {
    "gasto": 35515,
-   "leads": 12,
-   "conv_wa": 2,
+   "leads": 10,
+   "conv_wa": 0,
    "leads_form": 10,
    "impresiones": 9031,
    "clics": 383,
-   "cpl": 2960,
+   "cpl": 3552,
    "codigo": "5562",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 35097,
@@ -600,18 +624,20 @@
    "clics": 481,
    "cpl": 1950,
    "codigo": "5452",
-   "comuna": "La Reina"
+   "comuna": "La Reina",
+   "canal": "Formulario"
   },
   {
    "gasto": 34655,
-   "leads": 12,
-   "conv_wa": 2,
+   "leads": 10,
+   "conv_wa": 0,
    "leads_form": 10,
    "impresiones": 6203,
    "clics": 338,
-   "cpl": 2888,
+   "cpl": 3466,
    "codigo": "5693",
-   "comuna": "Las Condes"
+   "comuna": "Las Condes",
+   "canal": "Formulario"
   },
   {
    "gasto": 33370,
@@ -622,18 +648,20 @@
    "clics": 194,
    "cpl": 4767,
    "codigo": "5382",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 21165,
-   "leads": 18,
-   "conv_wa": 1,
+   "leads": 17,
+   "conv_wa": 0,
    "leads_form": 17,
    "impresiones": 3654,
    "clics": 196,
-   "cpl": 1176,
+   "cpl": 1245,
    "codigo": "5735",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 16528,
@@ -644,7 +672,8 @@
    "clics": 347,
    "cpl": 1181,
    "codigo": "5397",
-   "comuna": "La Reina"
+   "comuna": "La Reina",
+   "canal": "Formulario"
   },
   {
    "gasto": 13899,
@@ -655,7 +684,8 @@
    "clics": 108,
    "cpl": 1737,
    "codigo": "5489",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 3401,
@@ -666,7 +696,8 @@
    "clics": 15,
    "cpl": null,
    "codigo": "5513",
-   "comuna": "Vitacura"
+   "comuna": "Vitacura",
+   "canal": "Formulario"
   },
   {
    "gasto": 1178,
@@ -677,7 +708,8 @@
    "clics": 6,
    "cpl": null,
    "codigo": "5580",
-   "comuna": "Departamentos"
+   "comuna": "Departamentos",
+   "canal": "Formulario"
   },
   {
    "gasto": 681,
@@ -688,7 +720,8 @@
    "clics": 9,
    "cpl": 681,
    "codigo": "5450",
-   "comuna": "La Reina"
+   "comuna": "La Reina",
+   "canal": "Formulario"
   },
   {
    "gasto": 487,
@@ -699,9 +732,1590 @@
    "clics": 1,
    "cpl": null,
    "codigo": "5645",
-   "comuna": "SCA"
+   "comuna": "SCA",
+   "canal": "Formulario"
   }
  ],
+ "por_codigo_canal": [
+  {
+   "gasto": 140204,
+   "leads": 17,
+   "conv_wa": 0,
+   "leads_form": 17,
+   "impresiones": 20402,
+   "clics": 578,
+   "cpl": 8247,
+   "codigo": "5600",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 122976,
+   "leads": 26,
+   "conv_wa": 0,
+   "leads_form": 26,
+   "impresiones": 34717,
+   "clics": 1097,
+   "cpl": 4730,
+   "codigo": "5609",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 113683,
+   "leads": 15,
+   "conv_wa": 0,
+   "leads_form": 15,
+   "impresiones": 23705,
+   "clics": 727,
+   "cpl": 7579,
+   "codigo": "5689",
+   "comuna": "SCA",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 95429,
+   "leads": 11,
+   "conv_wa": 0,
+   "leads_form": 11,
+   "impresiones": 17927,
+   "clics": 392,
+   "cpl": 8675,
+   "codigo": "5677",
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 90487,
+   "leads": 23,
+   "conv_wa": 0,
+   "leads_form": 23,
+   "impresiones": 19605,
+   "clics": 670,
+   "cpl": 3934,
+   "codigo": "5671",
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 85349,
+   "leads": 13,
+   "conv_wa": 0,
+   "leads_form": 13,
+   "impresiones": 24698,
+   "clics": 678,
+   "cpl": 6565,
+   "codigo": "5649",
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 81390,
+   "leads": 6,
+   "conv_wa": 0,
+   "leads_form": 6,
+   "impresiones": 19319,
+   "clics": 439,
+   "cpl": 13565,
+   "codigo": "5610",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 75086,
+   "leads": 22,
+   "conv_wa": 0,
+   "leads_form": 22,
+   "impresiones": 12917,
+   "clics": 476,
+   "cpl": 3413,
+   "codigo": "5375",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 72494,
+   "leads": 16,
+   "conv_wa": 0,
+   "leads_form": 16,
+   "impresiones": 14936,
+   "clics": 405,
+   "cpl": 4531,
+   "codigo": "5533",
+   "comuna": "SCA",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 63265,
+   "leads": 10,
+   "conv_wa": 0,
+   "leads_form": 10,
+   "impresiones": 10386,
+   "clics": 304,
+   "cpl": 6326,
+   "codigo": "5635",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 55071,
+   "leads": 6,
+   "conv_wa": 0,
+   "leads_form": 6,
+   "impresiones": 11686,
+   "clics": 333,
+   "cpl": 9178,
+   "codigo": "5412",
+   "comuna": "SCA",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 54647,
+   "leads": 13,
+   "conv_wa": 0,
+   "leads_form": 13,
+   "impresiones": 13065,
+   "clics": 505,
+   "cpl": 4204,
+   "codigo": "5240",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 51917,
+   "leads": 7,
+   "conv_wa": 0,
+   "leads_form": 7,
+   "impresiones": 9163,
+   "clics": 257,
+   "cpl": 7417,
+   "codigo": "5219",
+   "comuna": "SCA",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 51285,
+   "leads": 18,
+   "conv_wa": 0,
+   "leads_form": 18,
+   "impresiones": 15334,
+   "clics": 566,
+   "cpl": 2849,
+   "codigo": "5256",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 48950,
+   "leads": 8,
+   "conv_wa": 0,
+   "leads_form": 8,
+   "impresiones": 4242,
+   "clics": 187,
+   "cpl": 6119,
+   "codigo": "5488",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 44421,
+   "leads": 6,
+   "conv_wa": 0,
+   "leads_form": 6,
+   "impresiones": 10185,
+   "clics": 258,
+   "cpl": 7404,
+   "codigo": "5634",
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 42354,
+   "leads": 2,
+   "conv_wa": 0,
+   "leads_form": 2,
+   "impresiones": 8086,
+   "clics": 167,
+   "cpl": 21177,
+   "codigo": "5660",
+   "comuna": "La Dehesa",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 41400,
+   "leads": 3,
+   "conv_wa": 0,
+   "leads_form": 3,
+   "impresiones": 9450,
+   "clics": 244,
+   "cpl": 13800,
+   "codigo": "5697",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 38920,
+   "leads": 5,
+   "conv_wa": 0,
+   "leads_form": 5,
+   "impresiones": 3332,
+   "clics": 102,
+   "cpl": 7784,
+   "codigo": "5527",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 38859,
+   "leads": 16,
+   "conv_wa": 0,
+   "leads_form": 16,
+   "impresiones": 10616,
+   "clics": 363,
+   "cpl": 2429,
+   "codigo": "5664",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 36653,
+   "leads": 7,
+   "conv_wa": 0,
+   "leads_form": 7,
+   "impresiones": 11876,
+   "clics": 313,
+   "cpl": 5236,
+   "codigo": "5436",
+   "comuna": "La Reina",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 36258,
+   "leads": 9,
+   "conv_wa": 0,
+   "leads_form": 9,
+   "impresiones": 7964,
+   "clics": 279,
+   "cpl": 4029,
+   "codigo": "5505",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 36140,
+   "leads": 28,
+   "conv_wa": 0,
+   "leads_form": 28,
+   "impresiones": 14872,
+   "clics": 707,
+   "cpl": 1291,
+   "codigo": "5435",
+   "comuna": "La Reina",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 35515,
+   "leads": 10,
+   "conv_wa": 0,
+   "leads_form": 10,
+   "impresiones": 9031,
+   "clics": 383,
+   "cpl": 3552,
+   "codigo": "5562",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 35097,
+   "leads": 18,
+   "conv_wa": 0,
+   "leads_form": 18,
+   "impresiones": 10620,
+   "clics": 481,
+   "cpl": 1950,
+   "codigo": "5452",
+   "comuna": "La Reina",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 34655,
+   "leads": 10,
+   "conv_wa": 0,
+   "leads_form": 10,
+   "impresiones": 6203,
+   "clics": 338,
+   "cpl": 3466,
+   "codigo": "5693",
+   "comuna": "Las Condes",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 33370,
+   "leads": 7,
+   "conv_wa": 0,
+   "leads_form": 7,
+   "impresiones": 5781,
+   "clics": 194,
+   "cpl": 4767,
+   "codigo": "5382",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 21165,
+   "leads": 17,
+   "conv_wa": 0,
+   "leads_form": 17,
+   "impresiones": 3654,
+   "clics": 196,
+   "cpl": 1245,
+   "codigo": "5735",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 16528,
+   "leads": 14,
+   "conv_wa": 0,
+   "leads_form": 14,
+   "impresiones": 6628,
+   "clics": 347,
+   "cpl": 1181,
+   "codigo": "5397",
+   "comuna": "La Reina",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 13899,
+   "leads": 8,
+   "conv_wa": 0,
+   "leads_form": 8,
+   "impresiones": 2218,
+   "clics": 108,
+   "cpl": 1737,
+   "codigo": "5489",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 3401,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 638,
+   "clics": 15,
+   "cpl": null,
+   "codigo": "5513",
+   "comuna": "Vitacura",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 1178,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 64,
+   "clics": 6,
+   "cpl": null,
+   "codigo": "5580",
+   "comuna": "Departamentos",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 681,
+   "leads": 1,
+   "conv_wa": 0,
+   "leads_form": 1,
+   "impresiones": 173,
+   "clics": 9,
+   "cpl": 681,
+   "codigo": "5450",
+   "comuna": "La Reina",
+   "canal": "Formulario"
+  },
+  {
+   "gasto": 487,
+   "leads": 0,
+   "conv_wa": 0,
+   "leads_form": 0,
+   "impresiones": 82,
+   "clics": 1,
+   "cpl": null,
+   "codigo": "5645",
+   "comuna": "SCA",
+   "canal": "Formulario"
+  }
+ ],
+ "canales": {
+  "Formulario": {
+   "total": {
+    "gasto": 1713214,
+    "leads": 372,
+    "conv_wa": 0,
+    "leads_form": 372,
+    "impresiones": 373575,
+    "clics": 12125,
+    "cpl": 4605,
+    "mes_anterior": {
+     "gasto": 366361,
+     "leads": 224,
+     "cpl": 1636
+    }
+   },
+   "por_comuna": {
+    "Departamentos": {
+     "gasto": 258766,
+     "leads": 57,
+     "conv_wa": 0,
+     "leads_form": 57,
+     "impresiones": 36361,
+     "clics": 1269,
+     "cpl": 4540,
+     "mes_anterior": {
+      "gasto": 57934,
+      "leads": 11,
+      "cpl": 5267
+     }
+    },
+    "La Dehesa": {
+     "gasto": 358040,
+     "leads": 55,
+     "conv_wa": 0,
+     "leads_form": 55,
+     "impresiones": 80501,
+     "clics": 2165,
+     "cpl": 6510,
+     "mes_anterior": {
+      "gasto": 56425,
+      "leads": 26,
+      "cpl": 2170
+     }
+    },
+    "La Reina": {
+     "gasto": 125099,
+     "leads": 68,
+     "conv_wa": 0,
+     "leads_form": 68,
+     "impresiones": 44169,
+     "clics": 1857,
+     "cpl": 1840,
+     "mes_anterior": {
+      "gasto": 56906,
+      "leads": 89,
+      "cpl": 639
+     }
+    },
+    "Las Condes": {
+     "gasto": 259293,
+     "leads": 72,
+     "conv_wa": 0,
+     "leads_form": 72,
+     "impresiones": 50063,
+     "clics": 1941,
+     "cpl": 3601,
+     "mes_anterior": {
+      "gasto": 56616,
+      "leads": 39,
+      "cpl": 1452
+     }
+    },
+    "SCA": {
+     "gasto": 293652,
+     "leads": 44,
+     "conv_wa": 0,
+     "leads_form": 44,
+     "impresiones": 59572,
+     "clics": 1723,
+     "cpl": 6674,
+     "mes_anterior": {
+      "gasto": 69283,
+      "leads": 42,
+      "cpl": 1650
+     }
+    },
+    "Vitacura": {
+     "gasto": 418364,
+     "leads": 76,
+     "conv_wa": 0,
+     "leads_form": 76,
+     "impresiones": 102909,
+     "clics": 3170,
+     "cpl": 5505,
+     "mes_anterior": {
+      "gasto": 69197,
+      "leads": 17,
+      "cpl": 4070
+     }
+    }
+   },
+   "serie": {
+    "Todas": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 39770,
+      "leads": 13
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 50504,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 62475,
+      "leads": 18
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 56433,
+      "leads": 15
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 52403,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 43638,
+      "leads": 12
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 65123,
+      "leads": 12
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 60488,
+      "leads": 8
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 59620,
+      "leads": 14
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 61845,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 54283,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 48042,
+      "leads": 9
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 50595,
+      "leads": 11
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 77187,
+      "leads": 11
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 58813,
+      "leads": 13
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 60410,
+      "leads": 11
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 56455,
+      "leads": 11
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 50601,
+      "leads": 17
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 62953,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 39018,
+      "leads": 9
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 69680,
+      "leads": 17
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 65453,
+      "leads": 20
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 65005,
+      "leads": 14
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 62368,
+      "leads": 13
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 51833,
+      "leads": 10
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 50506,
+      "leads": 13
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 36289,
+      "leads": 6
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 74613,
+      "leads": 17
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 68873,
+      "leads": 14
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 57938,
+      "leads": 14
+     }
+    ],
+    "SCA": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 8204,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 8644,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 8531,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 8676,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 8410,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 6710,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 10555,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 9510,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 8079,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 8677,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 7715,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 7635,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 7826,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 11621,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 8714,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 9272,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 8774,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 6603,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 12455,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 8288,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 13954,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 11830,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 13828,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 12727,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 10425,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 10765,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 6452,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 14612,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 13154,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 11006,
+      "leads": 3
+     }
+    ],
+    "Vitacura": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 9005,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 11632,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 14953,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 14439,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 13477,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 11042,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 17579,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 14316,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 17860,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 16200,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 12576,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 9453,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 12018,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 17853,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 15405,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 13086,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 14798,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 14324,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 15750,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 9698,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 15824,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 15619,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 14614,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 14924,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 12444,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 12863,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 9441,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 17309,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 16123,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 13739,
+      "leads": 3
+     }
+    ],
+    "La Dehesa": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 8524,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 9748,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 13661,
+      "leads": 8
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 10852,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 9484,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 9345,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 12043,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 12264,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 10476,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 11948,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 10394,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 11423,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 11455,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 16479,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 10337,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 15084,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 10849,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 9560,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 13065,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 8812,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 16306,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 13805,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 13291,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 13499,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 11380,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 10974,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 8748,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 16800,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 15113,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 12321,
+      "leads": 0
+     }
+    ],
+    "La Reina": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 3867,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 3376,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 3003,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 3173,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 2678,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 1639,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 2588,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 2415,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 2845,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 3220,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 3758,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 2958,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 2214,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 4220,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 3240,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 2640,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 2900,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 5336,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 6042,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 3450,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 6750,
+      "leads": 6
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 6402,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 6048,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 6140,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 5393,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 5309,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 3950,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 6966,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 6946,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 5633,
+      "leads": 2
+     }
+    ],
+    "Las Condes": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 6105,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 7821,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 9527,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 7298,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 8436,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 6800,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 10248,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 9019,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 8280,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 9132,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 8383,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 7563,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 7372,
+      "leads": 5
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 11958,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 9031,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 8464,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 9882,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 5674,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 9955,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 5674,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 10328,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 11018,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 10308,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 8693,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 7883,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 6814,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 4951,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 11557,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 11572,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 9547,
+      "leads": 3
+     }
+    ],
+    "Departamentos": [
+     {
+      "fecha": "2026-06-01",
+      "gasto": 4065,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-02",
+      "gasto": 9283,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-03",
+      "gasto": 12800,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-04",
+      "gasto": 11995,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-05",
+      "gasto": 9918,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-06",
+      "gasto": 8102,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-07",
+      "gasto": 12110,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-08",
+      "gasto": 12964,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-09",
+      "gasto": 12080,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-10",
+      "gasto": 12668,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-11",
+      "gasto": 11457,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-12",
+      "gasto": 9010,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-13",
+      "gasto": 9710,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-14",
+      "gasto": 15056,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-15",
+      "gasto": 12086,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-16",
+      "gasto": 11864,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-17",
+      "gasto": 9252,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-18",
+      "gasto": 9104,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-19",
+      "gasto": 5686,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-20",
+      "gasto": 3096,
+      "leads": 2
+     },
+     {
+      "fecha": "2026-06-21",
+      "gasto": 6518,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-22",
+      "gasto": 6779,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-23",
+      "gasto": 6916,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-24",
+      "gasto": 6385,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-25",
+      "gasto": 4308,
+      "leads": 1
+     },
+     {
+      "fecha": "2026-06-26",
+      "gasto": 3781,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-27",
+      "gasto": 2747,
+      "leads": 0
+     },
+     {
+      "fecha": "2026-06-28",
+      "gasto": 7369,
+      "leads": 3
+     },
+     {
+      "fecha": "2026-06-29",
+      "gasto": 5965,
+      "leads": 4
+     },
+     {
+      "fecha": "2026-06-30",
+      "gasto": 5692,
+      "leads": 3
+     }
+    ]
+   }
+  }
+ },
  "serie_diaria": [
   {
    "fecha": "2026-06-01",
@@ -716,12 +2330,12 @@
   {
    "fecha": "2026-06-03",
    "gasto": 62475,
-   "leads": 19
+   "leads": 18
   },
   {
    "fecha": "2026-06-04",
    "gasto": 56433,
-   "leads": 16
+   "leads": 15
   },
   {
    "fecha": "2026-06-05",
@@ -741,7 +2355,7 @@
   {
    "fecha": "2026-06-08",
    "gasto": 60488,
-   "leads": 9
+   "leads": 8
   },
   {
    "fecha": "2026-06-09",
@@ -751,12 +2365,12 @@
   {
    "fecha": "2026-06-10",
    "gasto": 61845,
-   "leads": 12
+   "leads": 10
   },
   {
    "fecha": "2026-06-11",
    "gasto": 54283,
-   "leads": 13
+   "leads": 10
   },
   {
    "fecha": "2026-06-12",
@@ -771,12 +2385,12 @@
   {
    "fecha": "2026-06-14",
    "gasto": 77187,
-   "leads": 12
+   "leads": 11
   },
   {
    "fecha": "2026-06-15",
    "gasto": 58813,
-   "leads": 14
+   "leads": 13
   },
   {
    "fecha": "2026-06-16",
@@ -786,12 +2400,12 @@
   {
    "fecha": "2026-06-17",
    "gasto": 56455,
-   "leads": 14
+   "leads": 11
   },
   {
    "fecha": "2026-06-18",
    "gasto": 50601,
-   "leads": 19
+   "leads": 17
   },
   {
    "fecha": "2026-06-19",
@@ -801,17 +2415,17 @@
   {
    "fecha": "2026-06-20",
    "gasto": 39018,
-   "leads": 13
+   "leads": 9
   },
   {
    "fecha": "2026-06-21",
    "gasto": 69680,
-   "leads": 19
+   "leads": 17
   },
   {
    "fecha": "2026-06-22",
    "gasto": 65453,
-   "leads": 23
+   "leads": 20
   },
   {
    "fecha": "2026-06-23",
@@ -821,7 +2435,7 @@
   {
    "fecha": "2026-06-24",
    "gasto": 62368,
-   "leads": 14
+   "leads": 13
   },
   {
    "fecha": "2026-06-25",
@@ -841,17 +2455,17 @@
   {
    "fecha": "2026-06-28",
    "gasto": 74613,
-   "leads": 20
+   "leads": 17
   },
   {
    "fecha": "2026-06-29",
    "gasto": 68873,
-   "leads": 15
+   "leads": 14
   },
   {
    "fecha": "2026-06-30",
    "gasto": 57938,
-   "leads": 15
+   "leads": 14
   }
  ],
  "serie_por_comuna": {
@@ -954,7 +2568,7 @@
    {
     "fecha": "2026-06-20",
     "gasto": 8288,
-    "leads": 3
+    "leads": 1
    },
    {
     "fecha": "2026-06-21",
@@ -1056,12 +2670,12 @@
    {
     "fecha": "2026-06-10",
     "gasto": 16200,
-    "leads": 5
+    "leads": 4
    },
    {
     "fecha": "2026-06-11",
     "gasto": 12576,
-    "leads": 3
+    "leads": 2
    },
    {
     "fecha": "2026-06-12",
@@ -1076,7 +2690,7 @@
    {
     "fecha": "2026-06-14",
     "gasto": 17853,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-15",
@@ -1091,12 +2705,12 @@
    {
     "fecha": "2026-06-17",
     "gasto": 14798,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-18",
     "gasto": 14324,
-    "leads": 6
+    "leads": 4
    },
    {
     "fecha": "2026-06-19",
@@ -1111,7 +2725,7 @@
    {
     "fecha": "2026-06-21",
     "gasto": 15824,
-    "leads": 3
+    "leads": 2
    },
    {
     "fecha": "2026-06-22",
@@ -1146,7 +2760,7 @@
    {
     "fecha": "2026-06-28",
     "gasto": 17309,
-    "leads": 6
+    "leads": 4
    },
    {
     "fecha": "2026-06-29",
@@ -1198,7 +2812,7 @@
    {
     "fecha": "2026-06-08",
     "gasto": 12264,
-    "leads": 1
+    "leads": 0
    },
    {
     "fecha": "2026-06-09",
@@ -1213,7 +2827,7 @@
    {
     "fecha": "2026-06-11",
     "gasto": 10394,
-    "leads": 1
+    "leads": 0
    },
    {
     "fecha": "2026-06-12",
@@ -1258,7 +2872,7 @@
    {
     "fecha": "2026-06-20",
     "gasto": 8812,
-    "leads": 5
+    "leads": 4
    },
    {
     "fecha": "2026-06-21",
@@ -1278,7 +2892,7 @@
    {
     "fecha": "2026-06-24",
     "gasto": 13499,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-25",
@@ -1477,12 +3091,12 @@
    {
     "fecha": "2026-06-03",
     "gasto": 9527,
-    "leads": 3
+    "leads": 2
    },
    {
     "fecha": "2026-06-04",
     "gasto": 7298,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-05",
@@ -1512,12 +3126,12 @@
    {
     "fecha": "2026-06-10",
     "gasto": 9132,
-    "leads": 2
+    "leads": 1
    },
    {
     "fecha": "2026-06-11",
     "gasto": 8383,
-    "leads": 3
+    "leads": 2
    },
    {
     "fecha": "2026-06-12",
@@ -1537,7 +3151,7 @@
    {
     "fecha": "2026-06-15",
     "gasto": 9031,
-    "leads": 3
+    "leads": 2
    },
    {
     "fecha": "2026-06-16",
@@ -1562,17 +3176,17 @@
    {
     "fecha": "2026-06-20",
     "gasto": 5674,
-    "leads": 2
+    "leads": 1
    },
    {
     "fecha": "2026-06-21",
     "gasto": 10328,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-22",
     "gasto": 11018,
-    "leads": 6
+    "leads": 3
    },
    {
     "fecha": "2026-06-23",
@@ -1602,7 +3216,7 @@
    {
     "fecha": "2026-06-28",
     "gasto": 11557,
-    "leads": 4
+    "leads": 3
    },
    {
     "fecha": "2026-06-29",
@@ -1612,7 +3226,7 @@
    {
     "fecha": "2026-06-30",
     "gasto": 9547,
-    "leads": 4
+    "leads": 3
    }
   ],
   "Departamentos": [
@@ -1699,7 +3313,7 @@
    {
     "fecha": "2026-06-17",
     "gasto": 9252,
-    "leads": 3
+    "leads": 1
    },
    {
     "fecha": "2026-06-18",
@@ -1759,7 +3373,7 @@
    {
     "fecha": "2026-06-29",
     "gasto": 5965,
-    "leads": 5
+    "leads": 4
    },
    {
     "fecha": "2026-06-30",

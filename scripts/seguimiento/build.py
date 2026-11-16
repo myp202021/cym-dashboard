@@ -54,7 +54,12 @@ def codigo(anuncio):
     m = re.match(r'\s*(\d{4})\b', anuncio or '')
     return m.group(1) if m else 'sin código'
 
-def leads(a): return int(a.get('conv_wa', 0)) + int(a.get('leads_form', 0))
+# 16 nov 2026 (Christopher: "no mezcles"): cada canal cuenta SOLO su resultado. WhatsApp = conversaciones; formulario de
+# venta y búsqueda de directores = formularios. Meta reporta conversaciones sueltas en campañas de formulario y viceversa: no suman.
+def tipo_de(a): return a.get('tipo') or clasifica(a.get('campana'))[1]
+def wa_de(a): return int(a.get('conv_wa', 0)) if tipo_de(a) in ('WhatsApp propiedades', 'Marca / otros') else 0
+def form_de(a): return int(a.get('leads_form', 0)) if tipo_de(a) != 'WhatsApp propiedades' else 0
+def leads(a): return wa_de(a) + form_de(a)
 
 def cargar_meta():
     y, m = map(int, MES.split('-'))
@@ -79,10 +84,10 @@ def cargar_meta():
 
 def tot(rows):
     g = sum(r['gasto'] for r in rows); l = sum(leads(r) for r in rows)
-    return dict(gasto=round(g), leads=l, conv_wa=sum(int(r.get('conv_wa', 0)) for r in rows),
-                leads_form=sum(int(r.get('leads_form', 0)) for r in rows),
+    return dict(gasto=round(g), leads=l, conv_wa=sum(wa_de(r) for r in rows),
+                leads_form=sum(form_de(r) for r in rows),
                 impresiones=sum(r.get('impresiones', 0) for r in rows), clics=sum(r.get('clics', 0) for r in rows),
-                cpl=round(g / l) if l else None)
+                cpl=round(g / l) if l and g else None)
 
 def agrupa(rows, fkey, extra=None):
     grp = defaultdict(list)
@@ -350,6 +355,30 @@ def main():
     fechas = [x['fecha'] for x in serie]
     serie_por_comuna = {com: [dict(fecha=fe, gasto=round(v[fe]['gasto']) if fe in v else 0, leads=v[fe]['leads'] if fe in v else 0) for fe in fechas]
                         for com, v in sc_.items()}
+    # 16 nov 2026: bloques separados por canal (Formulario / WhatsApp), cada uno con KPIs, campañas y serie, por comuna
+    CAN = {'Formulario': 'Formulario propiedades', 'WhatsApp': 'WhatsApp propiedades'}
+    canales = {}
+    for cn, tp_ in CAN.items():
+        rows = [r for r in venta if r['tipo'] == tp_]; rows_p = [r for r in venta_prev if r['tipo'] == tp_]
+        if not rows and not rows_p: continue
+        def bloque(rs, rp):
+            t = tot(rs); q = tot(rp)
+            t['mes_anterior'] = dict(gasto=round(q['gasto'] * f), leads=round(q['leads'] * f), cpl=q['cpl']) if rp else None
+            return t
+        coms_ = sorted({r['comuna'] for r in rows})
+        sd = defaultdict(lambda: defaultdict(lambda: dict(gasto=0, leads=0)))
+        for r in diario:
+            com, tip = clasifica(r['campana'])
+            if tip != tp_: continue
+            for k_ in ('Todas', com):
+                sd[k_][r['fecha']]['gasto'] += r['gasto']; sd[k_][r['fecha']]['leads'] += leads(r)
+        canales[cn] = dict(
+            total=bloque(rows, rows_p),
+            por_comuna={c: bloque([r for r in rows if r['comuna'] == c], [r for r in rows_p if r['comuna'] == c]) for c in coms_},
+            serie={k_: [dict(fecha=fe, gasto=round(v[fe]['gasto']) if fe in v else 0, leads=v[fe]['leads'] if fe in v else 0) for fe in fechas] for k_, v in sd.items()})
+    for c in por_codigo:
+        c['canal'] = 'Formulario' if any(r['tipo'] == 'Formulario propiedades' for r in props if r['codigo'] == c['codigo'] and r['comuna'] == c['comuna']) else 'WhatsApp'
+    por_codigo_canal = agrupa(props, lambda r: (r['codigo'], r['comuna'], r['tipo']), lambda k, rs: dict(codigo=k[0], comuna=k[1], canal='Formulario' if k[2] == 'Formulario propiedades' else 'WhatsApp'))
     sin_leads = [c for c in por_codigo if c['leads'] == 0 and c['gasto'] > 0 and c['codigo'] != 'sin código']
     out = dict(mes=MES, titulo=f'{MESES[m-1].capitalize()} {y}', desde=f'{MES}-01', hasta=hasta, dias=dias,
                generado=d.get('generado'), fuente='Meta Ads (cuenta act_2505215759834007), atribución por defecto',
@@ -357,7 +386,7 @@ def main():
                mes_anterior=dict(nombre=MESES[(m - 2) % 12], **ritmo_prev) if ritmo_prev else None,
                alertas=dict(codigos_sin_leads=len(sin_leads), gasto_sin_leads=round(sum(c['gasto'] for c in sin_leads)),
                             gasto_whatsapp=round(sum(r['gasto'] for r in props))),
-               por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, serie_diaria=serie, serie_por_comuna=serie_por_comuna,
+               por_campana=por_campana, por_comuna=por_comuna, directores_por_comuna=directores_por_comuna, por_codigo=por_codigo, por_codigo_canal=por_codigo_canal, canales=canales, serie_diaria=serie, serie_por_comuna=serie_por_comuna,
                organico=organico() or org_previo() or dict(estado='pendiente', nota=f'Pendiente lista orgánica de {MESES[m-1]} (la manda CyM los lunes).'))
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, f'seguimiento-{MES}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
