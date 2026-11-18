@@ -1,5 +1,5 @@
 {
-  "estado": "En pausa · esperando OK",
+  "estado": "Activa desde 18 nov 18:55",
   "campana_id": "120255516935860536",
   "desde": "18 nov",
   "hasta": "28 nov 2026",
@@ -18,6 +18,6 @@
       "planilla": "https://docs.google.com/spreadsheets/d/1dQM5pACJAfcED-hnlfQljvJ3jIBdZZDC9FWNEwbcgC8/edit"
     }
   },
-  "gasto_al": null,
+  "gasto_al": "18 nov",
   "gasto": []
 }
