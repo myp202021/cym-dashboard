@@ -1,0 +1,15 @@
+{
+  "estado": "En pausa · esperando OK",
+  "campana_id": "120255516935860536",
+  "desde": "18 nov",
+  "hasta": "28 nov 2026",
+  "presupuesto_diario": 5000,
+  "dias": 10,
+  "carpeta": "https://drive.google.com/drive/folders/1P9ipv4hVaQclhtBYaARe9DtYOJurcMrA",
+  "reels": {
+    "regularizacion": { "nombre": "Lo no regularizado baja el precio", "zona": "Vitacura · 30 a 64 años · aviso a Alejandro", "planilla": null },
+    "terreno": { "nombre": "Terreno y casa", "zona": "Vitacura, Lo Barnechea, Las Condes, La Reina · 30 a 64 años · aviso al director de la comuna", "planilla": null }
+  },
+  "gasto_al": null,
+  "gasto": []
+}
