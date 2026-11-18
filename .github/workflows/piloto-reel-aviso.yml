@@ -1,0 +1,11 @@
+name: Aviso leads Piloto Reel Ale (CyM)
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+jobs:
+  aviso:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - run: curl -fsS --max-time 90 "https://cym-dashboard-liart.vercel.app/api/piloto-reel?accion=avisar"
