@@ -1,14 +1,14 @@
 // Piloto Reel Ale (18–28 nov 2026): leads de los 2 formularios de Meta (uno por reel).
 // GET /api/piloto-reel                     → JSON para el panel (#reel-ale)
-// GET /api/piloto-reel?formato=csv&reel=regularizacion|terreno&comuna=vitacura|lo_barnechea|las_condes|sca|la_reina|otra|todas
+// GET /api/piloto-reel?formato=csv&reel=regularizacion|terreno&comuna=vitacura|lo_barnechea|las_condes|sca|otra|todas
 //                                          → CSV para las planillas de Drive (IMPORTDATA)
 const FORMS = {
   regularizacion: { id: '1837022160832128', nombre: 'Lo no regularizado baja el precio' },
-  terreno: { id: '2416991735374420', nombre: 'Terreno y casa' },
+  terreno: { id: '1705971284256117', nombre: 'Terreno y casa' },
 }
 const COMUNAS = {
   vitacura: 'Vitacura', lo_barnechea: 'Lo Barnechea / La Dehesa', las_condes: 'Las Condes',
-  sca: 'San Carlos de Apoquindo', la_reina: 'La Reina', otra: 'Otra comuna',
+  sca: 'San Carlos de Apoquindo', otra: 'Otra comuna',
 }
 const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
 function comunaKey(v) {
@@ -52,7 +52,6 @@ async function leads(token, reel) {
 const DIRECTOR = {
   vitacura: ['Alejandro Ceballos', 'acy@cympropiedades.cl'], lo_barnechea: ['María Eugenia Olave', 'eolave@cympropiedades.cl'],
   las_condes: ['Anita Hernández', 'anamaria@cympropiedades.cl'], sca: ['Benjamín Ceballos', 'Bcf@cympropiedades.cl'],
-  la_reina: ['James Robeson', 'jrobeson@cympropiedades.cl'],
 }
 const destino = l => l.reel === 'regularizacion' ? DIRECTOR.vitacura : (DIRECTOR[l.comuna_key] || ['Equipo CyM', 'contacto@cympropiedades.cl'])
 const escH = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
