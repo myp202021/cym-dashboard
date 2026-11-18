@@ -7,8 +7,16 @@
   "dias": 10,
   "carpeta": "https://drive.google.com/drive/folders/1P9ipv4hVaQclhtBYaARe9DtYOJurcMrA",
   "reels": {
-    "regularizacion": { "nombre": "Lo no regularizado baja el precio", "zona": "Vitacura · 30 a 64 años · aviso a Alejandro", "planilla": null },
-    "terreno": { "nombre": "Terreno y casa", "zona": "Vitacura, Lo Barnechea, Las Condes · 30 a 64 años · aviso al director de la comuna", "planilla": null }
+    "regularizacion": {
+      "nombre": "Lo no regularizado baja el precio",
+      "zona": "Vitacura · 30 a 64 años · aviso a Alejandro",
+      "planilla": "https://docs.google.com/spreadsheets/d/1LFlaC_wgzFMGN7nAcaalLEG3PDuCSLtoACX6lVh4a3E/edit"
+    },
+    "terreno": {
+      "nombre": "Terreno y casa",
+      "zona": "Vitacura, Lo Barnechea, Las Condes · 30 a 64 años · aviso al director de la comuna",
+      "planilla": "https://docs.google.com/spreadsheets/d/1dQM5pACJAfcED-hnlfQljvJ3jIBdZZDC9FWNEwbcgC8/edit"
+    }
   },
   "gasto_al": null,
   "gasto": []
