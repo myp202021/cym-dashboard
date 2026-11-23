@@ -414,7 +414,7 @@ function render(){
   const dk=todas?D.kpi.directores:((D.directores_por_comuna||[]).find(r=>r.comuna===C)||{gasto:0,leads:0,cpl:null});
   $('dir-kpis').innerHTML=dirs.length?[['Gasto en búsqueda de directores',clp(dk.gasto)],['Postulantes (formularios)',num(dk.leads)],['Costo por postulante',clp(dk.cpl)]].map(([l,v])=>`<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div></div>`).join(''):'';
   if(dirs.length)tabla($('t-dir'),[{k:'campana',t:'Campaña',n:1,f:r=>esc(r.campana)},{k:'comuna',t:'Comuna',n:1},{k:'gasto',t:'Gasto',f:r=>clp(r.gasto),bar:'g'},{k:'leads',t:'Postulantes',bar:1,f:r=>num(r.leads)},{k:'cpl',t:'Costo por postulante',f:r=>clp(r.cpl)}],dirs);else $('t-dir').innerHTML='';
-  $('otras-camp').innerHTML=otras.length?'Otras campañas (no son venta ni búsqueda de directores): '+otras.map(c=>`${esc(c.campana)} ${clp(c.gasto)}`).join(' · '):'';
+  $('otras-camp').innerHTML=otras.length?'Otras campañas (no son venta ni búsqueda de directores): '+otras.map(c=>/^piloto reel/i.test(c.campana)?`${esc(c.campana)} ${clp(c.gasto)} (captación de propietarios, <a href="#reel-ale">ver pestaña Piloto Reel Ale</a>)`:`${esc(c.campana)} ${clp(c.gasto)}`).join(' · '):'';
   organico();
   if(!$('v-vit').classList.contains('oculto'))vitacura();
   $('pie').textContent=`Fuente: ${D.fuente}. Formulario y WhatsApp se informan por separado: en campañas de formulario solo cuentan los formularios enviados y en WhatsApp solo las conversaciones iniciadas. La búsqueda de directores («Nuevo director») va aparte y no suma. Se actualiza todos los lunes.`;

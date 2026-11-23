@@ -18,6 +18,19 @@
       "planilla": "https://docs.google.com/spreadsheets/d/1dQM5pACJAfcED-hnlfQljvJ3jIBdZZDC9FWNEwbcgC8/edit"
     }
   },
-  "gasto_al": "18 nov",
-  "gasto": []
+  "gasto_al": "22 nov",
+  "gasto": [
+    {
+      "reel": "regularizacion",
+      "desde": "2026-11-18",
+      "hasta": "2026-11-22",
+      "gasto": 22474
+    },
+    {
+      "reel": "terreno",
+      "desde": "2026-11-18",
+      "hasta": "2026-11-22",
+      "gasto": 21133
+    }
+  ]
 }
