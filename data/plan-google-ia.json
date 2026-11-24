@@ -1,0 +1,71 @@
+{
+  "actualizado": "2026-11-24",
+  "fuente": "Manual Google e IA CyM y Manual de redes CyM (plan de 90 días, 23-11-2026 al 17-02-2027)",
+  "quien": {"M&P": "Muller y Pérez (cympropiedadeschile.cl, Google Ads, ficha y Bing)", "Ale": "Alejandro Ceballos", "Claude de Ale": "Claude desde el Mac de Alejandro", "Ofinet": "Desarrollador de cympropiedades.cl", "Ejecutivas": "Ejecutivas y directores"},
+  "metas": [
+    {"metrica": "Búsquedas clave con CyM en el top 10 de Google", "hoy": "1 de 24", "meta": "12 de 24", "fecha": "20-11"},
+    {"metrica": "Búsquedas de vendedor con CyM en el top 3", "hoy": "0 de 16", "meta": "16 de 16", "fecha": "20-11"},
+    {"metrica": "Preguntas de IA donde aparece CyM", "hoy": "0 de 69", "meta": "23 de 69", "fecha": "20-11"},
+    {"metrica": "Páginas de cympropiedadeschile.cl en Bing", "hoy": "≈ 57", "meta": "Todo el sitio (872 URL)", "fecha": "24-11"},
+    {"metrica": "Reseñas en Google", "hoy": "62 · 4,5★", "meta": "150", "fecha": "17-11"},
+    {"metrica": "Propiedades en el sitio nuevo", "hoy": "814", "meta": "Todas las publicadas", "fecha": "24-11"},
+    {"metrica": "Seguidores en LinkedIn", "hoy": "—", "meta": "1.000", "fecha": ""},
+    {"metrica": "Shorts en YouTube", "hoy": "0", "meta": "12", "fecha": "24-11"}
+  ],
+  "frentes": [
+    {"nombre": "Semana 1 · 23 al 27-11 · Abrir la puerta a Google, Bing y la IA", "tareas": [
+      {"tarea": "Confirmar quién maneja cada sitio y pedir accesos", "quien": "Ale", "fecha": "23-11", "estado": "en curso", "nota": "cympropiedadeschile.cl lo maneja M&P (Vercel y repositorio). cympropiedades.cl lo maneja Ofinet: correo pidiendo acceso a Search Console listo en borrador (24-11)."},
+      {"tarea": "Correo de arreglos al desarrollador (robots.txt, sitemap, títulos de fichas)", "quien": "Ale", "fecha": "23-11", "estado": "pendiente", "nota": "Al 24-11 el robots.txt de cympropiedades.cl sigue igual."},
+      {"tarea": "Bing Webmaster e IndexNow", "quien": "M&P", "fecha": "24-11", "estado": "en curso", "nota": "cympropiedadeschile.cl: verificado en Bing (13-11) e IndexNow con 872 URL (24-11). cympropiedades.cl depende de Ofinet."},
+      {"tarea": "Completar la ficha de Google (categorías, descripción, zona, 10 fotos, posteo semanal)", "quien": "M&P + Ale", "fecha": "24-11", "estado": "en curso", "nota": "Posteos publicados el 13 y el 17-11. Faltan fotos reales de la oficina y del equipo."},
+      {"tarea": "Campaña de reseñas (62 → 150 en 90 días, unas 10 por semana)", "quien": "Ejecutivas", "fecha": "25-11", "estado": "pendiente", "nota": ""},
+      {"tarea": "Responder las reseñas de directoriocorredores.cl (3,4 · 13 reseñas)", "quien": "Ale", "fecha": "25-11", "estado": "pendiente", "nota": "Hay que reclamar el perfil con datos de CyM."},
+      {"tarea": "Arreglar la medición de IA", "quien": "Claude de Ale", "fecha": "26-11", "estado": "en curso", "nota": "M&P ya mide ChatGPT y Gemini en el reporte mulleryperez.cl/cym (20-11: ChatGPT 2 de 10, Gemini 0 de 10)."},
+      {"tarea": "Perfiles en directorios: comparacorredores.cl, toppropiedades.cl, 2x3.cl, directoriocorredores.cl", "quien": "M&P + Ale", "fecha": "26-11", "estado": "en curso", "nota": "Meta: 4 perfiles publicados al 4-12."},
+      {"tarea": "Revisar robots.txt y títulos del sitio antiguo", "quien": "M&P", "fecha": "27-11", "estado": "pendiente", "nota": ""},
+      {"tarea": "Informe de la semana 1 en este panel", "quien": "M&P", "fecha": "27-11", "estado": "en curso", "nota": "Esta pestaña."}
+    ]},
+    {"nombre": "Semana 2 · 30-11 al 4-12 · Contenido que la IA pueda citar", "tareas": [
+      {"tarea": "Contratar herramientas de medición (SE Ranking + SE Visible, Screaming Frog)", "quien": "Ale", "fecha": "30-11", "estado": "decide Ale", "nota": "≈ $116.500/mes las dos."},
+      {"tarea": "Página «Datos del mercado oriente»", "quien": "M&P + Ale", "fecha": "1-12", "estado": "pendiente", "nota": "Ale decide si se publica el precio por m²."},
+      {"tarea": "Reescribir las 5 páginas «vender casa {comuna}»", "quien": "Claude de Ale + M&P", "fecha": "2-12", "estado": "pendiente", "nota": ""},
+      {"tarea": "3 páginas de departamentos con estimador", "quien": "Claude de Ale + M&P", "fecha": "3-12", "estado": "pendiente", "nota": ""},
+      {"tarea": "Páginas que compiten entre sí (/comuna vs /corredoras-de-propiedades-comuna): redirección 301", "quien": "M&P", "fecha": "4-12", "estado": "pendiente", "nota": ""}
+    ]},
+    {"nombre": "Semana 3 · 7 al 11-12 · Anuncios y agregadores", "tareas": [
+      {"tarea": "Campaña de Búsqueda en Google Ads para vendedores", "quien": "M&P", "fecha": "7-12", "estado": "decide Ale", "nota": "Borrador del 17-11: $32.000/día ≈ $960.000/mes. Se activa con el OK de Ale."},
+      {"tarea": "Feed de propiedades a Trovit, Mitula, Nestoria y chilepropiedades.cl", "quien": "M&P", "fecha": "9-12", "estado": "pendiente", "nota": "Se arma desde el catálogo de 814 propiedades."},
+      {"tarea": "LinkedIn al día y ficha en Wikidata", "quien": "Ale + M&P", "fecha": "10-12", "estado": "pendiente", "nota": "Ale define el año de fundación (2013 o 2014)."},
+      {"tarea": "Plan de migración a un solo dominio", "quien": "Ofinet + M&P", "fecha": "11-12", "estado": "pendiente", "nota": ""}
+    ]},
+    {"nombre": "Semana 4 · 14 al 18-12 · Migración y prensa", "tareas": [
+      {"tarea": "Migración: cympropiedades.cl apunta a la web nueva", "quien": "Ofinet + M&P", "fecha": "15-12", "estado": "decide Ale", "nota": "Fecha propuesta: 15-12."},
+      {"tarea": "Primer informe de mercado a prensa (Emol, DF, Ex-Ante)", "quien": "Ale", "fecha": "17-12", "estado": "pendiente", "nota": ""},
+      {"tarea": "Medición del mes 1", "quien": "M&P", "fecha": "18-12", "estado": "pendiente", "nota": ""}
+    ]},
+    {"nombre": "Redes sociales", "tareas": [
+      {"tarea": "Reescribir la página de LinkedIn (hoy dice «CyM Group»)", "quien": "Ale", "fecha": "Semana 1", "estado": "pendiente", "nota": ""},
+      {"tarea": "Bio de Instagram: 12 años, +100.000 compradores, tasación sin costo y enlace con código de origen", "quien": "Ale", "fecha": "Semana 1", "estado": "pendiente", "nota": ""},
+      {"tarea": "Perfil de LinkedIn de Ale y del equipo, con 250 invitaciones", "quien": "Ale + Ejecutivas", "fecha": "Semana 1", "estado": "pendiente", "nota": ""},
+      {"tarea": "Canal de YouTube con los reels de Ale", "quien": "M&P", "fecha": "Semana 1", "estado": "en curso", "nota": "Los 10 reels del piloto ya están listos."},
+      {"tarea": "Cuenta de TikTok @cym_propiedades con los reels de Ale", "quien": "M&P", "fecha": "Semana 1", "estado": "en curso", "nota": ""},
+      {"tarea": "Calendario semanal: 4 publicaciones y 5 historias", "quien": "Claude de Ale", "fecha": "Desde semana 2", "estado": "pendiente", "nota": "Ale aprueba cada texto."},
+      {"tarea": "Autenticar Metricool para programar todo junto", "quien": "Ale", "fecha": "Semana 2", "estado": "pendiente", "nota": ""}
+    ]},
+    {"nombre": "Ya hecho (base del plan)", "tareas": [
+      {"tarea": "Catálogo completo: 814 propiedades ordenadas por comuna, sin las ocultas", "quien": "M&P", "fecha": "24-11", "estado": "hecho", "nota": "Se actualiza solo cada mañana."},
+      {"tarea": "Sitemap de 872 URL enviado por IndexNow", "quien": "M&P", "fecha": "24-11", "estado": "hecho", "nota": ""},
+      {"tarea": "Search Console de cympropiedadeschile.cl verificado", "quien": "M&P", "fecha": "Nov", "estado": "hecho", "nota": ""},
+      {"tarea": "5 páginas de comuna, 25 páginas por servicio y comuna, 9 guías y blog martes y viernes", "quien": "M&P", "fecha": "Nov", "estado": "hecho", "nota": ""},
+      {"tarea": "Landing «Vender casa sector oriente» con los 10 reels de Ale", "quien": "M&P", "fecha": "Nov", "estado": "hecho", "nota": ""}
+    ]}
+  ],
+  "decisiones": [
+    "Quién es la cara de CyM en LinkedIn: Alejandro, Javier Marshall o los dos",
+    "Año de fundación: LinkedIn dice 2013 y la cifra aprobada es 12 años",
+    "Dirección oficial: Av. La Dehesa 1201 of. 218 o 1844 of. 313",
+    "Publicar o no el precio por m² por sector",
+    "Contratar herramientas (≈ $170.000/mes) y presupuesto de Google Ads (≈ $960.000/mes)",
+    "Fecha de la migración a un solo dominio (propuesta 15-12)"
+  ]
+}

@@ -150,7 +150,7 @@ td.rev{background:#fff7d6}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Pagado</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="/mensajes">Leads Instagram y Facebook</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a><a href="#piloto" id="nav-piloto" class="wa">Piloto WhatsApp 5328</a><a href="#reel-ale" id="nav-reelale">Piloto Reel Ale</a><span class="deseable"><small>Deseable</small><a href="#portal" id="nav-portal">Portal</a></span></nav>
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Pagado</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="/mensajes">Leads Instagram y Facebook</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a><a href="#piloto" id="nav-piloto" class="wa">Piloto WhatsApp 5328</a><a href="#reel-ale" id="nav-reelale">Piloto Reel Ale</a><a href="#plan" id="nav-plan">Plan Google, IA y redes</a><span class="deseable"><small>Deseable</small><a href="#portal" id="nav-portal">Portal</a></span></nav>
   <div id="v-seg">
   <div class="meses" id="meses"></div>
   <div class="periodo" id="periodo">Cargando…</div>
@@ -227,6 +227,12 @@ td.rev{background:#fff7d6}
       <a class="btn-ir" href="https://portal-propiedades-myp.vercel.app" target="_blank" rel="noopener">Abrir portal →</a></div>
     <div class="proyecto-embed"><iframe src="https://portal-propiedades-myp.vercel.app" title="Portal de propiedades" loading="lazy"></iframe></div>
   </div>
+  <div id="v-plan" class="oculto">
+    <div class="periodo" id="plan-top">Cargando…</div>
+    <section><h2>Metas al 17-02-2027</h2><div class="sub">Dónde está CyM hoy y a dónde llega el plan de 90 días</div><div class="tw" id="plan-metas"></div></section>
+    <div id="plan-frentes"></div>
+    <section><h2>Lo que decide Alejandro</h2><div class="sub">Sin estas definiciones algunas tareas no pueden avanzar</div><ul id="plan-dec" style="margin:6px 0 0 18px;line-height:1.7"></ul></section>
+  </div>
   <div id="v-cot" class="oculto">
     <div class="periodo">Fiscalización: cotizaciones automáticas en Portal Inmobiliario a casas en venta de la tienda oficial de CyM. Portal envía los datos de Christopher (M&amp;P) al director de la propiedad y se verifica en "Contactos realizados".</div>
     <div class="kpis k3" id="cot-kpis"></div>
@@ -253,7 +259,7 @@ td.rev{background:#fff7d6}
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones','#piloto','#reel-ale'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones',piloto:h==='#piloto',reelale:h==='#reel-ale'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones();if(v.piloto&&window.piloto)piloto();if(v.reelale&&window.reelAle)reelAle()}
+function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones','#piloto','#reel-ale','#plan'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones',piloto:h==='#piloto',reelale:h==='#reel-ale',plan:h==='#plan'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones();if(v.piloto&&window.piloto)piloto();if(v.reelale&&window.reelAle)reelAle();if(v.plan&&window.planGIA)planGIA()}
 window.reelAle=async function(){
   const $=id=>document.getElementById(id),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),pesos=n=>'$'+Math.round(n||0).toLocaleString('es-CL');
   let d,api;try{[d,api]=await Promise.all([fetch('/data/piloto-reel.json?v='+Date.now()).then(r=>r.json()),fetch('/api/piloto-reel?v='+Date.now()).then(r=>r.json())])}catch(e){$('ra-top').textContent='No se pudo cargar el piloto';return}
@@ -635,6 +641,17 @@ window.__formPinta=pinta;
 new MutationObserver(()=>{if(document.getElementById('mes').value)pinta()}).observe(document.getElementById('mes'),{childList:true});
 setTimeout(pinta,1500);
 })();
+</script>
+<script>
+window.planGIA=async function(){if(window.__planOk)return;let d;try{d=await fetch('/data/plan-google-ia.json?v='+Date.now()).then(r=>r.json())}catch(e){document.getElementById('plan-top').textContent='No se pudo cargar el plan';return}window.__planOk=1
+const e=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
+const col={'hecho':['#dcfce7','#166534'],'en curso':['#dbeafe','#1e40af'],'pendiente':['#f3f4f6','#374151'],'decide Ale':['#fef3c7','#92400e']}
+const chip=s=>{const c=col[s]||col.pendiente;return '<span style="display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:3px 10px;background:'+c[0]+';color:'+c[1]+';white-space:nowrap">'+e(s)+'</span>'}
+const todas=d.frentes.flatMap(f=>f.tareas),n=s=>todas.filter(t=>t.estado===s).length
+document.getElementById('plan-top').innerHTML='Plan de 90 días (23-11-2026 al 17-02-2027) · actualizado el <b>'+e(d.actualizado.split('-').reverse().join('-'))+'</b> · '+n('hecho')+' hechas · '+n('en curso')+' en curso · '+n('pendiente')+' pendientes · '+n('decide Ale')+' esperan decisión de Alejandro'
+document.getElementById('plan-metas').innerHTML='<table><thead><tr><th>Métrica</th><th>Hoy</th><th>Meta 17-02</th><th>Medido</th></tr></thead><tbody>'+d.metas.map(m=>'<tr><td>'+e(m.metrica)+'</td><td><b>'+e(m.hoy)+'</b></td><td>'+e(m.meta)+'</td><td>'+e(m.fecha)+'</td></tr>').join('')+'</tbody></table>'
+document.getElementById('plan-frentes').innerHTML=d.frentes.map(f=>'<section><h2>'+e(f.nombre)+'</h2><div class="tw"><table><thead><tr><th>Tarea</th><th>Quién</th><th>Fecha</th><th>Estado</th><th>Nota</th></tr></thead><tbody>'+f.tareas.map(t=>'<tr><td>'+e(t.tarea)+'</td><td style="white-space:nowrap">'+e(t.quien)+'</td><td style="white-space:nowrap">'+e(t.fecha)+'</td><td>'+chip(t.estado)+'</td><td style="font-size:12px;color:#555">'+e(t.nota)+'</td></tr>').join('')+'</tbody></table></div></section>').join('')
+document.getElementById('plan-dec').innerHTML=d.decisiones.map(x=>'<li>'+e(x)+'</li>').join('')}
 </script>
 </body>
 </html>
