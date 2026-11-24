@@ -86,6 +86,7 @@ footer{font-size:11px;color:var(--gris2);margin-top:22px;text-align:center}
 .vista-nav{display:flex;gap:6px;margin-top:16px}
 .vista-nav a{font-size:13px;font-weight:800;text-decoration:none;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:7px 16px}
 .vista-nav a.on{background:var(--rosa);color:#fff;border-color:var(--rosa)}
+.sub-nav{display:flex;gap:6px;margin:10px 0 0;flex-wrap:wrap}.sub-nav a{font-size:12px;font-weight:700;text-decoration:none;color:var(--gris);background:#fff;border:1px solid var(--linea);border-radius:999px;padding:5px 12px}.sub-nav a.on{background:var(--negro);color:#fff;border-color:var(--negro)}
 .vista-nav{flex-wrap:wrap}
 .vista-nav a.wa{color:#128C4A;border-color:#25D366;background:#eafaf0}
 .vista-nav a.wa.on{background:#25D366;color:#fff;border-color:#25D366}
@@ -151,9 +152,10 @@ td.rev{background:#fff7d6}
   <label class="mes">Mes <select id="mes"></select></label>
 </div></header>
 <div class="wrap">
-  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Pagado</a><a href="#resumen" id="nav-res">Resumen por mes</a><a href="#organico" id="nav-org">Orgánico</a><a href="/mensajes">Leads Instagram y Facebook</a><a href="#whatsapp" id="nav-wa" class="wa">Agente WhatsApp</a><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a><a href="#piloto" id="nav-piloto" class="wa">Piloto WhatsApp 5328</a><a href="#reel-ale" id="nav-reelale">Piloto Reel Ale</a><a href="#plan" id="nav-plan">Plan Google, IA y redes</a><span class="deseable"><small>Deseable</small><a href="#portal" id="nav-portal">Portal</a></span></nav>
-  <div id="v-seg">
+  <nav class="vista-nav"><a href="#seguimiento" id="nav-seg" class="on">Pagado</a><a href="#organico" id="nav-org">Orgánico</a><a href="/mensajes">Leads Instagram y Facebook</a><a href="#cotizaciones" id="nav-pilotos">Pilotos</a><span class="deseable"><small>Deseable</small><a href="#portal" id="nav-portal">Portal</a></span><a href="#plan" id="nav-plan">Plan Google, IA y redes</a></nav>
+  <nav class="sub-nav oculto" id="sub-pilotos"><a href="#cotizaciones" id="nav-cot">Cotizaciones Portal</a><a href="#piloto" id="nav-piloto">Piloto WhatsApp 5328</a><a href="#reel-ale" id="nav-reelale">Piloto Reel Ale</a></nav>
   <div class="meses" id="meses"></div>
+  <div id="v-seg">
   <div class="periodo" id="periodo">Cargando…</div>
   <div class="comsel"><b>Comuna</b><div class="tabs" id="f-pag"></div></div>
   <div class="sub" id="canal-hoy" style="margin:0 0 8px"></div>
@@ -260,7 +262,7 @@ td.rev{background:#fff7d6}
   <footer id="pie"></footer>
 </div>
 <script>
-function vista(){if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#whatsapp')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones','#piloto','#reel-ale','#plan'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones',piloto:h==='#piloto',reelale:h==='#reel-ale',plan:h==='#plan'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones();if(v.piloto&&window.piloto)piloto();if(v.reelale&&window.reelAle)reelAle();if(v.plan&&window.planGIA)planGIA()}
+function vista(){if(location.hash==='#resumen'||location.hash==='#whatsapp'){history.replaceState(null,'',location.pathname+location.search+'#seguimiento')}if(location.hash==='#proyectos'){history.replaceState(null,'',location.pathname+location.search+'#seguimiento')}if(location.hash==='#vitacura'){window.ORG_COM='Vitacura';history.replaceState(null,'',location.pathname+location.search+'#organico')}const h=location.hash,v={seg:!['#whatsapp','#portal','#resumen','#organico','#vitacura','#cotizaciones','#piloto','#reel-ale','#plan'].includes(h),res:h==='#resumen',org:h==='#organico',vit:h==='#vitacura',wa:h==='#whatsapp',portal:h==='#portal',cot:h==='#cotizaciones',piloto:h==='#piloto',reelale:h==='#reel-ale',plan:h==='#plan'};Object.entries(v).forEach(([k,on])=>{document.getElementById('v-'+k).classList.toggle('oculto',!on);const n=document.getElementById('nav-'+k);if(n)n.classList.toggle('on',on)});const pil=v.cot||v.piloto||v.reelale;document.getElementById('sub-pilotos').classList.toggle('oculto',!pil);document.getElementById('nav-pilotos').classList.toggle('on',pil);document.getElementById('meses').classList.toggle('oculto',!(v.seg||v.org));if(v.org&&window.detalleOrg)detalleOrg();if(v.vit&&window.vitacura)vitacura();if(v.cot&&window.cotizaciones)cotizaciones();if(v.piloto&&window.piloto)piloto();if(v.reelale&&window.reelAle)reelAle();if(v.plan&&window.planGIA)planGIA()}
 window.reelAle=async function(){
   const $=id=>document.getElementById(id),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),pesos=n=>'$'+Math.round(n||0).toLocaleString('es-CL');
   let d,api;try{[d,api]=await Promise.all([fetch('/data/piloto-reel.json?v='+Date.now()).then(r=>r.json()),fetch('/api/piloto-reel?v='+Date.now()).then(r=>r.json())])}catch(e){$('ra-top').textContent='No se pudo cargar el piloto';return}

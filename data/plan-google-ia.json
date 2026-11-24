@@ -67,7 +67,7 @@
      "quien": "Ale",
      "fecha": "23-11",
      "estado": "en curso",
-     "nota": "cympropiedadeschile.cl lo maneja M&P (Vercel y repositorio). cympropiedades.cl lo maneja Ofinet: correo pidiendo acceso a Search Console listo en borrador (24-11)."
+     "nota": "cympropiedadeschile.cl lo maneja M&P (Vercel y repositorio). cympropiedades.cl lo maneja Ofinet, que no da acceso a terceros (24-11): los cambios se piden por correo. Search Console pedido a Ofinet el 24-11 (agregar a christopher@ como propietario)."
     },
     {
      "tarea": "Correo de arreglos al desarrollador (robots.txt, sitemap, títulos de fichas)",
