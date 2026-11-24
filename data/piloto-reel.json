@@ -1,5 +1,5 @@
 {
-  "estado": "Activa desde 18 nov 18:53",
+  "estado": "Activa desde 18 nov 18:53 · en aprendizaje",
   "campana_id": "120255516935860536",
   "desde": "18 nov",
   "hasta": "28 nov 2026",
@@ -32,5 +32,6 @@
       "hasta": "2026-11-23",
       "gasto": 24500
     }
-  ]
+  ],
+  "nota": "Sigue en fase de aprendizaje de Meta: con 7 leads en 6 días aún no junta los resultados que necesita para estabilizar el costo; las cifras pueden moverse."
 }
