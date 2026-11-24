@@ -73,8 +73,8 @@
      "tarea": "Correo de arreglos al desarrollador (robots.txt, sitemap, títulos de fichas)",
      "quien": "Ale",
      "fecha": "23-11",
-     "estado": "pendiente",
-     "nota": "Al 24-11 el robots.txt de cympropiedades.cl sigue igual."
+     "estado": "en curso",
+     "nota": "24-11: enviado por M&P a Ofinet (Kharem Suárez), con copia a Ale, Javier, Rayen y Camila. Como Ofinet no da acceso a terceros, ellos implementan todo: robots abierto a Google, Bing e IA; sitemap con las fichas; título y descripción por ficha; schema; Search Console con christopher@ como propietario; páginas de gracias por comuna y los códigos de conversión que envía Camila. Esperando que confirmen qué entra en la entrega del 7-12."
     },
     {
      "tarea": "Bing Webmaster e IndexNow",
