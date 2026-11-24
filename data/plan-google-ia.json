@@ -129,8 +129,8 @@
      "tarea": "Revisar robots.txt y títulos del sitio antiguo",
      "quien": "M&P",
      "fecha": "27-11",
-     "estado": "pendiente",
-     "nota": ""
+     "estado": "hecho",
+     "nota": "Revisado 24-11 (cympropiedades.cl, lo maneja Ofinet): 1) robots.txt bloquea las fichas (/property.asp) a Bing, OAI-SearchBot (ChatGPT) y a todos los demás bots (GPTBot, ClaudeBot, Perplexity), que solo pueden ver la portada, con crawl-delay de 120 s; Google sí entra. 2) No declara sitemap (la línea está comentada y apunta a gestionypropiedad.cl, otro sitio). 3) sitemap.xml tiene 5 URL de 2019 y ninguna ficha. 4) Todas las fichas tienen el mismo título «CyM Propiedades - Corretaje de Propiedades» y la misma descripción. 5) Sin datos estructurados (schema). Pedido a Ofinet: permitir /property.asp a todos los bots, declarar un sitemap con las fichas y título por ficha (tipo + comuna + código). Va en el correo de arreglos al desarrollador."
     },
     {
      "tarea": "Informe de la semana 1 en este panel",
