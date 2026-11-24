@@ -178,6 +178,13 @@
      "fecha": "24-11",
      "estado": "hecho",
      "nota": "Adelantado. Search Console mostraba las dos páginas para «corredora de propiedades las condes». El contenido de «Mejores corredoras en {comuna}» pasó a la página de cada comuna (secciones, tabla y preguntas) y la URL antigua redirige con 301 a /{comuna}#elegir-corredora. Se mantiene la del sector oriente."
+    },
+    {
+     "tarea": "Títulos, descripciones e imagen para compartir en todas las páginas",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "hecho",
+     "nota": "24-11: en cympropiedadeschile.cl, 54 de 54 páginas con título de 60 caracteres o menos (eran 17 más largos), descripción de 140 a 155 (17 fuera de rango) e imagen para compartir (faltaba en 36). Portada: H1 «Venta de casas en el sector oriente» y bajada «12 años · +100.000 compradores · tasación sin costo» (antes «Líderes en venta», cifra sin respaldo). Verificado en línea y avisado a Bing por IndexNow."
     }
    ]
   },
@@ -209,8 +216,8 @@
      "tarea": "Plan de migración a un solo dominio",
      "quien": "Ofinet + M&P",
      "fecha": "11-12",
-     "estado": "pendiente",
-     "nota": ""
+     "estado": "en curso",
+     "nota": "24-11, M&P: planilla de redirecciones lista (835 filas): 814 fichas property.asp?idPro=X → /propiedades/{comuna}/X (muestra verificada en 200), páginas fijas, listados por comuna y fichas vendidas → listado de su comuna. Faltan definir con Ale: proyectos, paños, arriendo y trabaja con nosotros. Se entrega a Ofinet con la fecha."
     }
    ]
   },
