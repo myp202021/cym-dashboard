@@ -169,8 +169,8 @@
      "tarea": "3 páginas de departamentos con estimador",
      "quien": "Claude de Ale + M&P",
      "fecha": "3-12",
-     "estado": "pendiente",
-     "nota": "El estimador m² × UF/m² espera la decisión de Ale sobre publicar el precio por m². Mientras, las páginas ya muestran el precio pedido mediano de los departamentos de CyM por comuna."
+     "estado": "en curso",
+     "nota": "24-11, M&P: formulario de 3 datos (dirección, m², teléfono) en vivo en las páginas de departamentos y de tasación por comuna (antes 16 campos); probado, abre WhatsApp y registra la conversión. Las páginas ya muestran los avisos reales de CyM. Falta el estimador m² × UF/m², que espera la decisión de Ale sobre publicar el precio por m²."
     },
     {
      "tarea": "Páginas que compiten entre sí (/comuna vs /corredoras-de-propiedades-comuna): redirección 301",
