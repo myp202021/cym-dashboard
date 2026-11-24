@@ -162,15 +162,15 @@
      "tarea": "Reescribir las 5 páginas «vender casa {comuna}»",
      "quien": "Claude de Ale + M&P",
      "fecha": "2-12",
-     "estado": "pendiente",
-     "nota": ""
+     "estado": "en curso",
+     "nota": "24-11, M&P: las páginas vender casa/departamento, tasación y comprar casa por comuna ya muestran datos reales de CyM en esa comuna (avisos, precio pedido mediano, rango, m² y avisos cercanos) y descripciones de 140 a 155 caracteres. Falta de CyM: plazo real de venta y 3 casas vendidas por comuna (barrio y mes)."
     },
     {
      "tarea": "3 páginas de departamentos con estimador",
      "quien": "Claude de Ale + M&P",
      "fecha": "3-12",
      "estado": "pendiente",
-     "nota": ""
+     "nota": "El estimador m² × UF/m² espera la decisión de Ale sobre publicar el precio por m². Mientras, las páginas ya muestran el precio pedido mediano de los departamentos de CyM por comuna."
     },
     {
      "tarea": "Páginas que compiten entre sí (/comuna vs /corredoras-de-propiedades-comuna): redirección 301",
@@ -269,7 +269,7 @@
      "quien": "M&P",
      "fecha": "Semana 1",
      "estado": "en curso",
-     "nota": "Los 10 reels del piloto ya están listos."
+     "nota": "24-11: subida automática lista (10 reels con título, descripción y enlace a la web) y API de YouTube habilitada. Falta crear el canal «CyM Propiedades» en la cuenta de Christopher y elegirlo al autorizar; luego se suben los 10 de una vez."
     },
     {
      "tarea": "Cuenta de TikTok @cym_propiedades con los reels de Ale",
