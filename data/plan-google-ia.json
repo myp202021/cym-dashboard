@@ -63,32 +63,81 @@
    "nombre": "Semana 1 · 23 al 27-11 · Abrir la puerta a Google, Bing y la IA",
    "tareas": [
     {
-     "tarea": "Confirmar quién maneja cada sitio y pedir accesos",
-     "quien": "Ale",
-     "fecha": "23-11",
-     "estado": "en curso",
-     "nota": "cympropiedadeschile.cl lo maneja M&P (Vercel y repositorio). cympropiedades.cl lo maneja Ofinet, que no da acceso a terceros (24-11): los cambios se piden por correo. Search Console pedido a Ofinet el 24-11 (agregar a christopher@ como propietario)."
+     "tarea": "Confirmar quién maneja cada sitio",
+     "quien": "Ale + M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
+     "nota": "cympropiedadeschile.cl lo maneja M&P (Vercel y repositorio). cympropiedades.cl lo maneja Ofinet, que no da acceso a terceros: los cambios se piden por correo."
     },
     {
-     "tarea": "Correo de arreglos al desarrollador (robots.txt, sitemap, títulos de fichas)",
-     "quien": "Ale",
-     "fecha": "23-11",
-     "estado": "en curso",
-     "nota": "24-11: enviado por M&P a Ofinet (Kharem Suárez), con copia a Ale, Javier, Rayen y Camila. Como Ofinet no da acceso a terceros, ellos implementan todo: robots abierto a Google, Bing e IA; sitemap con las fichas; título y descripción por ficha; schema; Search Console con christopher@ como propietario; páginas de gracias por comuna y los códigos de conversión que envía Camila. Esperando que confirmen qué entra en la entrega del 7-12."
+     "tarea": "Acceso a Search Console de cympropiedades.cl",
+     "quien": "Ofinet",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Pedido a Ofinet el 24-11: agregar a christopher@mulleryperez.cl como propietario o verificar el dominio."
     },
     {
-     "tarea": "Bing Webmaster e IndexNow",
+     "tarea": "Correo de arreglos a Ofinet (robots, sitemap, títulos, schema, Search Console, gracias por comuna)",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "en curso",
-     "nota": "cympropiedadeschile.cl: verificado en Bing (13-11) e IndexNow con 868 URL (24-11). cympropiedades.cl depende de Ofinet."
+     "estado": "terminado",
+     "nota": "Enviado a Kharem Suárez con copia a Ale, Javier, Rayen y Camila."
     },
     {
-     "tarea": "Completar la ficha de Google (categorías, descripción, zona, 10 fotos, posteo semanal)",
-     "quien": "M&P + Ale",
+     "tarea": "Ofinet confirma qué arreglos entran en la entrega",
+     "quien": "Ofinet",
+     "fecha": "26-11",
+     "estado": "pendiente",
+     "nota": "Sin respuesta al 24-11. Si no responden el 26-11, M&P insiste."
+    },
+    {
+     "tarea": "Arreglos en línea en cympropiedades.cl",
+     "quien": "Ofinet",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Entrega comprometida por Ofinet para el 7-12."
+    },
+    {
+     "tarea": "Códigos de conversión por comuna a Ofinet",
+     "quien": "Camila (M&P)",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Camila envía a Ofinet los códigos de Google y Meta para cada página de gracias."
+    },
+    {
+     "tarea": "Bing Webmaster e IndexNow en cympropiedadeschile.cl",
+     "quien": "M&P",
      "fecha": "24-11",
-     "estado": "en curso",
-     "nota": "Posteos publicados el 13 y el 17-11. Faltan fotos reales de la oficina y del equipo."
+     "estado": "terminado",
+     "nota": "Verificado en Bing (13-11); IndexNow con 868 URL (24-11) y aviso de las 54 páginas actualizadas."
+    },
+    {
+     "tarea": "Bing Webmaster en cympropiedades.cl",
+     "quien": "Ofinet + M&P",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Depende de Ofinet (verificación del dominio)."
+    },
+    {
+     "tarea": "Ficha de Google: posteos semanales",
+     "quien": "M&P",
+     "fecha": "17-11",
+     "estado": "terminado",
+     "nota": "Posteos publicados el 13 y el 17-11."
+    },
+    {
+     "tarea": "Ficha de Google: 10 fotos reales de la oficina y del equipo",
+     "quien": "Ale",
+     "fecha": "24-11",
+     "estado": "pendiente",
+     "nota": "Las fotos las envía CyM."
+    },
+    {
+     "tarea": "Ficha de Google: posteo de esta semana",
+     "quien": "M&P",
+     "fecha": "27-11",
+     "estado": "pendiente",
+     "nota": ""
     },
     {
      "tarea": "Campaña de reseñas (62 → 150 en 90 días, unas 10 por semana)",
@@ -105,39 +154,67 @@
      "nota": "24-11: el dominio directoriocorredores.cl no existe (sin DNS). Confirmar con Ale en qué sitio están las 13 reseñas antes de reclamar."
     },
     {
-     "tarea": "Arreglar la medición de IA",
-     "quien": "Claude de Ale",
-     "fecha": "26-11",
-     "estado": "en curso",
-     "nota": "M&P ya mide ChatGPT y Gemini en el reporte mulleryperez.cl/cym (20-11: ChatGPT 2 de 10, Gemini 0 de 10)."
+     "tarea": "Medición de ChatGPT y Gemini en el reporte",
+     "quien": "M&P",
+     "fecha": "20-11",
+     "estado": "terminado",
+     "nota": "En mulleryperez.cl/cym: ChatGPT 2 de 10, Gemini 0 de 10 (20-11)."
     },
     {
-     "tarea": "Perfiles en directorios gratis: toppropiedades.cl, 2x3.cl, chilepropiedades.cl",
-     "quien": "M&P",
+     "tarea": "Arreglar medir.py (contar cympropiedadeschile.cl y LinkedIn)",
+     "quien": "Claude de Ale",
      "fecha": "26-11",
-     "estado": "en curso",
+     "estado": "pendiente",
+     "nota": ""
+    },
+    {
+     "tarea": "Perfiles en toppropiedades.cl, 2x3.cl y chilepropiedades.cl",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
      "nota": "24-11, publicados por M&P: toppropiedades.cl/corredora/3618 (nombre, dirección, descripción, logo, Instagram y sitio; gratis 1 año, luego $99.990/año: cancelar o renovar antes del 24-11-2027) · 2x3.cl/profesional/cym-propiedades (perfil, fotos y descripción; solo venta, sin precios publicados; 2x3 cobra saldo por cada cliente que llega, no cargamos nada; queda noindex hasta verificar identidad con carnet de Ale) · chilepropiedades.cl: cuenta CyM validada (1 aviso gratis; sincronizar la cartera exige plan desde $3.990/mes tras 3 meses de prueba). Pagados evaluados, no por ahora: comparacorredores.cl (UF 1,20+IVA/mes + 0,8%+IVA por venta), Trovit/Mitula/Nestoria (hoy vía Proppit, con demo comercial). mercantil.com: sin opción gratis clara."
+    },
+    {
+     "tarea": "Carnet de Ale para verificar 2x3.cl (hoy oculto para Google)",
+     "quien": "Ale",
+     "fecha": "26-11",
+     "estado": "pendiente",
+     "nota": ""
+    },
+    {
+     "tarea": "Confirmar dónde están las 13 reseñas que cita Perplexity («directoriocorredores.cl»)",
+     "quien": "Ale",
+     "fecha": "26-11",
+     "estado": "pendiente",
+     "nota": "Ese dominio no existe."
     },
     {
      "tarea": "Cuenta de registro de CyM para directorios",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "christopher+cym@mulleryperez.cl (llega al correo de Christopher). Claves en el llavero: «MyP · CyM directorios · <sitio>». 2x3.cl no acepta el +, ahí se usó contacto@mulleryperez.cl."
     },
     {
      "tarea": "Revisar robots.txt y títulos del sitio antiguo",
      "quien": "M&P",
      "fecha": "27-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Revisado 24-11 (cympropiedades.cl, lo maneja Ofinet): 1) robots.txt bloquea las fichas (/property.asp) a Bing, OAI-SearchBot (ChatGPT) y a todos los demás bots (GPTBot, ClaudeBot, Perplexity), que solo pueden ver la portada, con crawl-delay de 120 s; Google sí entra. 2) No declara sitemap (la línea está comentada y apunta a gestionypropiedad.cl, otro sitio). 3) sitemap.xml tiene 5 URL de 2019 y ninguna ficha. 4) Todas las fichas tienen el mismo título «CyM Propiedades - Corretaje de Propiedades» y la misma descripción. 5) Sin datos estructurados (schema). Pedido a Ofinet: permitir /property.asp a todos los bots, declarar un sitemap con las fichas y título por ficha (tipo + comuna + código). Va en el correo de arreglos al desarrollador."
     },
     {
-     "tarea": "Informe de la semana 1 en este panel",
+     "tarea": "Avance y revisión técnica del 24-11 en este panel",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
+     "nota": "Esta pestaña."
+    },
+    {
+     "tarea": "Informe de cierre de la semana 1",
      "quien": "M&P",
      "fecha": "27-11",
-     "estado": "en curso",
-     "nota": "Esta pestaña, con avance y revisión técnica del 24-11."
+     "estado": "pendiente",
+     "nota": "Incluye revisión del robots de cympropiedades.cl y Search Console completo."
     }
    ]
   },
@@ -145,45 +222,66 @@
    "nombre": "Semana 2 · 30-11 al 4-12 · Contenido que la IA pueda citar",
    "tareas": [
     {
-     "tarea": "Contratar herramientas de medición (SE Ranking + SE Visible, Screaming Frog)",
+     "tarea": "Decidir y contratar herramientas de medición (SE Ranking + SE Visible, Screaming Frog)",
      "quien": "Ale",
      "fecha": "30-11",
-     "estado": "decide Ale",
-     "nota": "≈ $116.500/mes las dos."
+     "estado": "pendiente",
+     "nota": "Decide Ale: ≈ $116.500/mes las dos."
     },
     {
      "tarea": "Página «Datos del mercado oriente»",
      "quien": "M&P + Ale",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Adelantado. En línea en /datos-mercado-oriente: precio pedido mediano, rango central, m² y dormitorios por zona y tipo (8 segmentos, 798 avisos), con datos estructurados Dataset. Se actualiza sola cada día. Sin UF/m² hasta que Ale decida. Indexación pedida en Search Console."
     },
     {
-     "tarea": "Reescribir las 5 páginas «vender casa {comuna}»",
-     "quien": "Claude de Ale + M&P",
-     "fecha": "2-12",
-     "estado": "en curso",
-     "nota": "24-11, M&P: las páginas vender casa/departamento, tasación y comprar casa por comuna ya muestran datos reales de CyM en esa comuna (avisos, precio pedido mediano, rango, m² y avisos cercanos) y descripciones de 140 a 155 caracteres. Falta de CyM: plazo real de venta y 3 casas vendidas por comuna (barrio y mes)."
+     "tarea": "Páginas vender/tasación/comprar por comuna con datos reales de CyM",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
+     "nota": "Avisos, precio pedido mediano, rango, m² y avisos cercanos; títulos ≤60 y descripciones 140–155."
     },
     {
-     "tarea": "3 páginas de departamentos con estimador",
-     "quien": "Claude de Ale + M&P",
+     "tarea": "Plazo real de venta y 3 casas vendidas por comuna",
+     "quien": "Ale",
+     "fecha": "2-12",
+     "estado": "pendiente",
+     "nota": "Lo envía CyM; M&P lo publica."
+    },
+    {
+     "tarea": "Formulario de 3 datos en departamentos y tasación por comuna",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
+     "nota": "Dirección, m² y teléfono (antes 16 campos); probado: abre WhatsApp y registra la conversión."
+    },
+    {
+     "tarea": "Decidir si se publica el precio por m²",
+     "quien": "Ale",
      "fecha": "3-12",
-     "estado": "en curso",
-     "nota": "24-11, M&P: formulario de 3 datos (dirección, m², teléfono) en vivo en las páginas de departamentos y de tasación por comuna (antes 16 campos); probado, abre WhatsApp y registra la conversión. Las páginas ya muestran los avisos reales de CyM. Falta el estimador m² × UF/m², que espera la decisión de Ale sobre publicar el precio por m²."
+     "estado": "pendiente",
+     "nota": "Decide Ale."
+    },
+    {
+     "tarea": "Estimador m² × UF/m² en las páginas de departamentos",
+     "quien": "M&P",
+     "fecha": "3-12",
+     "estado": "pendiente",
+     "nota": "Se hace apenas Ale decida."
     },
     {
      "tarea": "Páginas que compiten entre sí (/comuna vs /corredoras-de-propiedades-comuna): redirección 301",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Adelantado. Search Console mostraba las dos páginas para «corredora de propiedades las condes». El contenido de «Mejores corredoras en {comuna}» pasó a la página de cada comuna (secciones, tabla y preguntas) y la URL antigua redirige con 301 a /{comuna}#elegir-corredora. Se mantiene la del sector oriente."
     },
     {
      "tarea": "Títulos, descripciones e imagen para compartir en todas las páginas",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "24-11: en cympropiedadeschile.cl, 54 de 54 páginas con título de 60 caracteres o menos (eran 17 más largos), descripción de 140 a 155 (17 fuera de rango) e imagen para compartir (faltaba en 36). Portada: H1 «Venta de casas en el sector oriente» y bajada «12 años · +100.000 compradores · tasación sin costo» (antes «Líderes en venta», cifra sin respaldo). Verificado en línea y avisado a Bing por IndexNow."
     }
    ]
@@ -192,18 +290,39 @@
    "nombre": "Semana 3 · 7 al 11-12 · Anuncios y agregadores",
    "tareas": [
     {
-     "tarea": "Campaña de Búsqueda en Google Ads para vendedores",
+     "tarea": "Borrador de la campaña de Búsqueda para vendedores",
      "quien": "M&P",
-     "fecha": "7-12",
-     "estado": "decide Ale",
-     "nota": "Borrador del 17-11: $32.000/día ≈ $960.000/mes. Se activa con el OK de Ale."
+     "fecha": "17-11",
+     "estado": "terminado",
+     "nota": "$32.000/día ≈ $960.000/mes."
     },
     {
-     "tarea": "Feed de propiedades a Trovit, Mitula, Nestoria y chilepropiedades.cl",
+     "tarea": "OK de presupuesto de Google Ads",
+     "quien": "Ale",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Decide Ale."
+    },
+    {
+     "tarea": "Activar la campaña de Búsqueda",
+     "quien": "M&P",
+     "fecha": "7-12",
+     "estado": "pendiente",
+     "nota": "Con el OK de Ale."
+    },
+    {
+     "tarea": "Feed de propiedades listo (/feeds/propiedades.xml, 814 propiedades)",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "en curso",
-     "nota": "Feed listo: /feeds/propiedades.xml con 814 propiedades (formato Trovit, sirve para Mitula, Nestoria y chilepropiedades.cl). Falta enviarlo a cada agregador."
+     "estado": "terminado",
+     "nota": "Formato Trovit; sirve para Mitula, Nestoria y chilepropiedades.cl."
+    },
+    {
+     "tarea": "Enviar el feed a los agregadores",
+     "quien": "M&P",
+     "fecha": "9-12",
+     "estado": "pendiente",
+     "nota": "Trovit, Mitula y Nestoria hoy se contratan vía Proppit (pagado); chilepropiedades.cl sincroniza la cartera con plan desde $3.990/mes. Decide Ale si se paga."
     },
     {
      "tarea": "LinkedIn al día y ficha en Wikidata",
@@ -213,11 +332,25 @@
      "nota": "Ale define el año de fundación (2013 o 2014)."
     },
     {
-     "tarea": "Plan de migración a un solo dominio",
-     "quien": "Ofinet + M&P",
+     "tarea": "Planilla de redirecciones (835 filas)",
+     "quien": "M&P",
+     "fecha": "24-11",
+     "estado": "terminado",
+     "nota": "814 fichas property.asp?idPro=X → /propiedades/{comuna}/X (muestra verificada), páginas fijas, listados y fichas vendidas."
+    },
+    {
+     "tarea": "Definir destino de proyectos, paños, arriendo y «trabaja con nosotros»",
+     "quien": "Ale",
      "fecha": "11-12",
-     "estado": "en curso",
-     "nota": "24-11, M&P: planilla de redirecciones lista (835 filas): 814 fichas property.asp?idPro=X → /propiedades/{comuna}/X (muestra verificada en 200), páginas fijas, listados por comuna y fichas vendidas → listado de su comuna. Faltan definir con Ale: proyectos, paños, arriendo y trabaja con nosotros. Se entrega a Ofinet con la fecha."
+     "estado": "pendiente",
+     "nota": ""
+    },
+    {
+     "tarea": "Entregar la planilla a Ofinet y acordar la fecha",
+     "quien": "M&P",
+     "fecha": "11-12",
+     "estado": "pendiente",
+     "nota": ""
     }
    ]
   },
@@ -225,11 +358,18 @@
    "nombre": "Semana 4 · 14 al 18-12 · Migración y prensa",
    "tareas": [
     {
+     "tarea": "Decidir fecha de migración",
+     "quien": "Ale",
+     "fecha": "11-12",
+     "estado": "pendiente",
+     "nota": "Propuesta: 15-12."
+    },
+    {
      "tarea": "Migración: cympropiedades.cl apunta a la web nueva",
      "quien": "Ofinet + M&P",
      "fecha": "15-12",
-     "estado": "decide Ale",
-     "nota": "Fecha propuesta: 15-12."
+     "estado": "pendiente",
+     "nota": ""
     },
     {
      "tarea": "Primer informe de mercado a prensa (Emol, DF, Ex-Ante)",
@@ -275,15 +415,22 @@
      "tarea": "Canal de YouTube con los reels de Ale",
      "quien": "M&P",
      "fecha": "Semana 1",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "24-11: canal «CyM Propiedades» creado (youtube.com/@cym.propiedades) y los 10 reels de Ale publicados como Shorts, cada uno con título, descripción, teléfono y enlace a la página de venta de casas."
     },
     {
-     "tarea": "Cuenta de TikTok @cym_propiedades con los reels de Ale",
+     "tarea": "Correo y teléfono de CyM para crear TikTok",
+     "quien": "Ale",
+     "fecha": "Semana 1",
+     "estado": "pendiente",
+     "nota": "Pedido a Ale el 24-11."
+    },
+    {
+     "tarea": "Cuenta de TikTok @cym_propiedades con los 10 reels",
      "quien": "M&P",
      "fecha": "Semana 1",
-     "estado": "en curso",
-     "nota": ""
+     "estado": "pendiente",
+     "nota": "Se crea apenas lleguen el correo y el teléfono."
     },
     {
      "tarea": "Calendario semanal: 4 publicaciones y 5 historias",
@@ -308,35 +455,35 @@
      "tarea": "Catálogo completo: 814 propiedades ordenadas por comuna, sin las ocultas",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Revisado 24-11: /propiedades y las 814 fichas responden bien. Se actualiza solo cada mañana (primera corrida automática el 25-11)."
     },
     {
      "tarea": "Sitemap con 868 URL enviado a Google y por IndexNow",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Reenviado en Search Console el 24-11: Google leyó 868 páginas (antes 69). IndexNow respondió OK."
     },
     {
      "tarea": "Search Console de cympropiedadeschile.cl verificado",
      "quien": "M&P",
      "fecha": "Nov",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Revisado URL por URL el 24-11: ver «Revisión técnica»."
     },
     {
      "tarea": "5 páginas de comuna, 20 páginas por servicio y comuna, 9 guías y blog martes y viernes",
      "quien": "M&P",
      "fecha": "Nov",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Guías publicadas el 13, 17, 20 y 24-11, sin fallas. Las 5 «mejores corredoras» por comuna ahora viven dentro de cada comuna."
     },
     {
      "tarea": "Landing «Vender casa sector oriente» con los 10 reels de Ale",
      "quien": "M&P",
      "fecha": "Nov",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Revisado 24-11: los 20 archivos de video cargan bien. Indexada en Google (rastreo 19-11)."
     }
    ]
@@ -348,35 +495,49 @@
      "tarea": "Las 868 URL del sitemap responden bien",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "868 de 868 con respuesta 200, título propio, canonical a sí misma, datos estructurados y sin noindex. Ningún título repetido."
     },
     {
-     "tarea": "Páginas indexadas en Google (revisión URL por URL)",
+     "tarea": "Revisión URL por URL de las 70 páginas base",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "en curso",
-     "nota": "Inspección de Search Console del 24-11 a las 70 páginas base (todo salvo el catálogo nuevo): 62 «Enviada e indexada». Las 8 restantes están en cola: 4 publicadas hoy o ayer (Algarrobo, Colina, Providencia y la guía de La Reina) y 4 fichas en campaña. Una de ellas (5898) fue rastreada y no indexada: tiene el mismo texto que en cympropiedades.cl, se resuelve con la migración."
+     "estado": "terminado",
+     "nota": "62 «Enviada e indexada»; 8 en cola. La ficha 5898 no se indexa por texto duplicado con cympropiedades.cl (se resuelve con la migración)."
     },
     {
-     "tarea": "Páginas nuevas de hoy en cola de Google",
+     "tarea": "Indexar las 8 páginas en cola",
+     "quien": "M&P",
+     "fecha": "4-12",
+     "estado": "pendiente",
+     "nota": "Revisar de nuevo el 27-11."
+    },
+    {
+     "tarea": "Indexación pedida para /propiedades, /datos-mercado-oriente, /vitacura y /las-condes",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "en curso",
-     "nota": "/propiedades, /datos-mercado-oriente y las fichas del catálogo aún no las rastrea Google (son de hoy). Indexación pedida para /propiedades, /datos-mercado-oriente, /vitacura y /las-condes."
+     "estado": "terminado",
+     "nota": ""
+    },
+    {
+     "tarea": "/propiedades, /datos-mercado-oriente y fichas del catálogo indexadas",
+     "quien": "M&P",
+     "fecha": "4-12",
+     "estado": "pendiente",
+     "nota": "Google aún no las rastrea (son del 24-11)."
     },
     {
      "tarea": "Acceso para Google, Bing y las IA",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "robots.txt permite Googlebot, GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, PerplexityBot y Google-Extended. llms.txt y clave IndexNow en línea."
     },
     {
      "tarea": "Visitas desde Google (últimos 30 días)",
      "quien": "M&P",
      "fecha": "24-11",
-     "estado": "hecho",
+     "estado": "terminado",
      "nota": "Search Console 25-10 al 23-11: 46 páginas con impresiones, 666 impresiones y 11 clics."
     }
    ]
