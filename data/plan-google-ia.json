@@ -53,7 +53,7 @@
   },
   {
    "metrica": "Shorts en YouTube",
-   "hoy": "0",
+   "hoy": "10",
    "meta": "12",
    "fecha": "24-11"
   }
@@ -268,8 +268,8 @@
      "tarea": "Canal de YouTube con los reels de Ale",
      "quien": "M&P",
      "fecha": "Semana 1",
-     "estado": "en curso",
-     "nota": "24-11: subida automática lista (10 reels con título, descripción y enlace a la web) y API de YouTube habilitada. Falta crear el canal «CyM Propiedades» en la cuenta de Christopher y elegirlo al autorizar; luego se suben los 10 de una vez."
+     "estado": "hecho",
+     "nota": "24-11: canal «CyM Propiedades» creado (youtube.com/@cym.propiedades) y los 10 reels de Ale publicados como Shorts, cada uno con título, descripción, teléfono y enlace a la página de venta de casas."
     },
     {
      "tarea": "Cuenta de TikTok @cym_propiedades con los reels de Ale",
