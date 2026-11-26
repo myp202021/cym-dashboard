@@ -214,7 +214,7 @@
      "quien": "M&P",
      "fecha": "27-11",
      "estado": "pendiente",
-     "nota": "Incluye revisión del robots de cympropiedades.cl y Search Console completo."
+     "nota": "Incluye revisión del robots de cympropiedades.cl y Search Console completo. Robots de cympropiedades.cl revisado 26-11 (M&P): sigue igual que antes del pedido a Ofinet; Bing y el buscador de ChatGPT no pueden leer las fichas (/property.asp), los demás bots de IA solo ven la portada y no declara sitemap. Se suma al informe."
     }
    ]
   },
